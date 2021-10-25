@@ -1,0 +1,9 @@
+{  
+  "breakLongMethodChains": true,
+  "printWidth": 110,
+  "singleQuote": true,
+  "semi": false,
+  "arrowParens": "avoid",
+  "bracketSpacing": true,
+  "tabWidth": 2
+}
