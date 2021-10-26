@@ -1,0 +1,78 @@
+{
+  "app": {
+    "settings": "Настройки",
+    "userProfile": "Профиль пользователя",
+    "newProject": "Новый проект",
+    "newBrief": "Добавить бриф",
+    "mainSettings": "Основные настройки",
+    "appearance": "Оформление",
+    "language": "Язык",
+    "darkTheme" : "Темная тема",
+    "liveSearch": "поиск...",
+    "workRoot": "Папка с проектами"
+  },
+  "buttons": {
+    "ok": "Oк",
+    "create": "Создать",
+    "save": "Сохранить",
+    "cancel": "Отменить",
+    "close": "Закрыть",
+    "delete": "Удалить",
+    "browse": "Указать",
+    "add": "Добавить"
+  },
+  "menu": {
+    "favorites": "Избранное",
+    "lastActivity": "Посл. активные",
+    "lastAdded": "Посл. добавл.",
+    "allProjects": "Все проекты",
+    "byDate": "Кварталы",
+    "logout": "Выход",
+    "settings": "Настройки",
+    "home": "Главная",
+    "overview": "Описание",
+    "reels": "Ролики",
+    "sequences": "Хронометражи",
+    "shots": "Шоты",
+    "tasks": "Задачи",
+    "graph": "Граф",
+    "stuff": "Материалы",
+    "team": "Команда",
+    "projectInfo": "Информация о проекте",
+    "briefs": "Брифы"
+  },
+  "project": {
+    "projects": "Проекты",
+    "projectName": "Имя проекта",
+    "brand": "Брэнд",
+    "client": "Клиент",
+    "agency": "Агенство",
+    "production": "Продакшн",
+    "postProduction": "Пост продакшн",
+    "created": "Создан",
+    "startDate": "Старт",
+    "deadline": "Дедлайн",
+    "manager": "Менеджер",
+    "owner": "Владелец",
+    "status": "Статус",
+    "progress": "Прогресс",
+    "details": "Детали",
+    "highPriority": "Высокий приоритет"
+  },
+  "user": {
+    "username": "Имя пользователя",
+    "email": "Email",
+    "firstName": "Имя",
+    "secondName": "Фамилия",
+    "password": "Пароль",
+    "confirmPassword": "Повтор пароля",
+    "birthday": "День рождения",
+    "phone": "Телефон",
+    "isAdmin": "Администратор"
+  },
+  "brief": {
+    "selectedFile": "Выбранный файл",
+    "title": "Название",
+    "category": "Категория"
+  }
+}
