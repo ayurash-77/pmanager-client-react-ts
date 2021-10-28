@@ -1,6 +1,6 @@
-import en from './en.json';
-import ru from './ru.json';
+import en from './en.json'
+import ru from './ru.json'
 
-const translations = { en, ru };
+const translations = { en, ru }
 
-export default translations;
+export default translations

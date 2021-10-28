@@ -1,21 +1,98 @@
 @import-normalize;
 
+:root {
+  --sidebar-width-max: 180px;
+  --sidebar-width-min: 55px;
+  --topbar-height: 42px;
+
+  /* Typography */
+  --family: 'Roboto', sans-serif, 'Segoe UI', 'Helvetica Neue';
+  --fs-normal: 13px;
+  --fs-small1: 11px;
+  --fs-small2: 9px;
+  --fs-big1: 15px;
+  --fs-big2: 17px;
+
+  --fw-light: 300;
+  --fw-normal: 600;
+  --fw-bold: 800;
+
+  --rad: 4px;
+
+  /* Colors */
+  --modal-overlay:    #0d0d11AA;
+}
+
+* { box-sizing: border-box }
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
+  font-family: -apple-system, 'Roboto', sans-serif, 'Segoe UI', 'Helvetica Neue';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+body[data-theme='dark'] {
+  --accent: #F04050;
+  --accentBg: #e5182f;
+  --blue: #0069D9;
+  --blue-dark: #2350b7;
+  --blue-light: #76A6E6;
+  --green: #00CC00;
+  --green-dark: #007E2B;
+  --yellow: #CF9219;
+
+  --status-active: #c8ced6;
+  --status-approving: #DD9000;
+  --status-paused: #607080;
+  --status-complete: #00CC00;
+  --status-archived: #007E2B;
+
+  --bg-main: #23242A;
+  --bg-header: #202127;
+
+  --fg-normal: #9192A1;
+
+  --scroll-fg: #404149;
+  --scroll-bg: #40414933;
+}
+body[data-theme='light'] {
+  --accent: #ee1f34;
+  --accentBg: #ef0e23;
+  --blue: #0069D9;
+  --blue-dark: #0069D9;
+  --blue-light: #0794DD;
+  --green: #007E2B;
+  --green-dark: #007E2B;
+  --yellow: #CF9219;
+
+  --status-active: #2a2a35;
+  --status-approving: #DD8000;
+  --status-paused: #8090A0;
+  --status-complete: #00B433;
+  --status-archived: #007E2B;
+
+  --bg-main: #D8D9DA;
+  --bg-header: #CCCDCF;
+
+  --fg-normal: #23242A;
+
+  --scroll-fg: #808184;
+  --scroll-bg: #80818433;
 }
 
+#root {
+  background: var(--bg-main);
+  color: var(--fg-normal);
+  height: 100vh;
+  width: 100vw;
+  display: flex;
+  justify-content: center;
+  overflow: hidden;
+}
+
+::-webkit-scrollbar         { width: 7px; height: 7px; }
+::-webkit-scrollbar-corner  { background-color: transparent; }
+::-webkit-scrollbar-track   { background: var(--scroll-bg); border-radius: 4px; }
+::-webkit-scrollbar-thumb   { background: var(--scroll-fg); border-radius: 4px; }
 
 
-/* rest of app styles */
-
-body { margin: 0; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale}
