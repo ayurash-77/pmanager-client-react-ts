@@ -16,9 +16,14 @@ const MainbarContainer = styled.div`
 
 export const Mainbar: FC = () => {
   const [theme, setTheme] = useLocalStorage('dark', 'theme')
-  const { translate, setLanguage, languages } = useTranslate()
+  const { text, languages, setLanguage } = useTranslate()
+
   const toggleTheme = () => {
     setTheme(theme === 'dark' ? 'light' : 'dark')
+  }
+
+  const setLanguageHelper = code => {
+    setLanguage(code)
   }
 
   useEffect(() => {
@@ -27,11 +32,11 @@ export const Mainbar: FC = () => {
 
   return (
     <MainbarContainer>
-      <div onClick={() => setLanguage(languages.en)}>English</div>
-      <div onClick={() => setLanguage(languages.ru)}>Русский</div>
+      <div onClick={() => setLanguageHelper(languages.en.code)}>{languages.en.name}</div>
+      <div onClick={() => setLanguageHelper(languages.ru.code)}>{languages.ru.name}</div>
+      <h3>{text.menu.allProjects}</h3>
+
       <div onClick={toggleTheme}>theme</div>
-      <h4>{translate.allProjects}</h4>
-      <h4>{translate.favorites}</h4>
     </MainbarContainer>
   )
 }

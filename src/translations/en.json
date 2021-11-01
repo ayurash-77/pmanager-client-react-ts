@@ -1,9 +1,10 @@
 {
+  "name" : "English",
   "app": {
     "settings": "Settings",
     "userProfile": "User profile",
     "newProject": "New project",
-    "newBrief": "Add brief",
+    "addBrief": "Add brief",
     "mainSettings": "Main settings",
     "appearance": "Appearance",
     "language": "Language",

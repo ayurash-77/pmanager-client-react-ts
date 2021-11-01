@@ -9,6 +9,7 @@ const ProjectsPage: FC = () => {
   const toggleMenubarExpandHelper = () => {
     setValue(!isMenubarExpanded)
   }
+
   return (
     <>
       <Menubar toggle={toggleMenubarExpandHelper} isMenubarExpanded={isMenubarExpanded}>

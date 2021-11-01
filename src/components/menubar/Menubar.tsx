@@ -54,7 +54,6 @@ const ToggleContainer = styled.div<Props>`
   }
 `
 
-// @ts-ignore
 export const Menubar: FC<PropsMenubar> = ({ isMenubarExpanded, toggle, children }) => {
   return (
     <Container isMenubarExpanded={isMenubarExpanded}>

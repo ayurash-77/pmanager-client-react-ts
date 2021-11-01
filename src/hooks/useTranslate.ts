@@ -1,34 +1,25 @@
 import { Dispatch } from 'react'
-import { useLocalStorage } from './useLocalStorage'
+import { useTranslation } from 'react-i18next'
+import en from '../translations/en.json'
+import ru from '../translations/ru.json'
 
-// interface ITranslation {
-//   [key: string]: string
-// }
+const translations = { en, ru }
 
 const languages = {
-  en: 'en',
-  ru: 'ru',
-}
-
-const translations = {
-  [languages.en]: {
-    allProjects: 'All projects',
-    favorites: 'Favorites',
-  },
-  [languages.ru]: {
-    allProjects: 'Все проекты',
-    favorites: 'Избранное',
-  },
+  en: { code: 'en', name: translations.en.name },
+  ru: { code: 'ru', name: translations.ru.name },
 }
 
 export function useTranslate(): {
-  language: string
-  // translate: { [language]: { [key: string]: string } }
-  translate: any
+  text: typeof translations.en
   languages: typeof languages
   setLanguage: Dispatch<any>
 } {
-  const [language, setLanguage] = useLocalStorage(languages.en, 'language')
+  const { i18n } = useTranslation()
+  const setLanguage = (code: string) => {
+    i18n.changeLanguage(code)
+  }
+  const text = translations[i18n.languages[0]]
 
-  return { translate: translations[language], languages, language, setLanguage }
+  return { text, languages, setLanguage }
 }

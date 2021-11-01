@@ -1,9 +1,10 @@
 {
+  "name" : "Русский",
   "app": {
     "settings": "Настройки",
     "userProfile": "Профиль пользователя",
     "newProject": "Новый проект",
-    "newBrief": "Добавить бриф",
+    "addBrief": "Добавить бриф",
     "mainSettings": "Основные настройки",
     "appearance": "Оформление",
     "language": "Язык",

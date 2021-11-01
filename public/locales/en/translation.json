@@ -1,0 +1,79 @@
+{
+  "name" : "English",
+  "app": {
+    "settings": "Settings",
+    "userProfile": "User profile",
+    "newProject": "New project",
+    "addBrief": "Add brief",
+    "mainSettings": "Main settings",
+    "appearance": "Appearance",
+    "language": "Language",
+    "darkTheme" : "Dark theme",
+    "liveSearch": "live search...",
+    "workRoot": "Root work path"
+  },
+  "buttons": {
+    "ok": "Ok",
+    "create": "Create",
+    "save": "Save",
+    "cancel": "Cancel",
+    "close": "Close",
+    "delete": "Delete",
+    "browse": "Browse",
+    "add": "Add"
+  },
+  "menu": {
+    "favorites": "Favorites",
+    "lastActivity": "Last Activity",
+    "lastAdded": "Last Added",
+    "allProjects": "All Projects",
+    "byDate": "Quarters",
+    "logout": "Logout",
+    "settings": "Settings",
+    "home": "Home",
+    "overview": "Overview",
+    "reels": "Reels",
+    "sequences": "Sequences",
+    "shots": "Shots",
+    "tasks": "Tasks",
+    "graph": "Graph",
+    "stuff": "Stuff",
+    "team": "Team",
+    "projectInfo": "Project info",
+    "briefs": "Briefs"
+  },
+  "project": {
+    "projects": "Projects",
+    "projectName": "Project name",
+    "brand": "Brand",
+    "client": "Client",
+    "agency": "Agency",
+    "production": "Production",
+    "postProduction": "Post Production",
+    "created": "Created",
+    "startDate": "Start date",
+    "deadline": "Deadline",
+    "manager": "Manager",
+    "owner": "Owner",
+    "status": "Status",
+    "progress": "Progress",
+    "details": "Details",
+    "highPriority": "High priority"
+  },
+  "user": {
+    "username": "Username",
+    "email": "Email",
+    "firstName": "First name",
+    "secondName": "Second name",
+    "password": "Password",
+    "confirmPassword": "Confirm password",
+    "birthday": "Birthday",
+    "phone": "Phone",
+    "isAdmin": "Administrator"
+  },
+  "brief": {
+    "selectedFile": "Selected file",
+    "title": "Title",
+    "category": "Category"
+  }
+}

@@ -8,7 +8,7 @@ interface Props {
 
 interface PropsMenuItem extends Props {
   onClick: Dispatch<any>
-  name: ReactElement
+  name: string
   icon: ReactElement
   count: number
 }
