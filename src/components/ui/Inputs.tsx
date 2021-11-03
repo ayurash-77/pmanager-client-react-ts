@@ -18,7 +18,7 @@ interface ILabel {
 }
 
 interface IInput extends ILabel {
-  onChange: () => void
+  onChange: (e: any) => void
   value: string
 }
 

@@ -1,4 +1,4 @@
-import { FC, useEffect } from 'react'
+import { FC, useEffect, useState } from 'react'
 import styled from 'styled-components'
 import { Grid, Rows, ToolbarContainer } from '../components/ui/Containers'
 import { InputPass, InputText } from '../components/ui/Inputs'
@@ -41,17 +41,19 @@ const HeaderContainer = styled.div`
 `
 
 const LoginPage: FC = () => {
-  const email = ''
-  const password = ''
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
 
   const onSubmitHandler = () => {
     console.log('onSubmitHandler')
   }
-  const onChangeEmailHandler = () => {
-    console.log('onChangeEmailHandler')
+  const onChangeEmailHandler = e => {
+    const val = e.target.value !== '' ? e.target.value : ''
+    setEmail(val)
   }
-  const onChangePasswordHandler = () => {
-    console.log('onChangePasswordHandler')
+  const onChangePasswordHandler = e => {
+    const val = e.target.value !== '' ? e.target.value : ''
+    setPassword(val)
   }
 
   const [theme, setTheme] = useLocalStorage('dark', 'theme')
@@ -136,10 +138,8 @@ const LoginPage: FC = () => {
           </form>
         </Rows>
         <Rows vAlign="center" padding={10}>
-          <div>
-            {loading && <Loader size={32} />}
-            {!error && <div className="error">{error}</div>}
-          </div>
+          {loading && <Loader size={32} />}
+          {error && <div className="error">{error}</div>}
         </Rows>
       </LoginContainer>
     </LoginPageContainer>
