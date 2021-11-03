@@ -1,6 +1,7 @@
 {
   "name" : "Русский",
   "app": {
+    "login": "Авторизация",
     "settings": "Настройки",
     "userProfile": "Профиль пользователя",
     "newProject": "Новый проект",
@@ -13,6 +14,8 @@
     "workRoot": "Папка с проектами"
   },
   "buttons": {
+    "login": "Логин",
+    "enter": "Войти",
     "ok": "Oк",
     "create": "Создать",
     "save": "Сохранить",
@@ -62,7 +65,7 @@
   },
   "user": {
     "username": "Имя пользователя",
-    "email": "Email",
+    "email": "Электронная почта",
     "firstName": "Имя",
     "secondName": "Фамилия",
     "password": "Пароль",

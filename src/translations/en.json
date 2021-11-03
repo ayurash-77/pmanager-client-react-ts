@@ -1,6 +1,7 @@
 {
   "name" : "English",
   "app": {
+    "login": "Login",
     "settings": "Settings",
     "userProfile": "User profile",
     "newProject": "New project",
@@ -13,6 +14,8 @@
     "workRoot": "Root work path"
   },
   "buttons": {
+    "login": "Login",
+    "enter": "Enter",
     "ok": "Ok",
     "create": "Create",
     "save": "Save",

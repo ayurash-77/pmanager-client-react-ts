@@ -16,7 +16,7 @@ const MainbarContainer = styled.div`
 
 export const Mainbar: FC = () => {
   const [theme, setTheme] = useLocalStorage('dark', 'theme')
-  const { text, languages, setLanguage } = useTranslate()
+  const { languages, setLanguage } = useTranslate()
 
   const toggleTheme = () => {
     setTheme(theme === 'dark' ? 'light' : 'dark')
@@ -34,9 +34,10 @@ export const Mainbar: FC = () => {
     <MainbarContainer>
       <div onClick={() => setLanguageHelper(languages.en.code)}>{languages.en.name}</div>
       <div onClick={() => setLanguageHelper(languages.ru.code)}>{languages.ru.name}</div>
-      <h3>{text.menu.allProjects}</h3>
 
-      <div onClick={toggleTheme}>theme</div>
+      <div onClick={toggleTheme}>
+        <h4>Toggle theme mode</h4>
+      </div>
     </MainbarContainer>
   )
 }

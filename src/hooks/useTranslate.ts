@@ -14,12 +14,14 @@ export function useTranslate(): {
   text: typeof translations.en
   languages: typeof languages
   setLanguage: Dispatch<any>
+  language: string
 } {
   const { i18n } = useTranslation()
   const setLanguage = (code: string) => {
     i18n.changeLanguage(code)
   }
+  const language = i18n.languages[0]
   const text = translations[i18n.languages[0]]
 
-  return { text, languages, setLanguage }
+  return { text, languages, language, setLanguage }
 }
