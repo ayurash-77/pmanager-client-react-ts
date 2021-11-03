@@ -44,7 +44,8 @@ const LoginPage: FC = () => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
 
-  const onSubmitHandler = () => {
+  const onSubmitHandler = e => {
+    e.preventDefault()
     console.log('onSubmitHandler')
   }
   const onChangeEmailHandler = e => {

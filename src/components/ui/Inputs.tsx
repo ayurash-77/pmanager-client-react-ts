@@ -13,6 +13,8 @@ const color = p => {
   }
 }
 
+const lab = p => p.label === null
+
 interface ILabel {
   label?: string | null
 }
@@ -52,10 +54,10 @@ export const Label = styled.label<ILabel>`
   font-size: var(--fs-normal);
   white-space: nowrap;
   user-select: none;
-  // &:after {
-  //   content: ':';
-  //   //content: ${p => (p.label !== '' ? ':' : '')};
-  // }
+
+  &:after {
+    content: '${p => (p.label ? ': ' : '')}';
+  }
 `
 
 export const InputText: FC<IInputText> = ({
@@ -70,7 +72,11 @@ export const InputText: FC<IInputText> = ({
 
   return (
     <>
-      {label && <Label htmlFor={id}>{label}</Label>}
+      {label && (
+        <Label htmlFor={id} label={label}>
+          {label}
+        </Label>
+      )}
       <Input
         id={id}
         type="text"
@@ -85,12 +91,14 @@ export const InputText: FC<IInputText> = ({
   )
 }
 
-export const InputPass: FC<IInputText> = ({ autoFocus, label, onChange, value, placeholder }) => {
+export const InputPass: FC<IInputText> = ({ autoFocus, label = null, onChange, value, placeholder }) => {
   const id = `input-${Math.random()}`
 
   return (
     <>
-      <Label htmlFor={id}>{label}</Label>
+      <Label htmlFor={id} label={label}>
+        {label}
+      </Label>
       <Input
         id={id}
         type="password"
