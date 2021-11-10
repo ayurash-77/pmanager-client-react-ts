@@ -2,6 +2,10 @@ import { FC, useEffect } from 'react'
 import styled from 'styled-components'
 import { useLocalStorage } from '../../hooks/useLocalStorage'
 import { useTranslate } from '../../hooks/useTranslate'
+import { useAppDispatch, useAppSelector } from '../../hooks/redux'
+// eslint-disable-next-line import/named
+import { fetchUsers } from '../../store/reducers/ActionCreators'
+import Loader from '../ui/Loader'
 
 const MainbarContainer = styled.div`
   background: var(--bg-main);
@@ -26,9 +30,14 @@ export const Mainbar: FC = () => {
     setLanguage(code)
   }
 
+  const dispatch = useAppDispatch()
+
   useEffect(() => {
+    dispatch(fetchUsers())
     document.body.setAttribute('data-theme', theme)
-  }, [theme])
+  }, [dispatch, theme])
+
+  const { isLoading, error, users } = useAppSelector(state => state.userReducer)
 
   return (
     <MainbarContainer>
@@ -38,6 +47,9 @@ export const Mainbar: FC = () => {
       <div onClick={toggleTheme}>
         <h4>Toggle theme mode</h4>
       </div>
+      {isLoading && 'Loading...'}
+      {error && <h4>error</h4>}
+      {users.length > 0 && JSON.stringify(users, null, 2)}
     </MainbarContainer>
   )
 }

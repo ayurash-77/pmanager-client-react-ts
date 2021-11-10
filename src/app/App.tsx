@@ -16,9 +16,9 @@ const App: FC = () => {
     <Suspense fallback={<div>loading...</div>}>
       <BrowserRouter>
         <Switch>
-          <Route exact path="/projects" component={ProjectsPage} />
-          <Route exact path="/login" component={LoginPage} />
-          <Redirect to="/login" />
+          <Route exact path="/users" component={ProjectsPage} />
+          <Route exact path="/auth/login" component={LoginPage} />
+          <Redirect to="/users" />
         </Switch>
       </BrowserRouter>
     </Suspense>

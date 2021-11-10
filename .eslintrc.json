@@ -31,6 +31,7 @@
   ],
   "rules": {
     "react/prop-types": "off",
+    "no-param-reassign": "off",
     "react/jsx-filename-extension": [2, {"extensions": [ ".js", ".jsx", ".ts",  ".tsx" ] } ],
     "arrow-parens": ["error", "as-needed"],
     "no-use-before-define": "off",

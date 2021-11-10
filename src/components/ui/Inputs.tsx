@@ -13,8 +13,6 @@ const color = p => {
   }
 }
 
-const lab = p => p.label === null
-
 interface ILabel {
   label?: string | null
 }

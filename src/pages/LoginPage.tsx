@@ -8,6 +8,8 @@ import { useLocalStorage } from '../hooks/useLocalStorage'
 import Loader from '../components/ui/Loader'
 import { useTranslate } from '../hooks/useTranslate'
 
+import { useAuthQuery } from '../services/authApi'
+
 const LoginPageContainer = styled.div`
   display: flex;
   justify-content: center;
@@ -41,12 +43,23 @@ const HeaderContainer = styled.div`
 `
 
 const LoginPage: FC = () => {
+  type Err = {
+    status: number
+    message: string
+  }
+
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
 
+  // const { data, isFetching, status, isLoading, error } = useGetUsersQuery({ offset: 0, limit: 10 })
+  const { data, isFetching, status, isLoading, error } = useAuthQuery({})
+
+  // @ts-ignore
+  const errorMessage: string = error && error.data.message
+
   const onSubmitHandler = e => {
     e.preventDefault()
-    console.log('onSubmitHandler')
+    console.log(errorMessage)
   }
   const onChangeEmailHandler = e => {
     const val = e.target.value !== '' ? e.target.value : ''
@@ -72,7 +85,6 @@ const LoginPage: FC = () => {
   }, [theme])
 
   const loading = false
-  const error = 'Error message. Error text. Error message.'
 
   return (
     <LoginPageContainer>
@@ -139,8 +151,8 @@ const LoginPage: FC = () => {
           </form>
         </Rows>
         <Rows vAlign="center" padding={10}>
-          {loading && <Loader size={32} />}
-          {error && <div className="error">{error}</div>}
+          {isLoading && <Loader size={32} />}
+          {error && <div className="error">{errorMessage}</div>}
         </Rows>
       </LoginContainer>
     </LoginPageContainer>
