@@ -2,10 +2,8 @@ import { FC, useEffect } from 'react'
 import styled from 'styled-components'
 import { useLocalStorage } from '../../hooks/useLocalStorage'
 import { useTranslate } from '../../hooks/useTranslate'
-import { useAppDispatch, useAppSelector } from '../../hooks/redux'
-// eslint-disable-next-line import/named
-import { fetchUsers } from '../../store/reducers/ActionCreators'
 import Loader from '../ui/Loader'
+import { useGetUsersQuery } from '../../services/usersApi'
 
 const MainbarContainer = styled.div`
   background: var(--bg-main);
@@ -30,26 +28,35 @@ export const Mainbar: FC = () => {
     setLanguage(code)
   }
 
-  const dispatch = useAppDispatch()
-
   useEffect(() => {
-    dispatch(fetchUsers())
     document.body.setAttribute('data-theme', theme)
-  }, [dispatch, theme])
+  }, [theme])
 
-  const { isLoading, error, users } = useAppSelector(state => state.userReducer)
+  const {
+    data: users = [],
+    isError: isUsersError,
+    isLoading: isUsersLoading,
+  } = useGetUsersQuery({ offset: 0, limit: 10 })
 
   return (
     <MainbarContainer>
       <div onClick={() => setLanguageHelper(languages.en.code)}>{languages.en.name}</div>
       <div onClick={() => setLanguageHelper(languages.ru.code)}>{languages.ru.name}</div>
-
-      <div onClick={toggleTheme}>
+      <div style={{ margin: 10 }} onClick={toggleTheme}>
         <h4>Toggle theme mode</h4>
       </div>
-      {isLoading && 'Loading...'}
-      {error && <h4>error</h4>}
-      {users.length > 0 && JSON.stringify(users, null, 2)}
+      Data:
+      {isUsersError && <h4>error</h4>}
+      {isUsersLoading && <Loader size={32} />}
+      {users.length > 0 &&
+        users.map(item => (
+          <div key={item.id}>
+            <div style={{ marginTop: 10 }}>Email: {item.email}</div>
+            {item.roles.map(role => (
+              <div key={role.id}>Role: {role.name}</div>
+            ))}
+          </div>
+        ))}
     </MainbarContainer>
   )
 }

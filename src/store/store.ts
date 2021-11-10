@@ -2,10 +2,10 @@ import { CombinedState, combineReducers, configureStore } from '@reduxjs/toolkit
 import { jobsApi } from '../services/jobsApi'
 import { usersApi } from '../services/usersApi'
 import { authApi } from '../services/authApi'
-import userReducer from './reducers/UserSlice'
+// import userReducer from './reducers/UserSlice'
 
 const rootReducer = combineReducers({
-  userReducer,
+  // userReducer,
   [jobsApi.reducerPath]: jobsApi.reducer,
   [usersApi.reducerPath]: usersApi.reducer,
   [authApi.reducerPath]: authApi.reducer,
@@ -14,7 +14,7 @@ const rootReducer = combineReducers({
 export const setupStore: CombinedState<any> = () => {
   return configureStore({
     reducer: rootReducer,
-    // middleware: getDefaultMiddleware => getDefaultMiddleware().concat(authApi.middleware),
+    middleware: getDefaultMiddleware => getDefaultMiddleware().concat(usersApi.middleware),
   })
 }
 
