@@ -1,4 +1,5 @@
-import { FC, useEffect, useState } from 'react'
+import { ChangeEvent, FC, useEffect, useState } from 'react'
+import { useHistory } from 'react-router'
 import styled from 'styled-components'
 import { Grid, Rows, ToolbarContainer } from '../components/ui/Containers'
 import { InputPass, InputText } from '../components/ui/Inputs'
@@ -8,7 +9,9 @@ import { useLocalStorage } from '../hooks/useLocalStorage'
 import Loader from '../components/ui/Loader'
 import { useTranslate } from '../hooks/useTranslate'
 
-import { useAuthQuery } from '../services/authApi'
+import { LoginRequest, useLoginMutation } from '../services/authApi'
+import { useGetUsersQuery } from '../services/usersApi'
+import { useAppDispatch } from '../hooks/redux'
 
 const LoginPageContainer = styled.div`
   display: flex;
@@ -51,15 +54,44 @@ const LoginPage: FC = () => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
 
-  // const { data, isFetching, status, isLoading, error } = useGetUsersQuery({ offset: 0, limit: 10 })
-  const { data, isFetching, status, isLoading, error } = useAuthQuery({})
+  const {
+    data: users = [],
+    isLoading: isUsersLoading,
+    error: errorUsers,
+  } = useGetUsersQuery({ offset: 0, limit: 10 })
 
   // @ts-ignore
-  const errorMessage: string = error && error.data.message
+  const errorUsersMessage: string = errorUsers && errorUsers.data.message
 
-  const onSubmitHandler = e => {
+  // const { data: auth, isFetching, status, isLoading, error: errorAuth } = useAuthQuery({})
+
+  // @ts-ignore
+  // const errorAuthMessage: string = errorAuth && errorAuth.data.message
+
+  const dispatch = useAppDispatch()
+  const { push } = useHistory()
+
+  const [formState, setFormState] = useState<LoginRequest>({
+    username: '',
+    password: '',
+  })
+
+  const [login, { isLoading }] = useLoginMutation()
+
+  const handleChange = ({ target: { name, value } }: ChangeEvent<HTMLInputElement>) =>
+    setFormState(prev => ({ ...prev, [name]: value }))
+
+  const onSubmitHandler = async e => {
     e.preventDefault()
-    console.log(errorMessage)
+
+    try {
+      await login(formState).unwrap()
+      push('/')
+    } catch (err) {
+      console.log(err.message)
+    }
+
+    console.log(users)
   }
   const onChangeEmailHandler = e => {
     const val = e.target.value !== '' ? e.target.value : ''
@@ -120,7 +152,7 @@ const LoginPage: FC = () => {
         </HeaderContainer>
 
         <Rows vAlign="center">
-          <h2>{text.app.login}</h2>
+          <h2>{text.app.login} </h2>
         </Rows>
 
         <Rows vAlign="center">
@@ -129,14 +161,14 @@ const LoginPage: FC = () => {
               <Grid cols="auto" marginTop={20} textAlign="right">
                 <InputText
                   // label={text.user.email}
-                  onChange={onChangeEmailHandler}
+                  onChange={handleChange}
                   autoFocus
                   value={email}
                   placeholder={text.user.email}
                 />
                 <InputPass
                   // label={text.user.password}
-                  onChange={onChangePasswordHandler}
+                  onChange={handleChange}
                   value={password}
                   placeholder={text.user.password}
                 />
@@ -151,8 +183,9 @@ const LoginPage: FC = () => {
           </form>
         </Rows>
         <Rows vAlign="center" padding={10}>
-          {isLoading && <Loader size={32} />}
-          {error && <div className="error">{errorMessage}</div>}
+          {isUsersLoading && <Loader size={32} />}
+          {errorUsersMessage && <div className="error">{errorUsersMessage}</div>}
+          {/* {errorAuthMessage && <div className="error">{errorAuthMessage}</div>} */}
         </Rows>
       </LoginContainer>
     </LoginPageContainer>

@@ -32,11 +32,11 @@ export const Mainbar: FC = () => {
     document.body.setAttribute('data-theme', theme)
   }, [theme])
 
-  const {
-    data: users = [],
-    isError: isUsersError,
-    isLoading: isUsersLoading,
-  } = useGetUsersQuery({ offset: 0, limit: 10 })
+  const { data: users = [], isLoading: isUsersLoading, error } = useGetUsersQuery({ offset: 0, limit: 10 })
+  // const [] = useLoginMutation({ email: 'ayurash@mail', password: '123123' })
+
+  // @ts-ignore
+  const errorUsers: string = error && error.data.message
 
   return (
     <MainbarContainer>
@@ -46,7 +46,7 @@ export const Mainbar: FC = () => {
         <h4>Toggle theme mode</h4>
       </div>
       Data:
-      {isUsersError && <h4>error</h4>}
+      {errorUsers && <div className="error">{errorUsers}</div>}
       {isUsersLoading && <Loader size={32} />}
       {users.length > 0 &&
         users.map(item => (
