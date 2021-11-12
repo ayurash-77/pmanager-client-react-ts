@@ -1,24 +1,35 @@
-import { createSlice } from '@reduxjs/toolkit'
-import { User, authApi } from '../../services/authApi'
-import { RootState } from '../store'
+import { createSlice, PayloadAction } from '@reduxjs/toolkit'
+import { IUser } from '../../interfaces/IUser'
 
-type AuthState = {
-  user: User | null
-  token: string | null
+interface UserState {
+  users: IUser[]
+  isLoading: boolean
+  error: string
 }
 
-const authSlice = createSlice({
-  name: 'auth',
-  initialState: { user: null, token: null } as AuthState,
-  reducers: {},
-  extraReducers: builder => {
-    builder.addMatcher(authApi.endpoints.login.matchFulfilled, (state, { payload }) => {
-      state.token = payload.token
-      state.user = payload.user
-    })
+const initialState: UserState = {
+  users: [],
+  isLoading: false,
+  error: '',
+}
+
+export const userSlice = createSlice({
+  name: 'users',
+  initialState,
+  reducers: {
+    getUsers(state) {
+      state.isLoading = true
+    },
+    getUsersSuccess(state, action: PayloadAction<IUser[]>) {
+      state.isLoading = false
+      state.users = action.payload
+      state.error = ''
+    },
+    getUsersFail(state, action: PayloadAction<string>) {
+      state.isLoading = false
+      state.error = action.payload
+    },
   },
 })
 
-export default authSlice.reducer
-
-export const selectCurrentUser = (state: RootState) => state.auth.user
+export default userSlice.reducer

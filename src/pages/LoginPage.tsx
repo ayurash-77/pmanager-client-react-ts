@@ -9,7 +9,6 @@ import { useLocalStorage } from '../hooks/useLocalStorage'
 import Loader from '../components/ui/Loader'
 import { useTranslate } from '../hooks/useTranslate'
 
-import { LoginRequest, useLoginMutation } from '../services/authApi'
 import { useGetUsersQuery } from '../services/usersApi'
 import { useAppDispatch } from '../hooks/redux'
 
@@ -63,34 +62,8 @@ const LoginPage: FC = () => {
   // @ts-ignore
   const errorUsersMessage: string = errorUsers && errorUsers.data.message
 
-  // const { data: auth, isFetching, status, isLoading, error: errorAuth } = useAuthQuery({})
-
-  // @ts-ignore
-  // const errorAuthMessage: string = errorAuth && errorAuth.data.message
-
-  const dispatch = useAppDispatch()
-  const { push } = useHistory()
-
-  const [formState, setFormState] = useState<LoginRequest>({
-    username: '',
-    password: '',
-  })
-
-  const [login, { isLoading }] = useLoginMutation()
-
-  const handleChange = ({ target: { name, value } }: ChangeEvent<HTMLInputElement>) =>
-    setFormState(prev => ({ ...prev, [name]: value }))
-
   const onSubmitHandler = async e => {
     e.preventDefault()
-
-    try {
-      await login(formState).unwrap()
-      push('/')
-    } catch (err) {
-      console.log(err.message)
-    }
-
     console.log(users)
   }
   const onChangeEmailHandler = e => {
@@ -161,14 +134,14 @@ const LoginPage: FC = () => {
               <Grid cols="auto" marginTop={20} textAlign="right">
                 <InputText
                   // label={text.user.email}
-                  onChange={handleChange}
+                  onChange={onChangeEmailHandler}
                   autoFocus
                   value={email}
                   placeholder={text.user.email}
                 />
                 <InputPass
                   // label={text.user.password}
-                  onChange={handleChange}
+                  onChange={onChangePasswordHandler}
                   value={password}
                   placeholder={text.user.password}
                 />
