@@ -1,9 +1,14 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 import { IJob } from '../interfaces/IJob'
+import { BaseQueryFn, FetchArgs } from '@reduxjs/toolkit/dist/query/react'
+
+interface CustomError {
+  data: { message: [] | string }
+}
 
 export const jobsApi = createApi({
-  reducerPath: 'jobs',
-  baseQuery: fetchBaseQuery({ baseUrl: '/' }),
+  reducerPath: 'jobsApi',
+  baseQuery: fetchBaseQuery({ baseUrl: '/' }) as BaseQueryFn<string | FetchArgs, unknown, CustomError, {}>,
 
   endpoints: build => ({
     getJobs: build.query<IJob[], { offset: number; limit: number }>({

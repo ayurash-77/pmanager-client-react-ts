@@ -5,21 +5,21 @@ import styled from 'styled-components'
 const size = props => props.size
 const border = props => props.border
 
-const Container = styled.div`
-  margin: auto;
-`
 interface Prop {
   size: number
 }
 
-interface PropSpinner extends Prop {
+interface ILoader extends Prop {
+  size: number
   border?: number
+  translateX?: number
 }
 
-const Wrap = styled.div<Prop>`
+const Wrap = styled.div<ILoader>`
   width: ${size}px;
   height: ${size}px;
-  display: inline-block;
+  margin-right: -${p => p.translateX}px;
+  //display: inline-block;
   overflow: hidden;
   background: none;
 `
@@ -33,7 +33,7 @@ const Spinner = styled.div`
   transform-origin: 0 0;
 `
 
-const SpinnerDiv = styled.div<PropSpinner>`
+const SpinnerDiv = styled.div<ILoader>`
   position: absolute;
   width: ${size}px;
   height: ${size}px;
@@ -54,14 +54,12 @@ const SpinnerDiv = styled.div<PropSpinner>`
   }
 `
 
-const Loader: FC<PropSpinner> = ({ size = 32, border = 4 }) => (
-  <Container>
-    <Wrap size={size}>
-      <Spinner className="spinner">
-        <SpinnerDiv size={size} border={border} />
-      </Spinner>
-    </Wrap>
-  </Container>
+const Loader: FC<ILoader> = ({ size = 32, border = 4, translateX = 0 }: ILoader) => (
+  <Wrap size={size} translateX={translateX}>
+    <Spinner className="spinner">
+      <SpinnerDiv size={size} border={border} />
+    </Spinner>
+  </Wrap>
 )
 
 export default Loader

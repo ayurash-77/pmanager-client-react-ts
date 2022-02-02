@@ -1,6 +1,5 @@
 import styled from 'styled-components'
 import { FC } from 'react'
-import * as ToolbarIcons from '../../assets/icons/toolbar-icons'
 
 const marginLeft = p => (p.rounded === 'left' || p.rounded === 'all' ? '9px' : '1px')
 const marginRight = p => (p.marginRight ? '9px' : '0')
@@ -39,18 +38,18 @@ const ToolButtonStyled = styled.div<IToolButtonStyled>`
 `
 
 interface IToolButton {
-  icon: any
-  selected: any
-  rounded: any
+  icon: JSX.Element
+  selected?: boolean
+  rounded?: any
+  noBg?: boolean
   action: any
   marginRight?: any
 }
 
 export const ToolButton: FC<IToolButton> = ({ icon, selected, rounded, action, marginRight }) => {
-  const ToolbarIcon = ToolbarIcons[icon]
   return (
     <ToolButtonStyled selected={selected} rounded={rounded} onClick={action} marginRight={marginRight}>
-      <ToolbarIcon />
+      {icon}
     </ToolButtonStyled>
   )
 }

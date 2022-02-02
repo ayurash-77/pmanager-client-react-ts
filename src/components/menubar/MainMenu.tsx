@@ -4,14 +4,21 @@ import { MenuItem } from './MenuItem'
 import * as SideIcons from '../../assets/icons/menubar-icons'
 
 import { useTranslate } from '../../hooks/useTranslate'
+import { useGetAllProjectsQuery } from '../../services/projectsApi'
+import Loader from '../ui/Loader'
 
 interface Props {
   isMenubarExpanded: boolean
 }
 
 export const MainMenu: FC<Props> = ({ isMenubarExpanded }) => {
-  const [selectedMenuItem, setSelectedMenuItem] = useState<string>('allProjects')
   const { text } = useTranslate()
+  const [selectedMenuItem, setSelectedMenuItem] = useState<string>(text.menu.allProjects)
+
+  const { data: projects = [], isLoading: isLoadingProjects } = useGetAllProjectsQuery(
+    {},
+    { pollingInterval: 50000 }
+  )
 
   const handleMenuItemClick = (name: string) => {
     setSelectedMenuItem(name)
@@ -23,7 +30,7 @@ export const MainMenu: FC<Props> = ({ isMenubarExpanded }) => {
         onClick={() => handleMenuItemClick(text.menu.allProjects)}
         icon={<SideIcons.Home />}
         name={text.menu.allProjects}
-        count={11}
+        count={isLoadingProjects ? <Loader size={16} translateX={4} /> : projects.length}
         isSelected={selectedMenuItem === text.menu.allProjects}
         isMenubarExpanded={isMenubarExpanded}
       />

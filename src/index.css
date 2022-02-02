@@ -20,9 +20,9 @@
   --topbar-height: 42px;
 
   /* Typography */
-  --ff-main: DIN_REG, 'Roboto', 'Segoe UI', 'Ubuntu', 'Helvetica Neue', sans-serif;
-  --ff-med: DIN_MED, 'Roboto', 'Segoe UI', 'Ubuntu', 'Helvetica Neue', sans-serif;
-  --ff-bold: DIN_BOLD, 'Roboto', 'Segoe UI', 'Ubuntu', 'Helvetica Neue', sans-serif;
+  --ff-main: 'Roboto', DIN_REG, sans-serif, 'Segoe UI', 'Ubuntu', 'Helvetica Neue';
+  --ff-med: 'Roboto', DIN_REG, sans-serif, 'Segoe UI', 'Ubuntu', 'Helvetica Neue';
+  --ff-bold: 'Roboto', DIN_REG, sans-serif, 'Segoe UI', 'Ubuntu', 'Helvetica Neue';
   --fs-normal: 13px;
   --fs-small1: 11px;
   --fs-small2: 9px;
@@ -183,7 +183,7 @@ body[data-theme='light'] {
   height: 100vh;
   width: 100vw;
   display: flex;
-  justify-content: center;
+  /*justify-content: center;*/
   overflow: hidden;
 }
 
@@ -293,5 +293,5 @@ div.vSpace, .vSpace { height: 10px; }
   align-items: center;
   border-radius: 4px;
   width: 100%;
-  height: 100%;
+  /*height: 100%;*/
 }

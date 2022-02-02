@@ -1,9 +1,7 @@
-import { BrowserRouter, Route, Switch } from 'react-router-dom'
-import { Redirect } from 'react-router'
+import { BrowserRouter } from 'react-router-dom'
 import { FC, Suspense, useEffect } from 'react'
-import LoginPage from '../pages/LoginPage'
-import ProjectsPage from '../pages/ProjectsPage'
 import { useLocalStorage } from '../hooks/useLocalStorage'
+import AppRouter from './AppRouter'
 
 const App: FC = () => {
   const [theme] = useLocalStorage('dark', 'theme')
@@ -15,11 +13,7 @@ const App: FC = () => {
   return (
     <Suspense fallback={<div>loading...</div>}>
       <BrowserRouter>
-        <Switch>
-          <Route exact path="/projects" component={ProjectsPage} />
-          <Route exact path="/auth/login" component={LoginPage} />
-          <Redirect to="/auth/login" />
-        </Switch>
+        <AppRouter />
       </BrowserRouter>
     </Suspense>
   )

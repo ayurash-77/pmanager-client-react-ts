@@ -1,4 +1,4 @@
 export interface IUserAuth {
-  email: string
+  username: string
   password: string
 }

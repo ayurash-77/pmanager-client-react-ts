@@ -1,11 +1,12 @@
-import { Dispatch, FC } from 'react'
+import { DetailedHTMLProps, Dispatch, FC, HTMLAttributes } from 'react'
 import styled from 'styled-components'
+import { BottomMenu } from '../components/menubar/BottomMenu'
 
-interface Props {
+interface Props extends DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLDivElement> {
   isMenubarExpanded: boolean
 }
 
-interface PropsMenubar extends Props {
+interface IMenubar extends Props {
   toggle: Dispatch<any>
 }
 
@@ -13,16 +14,20 @@ const Container = styled.div<Props>`
   transition: all 250ms;
   width: ${p => (p.isMenubarExpanded ? 'var(--sidebar-width-max)' : 'var(--sidebar-width-min)')};
   min-width: ${p => (p.isMenubarExpanded ? 'var(--sidebar-width-max)' : 'var(--sidebar-width-min)')};
-  background-color: var(--navbar-bg);
   padding: 10px;
   display: flex;
+  height: 100vh;
   flex-direction: column;
+
+  .vSeparator {
+    height: 100%;
+  }
 `
 
 const ToggleContainer = styled.div<Props>`
   transition: 200ms;
   align-self: center;
-  height: 20px;
+  height: 30px;
   width: 100%;
   margin-top: 10px;
   display: flex;
@@ -54,12 +59,16 @@ const ToggleContainer = styled.div<Props>`
   }
 `
 
-export const Menubar: FC<PropsMenubar> = ({ isMenubarExpanded, toggle, children }) => {
+export const Menubar: FC<IMenubar> = ({ isMenubarExpanded, toggle, children, ...props }: IMenubar) => {
   return (
-    <Container isMenubarExpanded={isMenubarExpanded}>
-      {children}
-      <ToggleContainer isMenubarExpanded={isMenubarExpanded} onClick={toggle} />
-    </Container>
+    <div {...props}>
+      <Container isMenubarExpanded={isMenubarExpanded}>
+        {children}
+        <ToggleContainer isMenubarExpanded={isMenubarExpanded} onClick={toggle} />
+        <div className={'vSeparator'} />
+        <BottomMenu isMenubarExpanded={isMenubarExpanded} />
+      </Container>
+    </div>
   )
 }
 

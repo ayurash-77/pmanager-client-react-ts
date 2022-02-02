@@ -1,5 +1,4 @@
-import { ChangeEvent, FC, useEffect, useState } from 'react'
-import { useHistory } from 'react-router'
+import { FC, useEffect, useState } from 'react'
 import styled from 'styled-components'
 import { Grid, Rows, ToolbarContainer } from '../components/ui/Containers'
 import { InputPass, InputText } from '../components/ui/Inputs'
@@ -9,8 +8,11 @@ import { useLocalStorage } from '../hooks/useLocalStorage'
 import Loader from '../components/ui/Loader'
 import { useTranslate } from '../hooks/useTranslate'
 
-import { useGetUsersQuery } from '../services/usersApi'
+import { useLoginMutation } from '../services/authApi'
 import { useAppDispatch } from '../hooks/redux'
+import { userSlice } from '../store/userSlice'
+import * as ToolbarIcons from '../assets/icons/toolbar-icons'
+import { ErrorList } from '../components/errors/ErrorList'
 
 const LoginPageContainer = styled.div`
   display: flex;
@@ -45,30 +47,25 @@ const HeaderContainer = styled.div`
 `
 
 const LoginPage: FC = () => {
-  type Err = {
-    status: number
-    message: string
-  }
-
-  const [email, setEmail] = useState('')
+  const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
 
-  const {
-    data: users = [],
-    isLoading: isUsersLoading,
-    error: errorUsers,
-  } = useGetUsersQuery({ offset: 0, limit: 10 })
+  const [login, { data: user, isLoading, error }] = useLoginMutation()
+  const { setAuthUser } = userSlice.actions
+  const dispatch = useAppDispatch()
 
-  // @ts-ignore
-  const errorUsersMessage: string = errorUsers && errorUsers.data.message
+  const loaderJsx = isLoading && <Loader size={32} />
+  const errors = error && 'data' in error ? error.data.message : []
+  const errorJsx = ErrorList(errors)
 
   const onSubmitHandler = async e => {
     e.preventDefault()
-    console.log(users)
+    await login({ username, password })
   }
-  const onChangeEmailHandler = e => {
+
+  const onChangeUsernameHandler = e => {
     const val = e.target.value !== '' ? e.target.value : ''
-    setEmail(val)
+    setUsername(val)
   }
   const onChangePasswordHandler = e => {
     const val = e.target.value !== '' ? e.target.value : ''
@@ -76,20 +73,14 @@ const LoginPage: FC = () => {
   }
 
   const [theme, setTheme] = useLocalStorage('dark', 'theme')
-  const toggleTheme = theme => {
-    setTheme(theme)
-  }
-
   const { language, setLanguage, text } = useTranslate()
-  const setLanguageHelper = code => {
-    setLanguage(code)
-  }
 
   useEffect(() => {
     document.body.setAttribute('data-theme', theme)
-  }, [theme])
-
-  const loading = false
+    if (user && user.token) {
+      dispatch(setAuthUser(user))
+    }
+  }, [dispatch, setAuthUser, theme, user])
 
   return (
     <LoginPageContainer>
@@ -98,28 +89,28 @@ const LoginPage: FC = () => {
           <h3 style={{ marginLeft: 5 }}>PManager</h3>
           <ToolbarContainer>
             <ToolButton
-              icon="LangEn"
+              icon={<ToolbarIcons.LangEn />}
               rounded="left"
               selected={language === 'en'}
-              action={() => setLanguageHelper('en')}
+              action={() => setLanguage('en')}
             />
             <ToolButton
-              icon="LangRu"
+              icon={<ToolbarIcons.LangRu />}
               rounded="right"
               selected={language === 'ru'}
-              action={() => setLanguageHelper('ru')}
+              action={() => setLanguage('ru')}
             />
             <ToolButton
-              icon="Moon"
+              icon={<ToolbarIcons.Moon />}
               rounded="left"
               selected={theme === 'dark'}
-              action={() => toggleTheme('dark')}
+              action={() => setTheme('dark')}
             />
             <ToolButton
-              icon="Sun"
+              icon={<ToolbarIcons.Sun />}
               rounded="right"
               selected={theme === 'light'}
-              action={() => toggleTheme('light')}
+              action={() => setTheme('light')}
             />
           </ToolbarContainer>
         </HeaderContainer>
@@ -134,10 +125,10 @@ const LoginPage: FC = () => {
               <Grid cols="auto" marginTop={20} textAlign="right">
                 <InputText
                   // label={text.user.email}
-                  onChange={onChangeEmailHandler}
+                  onChange={onChangeUsernameHandler}
                   autoFocus
-                  value={email}
-                  placeholder={text.user.email}
+                  value={username}
+                  placeholder={text.user.username}
                 />
                 <InputPass
                   // label={text.user.password}
@@ -156,9 +147,8 @@ const LoginPage: FC = () => {
           </form>
         </Rows>
         <Rows vAlign="center" padding={10}>
-          {isUsersLoading && <Loader size={32} />}
-          {errorUsersMessage && <div className="error">{errorUsersMessage}</div>}
-          {/* {errorAuthMessage && <div className="error">{errorAuthMessage}</div>} */}
+          {loaderJsx}
+          {errorJsx}
         </Rows>
       </LoginContainer>
     </LoginPageContainer>

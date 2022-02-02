@@ -10,12 +10,13 @@ interface PropsMenuItem extends Props {
   onClick: Dispatch<any>
   name: string
   icon: ReactElement
-  count: number
+  count?: number | JSX.Element
 }
 
 const MenuItemContainer: any = styled.div<Props>`
   transition: all 200ms;
   height: 32px;
+  min-height: 32px;
   display: flex;
   align-items: center;
   border-radius: 4px;
@@ -60,18 +61,11 @@ const Count: StyledComponent<any, any> = styled.div<Props>`
   opacity: ${p => (p.isMenubarExpanded ? '1' : '0')};
 `
 
-export const MenuItem: FC<PropsMenuItem> = ({
-  isSelected,
-  icon,
-  isMenubarExpanded,
-  name,
-  onClick,
-  count,
-}) => (
-  <MenuItemContainer isSelected={isSelected} onClick={onClick}>
-    <Icon>{icon}</Icon>
-    <Text isMenubarExpanded={isMenubarExpanded}>{name}</Text>
-    <Count isMenubarExpanded={isMenubarExpanded}>{count}</Count>
+export const MenuItem: FC<PropsMenuItem> = ({ ...props }) => (
+  <MenuItemContainer isSelected={props.isSelected} onClick={props.onClick}>
+    <Icon>{props.icon}</Icon>
+    <Text isMenubarExpanded={props.isMenubarExpanded}>{props.name}</Text>
+    <Count isMenubarExpanded={props.isMenubarExpanded}>{props.count}</Count>
   </MenuItemContainer>
 )
 

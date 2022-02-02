@@ -85,3 +85,15 @@ export const ToolbarContainer = styled.div<IToolbarContainer>`
   justify-content: ${align};
   width: 100%;
 `
+
+export const TitleContainer = styled.div`
+  font-size: var(--font-size-normal);
+  //text-transform: capitalize;
+  white-space: nowrap;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  text-wrap: none;
+  //height: 100%;
+  //position: relative;
+`

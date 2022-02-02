@@ -1,7 +1,11 @@
-import { IRole } from './IRole'
-import { IUserAuth } from './IUserAuth'
-
-export interface IUser extends IUserAuth {
+export interface IUser {
   id: number
-  roles: IRole[]
+  username: string
+  email: string
+  isAdmin: boolean
+  token: string
+  surname?: string
+  name?: string
+  phone?: string
+  image?: any
 }
