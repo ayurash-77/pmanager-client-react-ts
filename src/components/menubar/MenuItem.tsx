@@ -1,8 +1,8 @@
-import styled, { StyledComponent } from 'styled-components'
+import styled from 'styled-components'
 import { Dispatch, FC, ReactElement } from 'react'
 
 interface Props {
-  isSelected: boolean
+  isSelected?: boolean
   isMenubarExpanded: boolean
 }
 
@@ -10,11 +10,11 @@ interface PropsMenuItem extends Props {
   onClick: Dispatch<any>
   name: string
   icon: ReactElement
-  count?: number | JSX.Element
+  count?: number | ReactElement
 }
 
-const MenuItemContainer: any = styled.div<Props>`
-  transition: all 200ms;
+const MenuItemContainer = styled.div<Props>`
+  transition: color 200ms;
   height: 32px;
   min-height: 32px;
   display: flex;
@@ -22,7 +22,6 @@ const MenuItemContainer: any = styled.div<Props>`
   border-radius: 4px;
   padding: 0 6px;
   color: ${p => (p.isSelected ? 'var(--navbar-fg-selected)' : 'var(--fg-normal)')};
-
   background: ${p => p.isSelected && 'var(--navbar-bg-selected)'};
 
   &:hover {
@@ -44,7 +43,7 @@ const Icon = styled.div`
   height: 24px;
 `
 
-const Text: StyledComponent<any, any> = styled.span<Props>`
+const Text = styled.span<Props>`
   transition: opacity 250ms, margin-left 250ms;
   font-weight: 500;
   margin-left: ${p => (p.isMenubarExpanded ? '6px' : '0')};
@@ -54,7 +53,7 @@ const Text: StyledComponent<any, any> = styled.span<Props>`
   z-index: 0;
 `
 
-const Count: StyledComponent<any, any> = styled.div<Props>`
+const Count = styled.div<Props>`
   transition: opacity 250ms;
   font-weight: 500;
   margin-left: auto;
@@ -62,10 +61,10 @@ const Count: StyledComponent<any, any> = styled.div<Props>`
 `
 
 export const MenuItem: FC<PropsMenuItem> = ({ ...props }) => (
-  <MenuItemContainer isSelected={props.isSelected} {...props}>
+  <MenuItemContainer {...props}>
     <Icon>{props.icon}</Icon>
-    <Text isMenubarExpanded={props.isMenubarExpanded}>{props.name}</Text>
-    <Count isMenubarExpanded={props.isMenubarExpanded}>{props.count}</Count>
+    <Text {...props}>{props.name}</Text>
+    <Count {...props}>{props.count}</Count>
   </MenuItemContainer>
 )
 

@@ -92,25 +92,25 @@ const LoginPage: FC = () => {
               icon={<ToolbarIcons.LangEn />}
               rounded="left"
               selected={language === 'en'}
-              action={() => setLanguage('en')}
+              onClick={() => setLanguage('en')}
             />
             <ToolButton
               icon={<ToolbarIcons.LangRu />}
               rounded="right"
               selected={language === 'ru'}
-              action={() => setLanguage('ru')}
+              onClick={() => setLanguage('ru')}
             />
             <ToolButton
               icon={<ToolbarIcons.Moon />}
               rounded="left"
               selected={theme === 'dark'}
-              action={() => setTheme('dark')}
+              onClick={() => setTheme('dark')}
             />
             <ToolButton
               icon={<ToolbarIcons.Sun />}
               rounded="right"
               selected={theme === 'light'}
-              action={() => setTheme('light')}
+              onClick={() => setTheme('light')}
             />
           </ToolbarContainer>
         </HeaderContainer>
@@ -138,11 +138,9 @@ const LoginPage: FC = () => {
                 />
               </Grid>
 
-              <Grid cols="auto" textAlign="center">
-                <Button type="submit" margin="10px 0" onClick={undefined}>
-                  {text.buttons.enter}
-                </Button>
-              </Grid>
+              <Button type="submit" margin={'10px 0 0 0'}>
+                {text.buttons.enter}
+              </Button>
             </Grid>
           </form>
         </Rows>

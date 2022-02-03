@@ -210,7 +210,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 input, select, option, textarea, .input {
-  transition: all 200ms;
+  /*transition: all 200ms;*/
   font-size: 13px;
   font-family: var(--ff-main);
   padding: 0 4px;
@@ -223,8 +223,6 @@ input, select, option, textarea, .input {
   box-shadow: 0 1px 3px var(--input-shadow);
 }
 
-/* .input { text-align: left} */
-
 input:focus, textarea:focus {
   color: var(--text-fg-high);
   border: 1px solid var(--input-border-focus);
@@ -233,11 +231,10 @@ input:focus, textarea:focus {
 }
 
 button {
+  /*transition: all 200ms;*/
   text-transform: uppercase;
   font-size: 12px;
   font-family: var(--ff-med);
-  /*font-weight: 600;*/
-  transition: all 200ms;
   height: 22px;
   min-width: 32px;
   color: var(--btn-fg-normal);
@@ -286,11 +283,9 @@ div.vSpace, .vSpace { height: 10px; }
   color: var(--accent);
   vertical-align: center;
   text-align: center;
-  /*background: var(--bg-header);*/
   display: flex;
   justify-content: center;
   align-items: center;
   border-radius: 4px;
   width: 100%;
-  /*height: 100%;*/
 }

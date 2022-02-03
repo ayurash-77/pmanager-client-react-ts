@@ -16,7 +16,7 @@ interface IHeader extends Props {
   toggle: Dispatch<any>
 }
 
-export const Header: FC<IHeader> = ({ sidebarShow, toggle, ...props }: IHeader): JSX.Element => {
+export const Header: FC<IHeader> = ({ sidebarShow, toggle, ...props }) => {
   const [theme, setTheme] = useLocalStorage('dark', 'theme')
   const { language, setLanguage } = useTranslate()
   const { text } = useTranslate()
@@ -34,37 +34,37 @@ export const Header: FC<IHeader> = ({ sidebarShow, toggle, ...props }: IHeader):
         <Button16
           icon={<ToolbarIcons.Plus />}
           marginLeft={10}
-          action={() => {
+          onClick={() => {
             console.log('ToolbarIcons.Plus PRESSED')
           }}
         />
       </TitleContainer>
 
       <ToolbarContainer>
-        <ToolButton icon={<ToolbarIcons.Info />} rounded="all" selected={sidebarShow} action={toggle} />
+        <ToolButton icon={<ToolbarIcons.Info />} rounded="all" selected={sidebarShow} onClick={toggle} />
         <ToolButton
           icon={<ToolbarIcons.Moon />}
           rounded="left"
           selected={theme === 'dark'}
-          action={() => setTheme('dark')}
+          onClick={() => setTheme('dark')}
         />
         <ToolButton
           icon={<ToolbarIcons.Sun />}
           rounded="right"
           selected={theme === 'light'}
-          action={() => setTheme('light')}
+          onClick={() => setTheme('light')}
         />
         <ToolButton
           icon={<ToolbarIcons.LangEn />}
           rounded="left"
           selected={language === 'en'}
-          action={() => setLanguage('en')}
+          onClick={() => setLanguage('en')}
         />
         <ToolButton
           icon={<ToolbarIcons.LangRu />}
           rounded="right"
           selected={language === 'ru'}
-          action={() => setLanguage('ru')}
+          onClick={() => setLanguage('ru')}
         />
       </ToolbarContainer>
     </div>
