@@ -1,6 +1,5 @@
-import { Route, Switch } from 'react-router-dom'
+import { Route, Routes, Navigate } from 'react-router-dom'
 import React, { FC } from 'react'
-import { Redirect } from 'react-router'
 import { useAppSelector } from '../hooks/redux'
 import LoginPage from '../pages/LoginPage'
 import ProjectsPage from '../pages/ProjectsPage'
@@ -12,30 +11,29 @@ export enum RouteNames {
 
 interface IRoute {
   path: string
-  component: React.ComponentType
-  exact?: boolean
+  element: JSX.Element
 }
 
-const publicRoutes: IRoute[] = [{ path: RouteNames.LOGIN, exact: true, component: LoginPage }]
-const privateRoutes: IRoute[] = [{ path: RouteNames.PROJECTS, exact: true, component: ProjectsPage }]
+const publicRoutes: IRoute[] = [{ path: RouteNames.LOGIN, element: <LoginPage /> }]
+const privateRoutes: IRoute[] = [{ path: RouteNames.PROJECTS, element: <ProjectsPage /> }]
 
 const AppRouter: FC = () => {
   const authUser = useAppSelector(state => state.auth.authUser)
 
   return authUser && authUser.token ? (
-    <Switch>
+    <Routes>
       {privateRoutes.map(route => (
-        <Route exact={route.exact} path={route.path} component={route.component} key={route.path} />
+        <Route path={route.path} element={route.element} key={route.path} />
       ))}
-      <Redirect to={RouteNames.PROJECTS} />
-    </Switch>
+      <Route path="/auth/login" element={<Navigate replace to={RouteNames.PROJECTS} />} />
+    </Routes>
   ) : (
-    <Switch>
+    <Routes>
       {publicRoutes.map(route => (
-        <Route exact={route.exact} path={route.path} component={route.component} key={route.path} />
+        <Route path={route.path} element={route.element} key={route.path} />
       ))}
-      <Redirect to={RouteNames.LOGIN} />
-    </Switch>
+      <Route path="/*" element={<Navigate replace to={RouteNames.LOGIN} />} />
+    </Routes>
   )
 }
 export default AppRouter

@@ -6,6 +6,7 @@ import * as SideIcons from '../../assets/icons/menubar-icons'
 import { useTranslate } from '../../hooks/useTranslate'
 import { useGetAllProjectsQuery } from '../../services/projectsApi'
 import Loader from '../ui/Loader'
+import { quartersFilter } from '../../tools/quarter-filter'
 
 interface Props {
   isMenubarExpanded: boolean
@@ -19,6 +20,14 @@ export const MainMenu: FC<Props> = ({ isMenubarExpanded }) => {
     {},
     { pollingInterval: 50000 }
   )
+
+  const quarterData = quartersFilter(projects)
+
+  const quarterMenu = quarterData.map(item => (
+    <div key={item.quarter}>
+      {item.quarter} {item.count}
+    </div>
+  ))
 
   const handleMenuItemClick = (name: string) => {
     setSelectedMenuItem(name)
@@ -66,6 +75,7 @@ export const MainMenu: FC<Props> = ({ isMenubarExpanded }) => {
         isSelected={selectedMenuItem === text.menu.byDate}
         isMenubarExpanded={isMenubarExpanded}
       />
+      {quarterMenu}
     </>
   )
 }

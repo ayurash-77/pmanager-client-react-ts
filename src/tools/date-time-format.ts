@@ -1,5 +1,13 @@
 import { format, parseISO } from 'date-fns'
 
 export function toDateStr(date: Date): string {
-  return date ? format(parseISO(date.toString()), 'yyyy.MM.dd HH-mm') : '---'
+  return date ? format(parseISO(date.toString()), 'yyyy.MM.dd') : '---'
+}
+
+export function toYearStr(date: Date): string | null {
+  return date ? format(parseISO(date.toString()), 'yyyy') : null
+}
+
+export function toQuarterStr(date: Date): string | null {
+  return date ? format(parseISO(date.toString()), 'yyyy-Q') : null
 }
