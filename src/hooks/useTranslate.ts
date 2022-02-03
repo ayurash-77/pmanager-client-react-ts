@@ -18,7 +18,7 @@ export function useTranslate(): {
 } {
   const { i18n } = useTranslation()
   const setLanguage = (code: string) => {
-    i18n.changeLanguage(code).then(() => console.log('Lang changed to', code))
+    i18n.changeLanguage(code).then()
   }
   const language = i18n.languages[0]
   const text = translations[i18n.languages[0]]

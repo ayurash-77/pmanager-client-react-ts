@@ -62,7 +62,7 @@ const Count: StyledComponent<any, any> = styled.div<Props>`
 `
 
 export const MenuItem: FC<PropsMenuItem> = ({ ...props }) => (
-  <MenuItemContainer isSelected={props.isSelected} onClick={props.onClick}>
+  <MenuItemContainer isSelected={props.isSelected} {...props}>
     <Icon>{props.icon}</Icon>
     <Text isMenubarExpanded={props.isMenubarExpanded}>{props.name}</Text>
     <Count isMenubarExpanded={props.isMenubarExpanded}>{props.count}</Count>
