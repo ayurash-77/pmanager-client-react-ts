@@ -1,81 +1,51 @@
 import { FC, useState } from 'react'
-import { MenuItem } from './MenuItem'
+import { IMenuItem, MenuItem } from './MenuItem'
 
 import * as SideIcons from '../../assets/icons/menubar-icons'
 
 import { useTranslate } from '../../hooks/useTranslate'
-import { useGetAllProjectsQuery } from '../../services/projectsApi'
+import { useGetAllProjectsQuery } from '../../store/api/projects.api'
 import Loader from '../ui/Loader'
-import { quartersFilter } from '../../tools/quarter-filter'
+import { QuartersMenu } from './QuartersMenu'
+import { setFiler } from '../../store/reducers/projects.reducer'
+import { useAppDispatch } from '../../hooks/redux'
 
-interface Props {
-  isMenubarExpanded: boolean
-}
-
-export const MainMenu: FC<Props> = ({ isMenubarExpanded }) => {
+export const MainMenu: FC<Partial<IMenuItem>> = props => {
   const { text } = useTranslate()
-  const [selectedMenuItem, setSelectedMenuItem] = useState<string>(text.menu.allProjects)
+  const [selectedMenuItem, setSelectedMenuItem] = useState(0)
 
-  const { data: projects = [], isLoading: isLoadingProjects } = useGetAllProjectsQuery(
-    {},
-    { pollingInterval: 50000 }
-  )
+  const { data: projects = [], isLoading: isLoadingProjects } = useGetAllProjectsQuery({})
 
-  const quarterData = quartersFilter(projects)
+  const dispatch = useAppDispatch()
 
-  const quarterMenu = quarterData.map(item => (
-    <div key={item.quarter}>
-      {item.quarter} {item.count}
-    </div>
-  ))
-
-  const handleMenuItemClick = (name: string) => {
-    setSelectedMenuItem(name)
+  const handleMenuItemClick = index => {
+    setSelectedMenuItem(index)
+    dispatch(setFiler(index === 4))
   }
+  const projectsCount = isLoadingProjects ? <Loader size={16} translateX={4} /> : projects.length
 
+  const mainMenuButtons: IMenuItem[] = [
+    { icon: <SideIcons.Home />, name: text.menu.allProjects, count: projectsCount },
+    { icon: <SideIcons.Star />, name: text.menu.favorites },
+    { icon: <SideIcons.Update />, name: text.menu.lastActivity },
+    { icon: <SideIcons.Clock />, name: text.menu.lastAdded },
+    { icon: <SideIcons.Calendar />, name: text.menu.quarters, count: projectsCount },
+  ]
   return (
-    <>
-      <MenuItem
-        onClick={() => handleMenuItemClick(text.menu.allProjects)}
-        icon={<SideIcons.Home />}
-        name={text.menu.allProjects}
-        count={isLoadingProjects ? <Loader size={16} translateX={4} /> : projects.length}
-        isSelected={selectedMenuItem === text.menu.allProjects}
-        isMenubarExpanded={isMenubarExpanded}
-      />
-      <MenuItem
-        onClick={() => handleMenuItemClick(text.menu.favorites)}
-        icon={<SideIcons.Star />}
-        name={text.menu.favorites}
-        count={5}
-        isSelected={selectedMenuItem === text.menu.favorites}
-        isMenubarExpanded={isMenubarExpanded}
-      />
-      <MenuItem
-        onClick={() => handleMenuItemClick(text.menu.lastActivity)}
-        icon={<SideIcons.Update />}
-        name={text.menu.lastActivity}
-        count={5}
-        isSelected={selectedMenuItem === text.menu.lastActivity}
-        isMenubarExpanded={isMenubarExpanded}
-      />
-      <MenuItem
-        onClick={() => handleMenuItemClick(text.menu.lastAdded)}
-        icon={<SideIcons.Clock />}
-        name={text.menu.lastAdded}
-        count={5}
-        isSelected={selectedMenuItem === text.menu.lastAdded}
-        isMenubarExpanded={isMenubarExpanded}
-      />
-      <MenuItem
-        onClick={() => handleMenuItemClick(text.menu.byDate)}
-        icon={<SideIcons.Calendar />}
-        name={text.menu.byDate}
-        count={5}
-        isSelected={selectedMenuItem === text.menu.byDate}
-        isMenubarExpanded={isMenubarExpanded}
-      />
-      {quarterMenu}
-    </>
+    <div>
+      {mainMenuButtons.map((item, index) => (
+        <MenuItem
+          {...props}
+          key={index}
+          onClick={() => handleMenuItemClick(index)}
+          name={item.name}
+          icon={item.icon}
+          count={item.count}
+          isSelected={selectedMenuItem === index}
+        />
+      ))}
+
+      <QuartersMenu isMenubarExpanded={props.isMenubarExpanded} isMenuShow={selectedMenuItem === 4} />
+    </div>
   )
 }

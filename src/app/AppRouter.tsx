@@ -6,7 +6,7 @@ import ProjectsPage from '../pages/ProjectsPage'
 
 export enum RouteNames {
   LOGIN = '/auth/login',
-  PROJECTS = '/',
+  PROJECTS = '/projects',
 }
 
 interface IRoute {
@@ -26,6 +26,7 @@ const AppRouter: FC = () => {
         <Route path={route.path} element={route.element} key={route.path} />
       ))}
       <Route path="/auth/login" element={<Navigate replace to={RouteNames.PROJECTS} />} />
+      <Route path="/" element={<Navigate replace to={RouteNames.PROJECTS} />} />
     </Routes>
   ) : (
     <Routes>

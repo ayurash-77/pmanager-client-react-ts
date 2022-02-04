@@ -25,8 +25,8 @@ interface IToolButton {
   marginRight?: any
 }
 
-const ToolButtonStyled = styled.div<IToolButton>`
-  transition: all 150ms;
+const Container = styled.div<IToolButton>`
+  transition: color 150ms;
   height: 22px;
   width: 32px;
   display: flex;
@@ -51,5 +51,5 @@ const ToolButtonStyled = styled.div<IToolButton>`
 `
 
 export const ToolButton: FC<IToolButton> = ({ ...props }) => {
-  return <ToolButtonStyled {...props}>{props.icon}</ToolButtonStyled>
+  return <Container {...props}>{props.icon}</Container>
 }

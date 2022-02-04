@@ -1,5 +1,5 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
-import { IJob } from '../interfaces/IJob'
+import { IJob } from '../../interfaces/IJob'
 import { BaseQueryFn, FetchArgs } from '@reduxjs/toolkit/dist/query/react'
 
 interface CustomError {

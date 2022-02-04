@@ -1,21 +1,25 @@
-import { DetailedHTMLProps, FC, HTMLAttributes } from 'react'
+import { FC } from 'react'
 import styled from 'styled-components'
 
-interface Props extends DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLDivElement> {
+interface ISidebar {
   sidebarShow: boolean
 }
 
-const SideBarContainer = styled.div<Props>`
-  background-color: #0c0d16;
+const SideBarContainer = styled.div<ISidebar>`
+  transition: width 250ms;
+  width: ${p => (p.sidebarShow ? '40%' : '0')};
+  z-index: 3;
+  white-space: nowrap;
+  overflow: auto;
+  overflow-x: hidden;
+  background-color: var(--navbar-bg);
 `
 
-export const Sidebar: FC<Props> = ({ sidebarShow, ...props }): JSX.Element => {
+export const Sidebar: FC<ISidebar> = props => {
   return (
-    <div {...props}>
-      <SideBarContainer sidebarShow={sidebarShow}>
-        <h2>SIDEBAR SIDEBAR</h2>
-      </SideBarContainer>
-    </div>
+    <SideBarContainer {...props}>
+      <h2>SIDEBAR SIDEBAR</h2>
+    </SideBarContainer>
   )
 }
 

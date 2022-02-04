@@ -33,8 +33,7 @@ const Input = styled.input<IInput>`
   margin-bottom: 1px;
   color: ${color};
 
-  ${p => p.width && 'width:'} ${p => p.width};
-  //transition: 200ms;
+  ${p => p.width && 'width:'} ${p => p.width}
   &[type='date'] {
     text-transform: uppercase;
     padding-right: 3px;

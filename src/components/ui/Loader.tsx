@@ -19,7 +19,6 @@ const Wrap = styled.div<ILoader>`
   width: ${size}px;
   height: ${size}px;
   margin-right: -${p => p.translateX}px;
-  //display: inline-block;
   overflow: hidden;
   background: none;
 `
@@ -54,7 +53,7 @@ const SpinnerDiv = styled.div<ILoader>`
   }
 `
 
-const Loader: FC<ILoader> = ({ size = 32, border = 4, translateX = 0 }: ILoader) => (
+const Loader: FC<ILoader> = ({ size = 32, border = 4, translateX = 0 }) => (
   <Wrap size={size} translateX={translateX}>
     <Spinner className="spinner">
       <SpinnerDiv size={size} border={border} />

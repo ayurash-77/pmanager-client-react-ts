@@ -1,7 +1,7 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
-import { IProject } from '../interfaces/IProject'
+import { IProject } from '../../interfaces/IProject'
 import { BaseQueryFn, FetchArgs } from '@reduxjs/toolkit/dist/query/react'
-import { RootState } from '../store/store'
+import { RootState } from '../store'
 
 interface CustomError {
   data: { message: [] | string }

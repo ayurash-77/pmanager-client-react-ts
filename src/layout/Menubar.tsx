@@ -11,29 +11,27 @@ interface IMenubar extends Props {
 }
 
 const Container = styled.div<Props>`
-  transition: all 250ms;
+  transition: 250ms;
   width: ${p => (p.isMenubarExpanded ? 'var(--sidebar-width-max)' : 'var(--sidebar-width-min)')};
   min-width: ${p => (p.isMenubarExpanded ? 'var(--sidebar-width-max)' : 'var(--sidebar-width-min)')};
   padding: 10px;
-  display: flex;
-  height: 100vh;
+  display: grid;
   flex-direction: column;
-
-  .vSeparator {
-    height: 100%;
-  }
+  grid-template-rows: auto auto 1fr;
+  height: 100%;
+  z-index: 3;
+  background-color: var(--navbar-bg);
 `
 
 const ToggleContainer = styled.div<Props>`
   transition: 200ms;
-  align-self: center;
-  height: 30px;
+  height: 20px;
   width: 100%;
-  margin-top: 10px;
   display: flex;
   justify-content: center;
   align-items: center;
   z-index: 3;
+  margin-top: 4px;
   opacity: 0.2;
 
   &:after {
@@ -43,7 +41,7 @@ const ToggleContainer = styled.div<Props>`
     width: ${p => (p.isMenubarExpanded ? '72px' : '32px')};
     position: absolute;
     border-radius: 4px;
-    margin-top: -2px;
+
     background: var(--fg-normal);
   }
 
@@ -61,14 +59,11 @@ const ToggleContainer = styled.div<Props>`
 
 export const Menubar: FC<IMenubar> = ({ isMenubarExpanded, toggle, children, ...props }: IMenubar) => {
   return (
-    <div {...props}>
-      <Container isMenubarExpanded={isMenubarExpanded}>
-        {children}
-        <ToggleContainer isMenubarExpanded={isMenubarExpanded} onClick={toggle} />
-        <div className={'vSeparator'} />
-        <BottomMenu isMenubarExpanded={isMenubarExpanded} />
-      </Container>
-    </div>
+    <Container isMenubarExpanded={isMenubarExpanded}>
+      {children}
+      <ToggleContainer isMenubarExpanded={isMenubarExpanded} onClick={toggle} />
+      <BottomMenu isMenubarExpanded={isMenubarExpanded} />
+    </Container>
   )
 }
 

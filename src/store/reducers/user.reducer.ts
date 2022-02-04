@@ -1,11 +1,11 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
-import { IUser } from '../interfaces/IUser'
+import { IUser } from '../../interfaces/IUser'
 
-interface IAuth {
+interface IInitialState {
   authUser: IUser
 }
 
-const initialState: IAuth = {
+const initialState: IInitialState = {
   authUser: JSON.parse(localStorage.getItem('authUser')),
 }
 

@@ -1,19 +1,16 @@
 import styled from 'styled-components'
-import { Dispatch, FC, ReactElement } from 'react'
+import { FC } from 'react'
 
-interface Props {
-  isSelected?: boolean
-  isMenubarExpanded: boolean
-}
-
-interface PropsMenuItem extends Props {
-  onClick: Dispatch<any>
+export interface IMenuItem {
+  icon: JSX.Element
   name: string
-  icon: ReactElement
-  count?: number | ReactElement
+  count?: number | JSX.Element
+  onClick?: () => void
+  isSelected?: boolean
+  isMenubarExpanded?: boolean
 }
 
-const MenuItemContainer = styled.div<Props>`
+const MenuItemContainer = styled.div<IMenuItem>`
   transition: color 200ms;
   height: 32px;
   min-height: 32px;
@@ -43,7 +40,7 @@ const Icon = styled.div`
   height: 24px;
 `
 
-const Text = styled.span<Props>`
+const Text = styled.span<IMenuItem>`
   transition: opacity 250ms, margin-left 250ms;
   font-weight: 500;
   margin-left: ${p => (p.isMenubarExpanded ? '6px' : '0')};
@@ -53,14 +50,15 @@ const Text = styled.span<Props>`
   z-index: 0;
 `
 
-const Count = styled.div<Props>`
+const Count = styled.div<IMenuItem>`
   transition: opacity 250ms;
   font-weight: 500;
   margin-left: auto;
   opacity: ${p => (p.isMenubarExpanded ? '1' : '0')};
+  width: ${p => (p.isMenubarExpanded ? 'auto' : '0')};
 `
 
-export const MenuItem: FC<PropsMenuItem> = ({ ...props }) => (
+export const MenuItem: FC<IMenuItem> = ({ ...props }) => (
   <MenuItemContainer {...props}>
     <Icon>{props.icon}</Icon>
     <Text {...props}>{props.name}</Text>

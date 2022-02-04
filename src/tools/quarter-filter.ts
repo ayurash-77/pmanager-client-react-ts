@@ -1,7 +1,7 @@
 import { IProject } from '../interfaces/IProject'
 import { toQuarterStr } from './date-time-format'
 
-interface IQuarterFilter {
+export interface IQuarterFilter {
   quarter: string
   count: number
 }

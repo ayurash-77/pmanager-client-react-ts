@@ -9,7 +9,7 @@ const gapRow = p => p.gapRow || 4
 const marginTop = p => p.marginTop || 0
 const marginBottom = p => p.marginBottom || 0
 const textAlign = p => p.textAlign || 'left'
-const align = p => (p.align === 'left' ? 'start' : 'end')
+const align = p => p.align
 
 const height = p => p.height || '100%'
 const vAlign = props => (props.vAlign ? props.vAlign : 'flex-start')
@@ -88,12 +88,10 @@ export const ToolbarContainer = styled.div<IToolbarContainer>`
 
 export const TitleContainer = styled.div`
   font-size: var(--font-size-normal);
-  //text-transform: capitalize;
+  text-transform: capitalize;
   white-space: nowrap;
   font-weight: 500;
   display: flex;
   align-items: center;
   text-wrap: none;
-  //height: 100%;
-  //position: relative;
 `

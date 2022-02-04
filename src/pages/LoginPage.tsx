@@ -8,9 +8,9 @@ import { useLocalStorage } from '../hooks/useLocalStorage'
 import Loader from '../components/ui/Loader'
 import { useTranslate } from '../hooks/useTranslate'
 
-import { useLoginMutation } from '../services/authApi'
+import { useLoginMutation } from '../store/api/auth.api'
 import { useAppDispatch } from '../hooks/redux'
-import { userSlice } from '../store/userSlice'
+import { userSlice } from '../store/reducers/user.reducer'
 import * as ToolbarIcons from '../assets/icons/toolbar-icons'
 import { ErrorList } from '../components/errors/ErrorList'
 

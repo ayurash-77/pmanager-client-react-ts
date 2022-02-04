@@ -20,8 +20,8 @@
 
   /* Typography */
   --ff-main: 'Roboto', DIN_REG, sans-serif, 'Segoe UI', 'Ubuntu', 'Helvetica Neue';
-  --ff-med: 'Roboto', DIN_REG, sans-serif, 'Segoe UI', 'Ubuntu', 'Helvetica Neue';
-  --ff-bold: 'Roboto', DIN_REG, sans-serif, 'Segoe UI', 'Ubuntu', 'Helvetica Neue';
+  --ff-btn: 'Segoe UI', 'Ubuntu', 'Helvetica Neue';
+  --ff-icon: DIN_REG, 'Segoe UI', sans-serif, 'Helvetica Neue';
   --fs-normal: 13px;
   --fs-small1: 11px;
   --fs-small2: 9px;
@@ -234,7 +234,7 @@ button {
   /*transition: all 200ms;*/
   text-transform: uppercase;
   font-size: 12px;
-  font-family: var(--ff-med);
+  font-family: var(--ff-btn);
   height: 22px;
   min-width: 32px;
   color: var(--btn-fg-normal);
@@ -267,9 +267,9 @@ div.hSpace, .hSpace { width: 10px; }
 div.vSpace, .vSpace { height: 10px; }
 
 .toolButtonTxt {
-  font-family: var(--ff-bold);
-  font-weight: 500;
-  font-size: 8.5pt;
+  font-family: var(--ff-btn);
+  font-weight: var(--fw-bold);
+  font-size: 11px;
   display: flex;
   flex-wrap: nowrap;
   text-transform: uppercase

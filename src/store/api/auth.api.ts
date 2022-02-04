@@ -1,6 +1,6 @@
 import { BaseQueryFn, createApi, FetchArgs, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
-import { IUser } from '../interfaces/IUser'
-import { IUserAuth } from '../interfaces/IUserAuth'
+import { IUser } from '../../interfaces/IUser'
+import { IUserAuth } from '../../interfaces/IUserAuth'
 
 export interface CustomError {
   data: { message: [] | string }

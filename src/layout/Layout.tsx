@@ -4,14 +4,31 @@ import { Footer } from './Footer'
 import { Header } from './Header'
 import { Sidebar } from './Sidebar'
 import { MainMenu } from '../components/menubar/MainMenu'
-import { FunctionComponent, ReactNode } from 'react'
-import { LayoutContainer } from './Layout.styles'
+import { FC, FunctionComponent, ReactNode } from 'react'
+import styled from 'styled-components'
 
-interface LayoutProps {
+interface ILayout {
   children: ReactNode
 }
 
-const Layout = ({ children }: LayoutProps): JSX.Element => {
+const Container = styled.div`
+  transition: color 250ms;
+  display: flex;
+  width: 100vw;
+  .mainbar {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+  }
+  .body {
+    z-index: 1;
+    padding: 10px;
+    height: 100%;
+    overflow: auto;
+  }
+`
+
+const Layout: FC<ILayout> = ({ children }) => {
   const [isMenubarExpanded, setValue] = useLocalStorage(true, 'isMenubarExpanded')
   const [sidebarShow, setSidebarShow] = useLocalStorage(true, 'sidebarShow')
   const toggleMenubarExpandHelper = () => {
@@ -22,19 +39,19 @@ const Layout = ({ children }: LayoutProps): JSX.Element => {
   }
 
   return (
-    <LayoutContainer sidebarShow={sidebarShow}>
-      <Menubar toggle={toggleMenubarExpandHelper} isMenubarExpanded={isMenubarExpanded} className="menubar">
+    <Container>
+      <Menubar toggle={toggleMenubarExpandHelper} isMenubarExpanded={isMenubarExpanded}>
         <MainMenu isMenubarExpanded={isMenubarExpanded} />
       </Menubar>
 
       <div className={'mainbar'}>
-        <Header sidebarShow={sidebarShow} toggle={toggleSidebarShowHelper} className={'header'} />
+        <Header sidebarShow={sidebarShow} onClick={toggleSidebarShowHelper} />
         <div className="body">{children}</div>
-        <Footer className={'footer'} />
+        <Footer />
       </div>
 
-      <Sidebar sidebarShow={sidebarShow} className={'sidebar'} />
-    </LayoutContainer>
+      <Sidebar sidebarShow={sidebarShow} />
+    </Container>
   )
 }
 

@@ -1,11 +1,14 @@
 import { CombinedState, combineReducers, configureStore } from '@reduxjs/toolkit'
-import { authApi } from '../services/authApi'
-import { jobsApi } from '../services/jobsApi'
-import { projectsApi } from '../services/projectsApi'
-import userReducer from './userSlice'
+import { authApi } from './api/auth.api'
+import { jobsApi } from './api/jobs.api'
+import { projectsApi } from './api/projects.api'
+import { userSlice } from './reducers/user.reducer'
+import { projectsSlice } from './reducers/projects.reducer'
 
 const rootReducer = combineReducers({
-  auth: userReducer,
+  auth: userSlice.reducer,
+  projects: projectsSlice.reducer,
+
   [authApi.reducerPath]: authApi.reducer,
   [projectsApi.reducerPath]: projectsApi.reducer,
   [jobsApi.reducerPath]: jobsApi.reducer,
