@@ -4,13 +4,17 @@ import { jobsApi } from './api/jobs.api'
 import { projectsApi } from './api/projects.api'
 import { userSlice } from './reducers/user.reducer'
 import { projectsSlice } from './reducers/projects.reducer'
+import { briefsApi } from './api/briefs.api'
+import { uiSlice } from './reducers/ui.reducer'
 
 const rootReducer = combineReducers({
+  ui: uiSlice.reducer,
   auth: userSlice.reducer,
   projects: projectsSlice.reducer,
 
   [authApi.reducerPath]: authApi.reducer,
   [projectsApi.reducerPath]: projectsApi.reducer,
+  [briefsApi.reducerPath]: briefsApi.reducer,
   [jobsApi.reducerPath]: jobsApi.reducer,
 })
 
@@ -21,6 +25,7 @@ export const setupStore: CombinedState<any> = () => {
       getDefaultMiddleware()
         .concat(authApi.middleware)
         .concat(projectsApi.middleware)
+        .concat(briefsApi.middleware)
         .concat(jobsApi.middleware),
   })
 }

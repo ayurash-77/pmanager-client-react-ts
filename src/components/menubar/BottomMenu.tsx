@@ -5,7 +5,8 @@ import * as SideIcons from '../../assets/icons/menubar-icons'
 
 import { useTranslate } from '../../hooks/useTranslate'
 import { useAppDispatch, useAppSelector } from '../../hooks/redux'
-import { userSlice } from '../../store/reducers/user.reducer'
+import { logout } from '../../store/reducers/user.reducer'
+import { setQuarterFilter } from '../../store/reducers/projects.reducer'
 import styled from 'styled-components'
 
 const Container = styled.div`
@@ -18,10 +19,11 @@ const Container = styled.div`
 export const BottomMenu: FC<Pick<IMenuItem, 'isMenubarExpanded'>> = props => {
   const { text } = useTranslate()
   const authUser = useAppSelector(state => state.auth.authUser)
-  const { logout } = userSlice.actions
+  const { quarterFilter } = useAppSelector(state => state.projects)
   const dispatch = useAppDispatch()
 
   const handleLogout = () => {
+    dispatch(setQuarterFilter({ ...quarterFilter, isActive: false }))
     dispatch(logout())
   }
 

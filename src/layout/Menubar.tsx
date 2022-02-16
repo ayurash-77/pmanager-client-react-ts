@@ -1,6 +1,7 @@
 import { DetailedHTMLProps, Dispatch, FC, HTMLAttributes } from 'react'
 import styled from 'styled-components'
 import { BottomMenu } from '../components/menubar/BottomMenu'
+import { appColors } from '../app/App.colors'
 
 interface Props extends DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLDivElement> {
   isMenubarExpanded: boolean
@@ -20,7 +21,7 @@ const Container = styled.div<Props>`
   grid-template-rows: auto auto 1fr;
   height: 100%;
   z-index: 3;
-  background-color: var(--navbar-bg);
+  background-color: ${appColors.menubar.BG};
 `
 
 const ToggleContainer = styled.div<Props>`
@@ -38,20 +39,20 @@ const ToggleContainer = styled.div<Props>`
     transition: width 200ms;
     content: '';
     height: 4px;
-    width: ${p => (p.isMenubarExpanded ? '72px' : '32px')};
+    width: ${p => (p.isMenubarExpanded ? '70px' : '20px')};
     position: absolute;
     border-radius: 4px;
 
-    background: var(--fg-normal);
+    background: ${appColors.main.FG};
   }
 
   &:active {
-    color: var(--navbar-fg-selected);
+    color: ${appColors.menubar.FG_SELECTED};
     opacity: 1;
   }
 
   &:hover {
-    color: var(--navbar-fg-selected);
+    color: ${appColors.menubar.FG_SELECTED};
     cursor: pointer;
     opacity: 0.5;
   }

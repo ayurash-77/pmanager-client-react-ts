@@ -26,6 +26,7 @@ const Wrap = styled.div<ILoader>`
 const Spinner = styled.div`
   width: 100%;
   height: 100%;
+  z-index: 20;
   position: relative;
   transform: translateZ(0) scale(0.5);
   backface-visibility: hidden;

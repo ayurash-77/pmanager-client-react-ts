@@ -2,6 +2,7 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 import { IProject } from '../../interfaces/IProject'
 import { BaseQueryFn, FetchArgs } from '@reduxjs/toolkit/dist/query/react'
 import { RootState } from '../store'
+import { IProjectData } from '../../modal/NewProjectModal'
 
 interface CustomError {
   data: { message: [] | string }
@@ -13,6 +14,8 @@ interface IParams {
 
 export const projectsApi = createApi({
   reducerPath: 'projectsApi',
+  refetchOnFocus: true,
+  tagTypes: ['projects', 'project'],
   baseQuery: fetchBaseQuery({
     baseUrl: '/',
     prepareHeaders: (headers, { getState }) => {
@@ -32,15 +35,37 @@ export const projectsApi = createApi({
           params: { offset, limit },
         }
       },
+      providesTags: result => (result ? result.map(({ id }) => ({ type: 'projects', id })) : []),
     }),
-    createProject: build.mutation<IProject, IProject>({
+    getProject: build.query<IProject, number>({
+      query: id => ({
+        url: `projects/${id}`,
+        method: 'GET',
+      }),
+      providesTags: (result, error, id) => [{ type: 'project', id }],
+    }),
+    createProject: build.mutation<IProject, IProjectData>({
       query: project => ({
         url: 'projects',
         method: 'POST',
         body: project,
       }),
+      invalidatesTags: ['projects'],
+    }),
+    deleteProject: build.mutation<IProject, number>({
+      query: id => ({
+        url: `projects/${id}`,
+        method: 'DELETE',
+      }),
+      invalidatesTags: ['projects'],
     }),
   }),
 })
 
-export const { useGetAllProjectsQuery } = projectsApi
+export const {
+  useGetAllProjectsQuery,
+  useGetProjectQuery,
+  useLazyGetProjectQuery,
+  useCreateProjectMutation,
+  useDeleteProjectMutation,
+} = projectsApi

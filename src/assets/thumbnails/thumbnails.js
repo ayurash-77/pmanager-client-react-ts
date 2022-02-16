@@ -1,4 +1,4 @@
-import React from 'react';
+import React from 'react'
 
 export const Clapper = () => (
   <svg width="68" height="59" viewBox="0 0 68 59" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
@@ -15,4 +15,4 @@ export const Clapper = () => (
       />
     </g>
   </svg>
-);
+)

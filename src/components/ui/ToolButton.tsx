@@ -1,7 +1,8 @@
 import styled from 'styled-components'
 import { FC } from 'react'
+import { appColors } from '../../app/App.colors'
 
-const marginLeft = p => (p.rounded === 'left' || p.rounded === 'all' ? '9px' : '1px')
+const marginLeft = p => (p.marginLeft || p.rounded === 'left' || p.rounded === 'all' ? '9px' : '1px')
 const marginRight = p => (p.marginRight ? '9px' : '0')
 const borderRadius = p => {
   switch (p.rounded) {
@@ -20,9 +21,10 @@ interface IToolButton {
   icon: JSX.Element
   onClick: any
   selected?: boolean
-  rounded?: any
+  rounded?: 'left' | 'right' | 'none' | 'all' | null
   noBg?: boolean
   marginRight?: any
+  marginLeft?: any
 }
 
 const Container = styled.div<IToolButton>`
@@ -37,16 +39,16 @@ const Container = styled.div<IToolButton>`
   margin-right: ${marginRight};
   cursor: default;
 
-  color: ${p => (p.selected ? 'var(--btn-fg-selected)' : 'var(--btn-fg-normal)')};
-  background: ${p => (p.selected ? 'var(--btn-bg-selected)' : 'var(--btn-bg-normal)')};
+  color: ${p => (p.selected ? appColors.buttons.FG_SELECTED : appColors.buttons.FG)};
+  background: ${p => (p.selected ? appColors.buttons.BG_SELECTED : appColors.buttons.BG)};
 
   &:hover {
-    ${p => (p.selected ? '' : 'color: var(--btn-fg-hover);')}
+    color: ${p => (p.selected ? '' : appColors.buttons.FG_HOVER)};
   }
 
   &:active {
-    ${p => (p.selected ? '' : 'color: var(--btn-fg-pressed);')}
-    ${p => (p.selected ? '' : 'background: var(--btn-bg-pressed);')}
+    color: ${p => (p.selected ? '' : appColors.buttons.FG_PRESSED)};
+    background: ${p => (p.selected ? '' : appColors.buttons.BG_PRESSED)};
   }
 `
 

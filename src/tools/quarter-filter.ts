@@ -1,11 +1,11 @@
 import { IProject } from '../interfaces/IProject'
 import { toQuarterStr } from './date-time-format'
 
-export interface IQuarterFilter {
+export interface IQuarterItem {
   quarter: string
   count: number
 }
-export function quartersFilter(projects: IProject[]): IQuarterFilter[] {
+export function quartersFilter(projects: IProject[]): IQuarterItem[] {
   const res = {}
 
   projects.forEach(item => {
@@ -15,6 +15,6 @@ export function quartersFilter(projects: IProject[]): IQuarterFilter[] {
     }
     res[quarter].count += 1
   })
-  const itemsData: IQuarterFilter[] = Object.values(res)
+  const itemsData: IQuarterItem[] = Object.values(res)
   return itemsData.sort((a, b) => (a.quarter > b.quarter ? -1 : 1))
 }

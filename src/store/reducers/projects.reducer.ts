@@ -1,35 +1,40 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
-import { IQuarterFilter, quartersFilter } from '../../tools/quarter-filter'
+import { IQuarterItem, quartersFilter } from '../../tools/quarter-filter'
 import { IProject } from '../../interfaces/IProject'
 
+interface IQuarterFilter {
+  isActive: boolean
+  quarter: string
+}
+
 interface IInitialState {
-  quarterFilterActive: boolean
-  quarterData: IQuarterFilter[] | null
-  quarterFilter: string | null
+  quarterData: IQuarterItem[] | null
+  quarterFilter: IQuarterFilter
+  selectedId: number | null
 }
 
 const initialState: IInitialState = {
-  quarterFilterActive: false,
   quarterData: [],
-  quarterFilter: null,
+  quarterFilter: { isActive: false, quarter: null },
+  selectedId: null,
 }
 
 export const projectsSlice = createSlice({
   name: 'projects',
   initialState,
   reducers: {
-    setFiler(state, action: PayloadAction<boolean>) {
-      state.quarterFilterActive = action.payload
-    },
     setQuarterData(state, action: PayloadAction<IProject[]>) {
       state.quarterData = quartersFilter(action.payload)
-      state.quarterFilter = state.quarterData[0].quarter
+      state.quarterFilter.quarter = state.quarterData[0].quarter
     },
-    setQuarterFilter(state, action: PayloadAction<string>) {
+    setQuarterFilter(state, action: PayloadAction<IQuarterFilter>) {
       state.quarterFilter = action.payload
+    },
+    setSelectedId(state, action: PayloadAction<number>) {
+      state.selectedId = action.payload
     },
   },
 })
 
-export const { setQuarterFilter, setQuarterData, setFiler } = projectsSlice.actions
+export const { setQuarterFilter, setQuarterData, setSelectedId } = projectsSlice.actions
 export default projectsSlice.reducer

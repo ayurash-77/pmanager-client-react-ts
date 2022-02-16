@@ -4,8 +4,6 @@
     "login": "Login",
     "settings": "Settings",
     "userProfile": "User profile",
-    "newProject": "New project",
-    "addBrief": "Add brief",
     "mainSettings": "Main settings",
     "appearance": "Appearance",
     "language": "Language",
@@ -13,17 +11,22 @@
     "liveSearch": "live search...",
     "workRoot": "Root work path"
   },
-  "buttons": {
+  "actions": {
     "login": "Login",
     "enter": "Enter",
     "ok": "Ok",
     "create": "Create",
+    "createProject": "Create project",
+    "createNewProject": "Create new project",
     "save": "Save",
     "cancel": "Cancel",
     "close": "Close",
     "delete": "Delete",
+    "deleteBrief": "Delete brief",
+    "deleteProject": "Delete project",
     "browse": "Browse",
-    "add": "Add"
+    "add": "Add",
+    "addBrief": "Add brief"
   },
   "menu": {
     "favorites": "Favorites",
@@ -53,9 +56,11 @@
     "agency": "Agency",
     "production": "Production",
     "postProduction": "Post Production",
-    "created": "Created",
-    "startDate": "Start date",
+    "createdAt": "Created",
+    "updatedAt": "Updated",
+    "startAt": "Start",
     "deadline": "Deadline",
+    "doneAt": "Done",
     "manager": "Manager",
     "owner": "Owner",
     "status": "Status",
@@ -76,7 +81,14 @@
   },
   "brief": {
     "selectedFile": "Selected file",
-    "title": "Title",
-    "category": "Category"
+    "name": "Name",
+    "originalMame": "Original name",
+    "category": "Category",
+    "approved": "Approved",
+    "notApproved": "Not approved",
+    "createdAt": "Created",
+    "createdBy": "Created by",
+    "updatedAt": "Updated",
+    "updatedBy": "Updated by"
   }
 }

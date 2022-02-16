@@ -1,5 +1,6 @@
 import styled from 'styled-components'
 import { FC } from 'react'
+import { appColors } from '../../app/App.colors'
 
 interface Prop {
   onClick?: () => void
@@ -18,20 +19,17 @@ const MenuItem = styled.div<Prop>`
   align-items: center;
   padding: 3px 3px;
   border-radius: 3px;
-  color: ${p => (p?.isSelected ? 'var(--navbar-fg-hover)' : 'var(--fg-normal)')};
+  color: ${p => (p?.isSelected ? appColors.menubar.FG_HOVER : appColors.main.FG)};
   overflow: hidden;
 
-  &:nth-child(2n) {
-    background: ${p => (p.isSelected ? ' var(--navbar-submenu-selected)' : 'var(--navbar-submenu-bg2);')};
-  }
-  background: ${p => (p.isSelected ? ' var(--navbar-submenu-selected)' : 'var(--navbar-submenu-bg1);')};
+  background: ${p => (p.isSelected ? appColors.menubar.SUBMENU_BG_SELECTED : appColors.menubar.SUBMENU_BG1)};
 
   &:hover {
-    ${p => !p.isSelected && 'color: var(--navbar-fg-hover)'}
+    color: ${p => !p.isSelected && appColors.menubar.FG_HOVER};
   }
 
   &:active {
-    background: var(--navbar-submenu-selected);
+    background: ${appColors.menubar.SUBMENU_BG_SELECTED};
   }
 `
 

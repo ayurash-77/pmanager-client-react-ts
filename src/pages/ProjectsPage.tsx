@@ -1,26 +1,37 @@
-import { FC, useEffect } from 'react'
+import { FC, useEffect, useState } from 'react'
 import { withLayout } from '../layout/Layout'
 import Loader from '../components/ui/Loader'
 import { ErrorList } from '../components/errors/ErrorList'
 import { useGetAllProjectsQuery } from '../store/api/projects.api'
-import { toDateStr, toQuarterStr } from '../tools/date-time-format'
+import { toQuarterStr } from '../tools/date-time-format'
 import { useAppDispatch, useAppSelector } from '../hooks/redux'
-import { setQuarterData } from '../store/reducers/projects.reducer'
+import { setQuarterData, setSelectedId } from '../store/reducers/projects.reducer'
+import ProjectCard from '../components/project-card/ProjectCard'
+import styled from 'styled-components'
+
+const ContainerGrid = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  grid-gap: 5px;
+  grid-template-columns: repeat(auto-fill, 160px);
+  justify-content: space-evenly;
+`
 
 const ProjectsPage: FC = () => {
   const {
     data: projects = [],
     isLoading: isLoadingProjects,
     error: errorProjects,
-  } = useGetAllProjectsQuery({}, { pollingInterval: 60000 })
+  } = useGetAllProjectsQuery({}, { refetchOnFocus: true, pollingInterval: 30000 })
 
-  const { quarterFilter, quarterFilterActive } = useAppSelector(state => state.projects)
-
-  const loaderJsx = isLoadingProjects && <Loader size={32} />
-  const errors = errorProjects && 'data' in errorProjects ? errorProjects.data.message : []
-  const errorJsx = ErrorList(errors)
+  const { quarterFilter, selectedId } = useAppSelector(state => state.projects)
+  const errorJsx = ErrorList(errorProjects && 'data' in errorProjects ? errorProjects.data.message : [])
 
   const dispatch = useAppDispatch()
+
+  const onProjectClickHandler = id => {
+    dispatch(setSelectedId(selectedId === id ? null : id))
+  }
 
   useEffect(() => {
     if (projects.length > 0) {
@@ -29,28 +40,38 @@ const ProjectsPage: FC = () => {
   }, [dispatch, projects])
 
   const projectsFilteredByQuarter = projects.filter(project => {
-    return toQuarterStr(project.createdAt) === quarterFilter
+    return toQuarterStr(project.createdAt) === quarterFilter.quarter
   })
 
-  const projectsFiltered = quarterFilterActive ? projectsFilteredByQuarter : projects
+  const projectsFiltered = quarterFilter.isActive ? projectsFilteredByQuarter : projects
+
+  const viewFilter = {
+    brand: true,
+    client: true,
+    agency: true,
+    created: true,
+    startAt: true,
+    deadline: true,
+    status: true,
+    owner: true,
+    details: true,
+  }
 
   const content = projectsFiltered.map(item => (
-    <div key={item.id}>
-      <h3>
-        {item.title} id: {item.id}
-      </h3>
-      <h4>owner: {item.owner.username}</h4>
-      <div>createdAt: {toDateStr(item.createdAt)}</div>
-      <div>updatedAt: {toDateStr(item.updatedAt)}</div>
-      <div>startAt: {toDateStr(item.startAt)}</div>
-    </div>
+    <ProjectCard
+      key={item.id}
+      selected={selectedId === item.id}
+      item={item}
+      viewFilter={viewFilter}
+      onClick={() => onProjectClickHandler(item.id)}
+    />
   ))
   return (
-    <>
-      {loaderJsx}
+    <ContainerGrid>
+      {isLoadingProjects && <Loader size={64} border={8} />}
       {content}
       {errorJsx}
-    </>
+    </ContainerGrid>
   )
 }
 

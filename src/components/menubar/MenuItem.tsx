@@ -1,5 +1,7 @@
 import styled from 'styled-components'
 import { FC } from 'react'
+import { aSnapshotColor } from 'jest-snapshot/build/printSnapshot'
+import { appColors } from '../../app/App.colors'
 
 export interface IMenuItem {
   icon: JSX.Element
@@ -18,16 +20,16 @@ const MenuItemContainer = styled.div<IMenuItem>`
   align-items: center;
   border-radius: 4px;
   padding: 0 6px;
-  color: ${p => (p.isSelected ? 'var(--navbar-fg-selected)' : 'var(--fg-normal)')};
-  background: ${p => p.isSelected && 'var(--navbar-bg-selected)'};
+  color: ${p => (p.isSelected ? appColors.menubar.FG_SELECTED : appColors.main.FG)};
+  background: ${p => p.isSelected && appColors.menubar.BG_SELECTED};
 
   &:hover {
-    color: ${p => (p.isSelected ? 'var(--navbar-fg-selected)' : 'var(--navbar-fg-hover)')};
+    color: ${p => (p.isSelected ? appColors.menubar.FG_SELECTED : appColors.menubar.FG_HOVER)};
   }
 
   &:active {
-    color: var(--navbar-fg-pressed);
-    background: var(--navbar-bg-pressed);
+    color: ${appColors.menubar.FG_PRESSED};
+    background: ${appColors.menubar.BG_PRESSED};
   }
 
   cursor: default;

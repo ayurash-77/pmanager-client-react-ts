@@ -4,8 +4,6 @@
     "login": "Авторизация",
     "settings": "Настройки",
     "userProfile": "Профиль пользователя",
-    "newProject": "Новый проект",
-    "addBrief": "Добавить бриф",
     "mainSettings": "Основные настройки",
     "appearance": "Оформление",
     "language": "Язык",
@@ -13,17 +11,22 @@
     "liveSearch": "поиск...",
     "workRoot": "Папка с проектами"
   },
-  "buttons": {
+  "actions": {
     "login": "Логин",
     "enter": "Войти",
     "ok": "Oк",
     "create": "Создать",
+    "createProject": "Создать проект",
+    "createNewProject": "Создать новый проект",
     "save": "Сохранить",
     "cancel": "Отменить",
     "close": "Закрыть",
     "delete": "Удалить",
+    "deleteBrief": "Удалить бриф",
+    "deleteProject": "Удалить проект",
     "browse": "Указать",
-    "add": "Добавить"
+    "add": "Добавить",
+    "addBrief": "Добавить бриф"
   },
   "menu": {
     "favorites": "Избранное",
@@ -53,9 +56,11 @@
     "agency": "Агенство",
     "production": "Продакшн",
     "postProduction": "Пост продакшн",
-    "created": "Создан",
-    "startDate": "Старт",
+    "createdAt": "Создан",
+    "updatedAt": "Обновлен",
+    "startAt": "Старт",
     "deadline": "Дедлайн",
+    "doneAt": "Сдан",
     "manager": "Менеджер",
     "owner": "Владелец",
     "status": "Статус",
@@ -76,7 +81,14 @@
   },
   "brief": {
     "selectedFile": "Выбранный файл",
-    "title": "Название",
-    "category": "Категория"
+    "name": "Имя",
+    "originalMame": "Исходное имя",
+    "category": "Категория",
+    "approved": "Утвержден",
+    "notApproved": "Не утвержден",
+    "createdAt": "Создан",
+    "createdBy": "Кем создан",
+    "updatedAt": "Обновлен",
+    "updatedBy": "Кем обновлен"
   }
 }

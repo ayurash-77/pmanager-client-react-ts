@@ -31,6 +31,8 @@
     "@typescript-eslint/ban-types": "off",
     "react/react-in-jsx-scope": "off",
     "@typescript-eslint/no-empty-interface": [ "warn", { "allowSingleExtends": true } ]
+//    "eslint implicit-arrow-linebreak": ["error", "beside"],
+//    "eslint arrow-body-style": ["error", "as-needed"]
   },
   "settings": {
     "import/resolver": {
