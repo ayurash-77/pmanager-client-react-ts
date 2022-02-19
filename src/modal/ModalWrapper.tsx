@@ -12,14 +12,18 @@ interface IHeader {
 }
 
 export interface IModalWrapper extends IHeader {
+  uploading?: boolean
   children: ReactNode
   warning?: boolean
   isOpen: boolean
-  type: string
+  type: 'type1' | 'type2'
   size: string
   title: string
   onSubmitHandler: (e) => void
   onCancelHandler: (e) => void
+  header?: boolean
+  footer?: boolean
+  zIndex?: 1000 | 1100 | 1200
 }
 
 const Header = styled.div<IHeader>`
@@ -50,16 +54,29 @@ const Footer = styled.div`
   justify-content: flex-end;
 `
 
-export const ModalWrapper: FC<IModalWrapper> = ({ children, ...props }) => {
+export const ModalWrapper: FC<IModalWrapper> = ({
+  children,
+  header = true,
+  footer = true,
+  zIndex = 1000,
+  uploading = false,
+  ...props
+}) => {
   const { text } = useTranslate()
   const className = props.warning ? 'accentBg' : ''
   const buttons = (
     <>
-      <Button type="submit" onClick={props.onSubmitHandler} className={className} autoFocus={!props.warning}>
+      <Button
+        disabled={uploading}
+        type="submit"
+        onClick={props.onSubmitHandler}
+        className={className}
+        autoFocus={!props.warning}
+      >
         {text.actions.ok}
       </Button>
       <span style={{ marginRight: 10 }} />
-      <Button type="button" onClick={props.onCancelHandler} autoFocus={props.warning}>
+      <Button disabled={uploading} type="button" onClick={props.onCancelHandler} autoFocus={props.warning}>
         {text.actions.cancel}
       </Button>
     </>
@@ -68,40 +85,32 @@ export const ModalWrapper: FC<IModalWrapper> = ({ children, ...props }) => {
   return (
     <ReactModal
       {...props}
+      shouldCloseOnOverlayClick={!uploading}
+      shouldCloseOnEsc={!uploading}
       appElement={document.getElementById('#modal')}
       ariaHideApp={false}
       closeTimeoutMS={300}
       className={{
-        base: `content-base ${props.type} ${props.size}`,
+        base: `content-base ${props.type} ${props.size} zIndex${zIndex}`,
         afterOpen: `content-after-open-${props.type}`,
         beforeClose: `content-before-close-${props.type}`,
       }}
       overlayClassName={{
-        base: 'overlay-base',
+        base: `overlay-base zIndex${zIndex}`,
         afterOpen: 'overlay-after-open',
         beforeClose: 'overlay-before-close',
       }}
       onRequestClose={props.onCancelHandler}
     >
       <form onSubmit={props.onSubmitHandler}>
-        <Header warning={props.warning}>{props.title}</Header>
+        {header && <Header warning={props.warning}>{props.title}</Header>}
         <Body>
           <Rows padding={15}>{children}</Rows>
         </Body>
-        <Footer>{buttons}</Footer>
+        {footer && <Footer>{buttons}</Footer>}
       </form>
     </ReactModal>
   )
 }
 
 export default ModalWrapper
-
-// export const withModal = <T extends Record<string, unknown>>(Component: FunctionComponent<T>) => {
-//   return function withLayoutComponent(props: T): JSX.Element {
-//     return (
-//       <ModalWrapper>
-//         <Component {...props} />
-//       </ModalWrapper>
-//     )
-//   }
-// }

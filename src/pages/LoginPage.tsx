@@ -1,7 +1,6 @@
 import { FC, useEffect, useState } from 'react'
 import styled from 'styled-components'
 import { Grid, Rows, ToolbarContainer } from '../components/ui/Containers'
-import { InputPass, InputText } from '../components/ui/Inputs'
 import { ToolButton } from '../components/ui/ToolButton'
 import Loader from '../components/ui/Loader'
 import { useTranslate } from '../hooks/useTranslate'

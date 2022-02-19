@@ -18,8 +18,8 @@ export const Image: FC<IImage> = ({ src, alt, fallback = null, loader = <Loader 
     const imageSrc = src
     imageExists(imageSrc, function (exists) {
       if (exists) {
-        setImage(<img src={imageSrc} alt={alt} onLoad={() => setLoading(false)} />)
         setLoading(false)
+        setImage(<img src={imageSrc} alt={alt} onLoad={() => setLoading(false)} />)
       } else {
         setLoading(false)
         setImage(fallback)

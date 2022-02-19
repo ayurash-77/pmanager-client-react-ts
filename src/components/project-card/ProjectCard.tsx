@@ -24,7 +24,7 @@ interface IProjectCard extends s.IProjectCardStyled {
 }
 
 export const ProjectCard: FC<IProjectCard> = ({ ...props }) => {
-  const imageSrc = `root/${props.item.homeDir}/.pmdata/projectThumbnail.jpg`
+  const imageSrc = `http://pmanager:4000/root/${props.item.homeDir}/.pmdata/projectThumbnail.jpg`
 
   return (
     <s.Container {...props}>

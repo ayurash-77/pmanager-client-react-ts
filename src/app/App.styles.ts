@@ -31,9 +31,10 @@ export const AppStyles = createGlobalStyle`
     
     background: ${appColors.main.BG};
     --modal-overlay:    ${appColors.modal.OVERLAY};
+    
     --modal-header-bg:  ${appColors.modal.HEADER_BG};
     --modal-header-fg:  ${appColors.modal.HEADER_FG};
-    --modal-footer-bg:  ${appColors.modal.FOOTER_BG};
+    --modal-footer-bg:  ${appColors.modal.FOOTER_BG};    
   }
 
   * {

@@ -5,7 +5,6 @@ export interface ITheme {
 }
 
 const themeInLocalStorage = localStorage.getItem('darkMode')
-console.log(themeInLocalStorage)
 
 const initialState: ITheme = {
   theme: { darkMode: themeInLocalStorage ? JSON.parse(themeInLocalStorage) : true },

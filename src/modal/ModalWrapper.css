@@ -33,10 +33,13 @@
   padding: 30px;
   background: var(--modal-overlay);
   backdrop-filter: blur(6px);
-  z-index: 1000;
   opacity: 0; perspective: 1600px;
 
 }
+
+.zIndex1000 { z-index: 1000; }
+.zIndex1100 { z-index: 1100; }
+.zIndex1200 { z-index: 1200; }
 
 .overlay-after-open { opacity: 1; }
 .overlay-before-close { opacity: 0; }

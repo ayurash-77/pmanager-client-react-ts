@@ -1,6 +1,8 @@
 @import-normalize;
 
-
+:root {
+  --modal-overlay: #0d0d11AA;
+}
 
 
 

@@ -123,7 +123,7 @@ export const NewBriefModal: FC<INewBriefModal> = ({ ...props }) => {
   const onChangeCategoryHandler = e => {
     const newCategory = e.target.value
     setCategoryId(newCategory)
-    console.log(newCategory)
+    // console.log(newCategory)
     setBriefData({ ...briefData, categoryId: +newCategory })
   }
 

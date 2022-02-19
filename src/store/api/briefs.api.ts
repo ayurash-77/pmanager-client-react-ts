@@ -14,10 +14,12 @@ export const briefsApi = createApi({
   refetchOnFocus: true,
   tagTypes: ['briefs', 'brief', 'briefCategories'],
   baseQuery: fetchBaseQuery({
-    baseUrl: '/',
+    baseUrl: 'http://pmanager:4000',
     prepareHeaders: (headers, { getState }) => {
       const token = (getState() as RootState).auth.authUser.token
       if (token) headers.set('authorization', `Bearer ${token}`)
+      headers.set('Access-Control-Allow-Origin', '*')
+      headers.set('Access-Control-Allow-Methods', 'GET, POST, PUT,PATCH, DELETE, OPTIONS')
       return headers
     },
   }) as BaseQueryFn<string | FetchArgs, unknown, CustomError, {}>,

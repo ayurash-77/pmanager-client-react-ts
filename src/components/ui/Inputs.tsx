@@ -151,21 +151,26 @@ const ProjectPicContainer = styled.div<IProjectPicContainer>`
 
 interface IInputPic {
   url: string
-  isLoading: boolean
-  uploading: boolean
+  isUploading: boolean
+  isBrowse: boolean
   onClick: () => void
-  onLoad: () => void
   width: string
 }
 
 export const InputPic: FC<IInputPic> = ({ ...props }) => {
+  const { isUploading, url, isBrowse, width } = props
+  const browseBtn = (
+    <span onClick={() => props.onClick()} className="link" role="presentation">
+      browse file
+    </span>
+  )
+
   return (
     <>
-      <ProjectPicContainer width={props.width}>
-        {props.url && <Image src={props.url} loader={<Loader size={64} />} alt={'thumbnail'} />}
-        <span onClick={() => props.onClick()} className="link" role="presentation">
-          browse file
-        </span>
+      <ProjectPicContainer width={width}>
+        {isUploading && <Loader size={48} />}
+        <Image src={url} alt={'project thumbnail'} loader={null} />
+        {isBrowse && browseBtn}
       </ProjectPicContainer>
     </>
   )
