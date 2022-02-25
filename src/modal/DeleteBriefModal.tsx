@@ -1,7 +1,7 @@
 import { ModalWrapper } from './ModalWrapper'
 import { FC } from 'react'
 import { useTranslate } from '../hooks/useTranslate'
-import { Grid, Rows } from '../components/ui/Containers'
+import { Grid } from '../components/ui/Containers'
 import { ErrorList } from '../components/errors/ErrorList'
 import { IBrief } from '../interfaces/IBrief'
 import { useDeleteBriefMutation } from '../store/api/briefs.api'

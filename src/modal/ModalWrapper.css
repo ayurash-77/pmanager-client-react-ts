@@ -1,7 +1,6 @@
 .content-base {
   transition: transform 300ms ease-out;
   position: relative;
-
   outline: none;
   margin: 20px auto;
   border-radius: 6px;

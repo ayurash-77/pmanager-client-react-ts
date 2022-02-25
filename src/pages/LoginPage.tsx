@@ -1,20 +1,17 @@
 import { FC, useEffect, useState } from 'react'
 import styled from 'styled-components'
-import { Grid, Rows, ToolbarContainer } from '../components/ui/Containers'
-import { ToolButton } from '../components/ui/ToolButton'
+import { Grid } from '../components/ui/Containers'
+import { ToolButton, ToolButtonGroup, FlexRow } from '../components/ui'
 import Loader from '../components/ui/Loader'
 import { useTranslate } from '../hooks/useTranslate'
 
 import { useLoginMutation } from '../store/api/auth.api'
 import { useAppDispatch, useAppSelector } from '../hooks/redux'
-import { setAuthUser, userSlice } from '../store/reducers/user.reducer'
+import { setAuthUser } from '../store/reducers/user.reducer'
 import * as ToolbarIcons from '../assets/icons/toolbar-icons'
 import { ErrorList } from '../components/errors/ErrorList'
-import { Button } from '../components/ui/Button'
+import { FlexColumn, Button, Input } from '../components/ui'
 import { setThemeMode } from '../store/reducers/ui.reducer'
-import { appColors } from '../app/App.colors'
-import { Input } from '../components/ui/Input'
-import { IVariant } from '../components/ui/IVariant'
 import { Spacer } from '../components/ui/Spacer'
 
 const LoginPageContainer = styled.div`
@@ -25,14 +22,14 @@ const LoginPageContainer = styled.div`
   width: 100%;
   height: 100%;
   overflow: auto;
-  background: ${appColors.menubar.BG};
+  background: var(--menubar-bg);
 `
 
 const LoginContainer = styled.div`
   text-align: center;
   width: 360px;
   height: 340px;
-  background: ${appColors.main.BG};
+  background: var(--main-bg);
   box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
   border-radius: 8px;
   display: grid;
@@ -46,7 +43,6 @@ const LoginContainer = styled.div`
 `
 const HeaderContainer = styled.div`
   display: flex;
-  //margin: 10px;
   align-items: center;
   justify-content: space-between;
 `
@@ -54,7 +50,6 @@ const HeaderContainer = styled.div`
 const LoginPage: FC = () => {
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
-  const [variant, setVariant] = useState<IVariant>('normal')
 
   const [login, { data: user, isLoading, error, isError }] = useLoginMutation()
   const dispatch = useAppDispatch()
@@ -80,47 +75,48 @@ const LoginPage: FC = () => {
   const { language, setLanguage, text } = useTranslate()
 
   useEffect(() => {
+    document.body.setAttribute('darkMode', darkMode.toString())
     if (user && user.token) {
       dispatch(setAuthUser(user))
     }
-  }, [dispatch, user])
+  }, [darkMode, dispatch, user])
 
   return (
     <LoginPageContainer>
       <LoginContainer>
         <HeaderContainer>
           <h3 style={{ marginLeft: 5 }}>PManager</h3>
-          <ToolbarContainer>
-            <ToolButton
-              icon={<ToolbarIcons.LangEn />}
-              rounded="left"
-              selected={language === 'en'}
-              onClick={() => setLanguage('en')}
-            />
-            <ToolButton
-              icon={<ToolbarIcons.LangRu />}
-              rounded="right"
-              selected={language === 'ru'}
-              onClick={() => setLanguage('ru')}
-            />
-            <ToolButton
-              icon={<ToolbarIcons.Moon />}
-              rounded="left"
-              selected={darkMode}
-              onClick={() => dispatch(setThemeMode(true))}
-            />
-            <ToolButton
-              icon={<ToolbarIcons.Sun />}
-              rounded="right"
-              selected={!darkMode}
-              onClick={() => dispatch(setThemeMode(false))}
-            />
-          </ToolbarContainer>
+          <FlexRow>
+            <ToolButtonGroup>
+              <ToolButton
+                icon={<ToolbarIcons.LangEn />}
+                selected={language === 'en'}
+                onClick={() => setLanguage('en')}
+              />
+              <ToolButton
+                icon={<ToolbarIcons.LangRu />}
+                selected={language === 'ru'}
+                onClick={() => setLanguage('ru')}
+              />
+            </ToolButtonGroup>
+            <ToolButtonGroup>
+              <ToolButton
+                icon={<ToolbarIcons.Moon />}
+                selected={darkMode}
+                onClick={() => dispatch(setThemeMode(true))}
+              />
+              <ToolButton
+                icon={<ToolbarIcons.Sun />}
+                selected={!darkMode}
+                onClick={() => dispatch(setThemeMode(false))}
+              />
+            </ToolButtonGroup>
+          </FlexRow>
         </HeaderContainer>
 
-        {/* <Rows vAlign="center"> */}
-        <h2>{text.app.login} </h2>
-        {/* </Rows> */}
+        <FlexColumn vAlign="center">
+          <h2>{text.app.login} </h2>
+        </FlexColumn>
 
         <form onSubmit={onSubmitHandler}>
           <Grid cols="auto" gapRow={10}>
@@ -145,10 +141,10 @@ const LoginPage: FC = () => {
           </Grid>
         </form>
 
-        <Rows>
+        <FlexColumn>
           {loaderJsx}
           {errorJsx}
-        </Rows>
+        </FlexColumn>
       </LoginContainer>
     </LoginPageContainer>
   )

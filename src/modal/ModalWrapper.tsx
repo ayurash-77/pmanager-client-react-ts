@@ -3,16 +3,15 @@ import { FC, FunctionComponent, ReactNode } from 'react'
 import ReactModal from 'react-modal'
 import './ModalWrapper.css'
 import { useTranslate } from '../hooks/useTranslate'
-import { Rows } from '../components/ui/Containers'
 import { appColors } from '../app/App.colors'
-import { Button } from '../components/ui/Button'
+import { FlexColumn, Button } from '../components/ui'
 
 interface IHeader {
   warning?: boolean
 }
 
 export interface IModalWrapper extends IHeader {
-  uploading?: boolean
+  waiting?: boolean
   children: ReactNode
   warning?: boolean
   isOpen: boolean
@@ -25,6 +24,18 @@ export interface IModalWrapper extends IHeader {
   footer?: boolean
   zIndex?: 1000 | 1100 | 1200
 }
+
+interface IModalContainer {
+  waiting?: boolean
+}
+
+const ModalContainer = styled.div<IModalContainer>`
+  //cursor: ${p => (p.waiting ? 'pointer' : 'pointer')};
+
+  * {
+    cursor: progress !important;
+  }
+`
 
 const Header = styled.div<IHeader>`
   border-radius: 6px 6px 0 0;
@@ -59,24 +70,23 @@ export const ModalWrapper: FC<IModalWrapper> = ({
   header = true,
   footer = true,
   zIndex = 1000,
-  uploading = false,
+  waiting = false,
   ...props
 }) => {
   const { text } = useTranslate()
-  const className = props.warning ? 'accentBg' : ''
   const buttons = (
     <>
       <Button
-        disabled={uploading}
+        disabled={waiting}
         type="submit"
         onClick={props.onSubmitHandler}
-        className={className}
-        autoFocus={!props.warning}
+        variant={props.warning ? 'accent' : 'normal'}
+        // autoFocus={!props.warning}
       >
         {text.actions.ok}
       </Button>
       <span style={{ marginRight: 10 }} />
-      <Button disabled={uploading} type="button" onClick={props.onCancelHandler} autoFocus={props.warning}>
+      <Button disabled={waiting} type="button" onClick={props.onCancelHandler} autoFocus={props.warning}>
         {text.actions.cancel}
       </Button>
     </>
@@ -85,8 +95,8 @@ export const ModalWrapper: FC<IModalWrapper> = ({
   return (
     <ReactModal
       {...props}
-      shouldCloseOnOverlayClick={!uploading}
-      shouldCloseOnEsc={!uploading}
+      shouldCloseOnOverlayClick={!waiting}
+      shouldCloseOnEsc={!waiting}
       appElement={document.getElementById('#modal')}
       ariaHideApp={false}
       closeTimeoutMS={300}
@@ -105,7 +115,7 @@ export const ModalWrapper: FC<IModalWrapper> = ({
       <form onSubmit={props.onSubmitHandler}>
         {header && <Header warning={props.warning}>{props.title}</Header>}
         <Body>
-          <Rows padding={15}>{children}</Rows>
+          <FlexColumn padding={15}>{children}</FlexColumn>
         </Body>
         {footer && <Footer>{buttons}</Footer>}
       </form>

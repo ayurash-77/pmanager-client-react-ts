@@ -1,0 +1,47 @@
+input, select, textarea, {
+  transition: box-shadow 150ms;
+  height: 22px;
+  font-family: var(--ff-main);
+  font-size: var(--fs-normal);
+  color: var(--text-mid);
+  background: var(--input-bg);
+  border: 1px solid var(--border);
+  border-radius: var(--rad);
+  padding: 0 4px;
+  outline: none;
+  box-shadow: 0 1px 3px var(--input-shadow);
+
+
+  &:focus {
+    color: var(--text-high);
+    border: 1px solid var(--border-focus);
+    box-shadow: 0 0 6px var(--border-focus);
+    background: var(--input-bg-focus);
+  }
+
+  &.accent {
+    color: var(--accent-fg);
+    border: 1px solid var(--accent);
+    &:focus {
+      color: var(--text-high);
+      border: 1px solid var(--accent);
+      box-shadow: 0 0 6px var(--accent-glow);
+    }
+  }
+
+  &.warning {
+    color: var(--warning-fg);
+    border: 1px solid var(--warning);
+    &:focus {
+      color: var(--text-high);
+      border: 1px solid var(--warning);
+      box-shadow: 0 0 6px var(--warning-glow);
+    }
+  }
+}
+
+option {
+  color: var(--text-mid);
+}
+
+

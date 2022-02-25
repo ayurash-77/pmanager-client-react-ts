@@ -4,7 +4,7 @@ import AppRouter from './AppRouter'
 import AppStyles from './App.styles'
 import { ThemeProvider } from 'styled-components'
 import { useAppSelector } from '../hooks/redux'
-import './App.css'
+import './App.scss'
 
 const App: FC = () => {
   const theme = useAppSelector(state => state.ui.theme)

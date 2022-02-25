@@ -1,0 +1,98 @@
+@import-normalize;
+
+
+@font-face {
+  font-family: 'DIN_REG';
+  src: url('../assets/fonts/PFDinDisplayPro-Reg.ttf') format('truetype');
+}
+
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500&display=swap');
+
+:root {
+  --sidebar-width-max: 180px;
+  --sidebar-width-min: 55px;
+  --topbar-height: 42px;
+
+  /* Typography */
+  --ff-main: 'Roboto', DIN_REG, 'Segoe UI', sans-serif, 'Ubuntu';
+  --ff-button: 'Roboto', 'Segoe UI', sans-serif, 'Ubuntu';
+  --ff-icon: DIN_REG, 'Roboto', sans-serif, 'Ubuntu';
+  --fs-1: 8px;
+  --fs-small2: 9px;
+  --fs-small1: 11px;
+  --fs-4: 12px;
+  --fs-normal: 12px;
+  --fs-big1: 15px;
+  --fs-big2: 17px;
+
+  --fw-light: 300;
+  --fw-normal: 500;
+  --fw-bold: 700;
+
+  --rad: 4px;
+
+  --modal-overlay: #0d0d11AA;
+
+}
+
+::-webkit-scrollbar { width: 7px; height: 7px; }
+::-webkit-scrollbar-corner { background-color: transparent; }
+::-webkit-scrollbar-track { background: var(--scrollbar-bg); border-radius: 4px; }
+::-webkit-scrollbar-thumb { background: var(--scrollbar-fg); border-radius: 4px; }
+
+* { box-sizing: border-box }
+
+body {
+  margin: 0;
+  font-family: var(--ff-main);
+  font-size: var(--fs-normal);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+@import "App.colors.dark";
+@import "App.colors.light";
+
+@import "styles/button";
+@import "styles/input";
+@import "styles/label";
+@import "styles/form";
+
+#root {
+  color: var(--main-fg);
+  background: var(--main-bg);
+  height: 100vh;
+  width: 100vw;
+  display: flex;
+  overflow: hidden;
+}
+
+.error {
+  color: var(--accent);
+  vertical-align: center;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 4px;
+  width: 100%;
+}
+
+.toolButtonTxt {
+  font-family: var(--ff-button);
+  font-size: 11px;
+  display: flex;
+  align-items: center;
+  //margin-top: 2px;
+  flex-wrap: nowrap;
+  //text-transform: uppercase
+}
+
+.hSpace { width: 10px; }
+.vSpace { height: 10px; }
+
+
+
+
+
+

@@ -33,7 +33,10 @@ const ProjectsPage: FC = () => {
     dispatch(setSelectedId(selectedId === id ? null : id))
   }
 
+  const { darkMode } = useAppSelector(state => state.ui.theme)
+
   useEffect(() => {
+    document.body.setAttribute('darkMode', darkMode.toString())
     if (projects.length > 0) {
       dispatch(setQuarterData(projects))
     }

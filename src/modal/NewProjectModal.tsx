@@ -1,27 +1,22 @@
 import { ModalWrapper } from './ModalWrapper'
-import { FC, useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react'
+import { FC, useRef, useState } from 'react'
 import { useTranslate } from '../hooks/useTranslate'
-import { Grid, Rows } from '../components/ui/Containers'
-import { InputDate, InputPic, InputText, InputTextarea } from '../components/ui/Inputs'
-import axios, { CancelToken, Cancel } from 'axios'
+import { Grid } from '../components/ui/Containers'
+import { InputDate, InputPic, InputTextarea } from '../components/ui/Inputs'
+import axios from 'axios'
 import { useAppSelector } from '../hooks/redux'
 import { useCreateProjectMutation } from '../store/api/projects.api'
 import { ErrorList } from '../components/errors/ErrorList'
 import { Switch } from '../components/ui/Switch'
-import { IProject } from '../interfaces/IProject'
 import { IStatus } from '../interfaces/IStatus'
 import { IBrand } from '../interfaces/IBrand'
 import { IClient } from '../interfaces/IClient'
 import { IAgency } from '../interfaces/IAgency'
 import { IUser } from '../interfaces/IUser'
-import { Input } from '../components/ui/Input'
+import { FlexColumn, Input } from '../components/ui'
 import { Progressbar } from '../components/ui/Progressbar'
 import { appColors } from '../app/App.colors'
-import { FileError, FileRejection, useDropzone } from 'react-dropzone'
 import { apiBaseUrl, apiUploadUrl } from '../constants/env'
-import { Clapper } from '../assets/thumbnails/thumbnails'
-import Image from '../components/Image'
-import MessageModal from './MessageModal'
 
 interface INewProjectModal {
   isOpen: boolean
@@ -72,7 +67,7 @@ export const NewProjectModal: FC<INewProjectModal> = ({ ...props }) => {
   const [uploading, setUploading] = useState(false)
   const [progress, setProgress] = useState(0)
   const [message, setMessage] = useState(null)
-  const [isMessageModalShow, setMessageModalShow] = useState(false)
+  const [waiting, setWaiting] = useState(false)
 
   const [createProject, { isError, error, reset }] = useCreateProjectMutation()
   const errorJsx = ErrorList(error && 'data' in error ? error.data.message : [])
@@ -83,17 +78,19 @@ export const NewProjectModal: FC<INewProjectModal> = ({ ...props }) => {
     setUploading(false)
     setChecked(false)
     setUrl(null)
+
     try {
       const config = {
         headers: { Authorization: `Bearer ${token}` },
         data: { url: projectData.image },
       }
+      setWaiting(true)
       await axios.delete(`${apiBaseUrl}/files`, config)
+      setWaiting(false)
     } catch (error) {
       //
     }
-    // reset()
-
+    reset()
     setMessage(null)
     setProjectData(projectDataInit)
   }
@@ -119,6 +116,7 @@ export const NewProjectModal: FC<INewProjectModal> = ({ ...props }) => {
     if (file) {
       formData.append('file', e.target.files[0])
       setUploading(true)
+      setWaiting(true)
     }
     try {
       const options = {
@@ -132,12 +130,12 @@ export const NewProjectModal: FC<INewProjectModal> = ({ ...props }) => {
       }
 
       const { data } = await axios.post(`${apiUploadUrl}/projectThumbnail`, formData, options)
-
       setUrl(`http://pmanager:4000/${data.url}`)
       setProjectData({ ...projectData, image: data.url })
     } catch (error) {
       console.log('ERROR: ', error)
     }
+    setWaiting(false)
     setUploading(false)
   }
 
@@ -156,10 +154,8 @@ export const NewProjectModal: FC<INewProjectModal> = ({ ...props }) => {
       return
     }
     setMessage('please wait...')
-    setMessageModalShow(true)
     await createProject(projectData).unwrap()
     await clearData()
-    // setMessageModalShow(false)
     props.closeAction()
   }
 
@@ -169,15 +165,9 @@ export const NewProjectModal: FC<INewProjectModal> = ({ ...props }) => {
 
   return (
     <>
-      {/* <MessageModal */}
-      {/*   zIndex={1200} */}
-      {/*   isOpen={isMessageModalShow} */}
-      {/*   closeAction={() => setMessageModalShow(false)} */}
-      {/*   message={message} */}
-      {/* /> */}
       <ModalWrapper
         {...props}
-        uploading={uploading}
+        waiting={waiting}
         warning={false}
         type={'type1'}
         size={'sm'}
@@ -207,13 +197,14 @@ export const NewProjectModal: FC<INewProjectModal> = ({ ...props }) => {
           </div>
           <div style={{ textAlign: 'center' }}>{message}</div>
           {isError && (
-            <Rows vAlign="center" padding={5}>
+            <FlexColumn vAlign="center" padding={5}>
               {isError && errorJsx}
-            </Rows>
+            </FlexColumn>
           )}
 
           <Grid cols="max-content auto " marginTop={5} align={'right'}>
             <Input
+              disabled={waiting}
               label={text.project.projectName}
               onChange={e => onChangeHandler('title', e)}
               autoFocus={true}
@@ -221,7 +212,11 @@ export const NewProjectModal: FC<INewProjectModal> = ({ ...props }) => {
             />
             <InputDate label={text.project.startAt} onChange={e => onChangeHandler('startAt', e)} />
             <InputDate label={text.project.deadline} onChange={e => onChangeHandler('deadline', e)} />
-            <InputTextarea label={text.project.details} onChange={e => onChangeHandler('details', e)} />
+            <InputTextarea
+              disabled={waiting}
+              label={text.project.details}
+              onChange={e => onChangeHandler('details', e)}
+            />
 
             <Switch
               label={text.project.highPriority}

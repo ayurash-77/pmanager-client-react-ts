@@ -1,0 +1,10 @@
+label {
+  color: var(--text-low);
+
+  &.warning {
+    color: var(--warning);
+  }
+  &.accent {
+    color: var(--accent);
+  }
+}

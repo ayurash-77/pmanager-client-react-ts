@@ -19,6 +19,7 @@ const color = p => {
 
 interface ILabel {
   label?: string | null
+  disabled?: boolean
 }
 
 interface IInput extends ILabel {
@@ -215,39 +216,6 @@ export const InputDate: FC<IInputDate> = ({ ...props }) => {
         {props.label}
       </Label>
       <Input {...props} id={id} type="date" />
-    </>
-  )
-}
-
-const Select = styled.select`
-  option {
-    -webkit-appearance: none;
-    appearance: none;
-  }
-`
-
-interface IOption {
-  label: string
-  value: number | string
-}
-
-interface IInputSelect extends DetailedHTMLProps<SelectHTMLAttributes<HTMLSelectElement>, HTMLSelectElement> {
-  options: IOption[]
-  label: string
-}
-
-export const InputSelect: FC<IInputSelect> = ({ ...props }) => {
-  const id = `input-${Math.random()}`
-  const optionsJsx = props.options.map((item, id) => (
-    <option key={id} value={item.value} label={item.label} />
-  ))
-
-  return (
-    <>
-      <Label label={props.label}>{props.label}</Label>
-      <Select id={id} onChange={props.onChange} autoFocus={props.autoFocus} value={props.value}>
-        {optionsJsx}
-      </Select>
     </>
   )
 }

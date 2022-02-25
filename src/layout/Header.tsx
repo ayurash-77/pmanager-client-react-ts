@@ -1,19 +1,16 @@
-import { DetailedHTMLProps, FC, HTMLAttributes, useEffect, useState } from 'react'
-import { useLocalStorage } from '../hooks/useLocalStorage'
+import { DetailedHTMLProps, FC, HTMLAttributes, useState } from 'react'
 import { useTranslate } from '../hooks/useTranslate'
-import { ToolButton } from '../components/ui/ToolButton'
 import * as ToolbarIcons from '../assets/icons/toolbar-icons'
-import { Button16 } from '../components/ui/Button16'
-import { useDeleteProjectMutation, useGetAllProjectsQuery } from '../store/api/projects.api'
+import { useGetAllProjectsQuery } from '../store/api/projects.api'
 import Loader from '../components/ui/Loader'
 import styled from 'styled-components'
-import { ToolbarContainer } from '../components/ui/Containers'
 import { useAppDispatch, useAppSelector } from '../hooks/redux'
 import { IQuarterItem } from '../tools/quarter-filter'
 import NewProjectModal from '../modal/NewProjectModal'
 import DeleteProjectModal from '../modal/DeleteProjectModal'
 import { setThemeMode } from '../store/reducers/ui.reducer'
 import { appColors } from '../app/App.colors'
+import { IconButton, ToolButton, ToolButtonGroup, FlexRow } from '../components/ui'
 
 interface Props extends DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLDivElement> {
   sidebarShow: boolean
@@ -73,48 +70,49 @@ export const Header: FC<IHeader> = props => {
       />
       <TitleContainer>
         {text.project.projects}: {isLoadingProjects ? <Loader size={16} /> : projectsCount}
-        <Button16 icon={<ToolbarIcons.Plus />} marginLeft={10} onClick={() => setNewProjectModalShow(true)} />
-        <Button16
+        <IconButton
+          icon={<ToolbarIcons.Plus />}
+          ml={10}
+          mr={5}
+          onClick={() => setNewProjectModalShow(true)}
+        />
+        <IconButton
           icon={<ToolbarIcons.Minus />}
           disabled={!selectedId}
-          marginLeft={5}
-          accent={true}
+          variant={'accent'}
           onClick={selectedId ? deleteProjectHandler : null}
         />
       </TitleContainer>
 
-      <ToolbarContainer align={'right'}>
-        <ToolButton
-          icon={<ToolbarIcons.Info />}
-          rounded="all"
-          selected={props.sidebarShow}
-          onClick={props.onClick}
-        />
-        <ToolButton
-          icon={<ToolbarIcons.Moon />}
-          rounded="left"
-          selected={darkMode}
-          onClick={() => dispatch(setThemeMode(true))}
-        />
-        <ToolButton
-          icon={<ToolbarIcons.Sun />}
-          rounded="right"
-          selected={!darkMode}
-          onClick={() => dispatch(setThemeMode(false))}
-        />
-        <ToolButton
-          icon={<ToolbarIcons.LangEn />}
-          rounded="left"
-          selected={language === 'en'}
-          onClick={() => setLanguage('en')}
-        />
-        <ToolButton
-          icon={<ToolbarIcons.LangRu />}
-          rounded="right"
-          selected={language === 'ru'}
-          onClick={() => setLanguage('ru')}
-        />
-      </ToolbarContainer>
+      <FlexRow align={'right'}>
+        <ToolButtonGroup>
+          <ToolButton icon={<ToolbarIcons.Info />} selected={props.sidebarShow} onClick={props.onClick} />
+        </ToolButtonGroup>
+        <ToolButtonGroup>
+          <ToolButton
+            icon={<ToolbarIcons.Moon />}
+            selected={darkMode}
+            onClick={() => dispatch(setThemeMode(true))}
+          />
+          <ToolButton
+            icon={<ToolbarIcons.Sun />}
+            selected={!darkMode}
+            onClick={() => dispatch(setThemeMode(false))}
+          />
+        </ToolButtonGroup>
+        <ToolButtonGroup>
+          <ToolButton
+            icon={<ToolbarIcons.LangEn />}
+            selected={language === 'en'}
+            onClick={() => setLanguage('en')}
+          />
+          <ToolButton
+            icon={<ToolbarIcons.LangRu />}
+            selected={language === 'ru'}
+            onClick={() => setLanguage('ru')}
+          />
+        </ToolButtonGroup>
+      </FlexRow>
     </Container>
   )
 }

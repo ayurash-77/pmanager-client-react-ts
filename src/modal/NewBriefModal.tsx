@@ -1,8 +1,8 @@
 import { ModalWrapper } from './ModalWrapper'
-import { FC, useLayoutEffect, useRef, useState } from 'react'
+import { FC, useRef, useState } from 'react'
 import { useTranslate } from '../hooks/useTranslate'
-import { Grid, Rows } from '../components/ui/Containers'
-import { InputBrief, InputSelect, InputText, InputTextarea } from '../components/ui/Inputs'
+import { Grid } from '../components/ui/Containers'
+import { InputBrief, InputTextarea } from '../components/ui/Inputs'
 import axios from 'axios'
 import { useAppSelector } from '../hooks/redux'
 import { ErrorList } from '../components/errors/ErrorList'
@@ -10,9 +10,7 @@ import { Switch } from '../components/ui/Switch'
 import { IProject } from '../interfaces/IProject'
 import { IBrief } from '../interfaces/IBrief'
 import { useCreateBriefMutation, useGetAllBriefCategoriesQuery } from '../store/api/briefs.api'
-import { PmSelect } from '../components/ui/controls/PmSelect'
-import Select from 'react-select/base'
-import { Input } from '../components/ui/Input'
+import { FlexColumn, Input, Select } from '../components/ui'
 
 interface INewBriefModal {
   isOpen: boolean
@@ -149,9 +147,9 @@ export const NewBriefModal: FC<INewBriefModal> = ({ ...props }) => {
           <input style={{ display: 'none' }} type="file" onChange={fileSelectedHandler} ref={fileInputRef} />
           <InputBrief width={'100%'} onClick={() => fileInputRef.current.click()} url={url} />
           <div>
-            <Rows vAlign="center" padding={5}>
+            <FlexColumn vAlign="center" padding={5}>
               {isError && errorJsx}
-            </Rows>
+            </FlexColumn>
           </div>
 
           <Grid cols="max-content auto " marginTop={5} align={'right'}>
@@ -161,7 +159,7 @@ export const NewBriefModal: FC<INewBriefModal> = ({ ...props }) => {
               autoFocus
               placeholder={text.brief.name}
             />
-            <InputSelect
+            <Select
               label={text.brief.category}
               options={options}
               value={categoryId}

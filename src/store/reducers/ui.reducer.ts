@@ -16,6 +16,7 @@ export const uiSlice = createSlice({
   reducers: {
     setThemeMode(state, action: PayloadAction<boolean>) {
       state.theme.darkMode = action.payload
+      document.body.setAttribute('darkMode', action.payload.toString())
       localStorage.setItem('darkMode', JSON.stringify(action.payload))
     },
   },
