@@ -3,7 +3,6 @@ import { FC, FunctionComponent, ReactNode } from 'react'
 import ReactModal from 'react-modal'
 import './ModalWrapper.css'
 import { useTranslate } from '../hooks/useTranslate'
-import { appColors } from '../app/App.colors'
 import { FlexColumn, Button } from '../components/ui'
 
 interface IHeader {
@@ -39,8 +38,8 @@ const ModalContainer = styled.div<IModalContainer>`
 
 const Header = styled.div<IHeader>`
   border-radius: 6px 6px 0 0;
-  background: ${p => (p.warning ? appColors.main.ACCENT : appColors.modal.HEADER_BG)};
-  color: ${appColors.modal.HEADER_FG};
+  background: ${p => (p.warning ? 'var(--accent)' : 'var(--modal-header-fg)')};
+  color: var(--modal-header-fg);
   text-shadow: 0 1px 3px rgba(0, 0, 0, 0.6);
   font-weight: 400;
   font-size: var(--font-size-big1);
@@ -52,14 +51,14 @@ const Body = styled.div`
   width: 100%;
   max-height: calc(100vh - 150px);
   overflow: auto;
-  background: ${appColors.header.BG};
+  background: var(--header-bg);
 `
 
 const Footer = styled.div`
   width: 100%;
   padding: 10px 15px;
   border-radius: 0 0 6px 6px;
-  background: ${appColors.modal.FOOTER_BG};
+  background: var(--modal-footer-bg);
   margin-top: auto;
   display: flex;
   justify-content: flex-end;

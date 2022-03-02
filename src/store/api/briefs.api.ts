@@ -1,28 +1,14 @@
-import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
+import { createApi } from '@reduxjs/toolkit/query/react'
 import { IBrief } from '../../interfaces/IBrief'
-import { BaseQueryFn, FetchArgs } from '@reduxjs/toolkit/dist/query/react'
-import { RootState } from '../store'
 import { IBriefData } from '../../modal/NewBriefModal'
 import { IBriefCategory } from '../../interfaces/IBriefCategory'
-
-interface CustomError {
-  data: { message: [] | string }
-}
+import { getFetchBaseQuery } from './getFetchBaseQuery'
 
 export const briefsApi = createApi({
   reducerPath: 'briefsApi',
   refetchOnFocus: true,
   tagTypes: ['briefs', 'brief', 'briefCategories'],
-  baseQuery: fetchBaseQuery({
-    baseUrl: 'http://pmanager:4000',
-    prepareHeaders: (headers, { getState }) => {
-      const token = (getState() as RootState).auth.authUser.token
-      if (token) headers.set('authorization', `Bearer ${token}`)
-      headers.set('Access-Control-Allow-Origin', '*')
-      headers.set('Access-Control-Allow-Methods', 'GET, POST, PUT,PATCH, DELETE, OPTIONS')
-      return headers
-    },
-  }) as BaseQueryFn<string | FetchArgs, unknown, CustomError, {}>,
+  baseQuery: getFetchBaseQuery(),
 
   endpoints: build => ({
     getAllBriefs: build.query<IBrief[], void>({

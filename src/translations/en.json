@@ -26,7 +26,8 @@
     "deleteProject": "Delete project",
     "browse": "Browse",
     "add": "Add",
-    "addBrief": "Add brief"
+    "addBrief": "Add brief",
+    "select": "Select..."
   },
   "menu": {
     "favorites": "Favorites",

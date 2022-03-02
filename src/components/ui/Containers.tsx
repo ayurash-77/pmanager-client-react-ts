@@ -26,7 +26,7 @@ export const Grid = styled.div<IGrid>`
   text-align: ${align};
   justify-content: ${align};
   width: ${width};
-  align-items: center;
+  align-items: baseline;
   display: grid;
   grid-gap: ${gap}px;
   grid-column-gap: ${gapCol}px;

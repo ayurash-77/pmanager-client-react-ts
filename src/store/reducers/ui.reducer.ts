@@ -1,13 +1,60 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
+import { IProjectViewFilter } from '../../interfaces/IProjectViewFilter'
 
-export interface ITheme {
+interface IFilterbarFilters {
+  grid: IProjectViewFilter
+  list: IProjectViewFilter
+}
+
+export interface IFilterbar {
+  show: boolean
+  filters: IFilterbarFilters
+}
+
+export type IProjectsViewMode = 'grid' | 'list'
+
+export interface IInitialState {
   theme: { darkMode: boolean }
+  projectsViewMode: IProjectsViewMode
+  filterBar: IFilterbar
 }
 
 const themeInLocalStorage = localStorage.getItem('darkMode')
+const projectsViewModeInLocalStorage = localStorage.getItem('projectsViewMode')
+const filterBarInLocalStorage = localStorage.getItem('filterBar')
 
-const initialState: ITheme = {
+const filterBarInit = {
+  show: false,
+  filters: {
+    grid: {
+      brand: true,
+      client: true,
+      agency: true,
+      createdAt: false,
+      startAt: true,
+      deadline: true,
+      status: true,
+      owner: true,
+    },
+    list: {
+      brand: true,
+      client: false,
+      agency: true,
+      createdAt: false,
+      startAt: true,
+      deadline: true,
+      status: true,
+      owner: true,
+      progress: true,
+      details: false,
+    },
+  },
+}
+
+const initialState: IInitialState = {
   theme: { darkMode: themeInLocalStorage ? JSON.parse(themeInLocalStorage) : true },
+  projectsViewMode: projectsViewModeInLocalStorage ? JSON.parse(projectsViewModeInLocalStorage) : 'grid',
+  filterBar: filterBarInLocalStorage ? JSON.parse(filterBarInLocalStorage) : filterBarInit,
 }
 
 export const uiSlice = createSlice({
@@ -19,8 +66,20 @@ export const uiSlice = createSlice({
       document.body.setAttribute('darkMode', action.payload.toString())
       localStorage.setItem('darkMode', JSON.stringify(action.payload))
     },
+    setProjectsViewMode(state, action: PayloadAction<IProjectsViewMode>) {
+      state.projectsViewMode = action.payload
+      localStorage.setItem('projectsViewMode', JSON.stringify(state.projectsViewMode))
+    },
+    setFilterbarShow(state, action: PayloadAction<boolean>) {
+      state.filterBar.show = action.payload
+      localStorage.setItem('filterBar', JSON.stringify(state.filterBar))
+    },
+    setFilterbarFilters(state, action: PayloadAction<IFilterbarFilters>) {
+      state.filterBar.filters = action.payload
+      localStorage.setItem('filterBar', JSON.stringify(state.filterBar))
+    },
   },
 })
 
-export const { setThemeMode } = uiSlice.actions
+export const { setThemeMode, setProjectsViewMode, setFilterbarShow, setFilterbarFilters } = uiSlice.actions
 export default uiSlice.reducer

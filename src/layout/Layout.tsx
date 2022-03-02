@@ -6,6 +6,8 @@ import { Sidebar } from '../components/sidebar/Sidebar'
 import { MainMenu } from '../components/menubar/MainMenu'
 import { FC, FunctionComponent, ReactNode } from 'react'
 import styled from 'styled-components'
+import { useAppSelector } from '../hooks/redux'
+import { Filterbar } from '../components/filterbar/Filterbar'
 
 interface ILayout {
   children: ReactNode
@@ -29,10 +31,11 @@ const Container = styled.div`
 `
 
 const Layout: FC<ILayout> = ({ children }) => {
-  const [isMenubarExpanded, setValue] = useLocalStorage(true, 'isMenubarExpanded')
+  const [menubarExpanded, setMenubarExpanded] = useLocalStorage(true, 'menubarExpanded')
   const [sidebarShow, setSidebarShow] = useLocalStorage(true, 'sidebarShow')
+  const { filterBar } = useAppSelector(state => state.ui)
   const toggleMenubarExpandHelper = () => {
-    setValue(!isMenubarExpanded)
+    setMenubarExpanded(!menubarExpanded)
   }
   const toggleSidebarShowHelper = () => {
     setSidebarShow(!sidebarShow)
@@ -40,12 +43,13 @@ const Layout: FC<ILayout> = ({ children }) => {
 
   return (
     <Container>
-      <Menubar toggle={toggleMenubarExpandHelper} isMenubarExpanded={isMenubarExpanded}>
-        <MainMenu isMenubarExpanded={isMenubarExpanded} />
+      <Menubar toggle={toggleMenubarExpandHelper} menubarExpanded={menubarExpanded}>
+        <MainMenu menubarExpanded={menubarExpanded} />
       </Menubar>
 
       <div className={'mainbar'}>
         <Header sidebarShow={sidebarShow} onClick={toggleSidebarShowHelper} />
+        <Filterbar {...filterBar} />
         <div className="body">{children}</div>
         <Footer />
       </div>

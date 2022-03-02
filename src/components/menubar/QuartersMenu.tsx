@@ -3,17 +3,16 @@ import { FC } from 'react'
 import { QuartersItem } from './QiartersIem'
 import { useAppDispatch, useAppSelector } from '../../hooks/redux'
 import { setQuarterFilter } from '../../store/reducers/projects.reducer'
-import { appColors } from '../../app/App.colors'
 
 interface IQuartersItem {
-  isMenubarExpanded: boolean
+  menubarExpanded: boolean
 }
 
 const Container = styled.div<IQuartersMenu>`
   transition: 150ms;
-  border: solid 1px ${appColors.table.BORDER};
+  border: solid 1px var(--table-border);
   border-radius: 4px;
-  background: ${appColors.menubar.SUBMENU_BG1};
+  background: var(--menubar-submenu-bg1);
   margin-top: 1px;
   display: flex;
   flex-direction: column;
@@ -40,9 +39,9 @@ export const QuartersMenu: FC<IQuartersMenu> = props => {
   const content = quarterData.map(quarterItem => (
     <div key={quarterItem.quarter}>
       <QuartersItem
-        quarter={props.isMenubarExpanded ? quarterItem.quarter : quarterItem.quarter.slice(2, 6)}
+        quarter={props.menubarExpanded ? quarterItem.quarter : quarterItem.quarter.slice(2, 6)}
         count={quarterItem.count}
-        isMenubarExpanded={props.isMenubarExpanded}
+        menubarExpanded={props.menubarExpanded}
         isSelected={quarterFilter.quarter === quarterItem.quarter}
         onClick={() => handleMenuItemClick(quarterItem.quarter)}
       />

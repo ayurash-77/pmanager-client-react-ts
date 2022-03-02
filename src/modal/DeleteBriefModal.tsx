@@ -5,8 +5,7 @@ import { Grid } from '../components/ui/Containers'
 import { ErrorList } from '../components/errors/ErrorList'
 import { IBrief } from '../interfaces/IBrief'
 import { useDeleteBriefMutation } from '../store/api/briefs.api'
-import * as ie from '../components/info-elements/InfoElements.styles'
-import { InfoBrief } from '../components/info-elements/InfoElements'
+import { InfoBriefBlock } from '../components/info-elements'
 
 export interface IDeleteBriefModal {
   isOpen: boolean
@@ -31,7 +30,7 @@ export const DeleteBriefModal: FC<IDeleteBriefModal> = ({ ...props }) => {
 
   const details = props.brief && (
     <div style={{ display: 'flex', columnGap: 10, flexWrap: 'wrap', justifyContent: 'space-evenly' }}>
-      <InfoBrief {...props.brief} />
+      <InfoBriefBlock {...props.brief} />
       {/* {JSON.stringify(props.brief)} */}
     </div>
   )

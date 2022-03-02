@@ -3,44 +3,28 @@ import { useTranslate } from '../../hooks/useTranslate'
 import { IProject } from '../../interfaces/IProject'
 import { FC, useState } from 'react'
 import Loader from '../ui/Loader'
-import {
-  InfoAgency,
-  InfoBrand,
-  InfoClient,
-  InfoDeadline,
-  InfoOwner,
-  InfoProgress,
-  InfoProjectBlock,
-  InfoProjectTitle,
-  InfoStartAt,
-  InfoStatus,
-} from '../info-elements/InfoElements'
-import * as ie from '../info-elements/InfoElements.styles'
+import { InfoProjectBlock } from '../info-elements'
 import * as ToolbarIcons from '../../assets/icons/toolbar-icons'
-import { Button16 } from '../ui/Button16'
+import { IconButton } from '../ui'
 
 interface ISidebarInfo {
   project: IProject | null
   isFetching?: boolean
 }
-export const SidebarInfo: FC<ISidebarInfo> = ({ project, isFetching }) => {
+export const SidebarProjectInfo: FC<ISidebarInfo> = ({ project, isFetching }) => {
   const { text } = useTranslate()
   const [isProjectSettingsModalShow, setProjectSettingsModalShow] = useState(false)
 
   return (
     <>
-      <s.Title>
+      <s.SidebarBlockTitle>
         {text.menu.projectInfo}
-        <Button16
-          icon={<ToolbarIcons.Gear />}
-          marginLeft={10}
-          onClick={() => setProjectSettingsModalShow(true)}
-        />
-      </s.Title>
+        <IconButton icon={<ToolbarIcons.Gear />} ml={10} onClick={() => setProjectSettingsModalShow(true)} />
+      </s.SidebarBlockTitle>
       <s.SidebarBlockContainer>
         {isFetching ? <Loader size={32} /> : <InfoProjectBlock {...project} />}
       </s.SidebarBlockContainer>
     </>
   )
 }
-export default SidebarInfo
+export default SidebarProjectInfo

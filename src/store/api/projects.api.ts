@@ -1,12 +1,8 @@
-import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
+import { createApi } from '@reduxjs/toolkit/query/react'
 import { IProject } from '../../interfaces/IProject'
-import { BaseQueryFn, FetchArgs } from '@reduxjs/toolkit/dist/query/react'
-import { RootState } from '../store'
 import { IProjectData } from '../../modal/NewProjectModal'
+import { getFetchBaseQuery } from './getFetchBaseQuery'
 
-interface CustomError {
-  data: { message: [] | string }
-}
 interface IParams {
   offset?: number
   limit?: number
@@ -16,16 +12,7 @@ export const projectsApi = createApi({
   reducerPath: 'projectsApi',
   refetchOnFocus: true,
   tagTypes: ['projects', 'project'],
-  baseQuery: fetchBaseQuery({
-    baseUrl: 'http://pmanager:4000',
-    prepareHeaders: (headers, { getState }) => {
-      const token = (getState() as RootState).auth.authUser.token
-      if (token) headers.set('authorization', `Bearer ${token}`)
-      headers.set('Access-Control-Allow-Origin', '*')
-      headers.set('Access-Control-Allow-Methods', 'GET, POST, PUT,PATCH, DELETE, OPTIONS')
-      return headers
-    },
-  }) as BaseQueryFn<string | FetchArgs, unknown, CustomError, {}>,
+  baseQuery: getFetchBaseQuery(),
 
   endpoints: build => ({
     getAllProjects: build.query<IProject[], IParams>({

@@ -1,7 +1,5 @@
 import styled from 'styled-components'
 import { FC } from 'react'
-import { aSnapshotColor } from 'jest-snapshot/build/printSnapshot'
-import { appColors } from '../../app/App.colors'
 
 export interface IMenuItem {
   icon: JSX.Element
@@ -9,7 +7,7 @@ export interface IMenuItem {
   count?: number | JSX.Element
   onClick?: () => void
   isSelected?: boolean
-  isMenubarExpanded?: boolean
+  menubarExpanded?: boolean
 }
 
 const MenuItemContainer = styled.div<IMenuItem>`
@@ -20,16 +18,16 @@ const MenuItemContainer = styled.div<IMenuItem>`
   align-items: center;
   border-radius: 4px;
   padding: 0 6px;
-  color: ${p => (p.isSelected ? appColors.menubar.FG_SELECTED : appColors.main.FG)};
-  background: ${p => p.isSelected && appColors.menubar.BG_SELECTED};
+  color: ${p => (p.isSelected ? 'var(--menubar-fg-selected)' : 'var(--main-fg)')};
+  background: ${p => p.isSelected && 'var(--menubar-bg-selected)'};
 
   &:hover {
-    color: ${p => (p.isSelected ? appColors.menubar.FG_SELECTED : appColors.menubar.FG_HOVER)};
+    color: ${p => (p.isSelected ? 'var(--menubar-fg-selected)' : 'var(--menubar-fg-hover)')};
   }
 
   &:active {
-    color: ${appColors.menubar.FG_PRESSED};
-    background: ${appColors.menubar.BG_PRESSED};
+    color: var(--menubar-fg-pressed);
+    background: var(--menubar-bg-pressed);
   }
 
   cursor: default;
@@ -45,10 +43,10 @@ const Icon = styled.div`
 const Text = styled.span<IMenuItem>`
   transition: opacity 250ms, margin-left 250ms;
   font-weight: 500;
-  margin-left: ${p => (p.isMenubarExpanded ? '6px' : '0')};
+  margin-left: ${p => (p.menubarExpanded ? '6px' : '0')};
   position: absolute;
   left: 42px;
-  opacity: ${p => (p.isMenubarExpanded ? '1' : '0')};
+  opacity: ${p => (p.menubarExpanded ? '1' : '0')};
   z-index: 0;
 `
 
@@ -56,8 +54,8 @@ const Count = styled.div<IMenuItem>`
   transition: opacity 250ms;
   font-weight: 500;
   margin-left: auto;
-  opacity: ${p => (p.isMenubarExpanded ? '1' : '0')};
-  width: ${p => (p.isMenubarExpanded ? 'auto' : '0')};
+  opacity: ${p => (p.menubarExpanded ? '1' : '0')};
+  width: ${p => (p.menubarExpanded ? 'auto' : '0')};
 `
 
 export const MenuItem: FC<IMenuItem> = ({ ...props }) => (

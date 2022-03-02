@@ -5,13 +5,12 @@ import { FC, useState } from 'react'
 import Loader from '../ui/Loader'
 
 import * as ToolbarIcons from '../../assets/icons/toolbar-icons'
-import { Button16 } from '../ui/Button16'
 import { toDateStr } from '../../tools/date-time-format'
 import { useNavigate } from 'react-router'
 import axios from 'axios'
-import NewProjectModal from '../../modal/NewProjectModal'
 import NewBriefModal from '../../modal/NewBriefModal'
 import DeleteBriefModal from '../../modal/DeleteBriefModal'
+import { IconButton, Table } from '../ui'
 
 interface ISidebarBriefs {
   project: IProject | null
@@ -47,38 +46,36 @@ export const SidebarBriefs: FC<ISidebarBriefs> = ({ project, isFetching }) => {
   }
 
   const projectBriefsBody = (
-    <s.SidebarTableContainer>
-      <s.SidebarTable>
-        <thead>
-          <tr>
-            <th> </th>
-            <th>{text.brief.name}</th>
-            <th>{text.brief.createdAt}</th>
-            <th>{text.brief.category}</th>
+    <Table>
+      <thead>
+        <tr>
+          <th> </th>
+          <th>{text.brief.name}</th>
+          <th>{text.brief.createdAt}</th>
+          <th>{text.brief.category}</th>
+        </tr>
+      </thead>
+      <tbody>
+        {project.briefs.map(brief => (
+          <tr key={brief.id} className="hover">
+            <td>
+              <IconButton
+                icon={<ToolbarIcons.Minus />}
+                size={12}
+                ml={-5}
+                variant={'accent'}
+                onClick={() => onDeleteBriefModalShowHandler(brief)}
+              />
+            </td>
+            <td className="link" onClick={() => onBriefClickHandler(brief)}>
+              {brief.name}
+            </td>
+            <td className="date">{toDateStr(brief.createdAt)}</td>
+            <td className="info">{brief.category.name}</td>
           </tr>
-        </thead>
-        <tbody>
-          {project.briefs.map(brief => (
-            <tr key={brief.id} className="hover">
-              <td>
-                <Button16
-                  icon={<ToolbarIcons.Minus />}
-                  size={12}
-                  marginRight={-5}
-                  accent
-                  onClick={() => onDeleteBriefModalShowHandler(brief)}
-                />
-              </td>
-              <td className="link" onClick={() => onBriefClickHandler(brief)}>
-                {brief.name}
-              </td>
-              <td className="date">{toDateStr(brief.createdAt)}</td>
-              <td className="info">{brief.category.name}</td>
-            </tr>
-          ))}
-        </tbody>
-      </s.SidebarTable>
-    </s.SidebarTableContainer>
+        ))}
+      </tbody>
+    </Table>
   )
 
   return (
@@ -93,10 +90,10 @@ export const SidebarBriefs: FC<ISidebarBriefs> = ({ project, isFetching }) => {
         closeAction={() => setDeleteBriefModalShow(false)}
         brief={selectedBrief}
       />
-      <s.Title>
+      <s.SidebarBlockTitle>
         {text.menu.briefs}
-        <Button16 icon={<ToolbarIcons.Plus />} marginLeft={10} onClick={() => setNewBriefModalShow(true)} />
-      </s.Title>
+        <IconButton icon={<ToolbarIcons.Plus />} ml={10} onClick={() => setNewBriefModalShow(true)} />
+      </s.SidebarBlockTitle>
       <s.SidebarBlockContainer>
         {isFetching ? <Loader size={32} /> : project.briefs.length > 0 && projectBriefsBody}
       </s.SidebarBlockContainer>

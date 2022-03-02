@@ -2,15 +2,16 @@ import { ModalWrapper } from './ModalWrapper'
 import { FC, useRef, useState } from 'react'
 import { useTranslate } from '../hooks/useTranslate'
 import { Grid } from '../components/ui/Containers'
-import { InputBrief, InputTextarea } from '../components/ui/Inputs'
+import { InputBrief } from '../components/ui/InputBrief'
 import axios from 'axios'
 import { useAppSelector } from '../hooks/redux'
 import { ErrorList } from '../components/errors/ErrorList'
-import { Switch } from '../components/ui/Switch'
+import { Switcher } from '../components/ui/Switcher'
 import { IProject } from '../interfaces/IProject'
 import { IBrief } from '../interfaces/IBrief'
 import { useCreateBriefMutation, useGetAllBriefCategoriesQuery } from '../store/api/briefs.api'
-import { FlexColumn, Input, Select } from '../components/ui'
+import { FlexColumn, Input, Select, Textarea } from '../components/ui'
+import { apiBaseUrl, apiUploadUrl } from '../constants/env'
 
 interface INewBriefModal {
   isOpen: boolean
@@ -51,7 +52,6 @@ export const NewBriefModal: FC<INewBriefModal> = ({ ...props }) => {
   const { data: briefCategories } = useGetAllBriefCategoriesQuery()
   const options = briefCategories?.map(item => ({ label: item.name, value: item.id }))
   const [categoryId, setCategoryId] = useState(1)
-  const [val, setVal] = useState('val1')
 
   const clearData = async () => {
     try {
@@ -59,7 +59,7 @@ export const NewBriefModal: FC<INewBriefModal> = ({ ...props }) => {
         headers: { Authorization: `Bearer ${token}` },
         data: { url: briefData.url },
       }
-      await axios.delete('/files', config)
+      await axios.delete(`${apiBaseUrl}/files`, config)
     } catch (error) {
       //
     }
@@ -94,7 +94,7 @@ export const NewBriefModal: FC<INewBriefModal> = ({ ...props }) => {
       const config = {
         headers: { 'Content-Type': 'multipart/form-data', Authorization: `Bearer ${token}` },
       }
-      const { data } = await axios.post('/files/upload/brief', formData, config)
+      const { data } = await axios.post(`${apiUploadUrl}/brief`, formData, config)
       setUrl(data.url)
       setBriefData({ ...briefData, url: data.url, originalName: data.name })
     } catch (error) {
@@ -121,17 +121,11 @@ export const NewBriefModal: FC<INewBriefModal> = ({ ...props }) => {
   const onChangeCategoryHandler = e => {
     const newCategory = e.target.value
     setCategoryId(newCategory)
-    // console.log(newCategory)
     setBriefData({ ...briefData, categoryId: +newCategory })
   }
 
-  const options2 = [
-    { value: 'chocolate', label: 'Chocolate' },
-    { value: 'strawberry', label: 'Strawberry' },
-    { value: 'vanilla', label: 'Vanilla' },
-  ]
+  //////////////////////////////////////////////////////////////////
 
-  // console.log(briefData)
   return (
     <>
       <ModalWrapper
@@ -166,9 +160,9 @@ export const NewBriefModal: FC<INewBriefModal> = ({ ...props }) => {
               onChange={e => onChangeCategoryHandler(e)}
             />
 
-            <InputTextarea label={text.project.details} onChange={e => onChangeHandler('details', e)} />
+            <Textarea label={text.project.details} onChange={e => onChangeHandler('details', e)} />
 
-            <Switch
+            <Switcher
               label={text.brief.approved}
               checked={isChecked}
               onChange={() => onCheckedHandler(isChecked)}

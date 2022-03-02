@@ -3,10 +3,10 @@ import { FC } from 'react'
 import { useTranslate } from '../hooks/useTranslate'
 import { Grid } from '../components/ui/Containers'
 import { ErrorList } from '../components/errors/ErrorList'
-import { useDeleteBriefMutation } from '../store/api/briefs.api'
-import { InfoBrief, InfoProjectBlock, InfoProjectTitle } from '../components/info-elements/InfoElements'
+import { InfoProjectTitle } from '../components/info-elements/InfoProjectTitle'
 import { IProject } from '../interfaces/IProject'
 import { useDeleteProjectMutation } from '../store/api/projects.api'
+import { InfoProjectBlock } from '../components/info-elements'
 
 export interface IDeleteProjectModal {
   isOpen: boolean

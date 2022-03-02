@@ -1,11 +1,10 @@
 import styled from 'styled-components'
 import { FC } from 'react'
-import { ITheme } from '../../store/reducers/ui.reducer'
 
 interface IProgressbar {
   height?: number
-  colorFg?: ({ theme }: ITheme) => string
-  colorBg?: ({ theme }: ITheme) => string
+  colorFg?: string
+  colorBg?: string
   progress: number
   withValue?: boolean
 }

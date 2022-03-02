@@ -11,6 +11,16 @@ input, select, textarea, {
   outline: none;
   box-shadow: 0 1px 3px var(--input-shadow);
 
+  &[type='date'] {
+    text-transform: uppercase;
+    padding-right: 3px;
+
+    &::-webkit-calendar-picker-indicator {
+      font-size: var(--font-size-small1);
+      margin-left: -17px;
+      padding: 0;
+    }
+  }
 
   &:focus {
     color: var(--text-high);

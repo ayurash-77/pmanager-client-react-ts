@@ -4,9 +4,10 @@ import { useGetAllProjectsQuery } from '../../store/api/projects.api'
 import { ToolButton, ToolButtonGroup } from '../ui'
 import * as ToolbarIcons from '../../assets/icons/toolbar-icons'
 import * as s from './Sidebar.styles'
-import SidebarInfo from './SidebarInfo'
+import SidebarProjectInfo from './SidebarProjectInfo'
 import SidebarBriefs from './SidebarBriefs'
-import { InfoProjectTitle } from '../info-elements/InfoElements'
+import { InfoProjectTitle } from '../info-elements'
+import cn from 'classnames'
 
 interface ISidebar {
   sidebarShow: boolean
@@ -26,7 +27,7 @@ export const Sidebar: FC<ISidebar> = props => {
   const [showSidebarShots, setShowSidebarShots] = useState(true)
 
   return (
-    <s.SideBarContainer {...props}>
+    <s.SideBarContainer className={cn({ hide: !props.sidebarShow })} {...props}>
       <s.SidebarToolBarContainer>
         <ToolButtonGroup>
           <ToolButton
@@ -72,7 +73,7 @@ export const Sidebar: FC<ISidebar> = props => {
           />
         )}
 
-        {showSidebarInfo && selectedProject && <SidebarInfo project={selectedProject} />}
+        {showSidebarInfo && selectedProject && <SidebarProjectInfo project={selectedProject} />}
         {showSidebarBriefs && selectedProject && <SidebarBriefs project={selectedProject} />}
       </s.SidebarBodyContainer>
     </s.SideBarContainer>

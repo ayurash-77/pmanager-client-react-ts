@@ -1,48 +1,46 @@
 import { ModalWrapper } from './ModalWrapper'
-import { FC, useRef, useState } from 'react'
+import React, { FC, useRef, useState } from 'react'
 import { useTranslate } from '../hooks/useTranslate'
 import { Grid } from '../components/ui/Containers'
-import { InputDate, InputPic, InputTextarea } from '../components/ui/Inputs'
 import axios from 'axios'
 import { useAppSelector } from '../hooks/redux'
 import { useCreateProjectMutation } from '../store/api/projects.api'
 import { ErrorList } from '../components/errors/ErrorList'
-import { Switch } from '../components/ui/Switch'
+import { Switcher } from '../components/ui/Switcher'
 import { IStatus } from '../interfaces/IStatus'
 import { IBrand } from '../interfaces/IBrand'
 import { IClient } from '../interfaces/IClient'
 import { IAgency } from '../interfaces/IAgency'
 import { IUser } from '../interfaces/IUser'
-import { FlexColumn, Input } from '../components/ui'
-import { Progressbar } from '../components/ui/Progressbar'
-import { appColors } from '../app/App.colors'
+import { FlexColumn, Input, InputImage, Select, Textarea } from '../components/ui'
 import { apiBaseUrl, apiUploadUrl } from '../constants/env'
+import { UploadingProgress } from '../components/uploading-progress/UploadingProgress'
+import { useGetAllBrandsQuery } from '../store/api/brands.api'
+import { useGetAllClientsQuery } from '../store/api/clients.api'
+import { useGetAllAgenciesQuery } from '../store/api/agencies.api'
+import { IProject } from '../interfaces/IProject'
 
 interface INewProjectModal {
   isOpen: boolean
   closeAction: () => void
 }
 
-export interface IProjectData {
-  title: string
-  progress?: number
-  highPriority?: boolean
+export interface IProjectData extends Partial<IProject> {
   image?: string
-  status?: IStatus
-  brand?: IBrand
-  client?: IClient
-  agency?: IAgency
-  startAt?: any
-  deadline?: any
-  doneAt?: any
-  details?: any
-  owner: IUser
 }
 
 export const NewProjectModal: FC<INewProjectModal> = ({ ...props }) => {
   const { text } = useTranslate()
   const token = useAppSelector(state => state.auth.authUser.token)
   const user = useAppSelector(state => state.auth.authUser)
+  const { data: brands } = useGetAllBrandsQuery()
+  const { data: clients } = useGetAllClientsQuery()
+  const { data: agencies } = useGetAllAgenciesQuery()
+  const brandsOptions = brands?.map(item => ({ label: item.name, value: item.id }))
+  const clientsOptions = clients?.map(item => ({ label: item.name, value: item.id }))
+  const agenciesOptions = agencies?.map(item => ({ label: item.name, value: item.id }))
+  const [selectId, setSelectId] = useState({ brandId: 0, clientId: 0, agencyId: 0 })
+
   const fileInputRef = useRef<HTMLInputElement>(null)
 
   const projectDataInit: IProjectData = {
@@ -50,13 +48,6 @@ export const NewProjectModal: FC<INewProjectModal> = ({ ...props }) => {
     progress: 0,
     highPriority: false,
     image: '',
-    // status: IStatus,
-    // brand: IBrand,
-    // client: IClient,
-    // agency: IAgency,
-    // startAt: any,
-    // deadline: any,
-    // doneAt: any,
     details: '',
     owner: user,
   }
@@ -95,22 +86,26 @@ export const NewProjectModal: FC<INewProjectModal> = ({ ...props }) => {
     setProjectData(projectDataInit)
   }
 
-  const onChangeHandler = (key, e) => {
-    setProjectData({ ...projectData, [key]: e.target.value })
+  const onChangeHandler = (key, value: string) => {
+    setProjectData({ ...projectData, [key]: value })
   }
+
+  const onChangeSelectHandler = (key, value: number) => {
+    setSelectId({ ...selectId, [key]: value })
+    setProjectData({ ...projectData, [key]: value })
+  }
+
   const onCheckedHandler = val => {
     setChecked(!val)
     setProjectData({ ...projectData, highPriority: !val })
   }
 
   const controller = new AbortController()
-
   const formData = new FormData()
 
   const fileSelectedHandler = async e => {
     await clearData()
     const file = e.target.files[0]
-
     setUrl(null)
 
     if (file) {
@@ -118,6 +113,7 @@ export const NewProjectModal: FC<INewProjectModal> = ({ ...props }) => {
       setUploading(true)
       setWaiting(true)
     }
+
     try {
       const options = {
         headers: { 'Content-Type': 'multipart/form-data', Authorization: `Bearer ${token}` },
@@ -130,7 +126,7 @@ export const NewProjectModal: FC<INewProjectModal> = ({ ...props }) => {
       }
 
       const { data } = await axios.post(`${apiUploadUrl}/projectThumbnail`, formData, options)
-      setUrl(`http://pmanager:4000/${data.url}`)
+      setUrl(`${apiBaseUrl}/${data.url}`)
       setProjectData({ ...projectData, image: data.url })
     } catch (error) {
       console.log('ERROR: ', error)
@@ -148,7 +144,6 @@ export const NewProjectModal: FC<INewProjectModal> = ({ ...props }) => {
 
   const onSubmitHandler = async e => {
     e.preventDefault()
-
     if (!projectData || !projectData.title || projectData.title.trim().length === 0) {
       setMessage('Некорректное имя проекта')
       return
@@ -177,25 +172,16 @@ export const NewProjectModal: FC<INewProjectModal> = ({ ...props }) => {
       >
         <Grid cols="auto" gap={5}>
           <input style={{ display: 'none' }} type="file" onChange={fileSelectedHandler} ref={fileInputRef} />
-          <InputPic
+          <InputImage
             width={'100%'}
             onClick={() => fileInputRef.current.click()}
             isUploading={uploading}
             url={url}
             isBrowse={!uploading}
           />
-
-          <div style={{ height: 11 }}>
-            {uploading && (
-              <Progressbar
-                progress={progress}
-                colorFg={appColors.main.FG}
-                colorBg={appColors.prorogressBar.BG}
-                withValue={true}
-              />
-            )}
-          </div>
+          <UploadingProgress uploading={uploading} progress={progress} withValue={true} />
           <div style={{ textAlign: 'center' }}>{message}</div>
+
           {isError && (
             <FlexColumn vAlign="center" padding={5}>
               {isError && errorJsx}
@@ -206,19 +192,44 @@ export const NewProjectModal: FC<INewProjectModal> = ({ ...props }) => {
             <Input
               disabled={waiting}
               label={text.project.projectName}
-              onChange={e => onChangeHandler('title', e)}
+              onChange={e => onChangeHandler('title', e.target.value)}
               autoFocus={true}
               placeholder={text.project.projectName}
             />
-            <InputDate label={text.project.startAt} onChange={e => onChangeHandler('startAt', e)} />
-            <InputDate label={text.project.deadline} onChange={e => onChangeHandler('deadline', e)} />
-            <InputTextarea
-              disabled={waiting}
+            <Select
+              label={text.project.brand}
+              options={brandsOptions}
+              value={selectId.brandId}
+              onChange={e => onChangeSelectHandler('brandId', +e.target.value)}
+            />
+            <Select
+              label={text.project.client}
+              options={clientsOptions}
+              value={selectId.clientId}
+              onChange={e => onChangeSelectHandler('clientId', +e.target.value)}
+            />
+            <Select
+              label={text.project.agency}
+              options={agenciesOptions}
+              value={selectId.agencyId}
+              onChange={e => onChangeSelectHandler('agencyId', +e.target.value)}
+            />
+            <Input
+              type={'date'}
+              label={text.project.startAt}
+              onChange={e => onChangeHandler('startAt', e.target.value)}
+            />
+            <Input
+              type={'date'}
+              label={text.project.deadline}
+              onChange={e => onChangeHandler('deadline', e.target.value)}
+            />
+            <Textarea
               label={text.project.details}
-              onChange={e => onChangeHandler('details', e)}
+              onChange={e => onChangeHandler('details', e.target.value)}
             />
 
-            <Switch
+            <Switcher
               label={text.project.highPriority}
               checked={isChecked}
               onChange={() => onCheckedHandler(isChecked)}

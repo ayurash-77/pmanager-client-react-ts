@@ -45,7 +45,7 @@ export const MainMenu: FC<Partial<IMenuItem>> = props => {
         />
       ))}
 
-      <QuartersMenu isMenubarExpanded={props.isMenubarExpanded} isMenuShow={selectedMenuItem === 4} />
+      <QuartersMenu menubarExpanded={props.menubarExpanded} isMenuShow={selectedMenuItem === 4} />
     </div>
   )
 }

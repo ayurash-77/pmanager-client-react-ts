@@ -1,5 +1,6 @@
 import React, { DetailedHTMLProps, SelectHTMLAttributes } from 'react'
 import { IVariant } from './IVariant'
+import { useTranslate } from '../../hooks/useTranslate'
 
 interface IOption {
   label: string
@@ -13,14 +14,17 @@ interface IInput extends DetailedHTMLProps<SelectHTMLAttributes<HTMLSelectElemen
 }
 
 export const Select = ({ variant, label, ...props }: IInput): JSX.Element => {
-  const optionsJsx = props.options.map((item, id) => (
-    <option key={id} value={item.value} label={item.label} />
+  const { text } = useTranslate()
+  const placeholder = props.placeholder || text.actions.select
+  const optionsJsx = props.options?.map((item, idx) => (
+    <option key={idx} value={item.value} label={item.label} />
   ))
 
   return (
     <>
       {label && <label className={variant}>{label}:</label>}
       <select className={variant} onChange={props.onChange} autoFocus={props.autoFocus} value={props.value}>
+        <option value={0} label={placeholder} />
         {optionsJsx}
       </select>
     </>

@@ -16,7 +16,7 @@ const Container = styled.div`
   justify-content: flex-end;
 `
 
-export const BottomMenu: FC<Pick<IMenuItem, 'isMenubarExpanded'>> = props => {
+export const BottomMenu: FC<Pick<IMenuItem, 'menubarExpanded'>> = props => {
   const { text } = useTranslate()
   const authUser = useAppSelector(state => state.auth.authUser)
   const { quarterFilter } = useAppSelector(state => state.projects)

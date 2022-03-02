@@ -1,11 +1,10 @@
 import styled from 'styled-components'
 import { FC } from 'react'
-import { appColors } from '../../app/App.colors'
 
 interface Prop {
   onClick?: () => void
   isSelected?: boolean
-  isMenubarExpanded?: boolean
+  menubarExpanded?: boolean
 }
 
 const MenuItem = styled.div<Prop>`
@@ -19,17 +18,17 @@ const MenuItem = styled.div<Prop>`
   align-items: center;
   padding: 3px 3px;
   border-radius: 3px;
-  color: ${p => (p?.isSelected ? appColors.menubar.FG_HOVER : appColors.main.FG)};
+  color: ${p => (p?.isSelected ? 'var(--menubar-fg-selected)' : 'var(--main-fg)')};
   overflow: hidden;
 
-  background: ${p => (p.isSelected ? appColors.menubar.SUBMENU_BG_SELECTED : appColors.menubar.SUBMENU_BG1)};
+  background: ${p => (p.isSelected ? 'var(--menubar-bg-selected)' : 'var(--menubar-submenu-bg1)')};
 
   &:hover {
-    color: ${p => !p.isSelected && appColors.menubar.FG_HOVER};
+    color: ${p => !p.isSelected && 'var(--menubar-fg-hover)'};
   }
 
   &:active {
-    background: ${appColors.menubar.SUBMENU_BG_SELECTED};
+    background: var(--menubar-bg-selected);
   }
 `
 
@@ -39,14 +38,14 @@ const Text = styled.div<Prop>`
   text-wrap: none;
   font-weight: 600;
   overflow: hidden;
-  margin-left: ${p => (p?.isMenubarExpanded ? '5px' : '1px')};
-  font-size: var(--font-size-small1);
+  margin-left: ${p => (p?.menubarExpanded ? '5px' : '1px')};
+  font-size: var(--fs-small1);
 `
 const Count = styled.div<Prop>`
   font-weight: 500;
   margin-left: auto;
-  opacity: ${p => (p?.isMenubarExpanded ? '1' : '0')};
-  width: ${p => (p?.isMenubarExpanded ? 'auto' : '0')};
+  opacity: ${p => (p?.menubarExpanded ? '1' : '0')};
+  width: ${p => (p?.menubarExpanded ? 'auto' : '0')};
 `
 
 interface IQuartersItem extends Prop {
@@ -56,7 +55,7 @@ interface IQuartersItem extends Prop {
 
 export const QuartersItem: FC<IQuartersItem> = props => (
   <MenuItem isSelected={props.isSelected} onClick={props.onClick}>
-    <Text isMenubarExpanded={props.isMenubarExpanded}>{props.quarter}</Text>
-    <Count isMenubarExpanded={props.isMenubarExpanded}>{props.count}</Count>
+    <Text menubarExpanded={props.menubarExpanded}>{props.quarter}</Text>
+    <Count menubarExpanded={props.menubarExpanded}>{props.count}</Count>
   </MenuItem>
 )

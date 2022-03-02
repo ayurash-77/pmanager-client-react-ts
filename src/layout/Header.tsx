@@ -8,9 +8,10 @@ import { useAppDispatch, useAppSelector } from '../hooks/redux'
 import { IQuarterItem } from '../tools/quarter-filter'
 import NewProjectModal from '../modal/NewProjectModal'
 import DeleteProjectModal from '../modal/DeleteProjectModal'
-import { setThemeMode } from '../store/reducers/ui.reducer'
-import { appColors } from '../app/App.colors'
+import { setFilterbarShow, setProjectsViewMode, setThemeMode } from '../store/reducers/ui.reducer'
 import { IconButton, ToolButton, ToolButtonGroup, FlexRow } from '../components/ui'
+import { useGetAllRolesQuery } from '../store/api/roles.api'
+import { IRole } from '../interfaces/IRole'
 
 interface Props extends DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLDivElement> {
   sidebarShow: boolean
@@ -24,9 +25,9 @@ const Container = styled.div`
   padding: 8px 10px;
   display: flex;
   justify-content: space-between;
-  background-color: ${appColors.header.BG};
-  z-index: 2;
-  box-shadow: 0 1px 8px ${appColors.buttons.SHADOW};
+  background-color: var(--header-bg);
+  z-index: 3;
+  box-shadow: 0 0 4px var(--button-shadow);
 `
 const TitleContainer = styled.div`
   font-size: var(--font-size-normal);
@@ -45,6 +46,12 @@ export const Header: FC<IHeader> = props => {
 
   const { data: projects = [], isLoading: isLoadingProjects } = useGetAllProjectsQuery({})
   const { quarterFilter, quarterData, selectedId } = useAppSelector(state => state.projects)
+  const { filterBar, projectsViewMode } = useAppSelector(state => state.ui)
+  const { authUser } = useAppSelector(state => state.auth)
+
+  const canDeleteProjectRoles = ['Producer', 'Art director', 'Manager']
+  const canDeleteProject =
+    authUser.isAdmin || authUser.roles.some(role => canDeleteProjectRoles.includes(role.name))
 
   const selectedProject = selectedId ? projects.find(project => project.id === selectedId) : null
 
@@ -76,15 +83,34 @@ export const Header: FC<IHeader> = props => {
           mr={5}
           onClick={() => setNewProjectModalShow(true)}
         />
-        <IconButton
-          icon={<ToolbarIcons.Minus />}
-          disabled={!selectedId}
-          variant={'accent'}
-          onClick={selectedId ? deleteProjectHandler : null}
-        />
+        {canDeleteProject && (
+          <IconButton
+            icon={<ToolbarIcons.Minus />}
+            disabled={!selectedId}
+            variant={'accent'}
+            onClick={selectedId ? deleteProjectHandler : null}
+          />
+        )}
       </TitleContainer>
 
       <FlexRow align={'right'}>
+        <ToolButtonGroup>
+          <ToolButton
+            icon={<ToolbarIcons.Grid />}
+            selected={projectsViewMode === 'grid'}
+            onClick={() => dispatch(setProjectsViewMode('grid'))}
+          />
+          <ToolButton
+            icon={<ToolbarIcons.List />}
+            selected={projectsViewMode === 'list'}
+            onClick={() => dispatch(setProjectsViewMode('list'))}
+          />
+          <ToolButton
+            icon={<ToolbarIcons.Eye />}
+            selected={filterBar.show}
+            onClick={() => dispatch(setFilterbarShow(!filterBar.show))}
+          />
+        </ToolButtonGroup>
         <ToolButtonGroup>
           <ToolButton icon={<ToolbarIcons.Info />} selected={props.sidebarShow} onClick={props.onClick} />
         </ToolButtonGroup>

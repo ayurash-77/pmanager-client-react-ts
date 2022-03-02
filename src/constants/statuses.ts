@@ -1,41 +1,39 @@
-import { appColors } from '../app/App.colors'
-
 export const statuses = {
   1: {
     code: 1,
     name: 'Active',
-    color: appColors.statuses.ACTIVE,
-    colorBg: appColors.statuses.ACTIVE_BG,
+    color: 'var(--status-active)',
+    colorBg: 'var(--status-active-bg)',
   },
   2: {
     code: 2,
     name: 'Approving',
-    color: appColors.statuses.APPROVING,
-    colorBg: appColors.statuses.APPROVING_BG,
+    color: 'var(--status-approving)',
+    colorBg: 'var(--status-approving-bg)',
   },
   3: {
     code: 3,
     name: 'Paused',
-    color: appColors.statuses.PAUSED,
-    colorBg: appColors.statuses.PAUSED_BG,
+    color: 'var(--status-paused)',
+    colorBg: 'var(--status-paused-bg)',
   },
   4: {
     code: 4,
     name: 'Completed',
-    color: appColors.statuses.COMPETED,
-    colorBg: appColors.statuses.COMPETED_BG,
+    color: 'var(--status-completed)',
+    colorBg: 'var(--status-completed-bg)',
   },
   5: {
     code: 5,
     name: 'Done',
-    color: appColors.statuses.DONE,
-    colorBg: appColors.statuses.DONE_BG,
+    color: 'var(--status-done)',
+    colorBg: 'var(--status-done-bg)',
   },
   6: {
     code: 6,
     name: 'Archived',
-    color: appColors.statuses.ARCHIVED,
-    colorBg: appColors.statuses.ARCHIVED_BG,
+    color: 'var(--status-archived)',
+    colorBg: 'var(--status-archived-bg)',
   },
 }
 export default statuses

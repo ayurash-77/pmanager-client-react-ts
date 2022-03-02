@@ -1,7 +1,6 @@
 import { FC, useEffect, useState } from 'react'
-import { Clapper } from '../assets/thumbnails/thumbnails'
 import imageExists from 'image-exists'
-import Loader from './ui/Loader'
+import Loader from './Loader'
 
 interface IImage {
   src: string

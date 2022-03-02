@@ -3,7 +3,7 @@
 
 @font-face {
   font-family: 'DIN_REG';
-  src: url('../assets/fonts/PFDinDisplayPro-Reg.ttf') format('truetype');
+  src: url('../../assets/fonts/PFDinDisplayPro-Reg.ttf') format('truetype');
 }
 
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500&display=swap');
@@ -32,7 +32,6 @@
   --rad: 4px;
 
   --modal-overlay: #0d0d11AA;
-
 }
 
 ::-webkit-scrollbar { width: 7px; height: 7px; }
@@ -42,6 +41,10 @@
 
 * { box-sizing: border-box }
 
+h1, h2, h3, h4, h5, h6 {
+  margin: 0; font-weight: var(--fw-normal); font-family: var(--ff-med);
+}
+
 body {
   margin: 0;
   font-family: var(--ff-main);
@@ -50,13 +53,13 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-@import "App.colors.dark";
-@import "App.colors.light";
+@import "app.colors.dark";
+@import "app.colors.light";
 
-@import "styles/button";
-@import "styles/input";
-@import "styles/label";
-@import "styles/form";
+@import "button";
+@import "input";
+@import "label";
+@import "form";
 
 #root {
   color: var(--main-fg);
@@ -83,7 +86,7 @@ body {
   font-size: 11px;
   display: flex;
   align-items: center;
-  //margin-top: 2px;
+  margin-top: 2px;
   flex-wrap: nowrap;
   //text-transform: uppercase
 }

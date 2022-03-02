@@ -1,7 +1,7 @@
 import { BaseQueryFn, createApi, FetchArgs, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 import { IUser } from '../../interfaces/IUser'
 import { IUserAuth } from '../../interfaces/IUserAuth'
-import { RootState } from '../store'
+import { apiBaseUrl } from '../../constants/env'
 
 export interface CustomError {
   data: { message: [] | string }
@@ -10,7 +10,7 @@ export interface CustomError {
 export const authApi = createApi({
   reducerPath: 'authApi',
   baseQuery: fetchBaseQuery({
-    baseUrl: 'http://pmanager:4000',
+    baseUrl: apiBaseUrl,
     prepareHeaders: headers => {
       headers.set('Access-Control-Allow-Origin', '*')
       headers.set('Access-Control-Allow-Methods', 'GET, POST, PUT,PATCH, DELETE, OPTIONS')

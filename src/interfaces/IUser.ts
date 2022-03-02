@@ -1,3 +1,5 @@
+import { IRole } from './IRole'
+
 export interface IUser {
   id: number
   username: string
@@ -8,4 +10,5 @@ export interface IUser {
   name?: string
   phone?: string
   image?: any
+  roles: IRole[]
 }

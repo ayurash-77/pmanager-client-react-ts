@@ -5,6 +5,7 @@ import { IVariant } from './IVariant'
 interface IIconButtonStyled {
   ml?: number
   mr?: number
+  size?: number
   variant?: IVariant
   disabled?: boolean
 }
@@ -16,8 +17,11 @@ interface IIconButton extends IIconButtonStyled {
 
 const marginLeft = p => (p.ml ? p.ml.toString() + 'px' : 0)
 const marginRight = p => (p.mr ? p.mr.toString() + 'px' : 0)
+const size = p => p.size && p.size.toString() + 'px'
 
 const IconButtonStyled = styled.div<IIconButtonStyled>`
+  width: ${size};
+  height: ${size};
   transition: opacity 100ms;
   margin-left: ${marginLeft};
   margin-right: ${marginRight};
