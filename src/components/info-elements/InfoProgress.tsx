@@ -9,16 +9,33 @@ import { Progressbar } from '../ui/Progressbar'
 
 interface IInfoProgress extends Partial<IProject> {
   withValue?: boolean | null
+  withLabel?: boolean | null
+  width?: number
+  height?: number
 }
 
-export const InfoProgress: FC<IInfoProgress> = ({ progress, status, withValue }) => {
+export const InfoProgress: FC<IInfoProgress> = ({
+  progress,
+  status,
+  withLabel,
+  withValue,
+  width,
+  height = 4,
+}) => {
   const { text } = useTranslate()
-  const statusColor = statuses[status.code].color
-  const statusColorBg = statuses[status.code].colorBg
+  const statusColor = status && statuses[status.code].color
+  const statusColorBg = status && statuses[status.code].colorBg
   return (
     <>
-      {withValue && <InfoLabel>{text.project.progress}</InfoLabel>}
-      <Progressbar progress={progress} colorFg={statusColor} colorBg={statusColorBg} withValue={withValue} />
+      {withLabel && <InfoLabel>{text.project.progress}</InfoLabel>}
+      <Progressbar
+        progress={progress}
+        colorFg={statusColor}
+        colorBg={statusColorBg}
+        withValue={withValue}
+        width={width}
+        height={height}
+      />
     </>
   )
 }

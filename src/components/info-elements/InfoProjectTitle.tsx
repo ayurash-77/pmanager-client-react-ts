@@ -15,6 +15,7 @@ const margin = p => (p.margin ? p.margin + 'px' : '4px')
 
 export const InfoProjectTitleContainer = styled.div<ITitleStyled>`
   font-size: var(--font-size-normal);
+  white-space: nowrap;
   font-weight: 500;
   text-align: ${align};
   margin: ${margin} 2px;

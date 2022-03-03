@@ -25,7 +25,7 @@ export const InfoProjectBlock: FC<Partial<IProject>> = project => {
           <InfoStartAt startAt={project.startAt} />
           <InfoDeadline deadline={project.deadline} />
           <InfoStatus status={project.status} />
-          <InfoProgress progress={project.progress} status={project.status} withValue={true} />
+          <InfoProgress progress={project.progress} status={project.status} withLabel withValue />
         </s.InfoGrid>
       </div>
     </>

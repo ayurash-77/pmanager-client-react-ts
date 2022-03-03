@@ -9,7 +9,7 @@ import { setQuarterData, setSelectedId } from '../store/reducers/projects.reduce
 import ProjectCard from '../components/project-card/ProjectCard'
 import styled from 'styled-components'
 import { useTranslate } from '../hooks/useTranslate'
-import { InfoProgress } from '../components/info-elements'
+import { InfoProgress, InfoProjectTitle } from '../components/info-elements'
 import { Table } from '../components/ui'
 import cn from 'classnames'
 
@@ -95,7 +95,14 @@ const ProjectsPage: FC = () => {
             className={cn({ selected: selectedId === item.id })}
           >
             <td style={{ opacity: 0.5 }}>{idx + 1}</td>
-            <td className={'bold'}>{item.title}</td>
+            <td className={'bold'}>
+              <InfoProjectTitle
+                align={'left'}
+                title={item.title}
+                highPriority={item.highPriority}
+                status={item.status}
+              />
+            </td>
             {projectsViewFilter.client && <td style={{ opacity: 0.75 }}>{item.client?.name}</td>}
             {projectsViewFilter.brand && <td style={{ opacity: 0.75 }}>{item.brand?.name}</td>}
             {projectsViewFilter.agency && <td style={{ opacity: 0.75 }}>{item.agency?.name}</td>}

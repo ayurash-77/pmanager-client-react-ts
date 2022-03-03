@@ -8,8 +8,8 @@ import statuses from '../../constants/statuses'
 
 export const InfoStatus: FC<Partial<IProject>> = ({ status }) => {
   const { text } = useTranslate()
-  const color = statuses[status.code].color
-  const value = status.name
+  const color = status ? statuses[status.code].color : 'var(--main-fg)'
+  const value = status?.name
   return (
     <>
       <InfoLabel>{text.project.status}</InfoLabel>

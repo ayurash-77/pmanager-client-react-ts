@@ -35,7 +35,7 @@ export const ProjectCard: FC<IProjectCard> = ({ ...props }) => {
       <div className={cn('imageContainer', { selected: props.selected })}>
         <Image src={imageSrc} alt={props.item.title} fallback={<Clapper />} />
       </div>
-      <InfoProgress progress={props.item.progress} status={props.item.status} withValue={false} />
+      <InfoProgress progress={props.item.progress} status={props.item.status} height={3} withValue={false} />
 
       <div className={cn('infoContainer', { selected: props.selected })}>
         <InfoProjectTitle

@@ -1,5 +1,5 @@
 import { ModalWrapper } from './ModalWrapper'
-import { FC, useRef, useState } from 'react'
+import { FC, useEffect, useRef, useState } from 'react'
 import { useTranslate } from '../hooks/useTranslate'
 import { Grid } from '../components/ui/Containers'
 import axios from 'axios'
@@ -55,7 +55,7 @@ export const NewProjectModal: FC<INewProjectModal> = ({ ...props }) => {
   const [message, setMessage] = useState(null)
   const [waiting, setWaiting] = useState(false)
 
-  const [createProject, { isError, data: createdProject, isSuccess, error, reset }] =
+  const [createProject, { isError, data: createdProject, isSuccess, status, error, reset }] =
     useCreateProjectMutation()
   const errorJsx = ErrorList(error && 'data' in error ? error.data.message : [])
 
@@ -157,7 +157,10 @@ export const NewProjectModal: FC<INewProjectModal> = ({ ...props }) => {
     await clearData()
   }
 
-  isSuccess && dispatch(setSelectedId(createdProject.id))
+  useEffect(() => {
+    isSuccess && dispatch(setSelectedId(createdProject.id))
+  }, [createdProject, dispatch, isSuccess])
+  // isSuccess && dispatch(setSelectedId(createdProject.id))
 
   ////////////////////////////////////////////////////////////////////////////////////////////
 
