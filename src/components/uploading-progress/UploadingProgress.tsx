@@ -8,13 +8,13 @@ interface IUploadingProgress {
 }
 export const UploadingProgress: FC<IUploadingProgress> = ({ uploading, progress, withValue }) => {
   return (
-    <div style={{ height: 11 }}>
+    <div style={{ height: 11, width: '100%' }}>
       {uploading && (
         <Progressbar
           progress={progress}
           colorFg={'var(--main-fg)'}
           colorBg={'var(--progressbar-bg)'}
-          withValue={true}
+          withValue={withValue}
         />
       )}
     </div>

@@ -1,4 +1,4 @@
-import styled, { css } from 'styled-components'
+import styled from 'styled-components'
 
 const cols = p => p.cols || 'auto auto'
 const rows = p => p.rows || 'max-content'
@@ -16,6 +16,7 @@ interface IGrid {
   align?: 'left' | 'right' | 'center'
   marginTop?: number
   marginBottom?: number
+  width?: string
 }
 export const Grid = styled.div<IGrid>`
   label {

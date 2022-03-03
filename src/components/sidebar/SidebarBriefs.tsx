@@ -6,11 +6,11 @@ import Loader from '../ui/Loader'
 
 import * as ToolbarIcons from '../../assets/icons/toolbar-icons'
 import { toDateStr } from '../../tools/date-time-format'
-import { useNavigate } from 'react-router'
 import axios from 'axios'
 import NewBriefModal from '../../modal/NewBriefModal'
 import DeleteBriefModal from '../../modal/DeleteBriefModal'
 import { IconButton, Table } from '../ui'
+import { apiBaseUrl } from '../../constants/env'
 
 interface ISidebarBriefs {
   project: IProject | null
@@ -27,9 +27,8 @@ export const SidebarBriefs: FC<ISidebarBriefs> = ({ project, isFetching }) => {
     setDeleteBriefModalShow(true)
   }
 
-  const navigate = useNavigate()
   const onBriefClickHandler = async item => {
-    const url = `/root/${item.url}`
+    const url = `${apiBaseUrl}/root/${item.url}`
     const filename = url.split('/').pop()
     await axios({
       url,

@@ -11,12 +11,14 @@ interface IInitialState {
   quarterData: IQuarterItem[] | null
   quarterFilter: IQuarterFilter
   selectedId: number | null
+  searchFilter?: string
 }
 
 const initialState: IInitialState = {
   quarterData: [],
   quarterFilter: { isActive: false, quarter: null },
   selectedId: null,
+  searchFilter: null,
 }
 
 export const projectsSlice = createSlice({
@@ -33,8 +35,11 @@ export const projectsSlice = createSlice({
     setSelectedId(state, action: PayloadAction<number>) {
       state.selectedId = action.payload
     },
+    setSearchFilter(state, action: PayloadAction<string>) {
+      state.searchFilter = action.payload
+    },
   },
 })
 
-export const { setQuarterFilter, setQuarterData, setSelectedId } = projectsSlice.actions
+export const { setQuarterFilter, setQuarterData, setSelectedId, setSearchFilter } = projectsSlice.actions
 export default projectsSlice.reducer

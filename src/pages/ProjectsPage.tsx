@@ -1,4 +1,4 @@
-import { FC, useEffect, useState } from 'react'
+import { FC, useEffect } from 'react'
 import { withLayout } from '../layout/Layout'
 import Loader from '../components/ui/Loader'
 import { ErrorList } from '../components/errors/ErrorList'
@@ -28,17 +28,18 @@ const ProjectsPage: FC = () => {
     error: errorProjects,
   } = useGetAllProjectsQuery({}, { refetchOnFocus: true, pollingInterval: 30000 })
 
-  const { quarterFilter, selectedId } = useAppSelector(state => state.projects)
+  const { quarterFilter, selectedId, searchFilter } = useAppSelector(state => state.projects)
   const errorJsx = ErrorList(errorProjects && 'data' in errorProjects ? errorProjects.data.message : [])
 
   const dispatch = useAppDispatch()
 
-  const onProjectClickHandler = id => {
+  const onProjectClickHandler = (id: number) => {
     dispatch(setSelectedId(selectedId === id ? null : id))
   }
 
   const { darkMode } = useAppSelector(state => state.ui.theme)
   const { filterBar, projectsViewMode } = useAppSelector(state => state.ui)
+  const searchProjects = searchFilter ? projects?.filter(item => item.title.includes(searchFilter)) : projects
 
   useEffect(() => {
     document.body.setAttribute('darkMode', darkMode.toString())
@@ -47,11 +48,11 @@ const ProjectsPage: FC = () => {
     }
   }, [darkMode, dispatch, projects])
 
-  const projectsFilteredByQuarter = projects.filter(project => {
+  const projectsFilteredByQuarter = searchProjects.filter(project => {
     return toQuarterStr(project.createdAt) === quarterFilter.quarter
   })
 
-  const projectsFiltered = quarterFilter.isActive ? projectsFilteredByQuarter : projects
+  const projectsFiltered = quarterFilter.isActive ? projectsFilteredByQuarter : searchProjects
   const projectsViewFilter = filterBar.filters[projectsViewMode]
 
   const ProjectGridContent = (

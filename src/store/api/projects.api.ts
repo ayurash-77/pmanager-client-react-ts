@@ -3,11 +3,6 @@ import { IProject } from '../../interfaces/IProject'
 import { IProjectData } from '../../modal/NewProjectModal'
 import { getFetchBaseQuery } from './getFetchBaseQuery'
 
-interface IParams {
-  offset?: number
-  limit?: number
-}
-
 export const projectsApi = createApi({
   reducerPath: 'projectsApi',
   refetchOnFocus: true,
@@ -15,15 +10,8 @@ export const projectsApi = createApi({
   baseQuery: getFetchBaseQuery(),
 
   endpoints: build => ({
-    getAllProjects: build.query<IProject[], IParams>({
-      query: arg => {
-        if (!arg) return null
-        const { offset, limit } = arg
-        return {
-          url: `projects`,
-          params: { offset, limit },
-        }
-      },
+    getAllProjects: build.query<IProject[], {}>({
+      query: () => ({ url: `projects` }),
       providesTags: result => (result ? result.map(({ id }) => ({ type: 'projects', id })) : []),
     }),
     getProject: build.query<IProject, number>({

@@ -2,7 +2,7 @@ import { ModalWrapper } from './ModalWrapper'
 import { FC, useRef, useState } from 'react'
 import { useTranslate } from '../hooks/useTranslate'
 import { Grid } from '../components/ui/Containers'
-import { InputBrief } from '../components/ui/InputBrief'
+import { InputBrief } from '../components/ui'
 import axios from 'axios'
 import { useAppSelector } from '../hooks/redux'
 import { ErrorList } from '../components/errors/ErrorList'
@@ -12,6 +12,8 @@ import { IBrief } from '../interfaces/IBrief'
 import { useCreateBriefMutation, useGetAllBriefCategoriesQuery } from '../store/api/briefs.api'
 import { FlexColumn, Input, Select, Textarea } from '../components/ui'
 import { apiBaseUrl, apiUploadUrl } from '../constants/env'
+import { useGetAllProjectsQuery } from '../store/api/projects.api'
+import { UploadingProgress } from '../components/uploading-progress/UploadingProgress'
 
 interface INewBriefModal {
   isOpen: boolean
@@ -24,10 +26,14 @@ export interface IBriefData extends Partial<IBrief> {
   categoryId: number
 }
 
+//
+// NewBriefModal
+//
+
 export const NewBriefModal: FC<INewBriefModal> = ({ ...props }) => {
   const { text } = useTranslate()
   const token = useAppSelector(state => state.auth.authUser.token)
-  const user = useAppSelector(state => state.auth.authUser)
+
   const fileInputRef = useRef<HTMLInputElement>(null)
 
   const briefDataInit: IBriefData = {
@@ -44,12 +50,15 @@ export const NewBriefModal: FC<INewBriefModal> = ({ ...props }) => {
   const [briefData, setBriefData] = useState<IBriefData>(briefDataInit)
   const [isChecked, setChecked] = useState(briefDataInit.approved)
   const [uploading, setUploading] = useState(false)
-  const [loading, setLoading] = useState(false)
-  const selectedId = useAppSelector(state => state.projects.selectedId)
+  const [uploaded, setUploaded] = useState(false)
+  const [progress, setProgress] = useState(0)
+
   const [createBrief, { isError, error, reset }] = useCreateBriefMutation()
+
   const errorJsx = ErrorList(error && 'data' in error ? error.data.message : [])
 
   const { data: briefCategories } = useGetAllBriefCategoriesQuery()
+  const { refetch: refetchProjects } = useGetAllProjectsQuery({})
   const options = briefCategories?.map(item => ({ label: item.name, value: item.id }))
   const [categoryId, setCategoryId] = useState(1)
 
@@ -69,7 +78,7 @@ export const NewBriefModal: FC<INewBriefModal> = ({ ...props }) => {
     setBriefData(briefDataInit)
     setCategoryId(1)
     setUploading(false)
-    setLoading(false)
+    setUploaded(false)
   }
 
   const onChangeHandler = (key, e) => {
@@ -87,12 +96,17 @@ export const NewBriefModal: FC<INewBriefModal> = ({ ...props }) => {
     const formData = new FormData()
     formData.append('file', file)
     setUrl(null)
-    setLoading(false)
+    setUploaded(false)
     setUploading(true)
     setBriefData({ ...briefData, projectId: props.project.id })
     try {
       const config = {
         headers: { 'Content-Type': 'multipart/form-data', Authorization: `Bearer ${token}` },
+        onUploadProgress: e => {
+          const { loaded, total } = e
+          const percent = Math.floor((loaded * 100) / total)
+          if (percent < 100) setProgress(percent)
+        },
       }
       const { data } = await axios.post(`${apiUploadUrl}/brief`, formData, config)
       setUrl(data.url)
@@ -101,7 +115,7 @@ export const NewBriefModal: FC<INewBriefModal> = ({ ...props }) => {
       // console.log('ERROR: ', error)
     }
     setUploading(false)
-    setLoading(true)
+    setUploaded(true)
   }
 
   const onCancelHandler = async e => {
@@ -113,8 +127,9 @@ export const NewBriefModal: FC<INewBriefModal> = ({ ...props }) => {
   const onSubmitHandler = async e => {
     e.preventDefault()
     if (!briefData || !briefData) return
-    await createBrief(briefData).unwrap()
+    await createBrief(briefData)
     await clearData()
+    refetchProjects()
     props.closeAction()
   }
 
@@ -126,20 +141,37 @@ export const NewBriefModal: FC<INewBriefModal> = ({ ...props }) => {
 
   //////////////////////////////////////////////////////////////////
 
+  //////////////////////////////////////////////////////////////////
+
   return (
     <>
       <ModalWrapper
         {...props}
         warning={false}
         type={'type1'}
-        size={'sm'}
+        size={'md'}
         title={text.actions.addBrief}
         onSubmitHandler={onSubmitHandler}
         onCancelHandler={onCancelHandler}
       >
+        <InputBrief
+          width={'100%'}
+          onClick={() => fileInputRef.current.click()}
+          url={url}
+          uploading={uploading}
+          uploaded={uploaded}
+          briefData={briefData}
+        />
+        {/* {briefData.originalName} */}
+        <UploadingProgress uploading={uploading} progress={progress} withValue={true} />
+        <Input
+          style={{ width: '100%' }}
+          type="file"
+          onChange={fileSelectedHandler}
+          width={'100%'}
+          // ref={fileInputRef}
+        />
         <Grid cols="auto" gap={5}>
-          <input style={{ display: 'none' }} type="file" onChange={fileSelectedHandler} ref={fileInputRef} />
-          <InputBrief width={'100%'} onClick={() => fileInputRef.current.click()} url={url} />
           <div>
             <FlexColumn vAlign="center" padding={5}>
               {isError && errorJsx}

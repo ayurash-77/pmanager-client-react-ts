@@ -1,5 +1,7 @@
 import React, { FC } from 'react'
 import styled from 'styled-components'
+import Loader from './Loader'
+import { IBriefData } from '../../modal/NewBriefModal'
 
 const BriefPicContainer = styled.div`
   display: flex;
@@ -10,10 +12,9 @@ const BriefPicContainer = styled.div`
   border-radius: 4px;
   overflow: hidden;
   background: var(--pc-dummy-bg);
-
   color: var(--table-header-fg);
   width: 100%;
-  height: 160px;
+  height: 260px;
 
   img {
     width: 100%;
@@ -52,16 +53,19 @@ interface IInputBrief {
   url: string
   onClick: () => void
   width: string
+  uploading?: boolean
+  uploaded?: boolean
+  briefData?: IBriefData
 }
 
-export const InputBrief: FC<IInputBrief> = ({ ...props }) => {
+export const InputBrief: FC<IInputBrief> = ({ uploading, uploaded, briefData, ...props }) => {
+  /////////////////////////////////////////////////////////////////////////////////////////
+
+  /////////////////////////////////////////////////////////////////////////////////////////
+
   return (
     <>
-      <BriefPicContainer>
-        <span onClick={() => props.onClick()} className="link" role="button">
-          browse file
-        </span>
-      </BriefPicContainer>
+      <BriefPicContainer>{uploading && <Loader size={48} />}</BriefPicContainer>
     </>
   )
 }

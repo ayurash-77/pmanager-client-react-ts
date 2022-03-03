@@ -22,11 +22,41 @@ input, select, textarea, {
     }
   }
 
+  &[type='file'] {
+    padding: 0;
+    display: flex;
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+
+    //background: var(--input-bg);
+    border: none;
+    background: var(--input-shadow);
+
+    &:focus {
+      color: var(--text-mid);
+      box-shadow: none;
+      border: none;
+      background: var(--input-shadow);
+    }
+
+    &::-webkit-file-upload-button {
+      //visibility: hidden;
+      padding: 0 4px;
+      color: var(--button-fg);
+      background: var(--button-bg);
+      border: 1px solid var(--button-bg);
+      height: 22px;
+    }
+
+    &:hover { color: var(--text-high); }
+  }
+
   &:focus {
     color: var(--text-high);
     border: 1px solid var(--border-focus);
-    box-shadow: 0 0 6px var(--border-focus);
     background: var(--input-bg-focus);
+    box-shadow: 0 0 6px var(--border-focus);
   }
 
   &.accent {

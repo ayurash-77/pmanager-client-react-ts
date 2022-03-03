@@ -9,9 +9,8 @@ import { IQuarterItem } from '../tools/quarter-filter'
 import NewProjectModal from '../modal/NewProjectModal'
 import DeleteProjectModal from '../modal/DeleteProjectModal'
 import { setFilterbarShow, setProjectsViewMode, setThemeMode } from '../store/reducers/ui.reducer'
-import { IconButton, ToolButton, ToolButtonGroup, FlexRow } from '../components/ui'
-import { useGetAllRolesQuery } from '../store/api/roles.api'
-import { IRole } from '../interfaces/IRole'
+import { IconButton, ToolButton, ToolButtonGroup, FlexRow, Input } from '../components/ui'
+import { setSearchFilter } from '../store/reducers/projects.reducer'
 
 interface Props extends DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLDivElement> {
   sidebarShow: boolean
@@ -63,6 +62,10 @@ export const Header: FC<IHeader> = props => {
   const [isNewProjectModalShow, setNewProjectModalShow] = useState(false)
   const [isDeleteProjectModalShow, setDeleteProjectModalShow] = useState(false)
 
+  const onSearchHandler = (value: string) => {
+    dispatch(setSearchFilter(value))
+  }
+
   const deleteProjectHandler = () => {
     setDeleteProjectModalShow(true)
   }
@@ -94,6 +97,12 @@ export const Header: FC<IHeader> = props => {
       </TitleContainer>
 
       <FlexRow align={'right'}>
+        <Input
+          width={'120px'}
+          onChange={e => onSearchHandler(e.target.value)}
+          autoFocus={true}
+          placeholder={text.app.liveSearch}
+        />
         <ToolButtonGroup>
           <ToolButton
             icon={<ToolbarIcons.Grid />}

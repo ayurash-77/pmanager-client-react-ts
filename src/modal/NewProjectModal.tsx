@@ -1,17 +1,12 @@
 import { ModalWrapper } from './ModalWrapper'
-import React, { FC, useRef, useState } from 'react'
+import { FC, useRef, useState } from 'react'
 import { useTranslate } from '../hooks/useTranslate'
 import { Grid } from '../components/ui/Containers'
 import axios from 'axios'
-import { useAppSelector } from '../hooks/redux'
+import { useAppDispatch, useAppSelector } from '../hooks/redux'
 import { useCreateProjectMutation } from '../store/api/projects.api'
 import { ErrorList } from '../components/errors/ErrorList'
 import { Switcher } from '../components/ui/Switcher'
-import { IStatus } from '../interfaces/IStatus'
-import { IBrand } from '../interfaces/IBrand'
-import { IClient } from '../interfaces/IClient'
-import { IAgency } from '../interfaces/IAgency'
-import { IUser } from '../interfaces/IUser'
 import { FlexColumn, Input, InputImage, Select, Textarea } from '../components/ui'
 import { apiBaseUrl, apiUploadUrl } from '../constants/env'
 import { UploadingProgress } from '../components/uploading-progress/UploadingProgress'
@@ -19,6 +14,7 @@ import { useGetAllBrandsQuery } from '../store/api/brands.api'
 import { useGetAllClientsQuery } from '../store/api/clients.api'
 import { useGetAllAgenciesQuery } from '../store/api/agencies.api'
 import { IProject } from '../interfaces/IProject'
+import { setSelectedId } from '../store/reducers/projects.reducer'
 
 interface INewProjectModal {
   isOpen: boolean
@@ -28,7 +24,9 @@ interface INewProjectModal {
 export interface IProjectData extends Partial<IProject> {
   image?: string
 }
-
+//
+// NewProjectModal
+//
 export const NewProjectModal: FC<INewProjectModal> = ({ ...props }) => {
   const { text } = useTranslate()
   const token = useAppSelector(state => state.auth.authUser.token)
@@ -36,54 +34,58 @@ export const NewProjectModal: FC<INewProjectModal> = ({ ...props }) => {
   const { data: brands } = useGetAllBrandsQuery()
   const { data: clients } = useGetAllClientsQuery()
   const { data: agencies } = useGetAllAgenciesQuery()
+  const selectionsInit = { brandId: 0, clientId: 0, agencyId: 0 }
   const brandsOptions = brands?.map(item => ({ label: item.name, value: item.id }))
   const clientsOptions = clients?.map(item => ({ label: item.name, value: item.id }))
   const agenciesOptions = agencies?.map(item => ({ label: item.name, value: item.id }))
-  const [selectId, setSelectId] = useState({ brandId: 0, clientId: 0, agencyId: 0 })
+  const [selectId, setSelectId] = useState(selectionsInit)
 
+  const dispatch = useAppDispatch()
   const fileInputRef = useRef<HTMLInputElement>(null)
 
   const projectDataInit: IProjectData = {
-    title: '',
-    progress: 0,
-    highPriority: false,
-    image: '',
-    details: '',
     owner: user,
   }
 
   const [url, setUrl] = useState(null)
   const [projectData, setProjectData] = useState<IProjectData>(projectDataInit)
-  const [isChecked, setChecked] = useState(projectDataInit.highPriority)
+  const [isChecked, setChecked] = useState(false)
   const [uploading, setUploading] = useState(false)
   const [progress, setProgress] = useState(0)
   const [message, setMessage] = useState(null)
   const [waiting, setWaiting] = useState(false)
 
-  const [createProject, { isError, error, reset }] = useCreateProjectMutation()
+  const [createProject, { isError, data: createdProject, isSuccess, error, reset }] =
+    useCreateProjectMutation()
   const errorJsx = ErrorList(error && 'data' in error ? error.data.message : [])
 
-  const clearData = async () => {
-    // setFile(null)
-    formData.append('file', null)
-    setUploading(false)
-    setChecked(false)
-    setUrl(null)
-
+  const deleteFile = async () => {
     try {
       const config = {
         headers: { Authorization: `Bearer ${token}` },
         data: { url: projectData.image },
       }
       setWaiting(true)
+
+      console.log(projectData.image)
+
       await axios.delete(`${apiBaseUrl}/files`, config)
-      setWaiting(false)
     } catch (error) {
       //
     }
+  }
+
+  const clearData = async () => {
+    formData.append('file', null)
+    setUploading(false)
+    setChecked(false)
+    setUrl(null)
+
     reset()
+    setWaiting(false)
     setMessage(null)
     setProjectData(projectDataInit)
+    setSelectId(selectionsInit)
   }
 
   const onChangeHandler = (key, value: string) => {
@@ -137,6 +139,7 @@ export const NewProjectModal: FC<INewProjectModal> = ({ ...props }) => {
 
   const onCancelHandler = async e => {
     e.preventDefault()
+    projectData.image && (await deleteFile())
     await clearData()
     controller.abort()
     props.closeAction()
@@ -149,10 +152,12 @@ export const NewProjectModal: FC<INewProjectModal> = ({ ...props }) => {
       return
     }
     setMessage('please wait...')
-    await createProject(projectData).unwrap()
-    await clearData()
+    await createProject(projectData)
     props.closeAction()
+    await clearData()
   }
+
+  isSuccess && dispatch(setSelectedId(createdProject.id))
 
   ////////////////////////////////////////////////////////////////////////////////////////////
 
