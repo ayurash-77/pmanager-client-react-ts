@@ -1,5 +1,4 @@
 import { FC, useEffect } from 'react'
-import { withLayout } from '../layout/Layout'
 import Loader from '../components/ui/Loader'
 import { ErrorList } from '../components/errors/ErrorList'
 import { useGetAllProjectsQuery } from '../store/api/projects.api'
@@ -12,6 +11,8 @@ import { useTranslate } from '../hooks/useTranslate'
 import { InfoProgress, InfoProjectTitle } from '../components/info-elements'
 import { Table } from '../components/ui'
 import cn from 'classnames'
+import { useNavigate } from 'react-router-dom'
+import { states } from '../constants/states'
 
 const ContainerGrid = styled.div`
   display: flex;
@@ -32,21 +33,25 @@ const ProjectsPage: FC = () => {
   const errorJsx = ErrorList(errorProjects && 'data' in errorProjects ? errorProjects.data.message : [])
 
   const dispatch = useAppDispatch()
+  const navigate = useNavigate()
 
   const onProjectClickHandler = (id: number) => {
     dispatch(setSelectedId(selectedId === id ? null : id))
   }
+  const onProjectDoubleClickHandler = (id: number) => {
+    dispatch(setSelectedId(id))
+    navigate(`/project/${id}/overview`, { state: 1 })
+    console.log(id)
+  }
 
-  const { darkMode } = useAppSelector(state => state.ui.theme)
   const { filterBar, projectsViewMode } = useAppSelector(state => state.ui)
   const searchProjects = searchFilter ? projects?.filter(item => item.title.includes(searchFilter)) : projects
 
   useEffect(() => {
-    document.body.setAttribute('darkMode', darkMode.toString())
     if (projects.length > 0) {
       dispatch(setQuarterData(projects))
     }
-  }, [darkMode, dispatch, projects])
+  }, [dispatch, projects])
 
   const projectsFilteredByQuarter = searchProjects.filter(project => {
     return toQuarterStr(project.createdAt) === quarterFilter.quarter
@@ -64,6 +69,7 @@ const ProjectsPage: FC = () => {
           item={item}
           viewFilter={projectsViewFilter}
           onClick={() => onProjectClickHandler(item.id)}
+          onDoubleClick={() => onProjectDoubleClickHandler(item.id)}
         />
       ))}
     </ContainerGrid>
@@ -92,6 +98,7 @@ const ProjectsPage: FC = () => {
           <tr
             key={item.id}
             onClick={() => onProjectClickHandler(item.id)}
+            onDoubleClick={() => onProjectDoubleClickHandler(item.id)}
             className={cn({ selected: selectedId === item.id })}
           >
             <td style={{ opacity: 0.5 }}>{idx + 1}</td>
@@ -140,5 +147,4 @@ const ProjectsPage: FC = () => {
   )
 }
 
-export default withLayout(ProjectsPage)
-// export default ProjectsPage
+export default ProjectsPage

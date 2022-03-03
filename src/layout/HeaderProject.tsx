@@ -16,7 +16,7 @@ interface Props extends DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLDi
   sidebarShow: boolean
 }
 
-interface IHeader extends Props {
+interface IHeaderProject extends Props {
   onClick: () => void
 }
 
@@ -36,7 +36,7 @@ const TitleContainer = styled.div`
   text-wrap: none;
 `
 
-export const Header: FC<IHeader> = props => {
+export const HeaderProject: FC<IHeaderProject> = props => {
   const { darkMode } = useAppSelector(state => state.ui.theme)
   const { language, setLanguage } = useTranslate()
   const { text } = useTranslate()
@@ -149,5 +149,3 @@ export const Header: FC<IHeader> = props => {
     </Container>
   )
 }
-
-export default Header

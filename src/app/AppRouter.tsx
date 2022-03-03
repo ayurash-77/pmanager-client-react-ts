@@ -3,37 +3,24 @@ import React, { FC } from 'react'
 import { useAppSelector } from '../hooks/redux'
 import LoginPage from '../pages/LoginPage'
 import ProjectsPage from '../pages/ProjectsPage'
-
-export enum RouteNames {
-  LOGIN = '/auth/login',
-  PROJECTS = '/projects',
-}
-
-interface IRoute {
-  path: string
-  element: JSX.Element
-}
-
-const publicRoutes: IRoute[] = [{ path: RouteNames.LOGIN, element: <LoginPage /> }]
-const privateRoutes: IRoute[] = [{ path: RouteNames.PROJECTS, element: <ProjectsPage /> }]
+import ProjectOverviewPage from '../pages/ProjectOverviewPage'
+import { Layout } from '../layout/Layout'
 
 const AppRouter: FC = () => {
   const authUser = useAppSelector(state => state.auth.authUser)
 
   return authUser && authUser.token ? (
     <Routes>
-      {privateRoutes.map(route => (
-        <Route path={route.path} element={route.element} key={route.path} />
-      ))}
-      <Route path="/auth/login" element={<Navigate replace to={RouteNames.PROJECTS} />} />
-      <Route path="/" element={<Navigate replace to={RouteNames.PROJECTS} />} />
+      <Route path={'/*'} element={<Layout />}>
+        <Route path={'projects'} element={<ProjectsPage />} />
+        <Route path={'project/:id/*'} element={<ProjectOverviewPage />} />
+        <Route path={'*'} element={<Navigate replace to={'projects'} />} />
+      </Route>
     </Routes>
   ) : (
     <Routes>
-      {publicRoutes.map(route => (
-        <Route path={route.path} element={route.element} key={route.path} />
-      ))}
-      <Route path="/*" element={<Navigate replace to={RouteNames.LOGIN} />} />
+      <Route path={'/auth/login'} element={<LoginPage />} />
+      <Route path={'/*'} element={<Navigate replace to={'/auth/login'} />} />
     </Routes>
   )
 }

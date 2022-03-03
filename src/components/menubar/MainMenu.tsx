@@ -10,7 +10,7 @@ import { QuartersMenu } from './QuartersMenu'
 import { setQuarterFilter } from '../../store/reducers/projects.reducer'
 import { useAppDispatch, useAppSelector } from '../../hooks/redux'
 
-export const MainMenu: FC<Partial<IMenuItem>> = props => {
+export const MainMenu: FC<Partial<IMenuItem>> = ({ menubarExpanded }) => {
   const { text } = useTranslate()
   const [selectedMenuItem, setSelectedMenuItem] = useState(0)
 
@@ -35,7 +35,7 @@ export const MainMenu: FC<Partial<IMenuItem>> = props => {
     <div>
       {mainMenuButtons.map((item, index) => (
         <MenuItem
-          {...props}
+          menubarExpanded={menubarExpanded}
           key={index}
           onClick={() => handleMenuItemClick(index)}
           name={item.name}
@@ -45,7 +45,7 @@ export const MainMenu: FC<Partial<IMenuItem>> = props => {
         />
       ))}
 
-      <QuartersMenu menubarExpanded={props.menubarExpanded} isMenuShow={selectedMenuItem === 4} />
+      <QuartersMenu menubarExpanded={menubarExpanded} isMenuShow={selectedMenuItem === 4} />
     </div>
   )
 }

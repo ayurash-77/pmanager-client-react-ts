@@ -8,6 +8,7 @@ export interface IMenuItem {
   onClick?: () => void
   isSelected?: boolean
   menubarExpanded?: boolean
+  link?: string
 }
 
 const MenuItemContainer = styled.div<IMenuItem>`

@@ -25,6 +25,7 @@ interface IProjectCard {
   item: IProject
   viewFilter: IProjectViewFilter
   onClick?: () => void
+  onDoubleClick?: () => void
 }
 
 export const ProjectCard: FC<IProjectCard> = ({ ...props }) => {
