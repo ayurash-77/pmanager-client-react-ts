@@ -24,6 +24,8 @@ import { Clapper } from '../assets/thumbnails/thumbnails'
 import { apiBaseUrl } from '../constants/env'
 import * as s from '../components/info-elements/InfoGrid'
 import { Grid } from '../components/ui'
+import { useParams } from 'react-router'
+import Loader from '../components/ui/Loader'
 
 interface Props extends DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLDivElement> {
   sidebarShow: boolean
@@ -91,8 +93,9 @@ export const HeaderProject: FC<IHeaderProject> = props => {
 
   const { data: projects = [] } = useGetAllProjectsQuery({})
   const { selectedId } = useAppSelector(state => state.projects)
+  // const { id } = useParams()
 
-  const project = selectedId ? projects.find(project => project.id === selectedId) : null
+  const project = projects.find(project => project.id === selectedId)
 
   const dispatch = useAppDispatch()
 
@@ -100,21 +103,25 @@ export const HeaderProject: FC<IHeaderProject> = props => {
     dispatch(setSearchFilter(value))
   }
 
-  const imageSrc = `${apiBaseUrl}/root/${project.homeDir}/.pmdata/projectThumbnail.jpg`
+  const imageSrc = `${apiBaseUrl}/root/${project?.homeDir}/.pmdata/projectThumbnail.jpg`
 
   return (
     <HeaderContainer>
       <div className={'imageContainer'}>
-        <Image src={imageSrc} alt={project.title} fallback={<Clapper />} width={240} />
+        {project ? (
+          <Image src={imageSrc} alt={project?.title} fallback={<Clapper />} width={240} />
+        ) : (
+          <Loader size={48} />
+        )}
       </div>
 
       <div className={'content'}>
         <div className={'topRow'}>
           <div className={'titleContainer'}>
             <InfoProjectTitle
-              title={project.title}
-              highPriority={project.highPriority}
-              status={project.status}
+              title={project?.title}
+              highPriority={project?.highPriority}
+              status={project?.status}
             />
           </div>
           <FlexRow align={'right'} vAlign={'flex-start'}>
@@ -145,16 +152,16 @@ export const HeaderProject: FC<IHeaderProject> = props => {
         <div className={'bottomRow'}>
           <Grid cols={'auto 1fr'} width={'100%'} align={'left'}>
             <InfoGrid>
-              <InfoBrand brand={project.brand} />
-              <InfoClient client={project.client} />
-              <InfoAgency agency={project.agency} />
-              <InfoOwner owner={project.owner} />
+              <InfoBrand brand={project?.brand} />
+              <InfoClient client={project?.client} />
+              <InfoAgency agency={project?.agency} />
+              <InfoOwner owner={project?.owner} />
             </InfoGrid>
             <s.InfoGrid>
-              <InfoStartAt startAt={project.startAt} />
-              <InfoDeadline deadline={project.deadline} />
-              <InfoStatus status={project.status} />
-              <InfoProgress progress={project.progress} status={project.status} withLabel withValue />
+              <InfoStartAt startAt={project?.startAt} />
+              <InfoDeadline deadline={project?.deadline} />
+              <InfoStatus status={project?.status} />
+              <InfoProgress progress={project?.progress} status={project?.status} withLabel withValue />
             </s.InfoGrid>
           </Grid>
         </div>

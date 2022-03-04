@@ -5,12 +5,14 @@ import LoginPage from '../pages/LoginPage'
 import ProjectsPage from '../pages/ProjectsPage'
 import ProjectOverviewPage from '../pages/ProjectOverviewPage'
 import { Layout } from '../layout/Layout'
+import Test from '../pages/Test'
 
 const AppRouter: FC = () => {
   const authUser = useAppSelector(state => state.auth.authUser)
 
   return authUser && authUser.token ? (
     <Routes>
+      <Route path={'/test/*'} element={<Test />} />
       <Route path={'/*'} element={<Layout />}>
         <Route path={'projects'} element={<ProjectsPage />} />
         <Route path={'project/:id/*'} element={<ProjectOverviewPage />} />

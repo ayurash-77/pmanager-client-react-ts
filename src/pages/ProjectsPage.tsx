@@ -21,6 +21,13 @@ const ContainerGrid = styled.div`
   justify-content: space-evenly;
 `
 
+const Body = styled.div`
+  z-index: 1;
+  padding: 10px;
+  height: 100%;
+  overflow: auto;
+`
+
 const ProjectsPage: FC = () => {
   const {
     data: projects = [],
@@ -137,12 +144,12 @@ const ProjectsPage: FC = () => {
   ////////////////////////////////////////////////////////////////////////
 
   return (
-    <>
+    <Body>
       {isLoadingProjects && <Loader size={64} border={8} />}
       {errorJsx}
       {projectsViewMode === 'grid' && ProjectGridContent}
       {projectsViewMode === 'list' && ProjectsListContent}
-    </>
+    </Body>
   )
 }
 

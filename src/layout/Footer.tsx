@@ -11,6 +11,7 @@ import {
 } from '../components/info-elements'
 import { useTranslate } from '../hooks/useTranslate'
 import { InfoDoneAt } from '../components/info-elements/InfoDoneAt'
+import { useParams } from 'react-router'
 
 interface Props extends DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLDivElement> {}
 
@@ -39,6 +40,7 @@ const InfoElement = styled.div`
 
 export const Footer: FC<Props> = props => {
   const { selectedId } = useAppSelector(state => state.projects)
+
   const { data: projects } = useGetAllProjectsQuery({})
   const project = projects?.find(p => p.id === selectedId)
   const projectInfo = (

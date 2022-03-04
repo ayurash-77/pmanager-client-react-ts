@@ -1,6 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { IQuarterItem, quartersFilter } from '../../tools/quarter-filter'
 import { IProject } from '../../interfaces/IProject'
+import { useParams } from 'react-router'
 
 interface IQuarterFilter {
   isActive: boolean
