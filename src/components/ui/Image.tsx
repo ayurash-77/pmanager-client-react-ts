@@ -7,9 +7,16 @@ interface IImage {
   alt: string
   loader?: JSX.Element
   fallback?: JSX.Element
+  width?: number
 }
 
-export const Image: FC<IImage> = ({ src, alt, fallback = null, loader = <Loader size={48} /> }) => {
+export const Image: FC<IImage> = ({
+  src,
+  alt,
+  width = 160,
+  fallback = null,
+  loader = <Loader size={48} />,
+}) => {
   const [image, setImage] = useState(fallback)
   const [loading, setLoading] = useState(true)
 
@@ -18,13 +25,13 @@ export const Image: FC<IImage> = ({ src, alt, fallback = null, loader = <Loader 
     imageExists(imageSrc, function (exists) {
       if (exists) {
         setLoading(false)
-        setImage(<img src={imageSrc} alt={alt} onLoad={() => setLoading(false)} />)
+        setImage(<img src={imageSrc} alt={alt} onLoad={() => setLoading(false)} width={width} />)
       } else {
         setLoading(false)
         setImage(fallback)
       }
     })
-  }, [alt, fallback, src])
+  }, [alt, fallback, src, width])
 
   return loading ? loader : image
 }

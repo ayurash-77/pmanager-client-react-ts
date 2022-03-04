@@ -36,7 +36,7 @@ const TitleContainer = styled.div`
   text-wrap: none;
 `
 
-export const Header: FC<IHeader> = props => {
+export const HeaderProjects: FC<IHeader> = props => {
   const { darkMode } = useAppSelector(state => state.ui.theme)
   const { language, setLanguage } = useTranslate()
   const { text } = useTranslate()
@@ -150,4 +150,4 @@ export const Header: FC<IHeader> = props => {
   )
 }
 
-export default Header
+export default HeaderProjects

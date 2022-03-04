@@ -7,14 +7,16 @@ interface ITitleStyled {
   align?: 'left' | 'right' | 'center'
   margin?: number
   statusColor?: string
+  fontSize?: string
 }
 
 const statusColor = p => p.statusColor || 'var(--text-high)'
 const align = p => (p.align ? p.align : 'center')
 const margin = p => (p.margin ? p.margin + 'px' : '4px')
+const fontSize = p => (p.fontSize ? p.fontSize : 'var(--font-size-normal)')
 
 export const InfoProjectTitleContainer = styled.div<ITitleStyled>`
-  font-size: var(--font-size-normal);
+  font-size: ${fontSize};
   white-space: nowrap;
   font-weight: 500;
   text-align: ${align};
@@ -32,12 +34,20 @@ export const InfoProjectTitleContainer = styled.div<ITitleStyled>`
 interface InfoProjectTitle extends Partial<IProject> {
   align?: 'left' | 'right' | 'center'
   margin?: number
+  fontSize?: string
 }
 
-export const InfoProjectTitle: FC<InfoProjectTitle> = ({ title, highPriority, align, margin, status }) => {
+export const InfoProjectTitle: FC<InfoProjectTitle> = ({
+  title,
+  highPriority,
+  align,
+  margin,
+  status,
+  fontSize,
+}) => {
   const statusColor = status ? statuses[status.code].color : null
   return (
-    <InfoProjectTitleContainer align={align} margin={margin} statusColor={statusColor}>
+    <InfoProjectTitleContainer align={align} margin={margin} statusColor={statusColor} fontSize={fontSize}>
       {highPriority && <span className="accent" />}
       {title}
     </InfoProjectTitleContainer>

@@ -1,6 +1,6 @@
 import { FC, useEffect, useState } from 'react'
 import styled from 'styled-components'
-import { Grid } from '../components/ui/Containers'
+import { Grid } from '../components/ui'
 import { ToolButton, ToolButtonGroup, FlexRow } from '../components/ui'
 import Loader from '../components/ui/Loader'
 import { useTranslate } from '../hooks/useTranslate'
@@ -51,7 +51,7 @@ const LoginPage: FC = () => {
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
 
-  const [login, { data: user, isLoading, error, isError }] = useLoginMutation()
+  const [login, { data: user, isLoading, error }] = useLoginMutation()
   const dispatch = useAppDispatch()
 
   const loaderJsx = isLoading && <Loader size={32} />
@@ -119,9 +119,10 @@ const LoginPage: FC = () => {
         </FlexColumn>
 
         <form onSubmit={onSubmitHandler}>
-          <Grid cols="auto" gapRow={10}>
-            <Grid cols="auto">
+          <Grid cols={'auto'}>
+            <FlexColumn gap={5}>
               <Input
+                width={'100%'}
                 variant={'normal'}
                 placeholder={text.user.username}
                 value={username}
@@ -129,15 +130,18 @@ const LoginPage: FC = () => {
                 autoFocus={true}
               />
               <Input
+                width={'100%'}
                 variant={'normal'}
                 type={'password'}
                 placeholder={text.user.password}
                 value={password}
                 onChange={onChangePasswordHandler}
               />
-            </Grid>
-            <Spacer />
-            <Button variant={'normal'}>{text.actions.enter}</Button>
+            </FlexColumn>
+            <Spacer height={30} />
+            <Button variant={'normal'} width={'100%'}>
+              {text.actions.enter}
+            </Button>
           </Grid>
         </form>
 

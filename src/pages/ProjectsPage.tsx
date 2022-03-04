@@ -12,7 +12,6 @@ import { InfoProgress, InfoProjectTitle } from '../components/info-elements'
 import { Table } from '../components/ui'
 import cn from 'classnames'
 import { useNavigate } from 'react-router-dom'
-import { states } from '../constants/states'
 
 const ContainerGrid = styled.div`
   display: flex;

@@ -28,8 +28,10 @@ export const Container = styled.div`
   .infoContainer {
     transition: background 200ms;
     border-radius: 4px;
-    padding: 2px;
+    padding-top: 2px;
+    padding-bottom: 6px;
     background: var(--pc-info-bg);
+
     box-shadow: 0 1px 3px #00000020;
     &.selected {
       background: var(--pc-info-bg-selected);

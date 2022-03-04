@@ -14,7 +14,7 @@ import { InfoGrid } from './InfoGrid'
 export const InfoProjectBlock: FC<Partial<IProject>> = project => {
   return (
     <>
-      <div style={{ display: 'flex', columnGap: 10, flexWrap: 'wrap', justifyContent: 'space-evenly' }}>
+      <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap', justifyContent: 'space-evenly' }}>
         <InfoGrid>
           <InfoBrand brand={project.brand} />
           <InfoClient client={project.client} />

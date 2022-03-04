@@ -1,7 +1,7 @@
 import { ModalWrapper } from './ModalWrapper'
 import { FC, useEffect, useRef, useState } from 'react'
 import { useTranslate } from '../hooks/useTranslate'
-import { Grid } from '../components/ui/Containers'
+import { Grid } from '../components/ui'
 import axios from 'axios'
 import { useAppDispatch, useAppSelector } from '../hooks/redux'
 import { useCreateProjectMutation } from '../store/api/projects.api'
@@ -55,7 +55,7 @@ export const NewProjectModal: FC<INewProjectModal> = ({ ...props }) => {
   const [message, setMessage] = useState(null)
   const [waiting, setWaiting] = useState(false)
 
-  const [createProject, { isError, data: createdProject, isSuccess, status, error, reset }] =
+  const [createProject, { isError, data: createdProject, isSuccess, error, reset }] =
     useCreateProjectMutation()
   const errorJsx = ErrorList(error && 'data' in error ? error.data.message : [])
 

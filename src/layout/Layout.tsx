@@ -1,17 +1,16 @@
 import { Menubar } from './Menubar'
 import { useLocalStorage } from '../hooks/useLocalStorage'
 import { Footer } from './Footer'
-import { Header } from './Header'
+import { HeaderProjects } from './HeaderProjects'
 import { Sidebar } from '../components/sidebar/Sidebar'
 import { MainMenu } from '../components/menubar/MainMenu'
 import { FC, useEffect } from 'react'
 import styled from 'styled-components'
 import { useAppDispatch, useAppSelector } from '../hooks/redux'
 import { Filterbar } from '../components/filterbar/Filterbar'
-import { Outlet, useLocation } from 'react-router'
+import { Outlet } from 'react-router'
 import { useLocationState } from '../hooks/useLocationState'
 import { ProjectMenu } from '../components/menubar/ProjectMenu'
-import { Route, Routes, Navigate } from 'react-router-dom'
 import { HeaderProject } from './HeaderProject'
 
 const Container = styled.div`
@@ -41,6 +40,7 @@ export const Layout: FC = () => {
   const [menubarExpanded, setMenubarExpanded] = useLocalStorage(true, 'menubarExpanded')
   const [sidebarShow, setSidebarShow] = useLocalStorage(true, 'sidebarShow')
   const { filterBar } = useAppSelector(state => state.ui)
+
   const toggleMenubarExpandHelper = () => {
     setMenubarExpanded(!menubarExpanded)
   }
@@ -62,18 +62,16 @@ export const Layout: FC = () => {
   return (
     <Container>
       <Menubar toggle={toggleMenubarExpandHelper} menubarExpanded={menubarExpanded}>
-        {isProjectsState ? (
-          <MainMenu menubarExpanded={menubarExpanded} />
-        ) : (
-          <ProjectMenu menubarExpanded={menubarExpanded} />
-        )}
+        {isProjectsState && <MainMenu menubarExpanded={menubarExpanded} />}
+        {!isProjectsState && <ProjectMenu menubarExpanded={menubarExpanded} />}
       </Menubar>
 
       <div className={'mainbar'}>
         <div className={'header'}>
-          {isProjectsState && <Header sidebarShow={sidebarShow} onClick={toggleSidebarShowHelper} />}
+          {isProjectsState && <HeaderProjects sidebarShow={sidebarShow} onClick={toggleSidebarShowHelper} />}
           {!isProjectsState && <HeaderProject sidebarShow={sidebarShow} onClick={toggleSidebarShowHelper} />}
         </div>
+
         {isProjectsState && <Filterbar {...filterBar} />}
 
         <div className="body">

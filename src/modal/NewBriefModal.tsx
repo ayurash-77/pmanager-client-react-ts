@@ -1,7 +1,7 @@
 import { ModalWrapper } from './ModalWrapper'
 import { FC, useRef, useState } from 'react'
 import { useTranslate } from '../hooks/useTranslate'
-import { Grid } from '../components/ui/Containers'
+import { Grid } from '../components/ui'
 import { InputBrief } from '../components/ui'
 import axios from 'axios'
 import { useAppSelector } from '../hooks/redux'
