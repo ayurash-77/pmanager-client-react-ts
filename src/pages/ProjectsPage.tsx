@@ -47,7 +47,6 @@ const ProjectsPage: FC = () => {
   const onProjectDoubleClickHandler = (id: number) => {
     dispatch(setSelectedId(id))
     navigate(`/project/${id}/overview`, { state: 1 })
-    console.log(id)
   }
 
   const { filterBar, projectsViewMode } = useAppSelector(state => state.ui)

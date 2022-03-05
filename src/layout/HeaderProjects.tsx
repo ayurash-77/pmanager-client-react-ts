@@ -21,6 +21,10 @@ interface IHeader extends Props {
 }
 
 const Container = styled.div`
+  padding: 8px 10px;
+  z-index: 3;
+  box-shadow: 0 0 4px var(--button-shadow);
+
   width: 100%;
   display: flex;
   justify-content: space-between;

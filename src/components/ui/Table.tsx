@@ -68,13 +68,13 @@ const TableStyled = styled.table`
     }
 
     &.date {
-      color: var(--palette-blue-60);
+      color: var(--date1);
     }
     &.info {
       color: var(--text-mid);
     }
     &.owner {
-      color: var(--palette-blue-70);
+      color: var(--user-email);
     }
     &.deadline {
       color: var(--accent);

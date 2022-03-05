@@ -4,6 +4,7 @@ import { FC } from 'react'
 interface IProgressbar {
   height?: number
   width?: number
+  m?: number
   colorFg?: string
   colorBg?: string
   progress: number
@@ -12,6 +13,7 @@ interface IProgressbar {
 
 const height = p => p.height
 const width = p => (p.width ? p.width + 'px' : '100%')
+const margin = p => p.m + 'px 0'
 const progressWidth = p => (p.progress > p.height / 2 ? p.progress : p.height / 2)
 const radius = p => p.height / 2
 const colorFg = p => p.colorFg
@@ -28,7 +30,7 @@ const ProgressBg = styled.div<IProgressbar>`
   width: ${width};
   height: ${height}px;
   border-radius: ${radius}px;
-  margin: 2px 0;
+  margin: ${margin};
   background: ${colorBg};
   overflow: hidden;
 `

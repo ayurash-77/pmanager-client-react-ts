@@ -10,6 +10,8 @@ import { brandsApi } from './api/brands.api'
 import { clientsApi } from './api/clients.api'
 import { agenciesApi } from './api/agencies.api'
 import { rolesApi } from './api/roles.api'
+import { tagsApi } from './api/tags.api'
+import { postsApi } from './api/posts.api'
 
 const rootReducer = combineReducers({
   ui: uiSlice.reducer,
@@ -24,6 +26,8 @@ const rootReducer = combineReducers({
   [agenciesApi.reducerPath]: agenciesApi.reducer,
   [jobsApi.reducerPath]: jobsApi.reducer,
   [rolesApi.reducerPath]: rolesApi.reducer,
+  [tagsApi.reducerPath]: tagsApi.reducer,
+  [postsApi.reducerPath]: postsApi.reducer,
 })
 
 export const setupStore: CombinedState<any> = () => {
@@ -38,7 +42,9 @@ export const setupStore: CombinedState<any> = () => {
         .concat(clientsApi.middleware)
         .concat(agenciesApi.middleware)
         .concat(jobsApi.middleware)
-        .concat(rolesApi.middleware),
+        .concat(rolesApi.middleware)
+        .concat(tagsApi.middleware)
+        .concat(postsApi.middleware),
   })
 }
 

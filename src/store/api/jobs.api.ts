@@ -6,14 +6,8 @@ export const jobsApi = createApi({
   reducerPath: 'jobsApi',
   baseQuery: getFetchBaseQuery(),
   endpoints: build => ({
-    getJobs: build.query<IJob[], { offset: number; limit: number }>({
-      query: arg => {
-        const { offset, limit } = arg
-        return {
-          url: `jobs`,
-          params: { offset, limit },
-        }
-      },
+    getJobs: build.query<IJob[], void>({
+      query: () => ({ url: `jobs` }),
     }),
     createJob: build.mutation<IJob, IJob>({
       query: job => ({

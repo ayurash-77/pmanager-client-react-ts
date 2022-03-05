@@ -12,6 +12,7 @@ interface IInfoProgress extends Partial<IProject> {
   withLabel?: boolean | null
   width?: number
   height?: number
+  m?: number
 }
 
 export const InfoProgress: FC<IInfoProgress> = ({
@@ -21,6 +22,7 @@ export const InfoProgress: FC<IInfoProgress> = ({
   withValue,
   width,
   height = 4,
+  m = 2,
 }) => {
   const { text } = useTranslate()
   const statusColor = status && statuses[status.code].color
@@ -35,6 +37,7 @@ export const InfoProgress: FC<IInfoProgress> = ({
         withValue={withValue}
         width={width}
         height={height}
+        m={m}
       />
     </>
   )

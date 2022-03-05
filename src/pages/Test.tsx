@@ -2,7 +2,7 @@ import { FC, useEffect } from 'react'
 
 import styled from 'styled-components'
 import { useParams } from 'react-router'
-import { ReelsRibbon } from '../components/ribbons/ReelsRibbon'
+import { Ribbon } from '../components/ribbons/Ribbon'
 import { useAppDispatch, useAppSelector } from '../hooks/redux'
 
 const Container = styled.div`

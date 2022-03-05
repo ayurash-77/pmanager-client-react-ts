@@ -10,7 +10,7 @@ export const InfoOwner: FC<Partial<IProject>> = ({ owner }) => {
   return (
     <>
       <InfoLabel>{text.project.owner}</InfoLabel>
-      <InfoValue colorFg={'var(--palette-blue-70)'}>{value}</InfoValue>
+      <InfoValue colorFg={'var(--user-email)'}>{value}</InfoValue>
     </>
   )
 }

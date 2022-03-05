@@ -35,10 +35,13 @@ interface IHeaderProject extends Props {
   onClick: () => void
 }
 
-const HeaderContainer = styled.div`
+const Container = styled.div`
+  padding: 8px 10px;
+  z-index: 3;
+  box-shadow: 0 0 4px var(--button-shadow);
+
   width: 100%;
   display: flex;
-  //justify-content: space-between;
   background-color: var(--header-bg);
 
   .imageContainer {
@@ -59,7 +62,6 @@ const HeaderContainer = styled.div`
     margin-left: 10px;
     display: flex;
     flex-direction: column;
-    //justify-content: flex-end;
     width: 100%;
   }
 
@@ -72,7 +74,6 @@ const HeaderContainer = styled.div`
     align-items: flex-end;
     width: 100%;
     height: 100%;
-    //justify-content: space-between;
   }
 
   .titleContainer {
@@ -106,7 +107,7 @@ export const HeaderProject: FC<IHeaderProject> = props => {
   const imageSrc = `${apiBaseUrl}/root/${project?.homeDir}/.pmdata/projectThumbnail.jpg`
 
   return (
-    <HeaderContainer>
+    <Container>
       <div className={'imageContainer'}>
         {project ? (
           <Image src={imageSrc} alt={project?.title} fallback={<Clapper />} width={240} />
@@ -166,6 +167,6 @@ export const HeaderProject: FC<IHeaderProject> = props => {
           </Grid>
         </div>
       </div>
-    </HeaderContainer>
+    </Container>
   )
 }

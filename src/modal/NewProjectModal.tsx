@@ -55,7 +55,7 @@ export const NewProjectModal: FC<INewProjectModal> = ({ ...props }) => {
   const [message, setMessage] = useState(null)
   const [waiting, setWaiting] = useState(false)
 
-  const [createProject, { isError, data: createdProject, isSuccess, error, reset }] =
+  const [createProject, { data: createdProject, isSuccess, isError, error, reset }] =
     useCreateProjectMutation()
   const errorJsx = ErrorList(error && 'data' in error ? error.data.message : [])
 

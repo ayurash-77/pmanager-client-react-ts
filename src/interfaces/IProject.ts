@@ -4,6 +4,7 @@ import { IBrand } from './IBrand'
 import { IAgency } from './IAgency'
 import { IClient } from './IClient'
 import { IBrief } from './IBrief'
+import { ISequence } from './ISequence'
 
 export interface IProject {
   id: number
@@ -21,6 +22,8 @@ export interface IProject {
   startAt?: any
   deadline?: any
   doneAt?: any
-  details?: any
+  details?: string
+  sequences?: ISequence[]
+  team?: IUser[]
   owner: IUser
 }

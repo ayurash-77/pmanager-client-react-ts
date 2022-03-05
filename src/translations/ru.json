@@ -67,7 +67,10 @@
     "status": "Статус",
     "progress": "Прогресс",
     "details": "Детали",
-    "highPriority": "Высокий приоритет"
+    "highPriority": "Высокий приоритет",
+    "reels": "Ролики",
+    "sequences": "Хронометражи",
+    "shots": "Шоты"
   },
   "user": {
     "username": "Имя пользователя",

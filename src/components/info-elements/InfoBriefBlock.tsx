@@ -25,13 +25,13 @@ export const InfoBriefBlock: FC<Partial<IBrief>> = brief => {
         <InfoValue>{brief.category.name}</InfoValue>
         <InfoLabel>{text.brief.createdAt}</InfoLabel>
         <InfoValue>
-          <span style={{ color: 'var(--palette-blue-70)' }}>{toDateStr(brief.createdAt)}</span> (
-          <span style={{ color: 'var(--palette-blue-60)' }}>{brief.createdBy.username}</span>)
+          <span style={{ color: 'var(--date1)' }}>{toDateStr(brief.createdAt)}</span> (
+          <span style={{ color: 'var(--user-email)' }}>{brief.createdBy.username}</span>)
         </InfoValue>
         <InfoLabel>{text.brief.updatedAt}</InfoLabel>
         <InfoValue>
-          <span style={{ color: 'var(--palette-blue-70)' }}>{toDateStr(brief.updatedAt)}</span> (
-          <span style={{ color: 'var(--palette-blue-60)' }}>{brief.updatedBy.username}</span>)
+          <span style={{ color: 'var(--date1)' }}>{toDateStr(brief.updatedAt)}</span> (
+          <span style={{ color: 'var(--user-email)' }}>{brief.updatedBy.username}</span>)
         </InfoValue>
         <InfoLabel>{text.project.status}</InfoLabel>
         <InfoValue colorFg={statusColor}>{approved}</InfoValue>

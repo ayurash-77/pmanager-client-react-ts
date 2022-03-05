@@ -1,24 +1,21 @@
-import { DetailedHTMLProps, InputHTMLAttributes } from 'react'
+import { DetailedHTMLProps, InputHTMLAttributes, TextareaHTMLAttributes } from 'react'
 import { IVariant } from './IVariant'
 import styled from 'styled-components'
+import cn from 'classnames'
 
 export interface IInput
-  extends DetailedHTMLProps<InputHTMLAttributes<HTMLTextAreaElement>, HTMLTextAreaElement> {
+  extends DetailedHTMLProps<TextareaHTMLAttributes<HTMLTextAreaElement>, HTMLTextAreaElement> {
   variant?: IVariant
   label?: string
+  width?: string
+  height?: string
 }
 
-const TextAreaStyled = styled.textarea`
-  resize: none;
-  min-width: 100%;
-  min-height: 40px;
-`
-
-export const Textarea = ({ variant, label }: IInput): JSX.Element => {
+export const Textarea = ({ variant, label, width, height, ...props }: IInput): JSX.Element => {
   return (
     <>
       {label && <label className={variant}>{label}:</label>}
-      <TextAreaStyled className={variant} />
+      <textarea className={cn(variant)} {...props} style={{ width: width, height: height }} />
     </>
   )
 }

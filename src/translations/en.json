@@ -67,7 +67,10 @@
     "status": "Status",
     "progress": "Progress",
     "details": "Details",
-    "highPriority": "High priority"
+    "highPriority": "High priority",
+    "reels": "Reels",
+    "sequences": "Sequences",
+    "shots": "Shots"
   },
   "user": {
     "username": "Username",

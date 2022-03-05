@@ -1,26 +1,19 @@
 import { DetailedHTMLProps, FC, HTMLAttributes } from 'react'
 import styled from 'styled-components'
-import { useAppSelector } from '../hooks/redux'
-import { useGetAllProjectsQuery } from '../store/api/projects.api'
-import {
-  InfoDeadline,
-  InfoProgress,
-  InfoProjectTitle,
-  InfoStartAt,
-  InfoStatus,
-} from '../components/info-elements'
-import { useTranslate } from '../hooks/useTranslate'
-import { InfoDoneAt } from '../components/info-elements/InfoDoneAt'
-import { useParams } from 'react-router'
+import { useAppSelector } from '../../hooks/redux'
+import { useGetAllProjectsQuery } from '../../store/api/projects.api'
+import { InfoDeadline, InfoProgress, InfoProjectTitle, InfoStartAt, InfoStatus } from '../info-elements'
+import { InfoDoneAt } from '../info-elements/InfoDoneAt'
 
 interface Props extends DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLDivElement> {}
 
 const Container = styled.div`
-  padding: 0 8px;
-  height: 30px;
+  padding: 0 6px;
+  min-height: 30px;
   display: flex;
   align-items: center;
   background-color: var(--header-bg);
+  box-shadow: 0 0 3px var(--button-shadow);
 `
 const InfoContainer = styled.div`
   display: flex;
@@ -38,9 +31,8 @@ const InfoElement = styled.div`
   width: 100%;
 `
 
-export const Footer: FC<Props> = props => {
+export const Statusbar: FC<Props> = props => {
   const { selectedId } = useAppSelector(state => state.projects)
-
   const { data: projects } = useGetAllProjectsQuery({})
   const project = projects?.find(p => p.id === selectedId)
   const projectInfo = (
@@ -79,4 +71,4 @@ export const Footer: FC<Props> = props => {
   )
 }
 
-export default Footer
+export default Statusbar

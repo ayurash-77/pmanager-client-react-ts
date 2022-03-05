@@ -26,28 +26,28 @@ button {
   }
 
   &.accent {
-    color: var(--palette-white-80);
+    color: var(--button-fg-accent);
     background: var(--accent);
     border: 1px solid var(--accent);
     &:hover {
-      color: var(--palette-white);
+      color: var(--button-fg-accent-focus);
     }
     &:focus {
-      color: var(--palette-white);
+      color: var(--button-fg-accent-focus);
       border: 1px solid var(--accent);
       box-shadow: 0 0 6px var(--accent-glow);
     }
   }
 
   &.warning {
-    color: var(--palette-white-80);
+    color: var(--button-fg-accent);
     background: var(--warning);
     border: 1px solid var(--warning);
     &:hover {
-      color: var(--palette-white);
+      color: var(--button-fg-accent-focus);
     }
     &:focus {
-      color: var(--palette-white);
+      color: var(--button-fg-accent-focus);
       border: 1px solid var(--warning);
       box-shadow: 0 0 6px var(--warning-glow);
     }

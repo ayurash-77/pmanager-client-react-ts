@@ -1,6 +1,6 @@
 import { Menubar } from './Menubar'
 import { useLocalStorage } from '../hooks/useLocalStorage'
-import { Footer } from './Footer'
+import { Statusbar } from '../components/statusbar/Statusbar'
 import { HeaderProjects } from './HeaderProjects'
 import { Sidebar } from '../components/sidebar/Sidebar'
 import { MainMenu } from '../components/menubar/MainMenu'
@@ -24,18 +24,6 @@ const Container = styled.div`
     flex-direction: column;
     width: 100%;
     min-width: 0;
-  }
-
-  .header {
-    padding: 8px 10px;
-    z-index: 3;
-    background-color: var(--header-bg);
-    box-shadow: 0 0 4px var(--button-shadow);
-  }
-
-  .footer {
-    min-height: 60px;
-    background: #0c0d16;
   }
 `
 
@@ -72,14 +60,13 @@ export const Layout: FC = () => {
       </Menubar>
 
       <div className={'mainbar'}>
-        <div className={'header'}>
-          {isProjectsState && <HeaderProjects sidebarShow={sidebarShow} onClick={toggleSidebarShowHelper} />}
-          {isProjectState && <HeaderProject sidebarShow={sidebarShow} onClick={toggleSidebarShowHelper} />}
-        </div>
+        {isProjectsState && <HeaderProjects sidebarShow={sidebarShow} onClick={toggleSidebarShowHelper} />}
+        {isProjectState && <HeaderProject sidebarShow={sidebarShow} onClick={toggleSidebarShowHelper} />}
         {isProjectsState && <Filterbar {...filterBar} />}
 
         <Outlet />
-        <Footer />
+
+        <Statusbar />
       </div>
 
       <Sidebar sidebarShow={sidebarShow} />

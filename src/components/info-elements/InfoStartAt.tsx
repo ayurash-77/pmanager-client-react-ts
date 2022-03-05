@@ -11,7 +11,7 @@ export const InfoStartAt: FC<Partial<IProject>> = ({ startAt }) => {
   return (
     <>
       <InfoLabel>{text.project.startAt}</InfoLabel>
-      <InfoValue colorFg={'var(--palette-blue-60)'}>{value}</InfoValue>
+      <InfoValue colorFg={'var(--date1)'}>{value}</InfoValue>
     </>
   )
 }
