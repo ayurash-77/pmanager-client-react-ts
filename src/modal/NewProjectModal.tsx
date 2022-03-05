@@ -54,6 +54,7 @@ export const NewProjectModal: FC<INewProjectModal> = ({ ...props }) => {
   const [progress, setProgress] = useState(0)
   const [message, setMessage] = useState(null)
   const [waiting, setWaiting] = useState(false)
+  const [details, setDetails] = useState('')
 
   const [createProject, { data: createdProject, isSuccess, isError, error, reset }] =
     useCreateProjectMutation()
@@ -88,8 +89,9 @@ export const NewProjectModal: FC<INewProjectModal> = ({ ...props }) => {
     setSelectId(selectionsInit)
   }
 
-  const onChangeHandler = (key, value: string) => {
-    setProjectData({ ...projectData, [key]: value })
+  const onChangeHandler = (key, target) => {
+    setDetails(target.value)
+    setProjectData({ ...projectData, [key]: target.value })
   }
 
   const onChangeSelectHandler = (key, value: number) => {
@@ -200,7 +202,7 @@ export const NewProjectModal: FC<INewProjectModal> = ({ ...props }) => {
             <Input
               disabled={waiting}
               label={text.project.projectName}
-              onChange={e => onChangeHandler('title', e.target.value)}
+              onChange={e => onChangeHandler('title', e.target)}
               autoFocus={true}
               placeholder={text.project.projectName}
             />
@@ -225,16 +227,17 @@ export const NewProjectModal: FC<INewProjectModal> = ({ ...props }) => {
             <Input
               type={'date'}
               label={text.project.startAt}
-              onChange={e => onChangeHandler('startAt', e.target.value)}
+              onChange={e => onChangeHandler('startAt', e.target)}
             />
             <Input
               type={'date'}
               label={text.project.deadline}
-              onChange={e => onChangeHandler('deadline', e.target.value)}
+              onChange={e => onChangeHandler('deadline', e.target)}
             />
             <Textarea
+              value={details}
               label={text.project.details}
-              onChange={e => onChangeHandler('details', e.target.value)}
+              onChange={e => onChangeHandler('details', e.target)}
             />
 
             <Switcher

@@ -29,7 +29,7 @@ const Body = styled.div`
 const ProjectOverviewPage: FC = () => {
   const { id } = useParams()
 
-  const { data: posts } = useGetPostsByProjectIdQuery(+id, { refetchOnFocus: true })
+  const { data: posts } = useGetPostsByProjectIdQuery(+id, { refetchOnFocus: true, pollingInterval: 10000 })
 
   const sortedPosts = useMemo(() => {
     const sortedPosts = posts?.slice()

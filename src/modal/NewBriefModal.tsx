@@ -52,6 +52,7 @@ export const NewBriefModal: FC<INewBriefModal> = ({ ...props }) => {
   const [uploading, setUploading] = useState(false)
   const [uploaded, setUploaded] = useState(false)
   const [progress, setProgress] = useState(0)
+  const [details, setDetails] = useState('')
 
   const [createBrief, { isError, error, reset }] = useCreateBriefMutation()
 
@@ -81,8 +82,9 @@ export const NewBriefModal: FC<INewBriefModal> = ({ ...props }) => {
     setUploaded(false)
   }
 
-  const onChangeHandler = (key, e) => {
-    setBriefData({ ...briefData, [key]: e.target.value })
+  const onChangeHandler = (key, target) => {
+    setDetails(target.value)
+    setBriefData({ ...briefData, [key]: target.value })
   }
   const onCheckedHandler = val => {
     setChecked(!val)
@@ -181,7 +183,7 @@ export const NewBriefModal: FC<INewBriefModal> = ({ ...props }) => {
           <Grid cols="max-content auto " marginTop={5} align={'right'}>
             <Input
               label={text.brief.name}
-              onChange={e => onChangeHandler('name', e)}
+              onChange={e => onChangeHandler('name', e.target)}
               autoFocus
               placeholder={text.brief.name}
             />
@@ -192,7 +194,11 @@ export const NewBriefModal: FC<INewBriefModal> = ({ ...props }) => {
               onChange={e => onChangeCategoryHandler(e)}
             />
 
-            <Textarea label={text.project.details} onChange={e => onChangeHandler('details', e)} />
+            <Textarea
+              value={details}
+              label={text.project.details}
+              onChange={e => onChangeHandler('details', e.target)}
+            />
 
             <Switcher
               label={text.brief.approved}
