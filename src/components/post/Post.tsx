@@ -31,6 +31,7 @@ const PostMessage = styled.div`
   background: #414acb;
   display: flex;
   background: var(--post-message-bg);
+  white-space: pre;
 `
 
 const Username = styled.div`

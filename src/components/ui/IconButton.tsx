@@ -5,6 +5,7 @@ import { IVariant } from './IVariant'
 interface IIconButtonStyled {
   ml?: number
   mr?: number
+  mt?: number
   size?: number
   variant?: IVariant
   disabled?: boolean
@@ -17,6 +18,7 @@ interface IIconButton extends IIconButtonStyled {
 
 const marginLeft = p => (p.ml ? p.ml.toString() + 'px' : 0)
 const marginRight = p => (p.mr ? p.mr.toString() + 'px' : 0)
+const marginTop = p => (p.mt ? p.mt.toString() + 'px' : 0)
 const size = p => p.size && p.size.toString() + 'px'
 
 const IconButtonStyled = styled.div<IIconButtonStyled>`
@@ -25,6 +27,7 @@ const IconButtonStyled = styled.div<IIconButtonStyled>`
   transition: opacity 100ms;
   margin-left: ${marginLeft};
   margin-right: ${marginRight};
+  margin-top: ${marginTop};
   display: flex;
   align-items: center;
   opacity: 0.8;
@@ -42,9 +45,9 @@ const IconButtonStyled = styled.div<IIconButtonStyled>`
   }
 `
 
-export const IconButton = ({ icon, variant, disabled, ...props }: IIconButton): JSX.Element => {
+export const IconButton = ({ icon, variant, disabled, size = 16, ...props }: IIconButton): JSX.Element => {
   return (
-    <IconButtonStyled className={cn(variant, { disabled: disabled })} {...props}>
+    <IconButtonStyled className={cn(variant, { disabled: disabled })} size={size} {...props}>
       {icon}
     </IconButtonStyled>
   )

@@ -1,6 +1,7 @@
 import { DetailedHTMLProps, FC, HTMLAttributes, useState } from 'react'
 import { useTranslate } from '../hooks/useTranslate'
 import * as ToolbarIcons from '../assets/icons/toolbar-icons'
+import * as CommonIcons from '../assets/icons/common-icons'
 import { useGetAllProjectsQuery } from '../store/api/projects.api'
 import Loader from '../components/ui/Loader'
 import styled from 'styled-components'
@@ -82,15 +83,10 @@ export const HeaderProjects: FC<IHeader> = props => {
       />
       <TitleContainer>
         {text.project.projects}: {isLoadingProjects ? <Loader size={16} /> : projectsCount}
-        <IconButton
-          icon={<ToolbarIcons.Plus />}
-          ml={10}
-          mr={5}
-          onClick={() => setNewProjectModalShow(true)}
-        />
+        <IconButton icon={<CommonIcons.Plus />} ml={10} mr={5} onClick={() => setNewProjectModalShow(true)} />
         {canDeleteProject && (
           <IconButton
-            icon={<ToolbarIcons.Minus />}
+            icon={<CommonIcons.Minus />}
             disabled={!selectedId}
             variant={'accent'}
             onClick={selectedId ? deleteProjectHandler : null}

@@ -24,7 +24,6 @@ import { Clapper } from '../assets/thumbnails/thumbnails'
 import { apiBaseUrl } from '../constants/env'
 import * as s from '../components/info-elements/InfoGrid'
 import { Grid } from '../components/ui'
-import { useParams } from 'react-router'
 import Loader from '../components/ui/Loader'
 
 interface Props extends DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLDivElement> {

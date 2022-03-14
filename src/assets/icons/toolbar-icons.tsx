@@ -48,26 +48,6 @@ export const Sun: FC = () => (
   </svg>
 )
 
-export const Plus: FC = () => (
-  <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-    <path
-      fillRule="evenodd"
-      clipRule="evenodd"
-      d="M8 15C11.866 15 15 11.866 15 8C15 4.13401 11.866 1 8 1C4.13401 1 1 4.13401 1 8C1 11.866 4.13401 15 8 15ZM7 4C7 3.44771 7.44772 3 8 3C8.55228 3 9 3.44771 9 4V7H12C12.5523 7 13 7.44771 13 8C13 8.55229 12.5523 9 12 9H9V12C9 12.5523 8.55228 13 8 13C7.44772 13 7 12.5523 7 12V9H4C3.44772 9 3 8.55229 3 8C3 7.44771 3.44772 7 4 7H7V4Z"
-    />
-  </svg>
-)
-
-export const Minus: FC = () => (
-  <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-    <path
-      fillRule="evenodd"
-      clipRule="evenodd"
-      d="M8 15C11.866 15 15 11.866 15 8C15 4.13401 11.866 1 8 1C4.13401 1 1 4.13401 1 8C1 11.866 4.13401 15 8 15ZM4 7C3.44772 7 3 7.44772 3 8C3 8.55228 3.44772 9 4 9H12C12.5523 9 13 8.55228 13 8C13 7.44772 12.5523 7 12 7H4Z"
-    />
-  </svg>
-)
-
 export const Trash: FC = () => (
   <svg width="12" height="16" viewBox="0 0 12 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
     <path d="M4 0C3.44772 0 3 0.447715 3 1H1C0.447715 1 0 1.44772 0 2C0 2.55228 0.447715 3 1 3H11C11.5523 3 12 2.55228 12 2C12 1.44772 11.5523 1 11 1H9C9 0.447715 8.55228 0 8 0H4Z" />

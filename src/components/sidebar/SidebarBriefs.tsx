@@ -4,7 +4,7 @@ import { IProject } from '../../interfaces/IProject'
 import { FC, useState } from 'react'
 import Loader from '../ui/Loader'
 
-import * as ToolbarIcons from '../../assets/icons/toolbar-icons'
+import * as CommonIcons from '../../assets/icons/common-icons'
 import { toDateStr } from '../../tools/date-time-format'
 import axios from 'axios'
 import NewBriefModal from '../../modal/NewBriefModal'
@@ -59,7 +59,7 @@ export const SidebarBriefs: FC<ISidebarBriefs> = ({ project, isFetching }) => {
           <tr key={brief.id} className="hover">
             <td>
               <IconButton
-                icon={<ToolbarIcons.Minus />}
+                icon={<CommonIcons.Minus />}
                 size={12}
                 ml={-5}
                 variant={'accent'}
@@ -91,7 +91,7 @@ export const SidebarBriefs: FC<ISidebarBriefs> = ({ project, isFetching }) => {
       />
       <s.SidebarBlockTitle>
         {text.menu.briefs}
-        <IconButton icon={<ToolbarIcons.Plus />} ml={10} onClick={() => setNewBriefModalShow(true)} />
+        <IconButton icon={<CommonIcons.Plus />} ml={10} onClick={() => setNewBriefModalShow(true)} />
       </s.SidebarBlockTitle>
       <s.SidebarBlockContainer>
         {isFetching ? <Loader size={32} /> : project.briefs.length > 0 && projectBriefsBody}
