@@ -5,7 +5,7 @@ import * as SideIcons from '../../assets/icons/menubar-icons'
 
 import { useTranslate } from '../../hooks/useTranslate'
 import { useGetAllProjectsQuery } from '../../store/api/projects.api'
-import Loader from '../ui/Loader'
+import Loader from '../../components/ui/Loader'
 import { QuartersMenu } from './QuartersMenu'
 import { setQuarterFilter } from '../../store/reducers/projects.reducer'
 import { useAppDispatch, useAppSelector } from '../../hooks/redux'

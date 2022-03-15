@@ -2,14 +2,14 @@ import * as s from './Sidebar.styles'
 import { useTranslate } from '../../hooks/useTranslate'
 import { IProject } from '../../interfaces/IProject'
 import { FC, useState } from 'react'
-import Loader from '../ui/Loader'
+import Loader from '../../components/ui/Loader'
 
 import * as CommonIcons from '../../assets/icons/common-icons'
 import { toDateStr } from '../../tools/date-time-format'
 import axios from 'axios'
 import NewBriefModal from '../../modal/NewBriefModal'
 import DeleteBriefModal from '../../modal/DeleteBriefModal'
-import { IconButton, Table } from '../ui'
+import { IconButton, Table } from '../../components/ui'
 import { apiBaseUrl } from '../../constants/env'
 
 interface ISidebarBriefs {

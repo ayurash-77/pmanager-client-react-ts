@@ -1,16 +1,16 @@
-import { Menubar } from './Menubar'
+import { Menubar } from './menubar/Menubar'
 import { useLocalStorage } from '../hooks/useLocalStorage'
-import { Statusbar } from '../components/statusbar/Statusbar'
+import { Statusbar } from './statusbar/Statusbar'
 import { HeaderProjects } from './HeaderProjects'
-import { Sidebar } from '../components/sidebar/Sidebar'
-import { MainMenu } from '../components/menubar/MainMenu'
+import { Sidebar } from './sidebar/Sidebar'
+import { MainMenu } from './menubar/MainMenu'
 import { FC, useEffect } from 'react'
 import styled from 'styled-components'
 import { useAppDispatch, useAppSelector } from '../hooks/redux'
-import { Filterbar } from '../components/filterbar/Filterbar'
+import { Filterbar } from './filterbar/Filterbar'
 import { Outlet, useParams } from 'react-router'
 import { useLocationState } from '../hooks/useLocationState'
-import { ProjectMenu } from '../components/menubar/ProjectMenu'
+import { ProjectMenu } from './menubar/ProjectMenu'
 import { HeaderProject } from './HeaderProject'
 import { setSelectedId } from '../store/reducers/projects.reducer'
 
@@ -43,7 +43,7 @@ export const Layout: FC = () => {
     setSidebarShow(!sidebarShow)
   }
 
-  const { isProjectsState, isProjectState, state } = useLocationState()
+  const { isProjectsState, isProjectState } = useLocationState()
 
   const { darkMode } = useAppSelector(state => state.ui.theme)
 

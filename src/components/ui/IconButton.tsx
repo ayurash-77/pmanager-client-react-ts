@@ -7,19 +7,21 @@ interface IIconButtonStyled {
   mr?: number
   mt?: number
   size?: number
+  opacity?: number
   variant?: IVariant
   disabled?: boolean
 }
 
 interface IIconButton extends IIconButtonStyled {
   icon: JSX.Element
-  onClick?: () => void
+  onClick?: (e?) => void | Promise<void>
 }
 
 const marginLeft = p => (p.ml ? p.ml.toString() + 'px' : 0)
 const marginRight = p => (p.mr ? p.mr.toString() + 'px' : 0)
 const marginTop = p => (p.mt ? p.mt.toString() + 'px' : 0)
 const size = p => p.size && p.size.toString() + 'px'
+const opacity = p => p.opacity || 0.8
 
 const IconButtonStyled = styled.div<IIconButtonStyled>`
   width: ${size};
@@ -30,9 +32,14 @@ const IconButtonStyled = styled.div<IIconButtonStyled>`
   margin-top: ${marginTop};
   display: flex;
   align-items: center;
-  opacity: 0.8;
-  &:hover {
-    opacity: 1;
+  opacity: ${opacity};
+
+  &.primary {
+    color: var(--button-bg-primary);
+  }
+  &.secondary {
+    color: var(--text-low);
+    opacity: 0.6;
   }
   &.accent {
     color: var(--accent);
@@ -40,6 +47,11 @@ const IconButtonStyled = styled.div<IIconButtonStyled>`
   &.warning {
     color: var(--warning);
   }
+
+  &:hover {
+    opacity: 1;
+  }
+
   &.disabled {
     opacity: 0.4;
   }

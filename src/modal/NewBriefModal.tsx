@@ -164,15 +164,9 @@ export const NewBriefModal: FC<INewBriefModal> = ({ ...props }) => {
           uploaded={uploaded}
           briefData={briefData}
         />
-        {/* {briefData.originalName} */}
+
         <UploadingProgress uploading={uploading} progress={progress} withValue={true} />
-        <Input
-          style={{ width: '100%' }}
-          type="file"
-          onChange={fileSelectedHandler}
-          width={'100%'}
-          // ref={fileInputRef}
-        />
+        <Input style={{ width: '100%' }} type="file" onChange={fileSelectedHandler} width={'100%'} />
         <Grid cols="auto" gap={5}>
           <div>
             <FlexColumn vAlign="center" padding={5}>

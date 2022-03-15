@@ -10,5 +10,5 @@ export interface IUser {
   name?: string
   phone?: string
   image?: any
-  roles: IRole[]
+  role: IRole
 }

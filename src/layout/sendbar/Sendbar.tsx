@@ -1,11 +1,11 @@
 import styled from 'styled-components'
-import { Button, Input, Textarea } from '../ui'
+import { IconButton } from '../../components/ui'
 import { IPost } from '../../interfaces/IPost'
 import { useAppSelector } from '../../hooks/redux'
 import { FC, useState } from 'react'
 import { useCreatePostMutation } from '../../store/api/posts.api'
-import { IProject } from '../../interfaces/IProject'
-import { number } from 'prop-types'
+import * as CommonIcons from '../../assets/icons/common-icons'
+
 import TextareaAutosize from 'react-textarea-autosize'
 
 const SendbarContainer = styled.div`
@@ -13,7 +13,6 @@ const SendbarContainer = styled.div`
   gap: 10px;
   align-items: center;
   padding: 10px 8px;
-  //min-height: auto;
   background-color: var(--sendbar-bg);
 `
 
@@ -51,17 +50,18 @@ export const Sendbar: FC<ISendbar> = ({ projectId }) => {
 
   return (
     <SendbarContainer>
-      {/* <form onSubmit={onSubmitHandler}> */}
-      <div>ICO</div>
+      <IconButton
+        icon={<CommonIcons.Clip />}
+        size={22}
+        variant={'secondary'}
+        onClick={() => console.log('CLIP CLICKED')}
+      />
       <TextareaAutosize
         style={{ padding: 2 }}
         value={message}
         onChange={e => onChangeHandler('message', e.target)}
       />
-      <Button onClick={onSubmitHandler} type="submit">
-        Send
-      </Button>
-      {/* </form> */}
+      <IconButton icon={<CommonIcons.Send />} size={22} variant={'primary'} onClick={onSubmitHandler} />
     </SendbarContainer>
   )
 }

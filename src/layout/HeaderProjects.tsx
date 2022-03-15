@@ -52,8 +52,8 @@ export const HeaderProjects: FC<IHeader> = props => {
   const { authUser } = useAppSelector(state => state.auth)
 
   const canDeleteProjectRoles = ['Producer', 'Art director', 'Manager']
-  const canDeleteProject =
-    authUser.isAdmin || authUser.roles.some(role => canDeleteProjectRoles.includes(role.name))
+
+  const canDeleteProject = authUser.isAdmin || canDeleteProjectRoles.includes(authUser.role.name)
 
   const selectedProject = selectedId ? projects.find(project => project.id === selectedId) : null
 

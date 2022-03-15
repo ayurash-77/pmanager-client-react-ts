@@ -1,6 +1,6 @@
 import { DetailedHTMLProps, Dispatch, FC, HTMLAttributes } from 'react'
 import styled from 'styled-components'
-import { BottomMenu } from '../components/menubar/BottomMenu'
+import { BottomMenu } from './BottomMenu'
 
 interface Props extends DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLDivElement> {
   menubarExpanded: boolean
@@ -57,7 +57,7 @@ const ToggleContainer = styled.div<Props>`
   }
 `
 
-export const Menubar: FC<IMenubar> = ({ menubarExpanded, toggle, children, ...props }: IMenubar) => {
+export const Menubar: FC<IMenubar> = ({ menubarExpanded, toggle, children }: IMenubar) => {
   return (
     <Container menubarExpanded={menubarExpanded}>
       {children}

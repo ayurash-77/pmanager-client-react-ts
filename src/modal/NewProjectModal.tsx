@@ -24,9 +24,11 @@ interface INewProjectModal {
 export interface IProjectData extends Partial<IProject> {
   image?: string
 }
+
 //
 // NewProjectModal
 //
+
 export const NewProjectModal: FC<INewProjectModal> = ({ ...props }) => {
   const { text } = useTranslate()
   const token = useAppSelector(state => state.auth.authUser.token)
@@ -67,9 +69,6 @@ export const NewProjectModal: FC<INewProjectModal> = ({ ...props }) => {
         data: { url: projectData.image },
       }
       setWaiting(true)
-
-      console.log(projectData.image)
-
       await axios.delete(`${apiBaseUrl}/files`, config)
     } catch (error) {
       //
@@ -90,7 +89,7 @@ export const NewProjectModal: FC<INewProjectModal> = ({ ...props }) => {
   }
 
   const onChangeHandler = (key, target) => {
-    setDetails(target.value)
+    if (key === 'details') setDetails(target.value)
     setProjectData({ ...projectData, [key]: target.value })
   }
 

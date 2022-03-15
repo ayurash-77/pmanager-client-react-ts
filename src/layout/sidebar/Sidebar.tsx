@@ -1,12 +1,12 @@
 import { FC, useState } from 'react'
 import { useAppSelector } from '../../hooks/redux'
 import { useGetAllProjectsQuery } from '../../store/api/projects.api'
-import { ToolButton, ToolButtonGroup } from '../ui'
+import { ToolButton, ToolButtonGroup } from '../../components/ui'
 import * as ToolbarIcons from '../../assets/icons/toolbar-icons'
 import * as s from './Sidebar.styles'
 import SidebarProjectInfo from './SidebarProjectInfo'
 import SidebarBriefs from './SidebarBriefs'
-import { InfoProjectTitle } from '../info-elements'
+import { InfoProjectTitle } from '../../components/info-elements'
 import cn from 'classnames'
 
 interface ISidebar {

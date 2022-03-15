@@ -32,7 +32,8 @@ const RibbonHeader = styled.div`
 `
 
 const RibbonTitle = styled.h3`
-  text-transform: uppercase;
+  //text-transform: uppercase;
+  user-select: none;
   cursor: default;
   display: flex;
   gap: 5px;

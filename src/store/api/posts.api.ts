@@ -1,12 +1,7 @@
 import { createApi } from '@reduxjs/toolkit/query/react'
 import { IPost } from '../../interfaces/IPost'
 import { getFetchBaseQuery } from './getFetchBaseQuery'
-import { IPostData } from '../../components/sendbar/Sendbar'
-import { createEntityAdapter } from '@reduxjs/toolkit'
-
-const postsAdapter = createEntityAdapter<IPost>({
-  sortComparer: (a, b) => a.createdAt.toString().localeCompare(b.toString()),
-})
+import { IPostData } from '../../layout/sendbar/Sendbar'
 
 export const postsApi = createApi({
   reducerPath: 'postsApi',

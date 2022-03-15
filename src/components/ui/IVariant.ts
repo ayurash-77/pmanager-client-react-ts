@@ -1,1 +1,1 @@
-export type IVariant = 'normal' | 'accent' | 'warning'
+export type IVariant = 'normal' | 'accent' | 'warning' | 'primary' | 'secondary'

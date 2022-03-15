@@ -3,7 +3,7 @@ import { FC, useMemo } from 'react'
 import styled from 'styled-components'
 import { useParams } from 'react-router'
 import { Ribbon } from '../components/ribbons/Ribbon'
-import { Sendbar } from '../components/sendbar/Sendbar'
+import { Sendbar } from '../layout/sendbar/Sendbar'
 import { Post } from '../components/post/Post'
 import { useGetPostsByProjectIdQuery } from '../store/api/posts.api'
 

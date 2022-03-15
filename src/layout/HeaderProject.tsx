@@ -5,7 +5,7 @@ import { useGetAllProjectsQuery } from '../store/api/projects.api'
 import styled from 'styled-components'
 import { useAppDispatch, useAppSelector } from '../hooks/redux'
 import { setThemeMode } from '../store/reducers/ui.reducer'
-import { ToolButton, ToolButtonGroup, FlexRow, Input } from '../components/ui'
+import { ToolButton, ToolButtonGroup, FlexRow } from '../components/ui'
 import { setSearchFilter } from '../store/reducers/projects.reducer'
 import {
   InfoAgency,
@@ -89,11 +89,9 @@ const Container = styled.div`
 
 export const HeaderProject: FC<IHeaderProject> = props => {
   const { darkMode } = useAppSelector(state => state.ui.theme)
-  const { text } = useTranslate()
 
   const { data: projects = [] } = useGetAllProjectsQuery({})
   const { selectedId } = useAppSelector(state => state.projects)
-  // const { id } = useParams()
 
   const project = projects.find(project => project.id === selectedId)
 
@@ -125,12 +123,12 @@ export const HeaderProject: FC<IHeaderProject> = props => {
             />
           </div>
           <FlexRow align={'right'} vAlign={'flex-start'}>
-            <Input
-              width={'120px'}
-              onChange={e => onSearchHandler(e.target.value)}
-              autoFocus={true}
-              placeholder={text.app.liveSearch}
-            />
+            {/* <Input */}
+            {/*   width={'120px'} */}
+            {/*   onChange={e => onSearchHandler(e.target.value)} */}
+            {/*   autoFocus={true} */}
+            {/*   placeholder={text.app.liveSearch} */}
+            {/* /> */}
 
             <ToolButtonGroup>
               <ToolButton icon={<ToolbarIcons.Info />} selected={props.sidebarShow} onClick={props.onClick} />

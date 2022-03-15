@@ -2,10 +2,10 @@ import * as s from './Sidebar.styles'
 import { useTranslate } from '../../hooks/useTranslate'
 import { IProject } from '../../interfaces/IProject'
 import { FC, useState } from 'react'
-import Loader from '../ui/Loader'
-import { InfoProjectBlock } from '../info-elements'
+import Loader from '../../components/ui/Loader'
+import { InfoProjectBlock } from '../../components/info-elements'
 import * as ToolbarIcons from '../../assets/icons/toolbar-icons'
-import { IconButton } from '../ui'
+import { IconButton } from '../../components/ui'
 
 interface ISidebarInfo {
   project: IProject | null
