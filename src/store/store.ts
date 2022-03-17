@@ -12,6 +12,8 @@ import { agenciesApi } from './api/agencies.api'
 import { rolesApi } from './api/roles.api'
 import { tagsApi } from './api/tags.api'
 import { postsApi } from './api/posts.api'
+import { reelsApi } from './api/reels.api'
+import { sequencesApi } from './api/sequences.api'
 
 const rootReducer = combineReducers({
   ui: uiSlice.reducer,
@@ -28,6 +30,8 @@ const rootReducer = combineReducers({
   [rolesApi.reducerPath]: rolesApi.reducer,
   [tagsApi.reducerPath]: tagsApi.reducer,
   [postsApi.reducerPath]: postsApi.reducer,
+  [reelsApi.reducerPath]: reelsApi.reducer,
+  [sequencesApi.reducerPath]: sequencesApi.reducer,
 })
 
 export const setupStore: CombinedState<any> = () => {
@@ -44,7 +48,9 @@ export const setupStore: CombinedState<any> = () => {
         .concat(jobsApi.middleware)
         .concat(rolesApi.middleware)
         .concat(tagsApi.middleware)
-        .concat(postsApi.middleware),
+        .concat(postsApi.middleware)
+        .concat(reelsApi.middleware)
+        .concat(sequencesApi.middleware),
   })
 }
 

@@ -6,6 +6,11 @@ import { entityVariantType } from '../../types/entityVariantType'
 import { useState } from 'react'
 import * as CommonIcons from '../../assets/icons/common-icons'
 import { IconButton } from '../ui'
+import { IReel } from '../../interfaces/IReel'
+import { ReelCard } from '../entity-card/ReelCard'
+import { ISequence } from '../../interfaces/ISequence'
+import { IShot } from '../../interfaces/IShot'
+import { SeqCard } from '../entity-card/SeqCard'
 
 const Container = styled.div`
   padding: 8px 10px 4px 10px;
@@ -64,7 +69,7 @@ const RibbonRow = styled.div`
 const RibbonEntities = styled.div`
   min-width: 0;
   display: flex;
-  gap: 11px;
+  gap: 20px;
   align-items: center;
   overflow-y: hidden;
   overflow-x: auto;
@@ -73,9 +78,11 @@ const RibbonEntities = styled.div`
 
 interface IRibbon {
   variant: entityVariantType
+  reels?: IReel[]
+  entities?: IReel[] | ISequence[] | IShot[]
 }
 
-export const Ribbon = ({ variant }: IRibbon) => {
+export const Ribbon = ({ variant, entities, reels }: IRibbon) => {
   const { text } = useTranslate()
   const [expanded, setExpanded] = useState(true)
   return (
@@ -87,21 +94,23 @@ export const Ribbon = ({ variant }: IRibbon) => {
           </Arrow>
           {variant === 'reel' && text.project.reels}
           {variant === 'seq' && text.project.sequences}
-          {variant === 'shot' && text.project.shots}:
+          {variant === 'shot' && text.project.shots}: {entities?.length}
         </RibbonTitle>
         <IconButton icon={<CommonIcons.Plus />} onClick={() => console.log('PLUS CLICKED')} />
       </RibbonHeader>
       <RibbonRow className={cn({ collapse: expanded !== true })}>
         <RibbonEntities>
-          <EntityCard variant={variant} />
-          <EntityCard variant={variant} />
-          <EntityCard variant={variant} />
-          <EntityCard variant={variant} />
-          <EntityCard variant={variant} />
-          <EntityCard variant={variant} />
-          <EntityCard variant={variant} />
-          <EntityCard variant={variant} />
-          <EntityCard variant={variant} />
+          {variant === 'reel' && entities?.map(entity => <ReelCard key={entity.id} entity={entity} />)}
+          {variant === 'seq' && entities?.map(entity => <SeqCard key={entity.id} entity={entity} />)}
+          {variant === 'shot' && (
+            <>
+              <EntityCard variant={variant} />
+              <EntityCard variant={variant} />
+              <EntityCard variant={variant} />
+              <EntityCard variant={variant} />
+              <EntityCard variant={variant} />
+            </>
+          )}
         </RibbonEntities>
       </RibbonRow>
     </Container>

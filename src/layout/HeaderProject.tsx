@@ -92,7 +92,6 @@ export const HeaderProject: FC<IHeaderProject> = props => {
 
   const { data: projects = [] } = useGetAllProjectsQuery({})
   const { selectedId } = useAppSelector(state => state.projects)
-
   const project = projects.find(project => project.id === selectedId)
 
   const dispatch = useAppDispatch()

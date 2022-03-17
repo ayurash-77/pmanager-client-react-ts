@@ -42,11 +42,18 @@ body[darkMode='false'] {
   --pc-dummy-fg: #1d1d22;
 
   //----- EntityCard
-  --entity-card-bg: #60607050;
+  --entity-card-bg: rgba(156, 161, 173, 0.56);
   --entity-footer-fg: #C0C0D0;
+  --entity-icon-shadow: drop-shadow(0 0 1px #ffffff60);
+  --entity-card-icon-bg: #DDDDDDBB;
   --reel-card-bg: #058805;
+  --reel-card-icon-fg: #09a61e;
   --seq-card-bg: #225fd0;
+  --seq-card-icon-fg: #014fe3;
+  --seq-card-title-fg: #014fe3;
+  --seq-card-icon-bg: #225fd0;
   --shot-card-bg: #343442;
+  --shot-card-icon-fg: #4e4e67;
 
 
   //---------- DATE TIMES ----------//
@@ -84,7 +91,7 @@ body[darkMode='false'] {
   //----- Ribbons
   --ribbon-bg: #80818433;
   --ribbon-reel-fg: #00A800;
-  --ribbon-seq-fg: #3069D9;
+  --ribbon-seq-fg: #0077ee;
   --ribbon-shot-fg: #1c1d24;
 
   //----- Scrollbars

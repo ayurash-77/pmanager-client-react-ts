@@ -1,5 +1,4 @@
 import cn from 'classnames'
-import { entityVariantType } from '../../types/entityVariantType'
 import { InfoProgress } from '../info-elements'
 import { Clapper } from '../../assets/thumbnails/thumbnails'
 import Image from '../ui/Image'
@@ -8,15 +7,16 @@ import { ISequence } from '../../interfaces/ISequence'
 import { IShot } from '../../interfaces/IShot'
 import { EntityIcon } from './EntityIcon'
 import { EntityCardContainer } from './EntityCard.styles'
+import { FC, ReactNode } from 'react'
+import { entityVariantType } from '../../types/entityVariantType'
 
-interface IEntityCard {
-  title?: string
-  code?: string
-  entity?: IReel | ISequence | IShot
+interface IEntityCardWrapper {
+  children: ReactNode
   variant: entityVariantType
+  entity: IReel | ISequence | IShot
 }
 
-export const EntityCard = ({ variant, entity }: IEntityCard) => {
+export const EntityCardWrapper: FC<IEntityCardWrapper> = ({ entity, variant, children }) => {
   const status = {
     id: 1,
     name: 'Active',
@@ -38,19 +38,7 @@ export const EntityCard = ({ variant, entity }: IEntityCard) => {
         <InfoProgress progress={60} status={status} height={2} withValue={false} m={1} />
         <div className={cn('footer', variant)}>{entity?.code}</div>
       </div>
-      {variant !== 'shot' && (
-        <div className={'info'}>
-          {entity?.name}
-          {variant === 'reel' && (
-            <>
-              <EntityIcon variant={'seq'} />2
-              <EntityIcon variant={'shot'} />
-              14
-            </>
-          )}
-          {variant === 'seq' && <EntityIcon variant={'shot'} />}
-        </div>
-      )}
+      {children}
     </EntityCardContainer>
   )
 }

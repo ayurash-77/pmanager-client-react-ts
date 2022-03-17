@@ -4,7 +4,8 @@ import { ISequence } from './ISequence'
 
 export interface IShot {
   id: number
-  title: string
+  name: string
+  code: string
   version: string
   createdAt: Date
   updatedAt: Date

@@ -5,7 +5,7 @@ import { IReel } from './IReel'
 
 export interface ISequence {
   id: number
-  title: string
+  name: string
   code: string
   createdAt: Date
   updatedAt: Date

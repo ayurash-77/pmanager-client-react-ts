@@ -6,6 +6,9 @@ import { Ribbon } from '../components/ribbons/Ribbon'
 import { Sendbar } from '../layout/sendbar/Sendbar'
 import { Post } from '../components/post/Post'
 import { useGetPostsByProjectIdQuery } from '../store/api/posts.api'
+import { useGetReelsByProjectIdQuery } from '../store/api/reels.api'
+import { useGetProjectQuery } from '../store/api/projects.api'
+import { useGetSequencesByProjectIdQuery } from '../store/api/sequences.api'
 
 const Container = styled.div`
   display: flex;
@@ -29,7 +32,15 @@ const Body = styled.div`
 const ProjectOverviewPage: FC = () => {
   const { id } = useParams()
 
-  const { data: posts } = useGetPostsByProjectIdQuery(+id, { refetchOnFocus: true, pollingInterval: 10000 })
+  const { data: posts } = useGetPostsByProjectIdQuery(+id, { refetchOnFocus: true, pollingInterval: 30000 })
+  const { data: reels } = useGetReelsByProjectIdQuery(+id, { refetchOnFocus: true, pollingInterval: 30000 })
+  const { data: sequences } = useGetSequencesByProjectIdQuery(+id, {
+    refetchOnFocus: true,
+    pollingInterval: 30000,
+  })
+  // const { data: project } = useGetProjectQuery(+id, { refetchOnFocus: true, pollingInterval: 30000 })
+
+  // console.log(reels)
 
   const sortedPosts = useMemo(() => {
     const sortedPosts = posts?.slice()
@@ -54,8 +65,8 @@ const ProjectOverviewPage: FC = () => {
 
   return (
     <Container>
-      <Ribbon variant={'reel'} />
-      <Ribbon variant={'seq'} />
+      <Ribbon variant={'reel'} entities={reels} />
+      <Ribbon variant={'seq'} entities={sequences} />
       <Ribbon variant={'shot'} />
       <Body>{postsJsx}</Body>
       <Sendbar projectId={+id} />
