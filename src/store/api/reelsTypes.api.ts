@@ -1,5 +1,5 @@
 import { createApi } from '@reduxjs/toolkit/query/react'
-import { IReelType } from '../../interfaces/IReelType'
+import { IReelsType } from '../../interfaces/IReelsType'
 import { getFetchBaseQuery } from './getFetchBaseQuery'
 
 export const reelsTypesApi = createApi({
@@ -8,15 +8,15 @@ export const reelsTypesApi = createApi({
   tagTypes: ['reelsTypes'],
   baseQuery: getFetchBaseQuery(),
   endpoints: build => ({
-    getAllReelsTypes: build.query<IReelType[], void>({
+    getAllReelsTypes: build.query<IReelsType[], void>({
       query: () => ({ url: `reels-types` }),
       providesTags: result => (result ? result.map(({ id }) => ({ type: 'reelsTypes', id })) : []),
     }),
-    getReelsTypesByProjectId: build.query<IReelType[], number>({
+    getReelsTypesByProjectId: build.query<IReelsType[], number>({
       query: projectId => ({ url: `reels-types/projects/${projectId}` }),
       providesTags: result => (result ? result.map(({ id }) => ({ type: 'reelsTypes', id })) : []),
     }),
-    createReelsTypes: build.mutation<IReelType, IReelType>({
+    createReelsTypes: build.mutation<IReelsType, IReelsType>({
       query: reelsType => ({
         url: 'reels-types',
         method: 'POST',

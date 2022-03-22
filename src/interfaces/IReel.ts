@@ -1,7 +1,7 @@
 import { IStatus } from './IStatus'
 import { IUser } from './IUser'
 import { IShot } from './IShot'
-import { IReelType } from './IReelType'
+import { IReelsType } from './IReelsType'
 
 export interface IReel {
   id: number
@@ -15,6 +15,6 @@ export interface IReel {
   startAt?: any
   doneAt?: any
   details?: string
-  reelsType: IReelType
+  reelsType: IReelsType
   shots: IShot[]
 }

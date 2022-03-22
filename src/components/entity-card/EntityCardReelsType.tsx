@@ -1,9 +1,9 @@
-import { IReelType } from '../../interfaces/IReelType'
+import { IReelsType } from '../../interfaces/IReelsType'
 import { EntityIcon } from './EntityIcon'
 import { EntityCardWrapper } from './EntityCardWrapper'
 import { FlexColumn } from '../ui'
 
-export const ReelsTypeCard = ({ entity }: { entity: IReelType }) => {
+export const EntityCardReelsType = ({ entity }: { entity: IReelsType }) => {
   const shotsCount = entity.reels?.map(reel => reel.shots?.length).reduce((acc, cur) => acc + cur)
   return (
     <EntityCardWrapper entity={entity} variant={'reelsType'}>

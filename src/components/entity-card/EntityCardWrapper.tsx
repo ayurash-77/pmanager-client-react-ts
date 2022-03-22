@@ -1,8 +1,6 @@
 import cn from 'classnames'
 import { InfoProgress } from '../info-elements'
-import { Clapper } from '../../assets/thumbnails/thumbnails'
-import Image from '../ui/Image'
-import { IReelType } from '../../interfaces/IReelType'
+import { IReelsType } from '../../interfaces/IReelsType'
 import { IReel } from '../../interfaces/IReel'
 import { IShot } from '../../interfaces/IShot'
 import { EntityIcon } from './EntityIcon'
@@ -13,7 +11,7 @@ import { entityVariantType } from '../../types/entityVariantType'
 interface IEntityCardWrapper {
   children?: ReactNode
   variant: entityVariantType
-  entity: IReelType | IReel | IShot
+  entity: IReelsType | IReel | IShot
 }
 
 export const EntityCardWrapper: FC<IEntityCardWrapper> = ({ entity, variant, children }) => {

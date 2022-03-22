@@ -65,9 +65,11 @@ const Container = styled.div`
   }
 
   .topRow {
-    display: flex;
+    display: grid;
+    grid-template-columns: auto max-content;
     justify-content: space-between;
   }
+
   .bottomRow {
     display: flex;
     align-items: flex-end;
@@ -78,7 +80,10 @@ const Container = styled.div`
   .titleContainer {
     font-size: var(--fs-big1);
     text-transform: capitalize;
-    white-space: nowrap;
+    text-overflow: ellipsis;
+    //white-space: nowrap;
+    overflow: hidden;
+
     font-weight: 500;
     display: flex;
     justify-content: flex-start;
@@ -89,6 +94,7 @@ const Container = styled.div`
 
 export const HeaderProject: FC<IHeaderProject> = props => {
   const { darkMode } = useAppSelector(state => state.ui.theme)
+  const { language, setLanguage } = useTranslate()
 
   const { data: projects = [] } = useGetAllProjectsQuery({})
   const { selectedId } = useAppSelector(state => state.projects)
@@ -142,6 +148,18 @@ export const HeaderProject: FC<IHeaderProject> = props => {
                 icon={<ToolbarIcons.Sun />}
                 selected={!darkMode}
                 onClick={() => dispatch(setThemeMode(false))}
+              />
+            </ToolButtonGroup>
+            <ToolButtonGroup>
+              <ToolButton
+                icon={<ToolbarIcons.LangEn />}
+                selected={language === 'en'}
+                onClick={() => setLanguage('en')}
+              />
+              <ToolButton
+                icon={<ToolbarIcons.LangRu />}
+                selected={language === 'ru'}
+                onClick={() => setLanguage('ru')}
               />
             </ToolButtonGroup>
           </FlexRow>

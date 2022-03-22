@@ -28,8 +28,8 @@ export const ProjectMenu: FC<Partial<IMenuItem>> = ({ menubarExpanded }) => {
   const mainMenuButtons: IMenuItem[] = [
     { icon: <SideIcons.Home />, name: text.menu.allProjects, count: projectsCount, link: '/' },
     { icon: <SideIcons.Project />, name: text.menu.overview, link: `overview` },
-    { icon: <SideIcons.Reels />, name: text.menu.reels, count: 2, link: 'reels' },
-    { icon: <SideIcons.Sequence />, name: text.menu.sequences, count: 4, link: 'sequences' },
+    { icon: <SideIcons.Reels />, name: text.menu.reelsTypes, count: 2, link: 'reelsTypes' },
+    { icon: <SideIcons.Sequence />, name: text.menu.reels, count: 4, link: 'reels' },
     { icon: <SideIcons.Shot />, name: text.menu.shots, count: 12, link: 'shots' },
     { icon: <SideIcons.Check />, name: text.menu.tasks, count: 20, link: 'tasks' },
     { icon: <SideIcons.Graph />, name: text.menu.graph, link: 'graph' },

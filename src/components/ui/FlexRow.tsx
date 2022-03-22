@@ -12,5 +12,4 @@ export const FlexRow = styled.div<FlexRow>`
   gap: 9px;
   align-items: ${vAlign};
   justify-content: ${align};
-  //width: 100%;
 `

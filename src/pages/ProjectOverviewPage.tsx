@@ -2,13 +2,15 @@ import { FC, useMemo } from 'react'
 
 import styled from 'styled-components'
 import { useParams } from 'react-router'
-import { Ribbon } from '../components/ribbons/Ribbon'
 import { Sendbar } from '../layout/sendbar/Sendbar'
 import { Post } from '../components/post/Post'
 import { useGetPostsByProjectIdQuery } from '../store/api/posts.api'
 import { useGetReelsTypesByProjectIdQuery } from '../store/api/reelsTypes.api'
 import { useGetReelsByProjectIdQuery } from '../store/api/reels.api'
 import { useGetShotsByProjectIdQuery } from '../store/api/shots.api'
+import { RibbonReelsTypes } from '../components/ribbons/RibbonReelsTypes'
+import { RibbonReels } from '../components/ribbons/RibbonReels'
+import { RibbonShots } from '../components/ribbons/RibbonShots'
 
 const Container = styled.div`
   display: flex;
@@ -70,9 +72,9 @@ const ProjectOverviewPage: FC = () => {
 
   return (
     <Container>
-      <Ribbon variant={'reelsType'} entities={reelsTypes} />
-      <Ribbon variant={'reel'} entities={reels} />
-      <Ribbon variant={'shot'} entities={shots} />
+      <RibbonReelsTypes entities={reelsTypes} />
+      <RibbonReels entities={reels} />
+      <RibbonShots entities={shots} />
       <Body>{postsJsx}</Body>
       <Sendbar projectId={+id} />
     </Container>

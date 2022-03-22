@@ -5,7 +5,7 @@ import { IAgency } from './IAgency'
 import { IClient } from './IClient'
 import { IBrief } from './IBrief'
 import { IReel } from './IReel'
-import { IReelType } from './IReelType'
+import { IReelsType } from './IReelsType'
 import { IPost } from './IPost'
 
 export interface IProject {
@@ -28,6 +28,6 @@ export interface IProject {
   sequences?: IReel[]
   team?: IUser[]
   owner: IUser
-  reels?: IReelType[]
+  reels?: IReelsType[]
   posts?: IPost[]
 }

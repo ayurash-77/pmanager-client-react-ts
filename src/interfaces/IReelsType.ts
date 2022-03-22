@@ -2,7 +2,7 @@ import { IUser } from './IUser'
 import { IReel } from './IReel'
 import { IShot } from './IShot'
 
-export interface IReelType {
+export interface IReelsType {
   id: number
   name: string
   code: string

@@ -2,15 +2,15 @@ import styled from 'styled-components'
 import cn from 'classnames'
 import { useTranslate } from '../../hooks/useTranslate'
 import { entityVariantType } from '../../types/entityVariantType'
-import { useState } from 'react'
+import { FC, ReactNode, useState } from 'react'
 import * as CommonIcons from '../../assets/icons/common-icons'
 import { IconButton } from '../ui'
-import { IReelType } from '../../interfaces/IReelType'
-import { ReelsTypeCard } from '../entity-card/ReelsTypeCard'
+import { IReelsType } from '../../interfaces/IReelsType'
+import { EntityCardReelsType } from '../entity-card/EntityCardReelsType'
 import { IReel } from '../../interfaces/IReel'
 import { IShot } from '../../interfaces/IShot'
-import { ReelCard } from '../entity-card/ReelCard'
-import { ShotCard } from '../entity-card/ShotCard'
+import { EntityCardReel } from '../entity-card/EntityCardReel'
+import { EntityCardShot } from '../entity-card/EntityCardShot'
 
 const RibbonContainer = styled.div`
   padding: 8px 10px 4px 10px;
@@ -76,13 +76,16 @@ const RibbonEntities = styled.div`
   opacity: 1;
 `
 
-interface IRibbon {
+interface IRibbonWrapper {
+  children?: ReactNode
   variant: entityVariantType
-  reels?: IReelType[]
-  entities?: IReelType[] | IReel[] | IShot[]
+  reels?: IReelsType[]
+  entities?: IReelsType[] | IReel[] | IShot[]
+  title: string
+  count: number
 }
 
-export const Ribbon = ({ variant, entities }: IRibbon) => {
+export const RibbonWrapper: FC<IRibbonWrapper> = ({ variant, entities, title, count, children }) => {
   const { text } = useTranslate()
   const [expanded, setExpanded] = useState(true)
   return (
@@ -92,19 +95,12 @@ export const Ribbon = ({ variant, entities }: IRibbon) => {
           <Arrow className={cn({ collapse: expanded !== true })}>
             <IconButton icon={<CommonIcons.ArrDown />} />
           </Arrow>
-          {variant === 'reelsType' && text.project.reelsTypes}
-          {variant === 'reel' && text.project.reels}
-          {variant === 'shot' && text.project.shots}: {entities?.length}
+          {title}: {count}
         </RibbonTitle>
         <IconButton icon={<CommonIcons.Plus />} onClick={() => console.log('PLUS CLICKED')} />
       </RibbonHeader>
       <RibbonRow className={cn({ collapse: expanded !== true })}>
-        <RibbonEntities>
-          {variant === 'reelsType' &&
-            entities?.map(entity => <ReelsTypeCard key={entity.id} entity={entity} />)}
-          {variant === 'reel' && entities?.map(entity => <ReelCard key={entity.id} entity={entity} />)}
-          {variant === 'shot' && entities?.map(entity => <ShotCard key={entity.id} entity={entity} />)}
-        </RibbonEntities>
+        <RibbonEntities>{children}</RibbonEntities>
       </RibbonRow>
     </RibbonContainer>
   )
