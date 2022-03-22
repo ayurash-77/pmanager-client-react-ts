@@ -12,8 +12,9 @@ import { agenciesApi } from './api/agencies.api'
 import { rolesApi } from './api/roles.api'
 import { tagsApi } from './api/tags.api'
 import { postsApi } from './api/posts.api'
+import { reelsTypesApi } from './api/reelsTypes.api'
 import { reelsApi } from './api/reels.api'
-import { sequencesApi } from './api/sequences.api'
+import { shotsApi } from './api/shots.api'
 
 const rootReducer = combineReducers({
   ui: uiSlice.reducer,
@@ -30,8 +31,9 @@ const rootReducer = combineReducers({
   [rolesApi.reducerPath]: rolesApi.reducer,
   [tagsApi.reducerPath]: tagsApi.reducer,
   [postsApi.reducerPath]: postsApi.reducer,
+  [reelsTypesApi.reducerPath]: reelsTypesApi.reducer,
   [reelsApi.reducerPath]: reelsApi.reducer,
-  [sequencesApi.reducerPath]: sequencesApi.reducer,
+  [shotsApi.reducerPath]: shotsApi.reducer,
 })
 
 export const setupStore: CombinedState<any> = () => {
@@ -49,8 +51,9 @@ export const setupStore: CombinedState<any> = () => {
         .concat(rolesApi.middleware)
         .concat(tagsApi.middleware)
         .concat(postsApi.middleware)
-        .concat(reelsApi.middleware)
-        .concat(sequencesApi.middleware),
+        .concat(reelsTypesApi.middleware)
+        .concat(shotsApi.middleware)
+        .concat(reelsApi.middleware),
   })
 }
 

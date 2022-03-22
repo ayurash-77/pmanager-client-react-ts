@@ -16,7 +16,7 @@ export const briefsApi = createApi({
       providesTags: result => (result ? result.map(({ id }) => ({ type: 'briefs', id })) : []),
     }),
     getAllBriefCategories: build.query<IBriefCategory[], void>({
-      query: () => ({ url: `brief-categories` }),
+      query: () => ({ url: `briefs-categories` }),
       providesTags: result => (result ? result.map(({ id }) => ({ type: 'briefCategories', id })) : []),
     }),
     getBrief: build.query<IBrief, number>({

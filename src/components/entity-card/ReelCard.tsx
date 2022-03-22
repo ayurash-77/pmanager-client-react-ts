@@ -1,19 +1,19 @@
-import { IReel } from '../../interfaces/IReel'
+import { IReelType } from '../../interfaces/IReelType'
 import { EntityIcon } from './EntityIcon'
 import { EntityCardWrapper } from './EntityCardWrapper'
+import { IReel } from '../../interfaces/IReel'
 
 export const ReelCard = ({ entity }: { entity: IReel }) => {
   return (
     <EntityCardWrapper entity={entity} variant={'reel'}>
       <div className={'info'}>
-        {entity?.name}
-        <div className={'infoSeq'}>
-          <EntityIcon variant={'seq'} />
-          {entity.sequences?.length}
-        </div>
-        <div className={'infoShot'}>
-          <EntityIcon variant={'shot'} />
-          {entity.shots?.length}
+        <div className={'infoTitle'}>{entity.reelsType?.name}</div>
+        <div className={'infoReelTitle'}>{entity.duration} sec</div>
+        <div>
+          <div className={'infoShot'}>
+            <EntityIcon variant={'shot'} />
+            {entity.shots?.length}
+          </div>
         </div>
       </div>
     </EntityCardWrapper>

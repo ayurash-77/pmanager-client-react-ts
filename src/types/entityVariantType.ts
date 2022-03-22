@@ -1,1 +1,1 @@
-export type entityVariantType = 'reel' | 'seq' | 'shot'
+export type entityVariantType = 'reelsType' | 'reel' | 'shot'

@@ -4,8 +4,8 @@ import { IBrand } from './IBrand'
 import { IAgency } from './IAgency'
 import { IClient } from './IClient'
 import { IBrief } from './IBrief'
-import { ISequence } from './ISequence'
 import { IReel } from './IReel'
+import { IReelType } from './IReelType'
 import { IPost } from './IPost'
 
 export interface IProject {
@@ -25,9 +25,9 @@ export interface IProject {
   deadline?: any
   doneAt?: any
   details?: string
-  sequences?: ISequence[]
+  sequences?: IReel[]
   team?: IUser[]
   owner: IUser
-  reels?: IReel[]
+  reels?: IReelType[]
   posts?: IPost[]
 }

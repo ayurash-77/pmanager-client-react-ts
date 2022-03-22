@@ -1,6 +1,6 @@
 import { IStatus } from './IStatus'
 import { IUser } from './IUser'
-import { ISequence } from './ISequence'
+import { IReel } from './IReel'
 
 export interface IShot {
   id: number
@@ -15,6 +15,6 @@ export interface IShot {
   startAt?: any
   doneAt?: any
   details?: string
-  sequences?: ISequence[]
+  reels?: IReel[]
   users?: IUser[]
 }

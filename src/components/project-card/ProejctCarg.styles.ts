@@ -31,7 +31,6 @@ export const Container = styled.div`
     padding-top: 2px;
     padding-bottom: 6px;
     background: var(--pc-info-bg);
-
     box-shadow: 0 1px 3px #00000020;
     &.selected {
       background: var(--pc-info-bg-selected);

@@ -1,18 +1,18 @@
 import styled from 'styled-components'
-import { EntityCard } from '../entity-card/EntityCard'
 import cn from 'classnames'
 import { useTranslate } from '../../hooks/useTranslate'
 import { entityVariantType } from '../../types/entityVariantType'
 import { useState } from 'react'
 import * as CommonIcons from '../../assets/icons/common-icons'
 import { IconButton } from '../ui'
+import { IReelType } from '../../interfaces/IReelType'
+import { ReelsTypeCard } from '../entity-card/ReelsTypeCard'
 import { IReel } from '../../interfaces/IReel'
-import { ReelCard } from '../entity-card/ReelCard'
-import { ISequence } from '../../interfaces/ISequence'
 import { IShot } from '../../interfaces/IShot'
-import { SeqCard } from '../entity-card/SeqCard'
+import { ReelCard } from '../entity-card/ReelCard'
+import { ShotCard } from '../entity-card/ShotCard'
 
-const Container = styled.div`
+const RibbonContainer = styled.div`
   padding: 8px 10px 4px 10px;
   background: var(--ribbon-bg);
   box-shadow: 0 0 3px var(--button-shadow);
@@ -23,12 +23,12 @@ const RibbonHeader = styled.div`
   justify-content: space-between;
   gap: 5px;
 
-  &.reel {
-    color: var(--ribbon-reel-fg);
+  &.reelsType {
+    color: var(--ribbon-reelsType-fg);
   }
 
-  &.seq {
-    color: var(--ribbon-seq-fg);
+  &.reel {
+    color: var(--ribbon-reel-fg);
   }
 
   &.shot {
@@ -78,41 +78,34 @@ const RibbonEntities = styled.div`
 
 interface IRibbon {
   variant: entityVariantType
-  reels?: IReel[]
-  entities?: IReel[] | ISequence[] | IShot[]
+  reels?: IReelType[]
+  entities?: IReelType[] | IReel[] | IShot[]
 }
 
-export const Ribbon = ({ variant, entities, reels }: IRibbon) => {
+export const Ribbon = ({ variant, entities }: IRibbon) => {
   const { text } = useTranslate()
   const [expanded, setExpanded] = useState(true)
   return (
-    <Container>
+    <RibbonContainer>
       <RibbonHeader className={cn(variant)}>
         <RibbonTitle onClick={() => setExpanded(!expanded)}>
           <Arrow className={cn({ collapse: expanded !== true })}>
             <IconButton icon={<CommonIcons.ArrDown />} />
           </Arrow>
+          {variant === 'reelsType' && text.project.reelsTypes}
           {variant === 'reel' && text.project.reels}
-          {variant === 'seq' && text.project.sequences}
           {variant === 'shot' && text.project.shots}: {entities?.length}
         </RibbonTitle>
         <IconButton icon={<CommonIcons.Plus />} onClick={() => console.log('PLUS CLICKED')} />
       </RibbonHeader>
       <RibbonRow className={cn({ collapse: expanded !== true })}>
         <RibbonEntities>
+          {variant === 'reelsType' &&
+            entities?.map(entity => <ReelsTypeCard key={entity.id} entity={entity} />)}
           {variant === 'reel' && entities?.map(entity => <ReelCard key={entity.id} entity={entity} />)}
-          {variant === 'seq' && entities?.map(entity => <SeqCard key={entity.id} entity={entity} />)}
-          {variant === 'shot' && (
-            <>
-              <EntityCard variant={variant} />
-              <EntityCard variant={variant} />
-              <EntityCard variant={variant} />
-              <EntityCard variant={variant} />
-              <EntityCard variant={variant} />
-            </>
-          )}
+          {variant === 'shot' && entities?.map(entity => <ShotCard key={entity.id} entity={entity} />)}
         </RibbonEntities>
       </RibbonRow>
-    </Container>
+    </RibbonContainer>
   )
 }

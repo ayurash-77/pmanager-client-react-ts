@@ -2,8 +2,8 @@ import cn from 'classnames'
 import { InfoProgress } from '../info-elements'
 import { Clapper } from '../../assets/thumbnails/thumbnails'
 import Image from '../ui/Image'
+import { IReelType } from '../../interfaces/IReelType'
 import { IReel } from '../../interfaces/IReel'
-import { ISequence } from '../../interfaces/ISequence'
 import { IShot } from '../../interfaces/IShot'
 import { EntityIcon } from './EntityIcon'
 import { EntityCardContainer } from './EntityCard.styles'
@@ -11,9 +11,9 @@ import { FC, ReactNode } from 'react'
 import { entityVariantType } from '../../types/entityVariantType'
 
 interface IEntityCardWrapper {
-  children: ReactNode
+  children?: ReactNode
   variant: entityVariantType
-  entity: IReel | ISequence | IShot
+  entity: IReelType | IReel | IShot
 }
 
 export const EntityCardWrapper: FC<IEntityCardWrapper> = ({ entity, variant, children }) => {
@@ -29,7 +29,7 @@ export const EntityCardWrapper: FC<IEntityCardWrapper> = ({ entity, variant, chi
       <div className={'main'}>
         <div className={'thumbnail'}>
           <div className={'image'}>
-            <Image src={'/sampleImage.jpg'} alt={'image'} fallback={<Clapper />} />
+            {/* <Image src={'/sampleImage.jpg'} alt={'image'} fallback={<Clapper />} /> */}
           </div>
           <div className={cn('icon-bg', variant)}>
             <EntityIcon variant={variant} />

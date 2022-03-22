@@ -3,13 +3,10 @@ import styled from 'styled-components'
 export const EntityCardContainer = styled.div`
   transition: all 200ms;
   height: 60px;
-  max-width: 140px;
+  max-width: 160px;
 
   display: flex;
   gap: 4px;
-  //background: var(--pc-info-bg);
-  border-radius: var(--rad);
-  //overflow: hidden;
 
   .main {
     min-width: 80px;
@@ -56,12 +53,12 @@ export const EntityCardContainer = styled.div`
       justify-content: center;
       align-items: center;
 
-      &.reel {
-        background: var(--reel-card-bg);
+      &.reelsType {
+        background: var(--reelsType-card-bg);
       }
 
-      &.seq {
-        background: var(--seq-card-bg);
+      &.reel {
+        background: var(--reel-card-bg);
       }
 
       &.shot {
@@ -71,24 +68,36 @@ export const EntityCardContainer = styled.div`
   }
   .info {
     transition: all 200ms;
+    max-height: 60px;
     font-size: var(--fs-small2);
     color: var(--text-high);
-    display: grid;
-    grid-template-columns: auto;
-    grid-template-rows: 1fr auto;
+    display: flex;
+    //grid-template-columns: auto;
+    //grid-template-rows: 28px auto;
+    flex-direction: column;
+    justify-content: space-between;
+
     opacity: 0.8;
 
-    .infoSeq {
+    .infoTitle {
+      text-overflow: ellipsis;
+      max-height: 28px;
+      min-width: 40px;
+      overflow-x: hidden;
+      overflow-y: auto;
+    }
+
+    .infoReel {
       display: flex;
       gap: 4px;
       align-items: flex-end;
-      color: var(--seq-card-icon-fg);
+      color: var(--reel-card-icon-fg);
     }
-    .infoSeqTitle {
+    .infoReelTitle {
       display: flex;
       gap: 4px;
-      //align-items: flex-end;
-      color: var(--seq-card-title-fg);
+      white-space: nowrap;
+      color: var(--reel-card-title-fg);
     }
     .infoShot {
       display: flex;

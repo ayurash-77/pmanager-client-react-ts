@@ -18,6 +18,8 @@ const fontSize = p => (p.fontSize ? p.fontSize : 'var(--font-size-normal)')
 export const InfoProjectTitleContainer = styled.div<ITitleStyled>`
   font-size: ${fontSize};
   white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
   font-weight: 500;
   text-align: ${align};
   margin: ${margin} 2px;

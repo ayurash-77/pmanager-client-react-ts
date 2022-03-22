@@ -9,12 +9,12 @@ const EntityIconContainer = styled.div`
     filter: var(--entity-icon-shadow);
     color: var(--text-high);
 
-    &.reel {
-      color: var(--reel-card-icon-fg);
+    &.reelsType {
+      color: var(--reelsType-card-icon-fg);
     }
 
-    &.seq {
-      color: var(--seq-card-icon-fg);
+    &.reel {
+      color: var(--reel-card-icon-fg);
     }
 
     &.shot {
@@ -31,8 +31,8 @@ export const EntityIcon = ({ variant }: IEntityIcon) => {
   return (
     <EntityIconContainer>
       <div className={cn('icon', variant)}>
-        {variant === 'reel' && <ToolbarIcons.Reel />}
-        {variant === 'seq' && <ToolbarIcons.Sequence />}
+        {variant === 'reelsType' && <ToolbarIcons.Reel />}
+        {variant === 'reel' && <ToolbarIcons.Sequence />}
         {variant === 'shot' && <ToolbarIcons.Shot />}
       </div>
     </EntityIconContainer>

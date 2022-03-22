@@ -6,9 +6,9 @@ import { Ribbon } from '../components/ribbons/Ribbon'
 import { Sendbar } from '../layout/sendbar/Sendbar'
 import { Post } from '../components/post/Post'
 import { useGetPostsByProjectIdQuery } from '../store/api/posts.api'
+import { useGetReelsTypesByProjectIdQuery } from '../store/api/reelsTypes.api'
 import { useGetReelsByProjectIdQuery } from '../store/api/reels.api'
-import { useGetProjectQuery } from '../store/api/projects.api'
-import { useGetSequencesByProjectIdQuery } from '../store/api/sequences.api'
+import { useGetShotsByProjectIdQuery } from '../store/api/shots.api'
 
 const Container = styled.div`
   display: flex;
@@ -33,14 +33,19 @@ const ProjectOverviewPage: FC = () => {
   const { id } = useParams()
 
   const { data: posts } = useGetPostsByProjectIdQuery(+id, { refetchOnFocus: true, pollingInterval: 30000 })
-  const { data: reels } = useGetReelsByProjectIdQuery(+id, { refetchOnFocus: true, pollingInterval: 30000 })
-  const { data: sequences } = useGetSequencesByProjectIdQuery(+id, {
+  const { data: reelsTypes } = useGetReelsTypesByProjectIdQuery(+id, {
+    refetchOnFocus: true,
+    pollingInterval: 30000,
+  })
+  const { data: reels } = useGetReelsByProjectIdQuery(+id, {
+    refetchOnFocus: true,
+    pollingInterval: 30000,
+  })
+  const { data: shots } = useGetShotsByProjectIdQuery(+id, {
     refetchOnFocus: true,
     pollingInterval: 30000,
   })
   // const { data: project } = useGetProjectQuery(+id, { refetchOnFocus: true, pollingInterval: 30000 })
-
-  // console.log(reels)
 
   const sortedPosts = useMemo(() => {
     const sortedPosts = posts?.slice()
@@ -65,9 +70,9 @@ const ProjectOverviewPage: FC = () => {
 
   return (
     <Container>
+      <Ribbon variant={'reelsType'} entities={reelsTypes} />
       <Ribbon variant={'reel'} entities={reels} />
-      <Ribbon variant={'seq'} entities={sequences} />
-      <Ribbon variant={'shot'} />
+      <Ribbon variant={'shot'} entities={shots} />
       <Body>{postsJsx}</Body>
       <Sendbar projectId={+id} />
     </Container>
