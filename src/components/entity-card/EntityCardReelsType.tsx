@@ -4,7 +4,9 @@ import { EntityCardWrapper } from './EntityCardWrapper'
 import { FlexColumn } from '../ui'
 
 export const EntityCardReelsType = ({ entity }: { entity: IReelsType }) => {
-  const shotsCount = entity.reels?.map(reel => reel.shots?.length).reduce((acc, cur) => acc + cur)
+  const shotsCountArr = entity.reels?.map(reel => reel.shots?.length)
+
+  const shotsCount = shotsCountArr.length ? shotsCountArr.reduce((acc, cur) => acc + cur) : 0
   return (
     <EntityCardWrapper entity={entity} variant={'reelsType'}>
       <div className={'info'}>

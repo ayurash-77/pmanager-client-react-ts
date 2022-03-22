@@ -27,6 +27,7 @@
     "browse": "Browse",
     "add": "Add",
     "addBrief": "Add brief",
+    "addReelsType": "Add reels type",
     "select": "Select..."
   },
   "menu": {
@@ -68,9 +69,14 @@
     "progress": "Progress",
     "details": "Details",
     "highPriority": "High priority",
+    "reelType": "Reel type",
     "reelsTypes": "Reels types",
     "reels": "Reels",
     "shots": "Shots"
+  },
+  "reelsTypes": {
+    "name": "Reels type title",
+    "code": "Reels type code"
   },
   "user": {
     "username": "Username",

@@ -11,6 +11,7 @@ import { useGetShotsByProjectIdQuery } from '../store/api/shots.api'
 import { RibbonReelsTypes } from '../components/ribbons/RibbonReelsTypes'
 import { RibbonReels } from '../components/ribbons/RibbonReels'
 import { RibbonShots } from '../components/ribbons/RibbonShots'
+import { useGetProjectQuery } from '../store/api/projects.api'
 
 const Container = styled.div`
   display: flex;
@@ -47,7 +48,7 @@ const ProjectOverviewPage: FC = () => {
     refetchOnFocus: true,
     pollingInterval: 30000,
   })
-  // const { data: project } = useGetProjectQuery(+id, { refetchOnFocus: true, pollingInterval: 30000 })
+  const { data: project } = useGetProjectQuery(+id, { refetchOnFocus: true, pollingInterval: 30000 })
 
   const sortedPosts = useMemo(() => {
     const sortedPosts = posts?.slice()
@@ -72,9 +73,9 @@ const ProjectOverviewPage: FC = () => {
 
   return (
     <Container>
-      <RibbonReelsTypes entities={reelsTypes} />
-      <RibbonReels entities={reels} />
-      <RibbonShots entities={shots} />
+      <RibbonReelsTypes entities={reelsTypes} project={project} />
+      <RibbonReels entities={reels} project={project} />
+      <RibbonShots entities={shots} project={project} />
       <Body>{postsJsx}</Body>
       <Sendbar projectId={+id} />
     </Container>

@@ -80,13 +80,12 @@ interface IRibbonWrapper {
   children?: ReactNode
   variant: entityVariantType
   reels?: IReelsType[]
-  entities?: IReelsType[] | IReel[] | IShot[]
   title: string
   count: number
+  onClick: () => void
 }
 
-export const RibbonWrapper: FC<IRibbonWrapper> = ({ variant, entities, title, count, children }) => {
-  const { text } = useTranslate()
+export const RibbonWrapper: FC<IRibbonWrapper> = ({ variant, title, count, onClick, children }) => {
   const [expanded, setExpanded] = useState(true)
   return (
     <RibbonContainer>
@@ -97,7 +96,7 @@ export const RibbonWrapper: FC<IRibbonWrapper> = ({ variant, entities, title, co
           </Arrow>
           {title}: {count}
         </RibbonTitle>
-        <IconButton icon={<CommonIcons.Plus />} onClick={() => console.log('PLUS CLICKED')} />
+        <IconButton icon={<CommonIcons.Plus />} onClick={onClick} />
       </RibbonHeader>
       <RibbonRow className={cn({ collapse: expanded !== true })}>
         <RibbonEntities>{children}</RibbonEntities>

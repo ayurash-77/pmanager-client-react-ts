@@ -3,11 +3,11 @@ import { IReel } from './IReel'
 import { IShot } from './IShot'
 
 export interface IReelsType {
-  id: number
+  id?: number
   name: string
   code: string
-  projectId: string
-  reels: IReel[]
-  shots: IShot[]
+  projectId: number
+  reels?: IReel[]
+  shots?: IShot[]
   createdBy: IUser
 }
