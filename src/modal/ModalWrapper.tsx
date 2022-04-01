@@ -9,21 +9,6 @@ interface IHeader {
   warning?: boolean
 }
 
-export interface IModalWrapper extends IHeader {
-  waiting?: boolean
-  children: ReactNode
-  warning?: boolean
-  isOpen: boolean
-  type: 'type1' | 'type2'
-  size: string
-  title: string
-  onSubmitHandler: (e) => void
-  onCancelHandler: (e) => void
-  header?: boolean
-  footer?: boolean
-  zIndex?: 1000 | 1100 | 1200
-}
-
 interface IModalContainer {
   waiting?: boolean
 }
@@ -63,6 +48,21 @@ const Footer = styled.div`
   display: flex;
   justify-content: flex-end;
 `
+
+export interface IModalWrapper extends IHeader {
+  waiting?: boolean
+  children: ReactNode
+  warning?: boolean
+  isOpen: boolean
+  type: 'type1' | 'type2'
+  size: string
+  title: string
+  onSubmitHandler: (e) => void
+  onCancelHandler: (e) => void
+  header?: boolean
+  footer?: boolean
+  zIndex?: 1000 | 1100 | 1200
+}
 
 export const ModalWrapper: FC<IModalWrapper> = ({
   children,

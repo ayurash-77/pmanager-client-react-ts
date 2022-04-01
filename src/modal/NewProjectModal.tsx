@@ -133,7 +133,7 @@ export const NewProjectModal: FC<INewProjectModal> = ({ ...props }) => {
       setUrl(`${apiBaseUrl}/${data.url}`)
       setProjectData({ ...projectData, image: data.url })
     } catch (error) {
-      console.log('ERROR: ', error)
+      //console.log('ERROR: ', error)
     }
     setWaiting(false)
     setUploading(false)
