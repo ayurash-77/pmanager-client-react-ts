@@ -1,5 +1,5 @@
 import { ModalWrapper } from './ModalWrapper'
-import { FC, useRef, useState } from 'react'
+import { FC, useEffect, useRef, useState } from 'react'
 import { useTranslate } from '../hooks/useTranslate'
 import { Grid } from '../components/ui'
 import { InputBrief } from '../components/ui'
@@ -30,7 +30,7 @@ export interface IBriefData extends Partial<IBrief> {
 // NewBriefModal
 //
 
-export const NewBriefModal: FC<INewBriefModal> = ({ ...props }) => {
+export const NewBriefModal: FC<INewBriefModal> = ({ closeAction, ...props }) => {
   const { text } = useTranslate()
   const token = useAppSelector(state => state.auth.authUser.token)
 
@@ -54,7 +54,7 @@ export const NewBriefModal: FC<INewBriefModal> = ({ ...props }) => {
   const [progress, setProgress] = useState(0)
   const [details, setDetails] = useState('')
 
-  const [createBrief, { isError, error, reset }] = useCreateBriefMutation()
+  const [createBrief, { isError, error, reset, isSuccess, status }] = useCreateBriefMutation()
 
   const errorJsx = ErrorList(error && 'data' in error ? error.data.message : [])
 
@@ -123,7 +123,7 @@ export const NewBriefModal: FC<INewBriefModal> = ({ ...props }) => {
   const onCancelHandler = async e => {
     e.preventDefault()
     await clearData()
-    props.closeAction()
+    closeAction()
   }
 
   const onSubmitHandler = async e => {
@@ -132,7 +132,6 @@ export const NewBriefModal: FC<INewBriefModal> = ({ ...props }) => {
     await createBrief(briefData)
     await clearData()
     refetchProjects()
-    props.closeAction()
   }
 
   const onChangeCategoryHandler = e => {
@@ -140,6 +139,12 @@ export const NewBriefModal: FC<INewBriefModal> = ({ ...props }) => {
     setCategoryId(newCategory)
     setBriefData({ ...briefData, categoryId: +newCategory })
   }
+
+  useEffect(() => {
+    if (isSuccess && status !== 'uninitialized') {
+      closeAction()
+    }
+  }, [closeAction, isSuccess, status])
 
   //////////////////////////////////////////////////////////////////
 

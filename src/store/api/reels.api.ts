@@ -1,30 +1,43 @@
 import { createApi } from '@reduxjs/toolkit/query/react'
 import { IReel } from '../../interfaces/IReel'
+import { IReelCreateDto } from '../../interfaces/IReelCreateDto'
 import { getFetchBaseQuery } from './getFetchBaseQuery'
 
 export const reelsApi = createApi({
   reducerPath: 'reelsApi',
   refetchOnFocus: true,
-  tagTypes: ['reels'],
+  tagTypes: ['project', 'reelsTypes', 'reels', 'shots'],
   baseQuery: getFetchBaseQuery(),
   endpoints: build => ({
     getAllReels: build.query<IReel[], void>({
       query: () => ({ url: `reels` }),
-      providesTags: result => (result ? result.map(({ id }) => ({ type: 'reels', id })) : []),
+      providesTags: ['project', 'reelsTypes', 'reels', 'shots'],
     }),
     getReelsByProjectId: build.query<IReel[], number>({
       query: projectId => ({ url: `reels/projects/${projectId}` }),
-      providesTags: result => (result ? result.map(({ id }) => ({ type: 'reels', id })) : []),
+      providesTags: ['project', 'reelsTypes', 'reels', 'shots'],
     }),
-    createReel: build.mutation<IReel, IReel>({
+    createReel: build.mutation<IReel, IReelCreateDto>({
       query: reel => ({
         url: 'reels',
         method: 'POST',
         body: reel,
       }),
-      invalidatesTags: ['reels'],
+      invalidatesTags: ['project', 'reelsTypes', 'reels', 'shots'],
+    }),
+    deleteReel: build.mutation<IReel, number>({
+      query: id => ({
+        url: `reels/${id}`,
+        method: 'DELETE',
+      }),
+      invalidatesTags: ['project', 'reelsTypes', 'reels', 'shots'],
     }),
   }),
 })
 
-export const { useGetAllReelsQuery, useGetReelsByProjectIdQuery, useCreateReelMutation } = reelsApi
+export const {
+  useGetAllReelsQuery,
+  useGetReelsByProjectIdQuery,
+  useCreateReelMutation,
+  useDeleteReelMutation,
+} = reelsApi

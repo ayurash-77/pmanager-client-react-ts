@@ -4,17 +4,19 @@ import { IShot } from './IShot'
 import { IReelsType } from './IReelsType'
 
 export interface IReel {
-  id: number
+  id?: number
   name: string
-  code: string
-  createdAt: Date
-  updatedAt: Date
-  progress: number
-  status: IStatus
   duration: number
+  code: string
+  projectId: number
+  createdAt?: Date
+  updatedAt?: Date
+  progress?: number
+  status?: IStatus
   startAt?: any
   doneAt?: any
-  details?: string
-  reelsType: IReelsType
+  reelsType?: IReelsType
+  reelsTypeId?: number
   shots: IShot[]
+  createdBy: IUser
 }

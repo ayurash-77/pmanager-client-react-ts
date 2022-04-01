@@ -4,48 +4,62 @@ import { useTranslate } from '../hooks/useTranslate'
 import { Grid } from '../components/ui'
 import { useAppSelector } from '../hooks/redux'
 import { ErrorList } from '../components/errors/ErrorList'
-import { FlexColumn, Input } from '../components/ui'
+import { FlexColumn, Input, Select } from '../components/ui'
 import { IProject } from '../interfaces/IProject'
-import { useCreateReelsTypesMutation } from '../store/api/reelsTypes.api'
+import { useCreateReelMutation } from '../store/api/reels.api'
+import { useGetReelsTypesByProjectIdQuery } from '../store/api/reelsTypes.api'
+import { IReelCreateDto } from '../interfaces/IReelCreateDto'
 import { useParams } from 'react-router'
-import { IReelsTypeCreateDto } from '../interfaces/IReelsTypeCreateDto'
 
-interface INewReelsTypeModal {
+interface INewReelModal {
   isOpen: boolean
   project: IProject
   closeAction: () => void
 }
 
 //
-// NewReelsTypeModal
+// NewReelModal
 //
 
-export const NewReelsTypeModal: FC<INewReelsTypeModal> = ({ closeAction, project, ...props }) => {
+export const NewReelModal: FC<INewReelModal> = ({ closeAction, project, ...props }) => {
   const { id } = useParams()
   const { text } = useTranslate()
   const user = useAppSelector(state => state.auth.authUser)
 
-  const dataInit: IReelsTypeCreateDto = useMemo(
+  const dataInit: IReelCreateDto = useMemo(
     () => ({
+      duration: 0,
       projectId: +id,
-      name: '',
-      code: '',
+      reelsTypeId: 0,
       createdBy: user,
     }),
     [id, user]
   )
 
-  const [data, setData] = useState<IReelsTypeCreateDto>(dataInit)
+  const [data, setData] = useState<IReelCreateDto>(dataInit)
 
-  const [createReelsType, { isError, error, isSuccess }] = useCreateReelsTypesMutation()
+  const [createReel, { isError, error, isSuccess }] = useCreateReelMutation()
   const errorJsx = ErrorList(error && 'data' in error ? error.data.message : [])
+
+  const { data: reelsTypes, refetch: refetchReelsTypes } = useGetReelsTypesByProjectIdQuery(+id)
+
+  const reelsTypesSorted = useMemo(() => {
+    const reelsTypesSorted = reelsTypes?.slice()
+    reelsTypesSorted?.sort((a, b) => a.code.localeCompare(b.code))
+    return reelsTypesSorted
+  }, [reelsTypes])
+
+  const options = reelsTypesSorted?.map(item => ({ label: `${item.code} | ${item.name}`, value: item.id }))
+
+  const [reelsTypeId, setReelsTypeId] = useState(0)
 
   const clearData = useCallback(() => {
     setData(dataInit)
+    setReelsTypeId(0)
   }, [dataInit])
 
-  const onChangeHandler = (key, target) => {
-    setData({ ...data, [key]: target.value })
+  const onChangeInputHandler = (key, value) => {
+    setData({ ...data, [key]: value })
   }
 
   const onCancelHandler = async e => {
@@ -56,12 +70,19 @@ export const NewReelsTypeModal: FC<INewReelsTypeModal> = ({ closeAction, project
 
   const onSubmitHandler = async e => {
     e.preventDefault()
-    if (!data.name || !data.code) return
-    await createReelsType(data)
+    if (reelsTypeId === 0 || !data.duration) return
+    await createReel(data)
+  }
+
+  const onChangeReelsTypeHandler = e => {
+    const newReelsTypeId = e.target.value
+    setReelsTypeId(newReelsTypeId)
+    setData({ ...data, reelsTypeId: +newReelsTypeId })
   }
 
   useEffect(() => {
     if (isSuccess) {
+      refetchReelsTypes()
       clearData()
       closeAction()
     }
@@ -79,7 +100,7 @@ export const NewReelsTypeModal: FC<INewReelsTypeModal> = ({ closeAction, project
         warning={false}
         type={'type1'}
         size={'sm'}
-        title={text.actions.addReelsType}
+        title={text.actions.addReel}
         onSubmitHandler={onSubmitHandler}
         onCancelHandler={onCancelHandler}
       >
@@ -91,15 +112,16 @@ export const NewReelsTypeModal: FC<INewReelsTypeModal> = ({ closeAction, project
           </div>
           <Grid cols="auto" gap={5}>
             <Grid cols="max-content auto " marginTop={5} align={'right'}>
-              <Input
-                label={text.reelsTypes.name}
-                onChange={e => onChangeHandler('name', e.target)}
-                autoFocus={true}
+              <Select
+                label={text.project.reelType}
+                options={options}
+                value={reelsTypeId}
+                onChange={e => onChangeReelsTypeHandler(e)}
               />
               <Input
-                label={text.reelsTypes.code}
-                onChange={e => onChangeHandler('code', e.target)}
-                autoFocus={false}
+                label={text.reels.duration}
+                onChange={e => onChangeInputHandler('duration', +e.target.value)}
+                autoFocus={true}
               />
             </Grid>
           </Grid>
@@ -109,4 +131,4 @@ export const NewReelsTypeModal: FC<INewReelsTypeModal> = ({ closeAction, project
   )
 }
 
-export default NewReelsTypeModal
+export default NewReelModal

@@ -15,11 +15,13 @@ import { postsApi } from './api/posts.api'
 import { reelsTypesApi } from './api/reelsTypes.api'
 import { reelsApi } from './api/reels.api'
 import { shotsApi } from './api/shots.api'
+import { entitiesSlice } from './reducers/entities.reducer'
 
 const rootReducer = combineReducers({
   ui: uiSlice.reducer,
   auth: userSlice.reducer,
   projects: projectsSlice.reducer,
+  entities: entitiesSlice.reducer,
 
   [authApi.reducerPath]: authApi.reducer,
   [projectsApi.reducerPath]: projectsApi.reducer,

@@ -1,6 +1,5 @@
 import { FC, useState } from 'react'
 import { useAppSelector } from '../../hooks/redux'
-import { useGetAllProjectsQuery } from '../../store/api/projects.api'
 import { ToolButton, ToolButtonGroup } from '../../components/ui'
 import * as ToolbarIcons from '../../assets/icons/toolbar-icons'
 import * as s from './Sidebar.styles'
@@ -8,17 +7,14 @@ import SidebarProjectInfo from './SidebarProjectInfo'
 import SidebarBriefs from './SidebarBriefs'
 import { InfoProjectTitle } from '../../components/info-elements'
 import cn from 'classnames'
+import { IProject } from '../../interfaces/IProject'
 
 interface ISidebar {
+  project: IProject | null
   sidebarShow: boolean
 }
 
-export const Sidebar: FC<ISidebar> = props => {
-  const { selectedId } = useAppSelector(state => state.projects)
-  const { data: projects } = useGetAllProjectsQuery({})
-
-  const selectedProject = selectedId && projects ? projects.find(project => project.id === selectedId) : null
-
+export const Sidebar: FC<ISidebar> = ({ project, sidebarShow }) => {
   const [showSidebarInfo, setShowSidebarInfo] = useState(true)
   const [showSidebarBriefs, setShowSidebarBriefs] = useState(true)
   const [showSidebarReels, setShowSidebarReels] = useState(true)
@@ -27,7 +23,7 @@ export const Sidebar: FC<ISidebar> = props => {
   const [showSidebarShots, setShowSidebarShots] = useState(true)
 
   return (
-    <s.SideBarContainer className={cn({ hide: !props.sidebarShow })} {...props}>
+    <s.SideBarContainer className={cn({ hide: !sidebarShow })} sidebarShow={sidebarShow}>
       <s.SidebarToolBarContainer>
         <ToolButtonGroup>
           <ToolButton
@@ -63,18 +59,18 @@ export const Sidebar: FC<ISidebar> = props => {
         </ToolButtonGroup>
       </s.SidebarToolBarContainer>
       <s.SidebarBodyContainer>
-        {selectedProject && (
+        {project && (
           <InfoProjectTitle
             margin={8}
-            title={selectedProject.title}
-            highPriority={selectedProject.highPriority}
+            title={project.title}
+            highPriority={project.highPriority}
             align={'center'}
-            status={selectedProject.status}
+            status={project.status}
           />
         )}
 
-        {showSidebarInfo && selectedProject && <SidebarProjectInfo project={selectedProject} />}
-        {showSidebarBriefs && selectedProject && <SidebarBriefs project={selectedProject} />}
+        {showSidebarInfo && project && <SidebarProjectInfo project={project} />}
+        {showSidebarBriefs && project && <SidebarBriefs project={project} />}
       </s.SidebarBodyContainer>
     </s.SideBarContainer>
   )

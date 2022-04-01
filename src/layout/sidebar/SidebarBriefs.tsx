@@ -55,7 +55,7 @@ export const SidebarBriefs: FC<ISidebarBriefs> = ({ project, isFetching }) => {
         </tr>
       </thead>
       <tbody>
-        {project.briefs.map(brief => (
+        {project.briefs?.map(brief => (
           <tr key={brief.id} className="hover">
             <td>
               <IconButton
@@ -94,7 +94,7 @@ export const SidebarBriefs: FC<ISidebarBriefs> = ({ project, isFetching }) => {
         <IconButton icon={<CommonIcons.Plus />} ml={10} onClick={() => setNewBriefModalShow(true)} />
       </s.SidebarBlockTitle>
       <s.SidebarBlockContainer>
-        {isFetching ? <Loader size={32} /> : project.briefs.length > 0 && projectBriefsBody}
+        {isFetching ? <Loader size={32} /> : project.briefs?.length > 0 && projectBriefsBody}
       </s.SidebarBlockContainer>
     </>
   )

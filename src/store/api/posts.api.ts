@@ -6,19 +6,19 @@ import { IPostData } from '../../layout/sendbar/Sendbar'
 export const postsApi = createApi({
   reducerPath: 'postsApi',
   refetchOnFocus: true,
-  tagTypes: ['posts'],
+  tagTypes: ['post', 'project'],
   baseQuery: getFetchBaseQuery(),
   endpoints: build => ({
     getAllPosts: build.query<IPost[], void>({
       query: () => ({ url: `posts` }),
-      providesTags: result => (result ? result.map(({ id }) => ({ type: 'posts', id })) : []),
+      providesTags: ['post'],
     }),
     getPostsByProjectId: build.query<IPost[], number>({
       query: id => ({
         url: `posts/project/${id}`,
         method: 'GET',
       }),
-      providesTags: result => (result ? result.map(({ id }) => ({ type: 'posts', id })) : []),
+      providesTags: ['post', 'project'],
     }),
     createPost: build.mutation<IPost, IPostData>({
       query: post => ({
@@ -26,14 +26,14 @@ export const postsApi = createApi({
         method: 'POST',
         body: post,
       }),
-      invalidatesTags: ['posts'],
+      invalidatesTags: ['post', 'project'],
     }),
     deletePost: build.mutation<IPost, number>({
       query: id => ({
         url: `posts/${id}`,
         method: 'POST',
       }),
-      invalidatesTags: ['posts'],
+      invalidatesTags: ['post', 'project'],
     }),
   }),
 })

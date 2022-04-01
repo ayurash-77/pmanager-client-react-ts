@@ -15,12 +15,12 @@ export const ProjectMenu: FC<Partial<IMenuItem>> = ({ menubarExpanded }) => {
 
   const navigate = useNavigate()
   const { data: projects = [], isLoading: isLoadingProjects } = useGetAllProjectsQuery({})
-  const projectId = useAppSelector(state => state.projects.selectedId)
+  const { activeProjectId } = useAppSelector(state => state.projects)
 
   const handleMenuItemClick = (idx, link) => {
     setSelectedMenuItem(idx)
     if (selectedMenuItem !== idx) {
-      idx === 0 ? navigate('/', { state: 0 }) : navigate(`project/${projectId}/${link}`, { state: 1 })
+      idx === 0 ? navigate('/', { state: 0 }) : navigate(`project/${activeProjectId}/${link}`, { state: 1 })
     }
   }
   const projectsCount = isLoadingProjects ? <Loader size={16} translateX={4} /> : projects.length

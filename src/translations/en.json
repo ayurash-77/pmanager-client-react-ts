@@ -28,6 +28,8 @@
     "add": "Add",
     "addBrief": "Add brief",
     "addReelsType": "Add reels type",
+    "addReel": "Add reel",
+    "addShot": "Add shot",
     "select": "Select..."
   },
   "menu": {
@@ -72,11 +74,23 @@
     "reelType": "Reel type",
     "reelsTypes": "Reels types",
     "reels": "Reels",
-    "shots": "Shots"
+    "reel": "Reel",
+    "shots": "Shots",
+    "shot": "Shot"
   },
   "reelsTypes": {
     "name": "Reels type title",
     "code": "Reels type code"
+  },
+  "reels": {
+    "name": "Reel title",
+    "code": "Reel code",
+    "duration": "Reel duration"
+  },
+  "shots": {
+    "number": "Shot number",
+    "code": "Shot code",
+    "duration": "Shot duration"
   },
   "user": {
     "username": "Username",

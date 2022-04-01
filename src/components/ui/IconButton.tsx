@@ -53,7 +53,7 @@ const IconButtonStyled = styled.div<IIconButtonStyled>`
   }
 
   &.disabled {
-    opacity: 0.4;
+    opacity: 0.3;
   }
 `
 

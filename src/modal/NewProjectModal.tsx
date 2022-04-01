@@ -14,7 +14,8 @@ import { useGetAllBrandsQuery } from '../store/api/brands.api'
 import { useGetAllClientsQuery } from '../store/api/clients.api'
 import { useGetAllAgenciesQuery } from '../store/api/agencies.api'
 import { IProject } from '../interfaces/IProject'
-import { setSelectedId } from '../store/reducers/projects.reducer'
+import { setActiveProjectId } from '../store/reducers/projects.reducer'
+// import { setActiveProject } from '../store/reducers/projects.reducer'
 
 interface INewProjectModal {
   isOpen: boolean
@@ -159,9 +160,8 @@ export const NewProjectModal: FC<INewProjectModal> = ({ ...props }) => {
   }
 
   useEffect(() => {
-    isSuccess && dispatch(setSelectedId(createdProject.id))
+    isSuccess && dispatch(setActiveProjectId(createdProject.id))
   }, [createdProject, dispatch, isSuccess])
-  // isSuccess && dispatch(setSelectedId(createdProject.id))
 
   ////////////////////////////////////////////////////////////////////////////////////////////
 

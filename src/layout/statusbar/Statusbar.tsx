@@ -1,7 +1,5 @@
 import { DetailedHTMLProps, FC, HTMLAttributes } from 'react'
 import styled from 'styled-components'
-import { useAppSelector } from '../../hooks/redux'
-import { useGetAllProjectsQuery } from '../../store/api/projects.api'
 import {
   InfoDeadline,
   InfoProgress,
@@ -10,8 +8,11 @@ import {
   InfoStatus,
 } from '../../components/info-elements'
 import { InfoDoneAt } from '../../components/info-elements/InfoDoneAt'
+import { IProject } from '../../interfaces/IProject'
 
-interface Props extends DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLDivElement> {}
+interface Props extends DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLDivElement> {
+  project: IProject
+}
 
 const Container = styled.div`
   padding: 0 6px;
@@ -37,10 +38,7 @@ const InfoElement = styled.div`
   width: 100%;
 `
 
-export const Statusbar: FC<Props> = () => {
-  const { selectedId } = useAppSelector(state => state.projects)
-  const { data: projects } = useGetAllProjectsQuery({})
-  const project = projects?.find(p => p.id === selectedId)
+export const Statusbar: FC<Props> = ({ project }) => {
   const projectInfo = (
     <InfoContainer>
       <InfoElement>
@@ -72,7 +70,7 @@ export const Statusbar: FC<Props> = () => {
 
   return (
     <>
-      <Container>{selectedId && projectInfo}</Container>
+      <Container>{project && projectInfo}</Container>
     </>
   )
 }

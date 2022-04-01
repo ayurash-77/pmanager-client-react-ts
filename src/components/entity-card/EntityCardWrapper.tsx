@@ -5,16 +5,25 @@ import { IReel } from '../../interfaces/IReel'
 import { IShot } from '../../interfaces/IShot'
 import { EntityIcon } from './EntityIcon'
 import { EntityCardContainer } from './EntityCard.styles'
-import { FC, ReactNode } from 'react'
+import { DetailedHTMLProps, FC, HTMLAttributes, ReactNode } from 'react'
 import { entityVariantType } from '../../types/entityVariantType'
 
-interface IEntityCardWrapper {
+interface IEntityCardWrapper extends DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLDivElement> {
   children?: ReactNode
   variant: entityVariantType
+  isSelected?: boolean
+  disabled?: boolean
   entity: IReelsType | IReel | IShot
 }
 
-export const EntityCardWrapper: FC<IEntityCardWrapper> = ({ entity, variant, children }) => {
+export const EntityCardWrapper: FC<IEntityCardWrapper> = ({
+  entity,
+  variant,
+  isSelected = false,
+  disabled = false,
+  children,
+  onClick,
+}) => {
   const status = {
     id: 1,
     name: 'Active',
@@ -23,8 +32,8 @@ export const EntityCardWrapper: FC<IEntityCardWrapper> = ({ entity, variant, chi
   }
 
   return (
-    <EntityCardContainer>
-      <div className={'main'}>
+    <EntityCardContainer onClick={onClick}>
+      <div className={cn('main', variant, { selected: isSelected }, { disabled: disabled })}>
         <div className={'thumbnail'}>
           <div className={'image'}>
             {/* <Image src={'/sampleImage.jpg'} alt={'image'} fallback={<Clapper />} /> */}
@@ -34,7 +43,7 @@ export const EntityCardWrapper: FC<IEntityCardWrapper> = ({ entity, variant, chi
           </div>
         </div>
         <InfoProgress progress={60} status={status} height={2} withValue={false} m={1} />
-        <div className={cn('footer', variant)}>{entity?.code}</div>
+        <div className={cn('footer', variant, { selected: isSelected })}>{entity?.code}</div>
       </div>
       {children}
     </EntityCardContainer>

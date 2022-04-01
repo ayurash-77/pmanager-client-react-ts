@@ -4,7 +4,7 @@ import { ErrorList } from '../components/errors/ErrorList'
 import { useGetAllProjectsQuery } from '../store/api/projects.api'
 import { toDateStr, toQuarterStr } from '../tools/date-time-format'
 import { useAppDispatch, useAppSelector } from '../hooks/redux'
-import { setQuarterData, setSelectedId } from '../store/reducers/projects.reducer'
+import { setActiveProjectId, setQuarterData } from '../store/reducers/projects.reducer'
 import ProjectCard from '../components/project-card/ProjectCard'
 import styled from 'styled-components'
 import { useTranslate } from '../hooks/useTranslate'
@@ -12,6 +12,14 @@ import { InfoProgress, InfoProjectTitle } from '../components/info-elements'
 import { Table } from '../components/ui'
 import cn from 'classnames'
 import { useNavigate } from 'react-router-dom'
+import { IProject } from '../interfaces/IProject'
+
+const Body = styled.div`
+  z-index: 1;
+  padding: 10px;
+  height: 100%;
+  overflow: auto;
+`
 
 const ContainerGrid = styled.div`
   display: flex;
@@ -21,13 +29,6 @@ const ContainerGrid = styled.div`
   justify-content: space-evenly;
 `
 
-const Body = styled.div`
-  z-index: 1;
-  padding: 10px;
-  height: 100%;
-  overflow: auto;
-`
-
 const ProjectsPage: FC = () => {
   const {
     data: projects = [],
@@ -35,18 +36,18 @@ const ProjectsPage: FC = () => {
     error: errorProjects,
   } = useGetAllProjectsQuery({}, { refetchOnFocus: true, pollingInterval: 30000 })
 
-  const { quarterFilter, selectedId, searchFilter } = useAppSelector(state => state.projects)
+  const { quarterFilter, activeProjectId, searchFilter } = useAppSelector(state => state.projects)
   const errorJsx = ErrorList(errorProjects && 'data' in errorProjects ? errorProjects.data.message : [])
 
   const dispatch = useAppDispatch()
   const navigate = useNavigate()
 
-  const onProjectClickHandler = (id: number) => {
-    dispatch(setSelectedId(selectedId === id ? null : id))
+  const onProjectClickHandler = (project: IProject) => {
+    dispatch(setActiveProjectId(activeProjectId === project.id ? null : project.id))
   }
-  const onProjectDoubleClickHandler = (id: number) => {
-    dispatch(setSelectedId(id))
-    navigate(`/project/${id}/overview`, { state: 1 })
+  const onProjectDoubleClickHandler = (project: IProject) => {
+    dispatch(setActiveProjectId(project.id))
+    navigate(`/project/${project.id}/overview`, { state: 1 })
   }
 
   const { filterBar, projectsViewMode } = useAppSelector(state => state.ui)
@@ -56,7 +57,7 @@ const ProjectsPage: FC = () => {
     if (projects.length > 0) {
       dispatch(setQuarterData(projects))
     }
-  }, [dispatch, projects])
+  }, [activeProjectId, dispatch, projects])
 
   const projectsFilteredByQuarter = searchProjects.filter(project => {
     return toQuarterStr(project.createdAt) === quarterFilter.quarter
@@ -70,11 +71,11 @@ const ProjectsPage: FC = () => {
       {projectsFiltered.map(item => (
         <ProjectCard
           key={item.id}
-          selected={selectedId === item.id}
+          selected={item.id === activeProjectId}
           item={item}
           viewFilter={projectsViewFilter}
-          onClick={() => onProjectClickHandler(item.id)}
-          onDoubleClick={() => onProjectDoubleClickHandler(item.id)}
+          onClick={() => onProjectClickHandler(item)}
+          onDoubleClick={() => onProjectDoubleClickHandler(item)}
         />
       ))}
     </ContainerGrid>
@@ -102,9 +103,9 @@ const ProjectsPage: FC = () => {
         {projectsFiltered.map((item, idx) => (
           <tr
             key={item.id}
-            onClick={() => onProjectClickHandler(item.id)}
-            onDoubleClick={() => onProjectDoubleClickHandler(item.id)}
-            className={cn({ selected: selectedId === item.id })}
+            onClick={() => onProjectClickHandler(item)}
+            onDoubleClick={() => onProjectDoubleClickHandler(item)}
+            className={cn({ selected: item.id === activeProjectId })}
           >
             <td style={{ opacity: 0.5 }}>{idx + 1}</td>
             <td className={'bold'}>

@@ -6,7 +6,7 @@ import * as SideIcons from '../../assets/icons/menubar-icons'
 import { useTranslate } from '../../hooks/useTranslate'
 import { useAppDispatch, useAppSelector } from '../../hooks/redux'
 import { logout } from '../../store/reducers/user.reducer'
-import { setQuarterFilter } from '../../store/reducers/projects.reducer'
+import { setActiveProjectId, setQuarterFilter } from '../../store/reducers/projects.reducer'
 import styled from 'styled-components'
 
 const Container = styled.div`
@@ -25,6 +25,7 @@ export const BottomMenu: FC<Pick<IMenuItem, 'menubarExpanded'>> = props => {
   const handleLogout = () => {
     dispatch(setQuarterFilter({ ...quarterFilter, isActive: false }))
     dispatch(logout())
+    dispatch(setActiveProjectId(null))
   }
 
   const bottomMenuButtons: IMenuItem[] = [

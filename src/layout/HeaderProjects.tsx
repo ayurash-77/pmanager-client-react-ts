@@ -12,12 +12,14 @@ import DeleteProjectModal from '../modal/DeleteProjectModal'
 import { setFilterbarShow, setProjectsViewMode, setThemeMode } from '../store/reducers/ui.reducer'
 import { IconButton, ToolButton, ToolButtonGroup, FlexRow, Input } from '../components/ui'
 import { setSearchFilter } from '../store/reducers/projects.reducer'
+import { IProject } from '../interfaces/IProject'
 
 interface Props extends DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLDivElement> {
   sidebarShow: boolean
 }
 
 interface IHeader extends Props {
+  activeProject: IProject
   onClick: () => void
 }
 
@@ -41,21 +43,19 @@ const TitleContainer = styled.div`
   text-wrap: none;
 `
 
-export const HeaderProjects: FC<IHeader> = props => {
+export const HeaderProjects: FC<IHeader> = ({ activeProject, ...props }) => {
   const { darkMode } = useAppSelector(state => state.ui.theme)
   const { language, setLanguage } = useTranslate()
   const { text } = useTranslate()
 
   const { data: projects = [], isLoading: isLoadingProjects } = useGetAllProjectsQuery({})
-  const { quarterFilter, quarterData, selectedId } = useAppSelector(state => state.projects)
+  const { quarterFilter, quarterData, activeProjectId } = useAppSelector(state => state.projects)
   const { filterBar, projectsViewMode } = useAppSelector(state => state.ui)
   const { authUser } = useAppSelector(state => state.auth)
 
   const canDeleteProjectRoles = ['Producer', 'Art director', 'Manager']
 
   const canDeleteProject = authUser.isAdmin || canDeleteProjectRoles.includes(authUser.role.name)
-
-  const selectedProject = selectedId ? projects.find(project => project.id === selectedId) : null
 
   const dispatch = useAppDispatch()
 
@@ -79,7 +79,7 @@ export const HeaderProjects: FC<IHeader> = props => {
       <DeleteProjectModal
         isOpen={isDeleteProjectModalShow}
         closeAction={() => setDeleteProjectModalShow(false)}
-        project={selectedProject}
+        project={activeProject}
       />
       <TitleContainer>
         {text.project.projects}: {isLoadingProjects ? <Loader size={16} /> : projectsCount}
@@ -87,9 +87,9 @@ export const HeaderProjects: FC<IHeader> = props => {
         {canDeleteProject && (
           <IconButton
             icon={<CommonIcons.Minus />}
-            disabled={!selectedId}
+            disabled={!activeProjectId}
             variant={'accent'}
-            onClick={selectedId ? deleteProjectHandler : null}
+            onClick={activeProjectId ? deleteProjectHandler : null}
           />
         )}
       </TitleContainer>

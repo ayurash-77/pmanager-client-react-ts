@@ -6,20 +6,20 @@ import { getFetchBaseQuery } from './getFetchBaseQuery'
 export const projectsApi = createApi({
   reducerPath: 'projectsApi',
   refetchOnFocus: true,
-  tagTypes: ['projects', 'project'],
+  tagTypes: ['project', 'post'],
   baseQuery: getFetchBaseQuery(),
 
   endpoints: build => ({
     getAllProjects: build.query<IProject[], {}>({
       query: () => ({ url: `projects` }),
-      providesTags: result => (result ? result.map(({ id }) => ({ type: 'projects', id })) : []),
+      providesTags: ['project'],
     }),
-    getProject: build.query<IProject, number>({
+    getProjectById: build.query<IProject, number>({
       query: id => ({
         url: `projects/${id}`,
         method: 'GET',
       }),
-      providesTags: (result, error, id) => [{ type: 'project', id }],
+      providesTags: ['project', 'post'],
     }),
     createProject: build.mutation<IProject, IProjectData>({
       query: project => ({
@@ -27,22 +27,21 @@ export const projectsApi = createApi({
         method: 'POST',
         body: project,
       }),
-      invalidatesTags: ['projects'],
+      invalidatesTags: ['project'],
     }),
     deleteProject: build.mutation<IProject, number>({
       query: id => ({
         url: `projects/${id}`,
         method: 'DELETE',
       }),
-      invalidatesTags: ['projects'],
+      invalidatesTags: ['project'],
     }),
   }),
 })
 
 export const {
   useGetAllProjectsQuery,
-  useGetProjectQuery,
-  useLazyGetProjectQuery,
+  useGetProjectByIdQuery,
   useCreateProjectMutation,
   useDeleteProjectMutation,
 } = projectsApi

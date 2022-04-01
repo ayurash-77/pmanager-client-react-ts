@@ -1,7 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { IQuarterItem, quartersFilter } from '../../tools/quarter-filter'
 import { IProject } from '../../interfaces/IProject'
-import { useParams } from 'react-router'
 
 interface IQuarterFilter {
   isActive: boolean
@@ -11,14 +10,14 @@ interface IQuarterFilter {
 interface IInitialState {
   quarterData: IQuarterItem[] | null
   quarterFilter: IQuarterFilter
-  selectedId: number | null
+  activeProjectId: number | null
   searchFilter?: string
 }
 
 const initialState: IInitialState = {
   quarterData: [],
   quarterFilter: { isActive: false, quarter: null },
-  selectedId: null,
+  activeProjectId: null,
   searchFilter: null,
 }
 
@@ -33,8 +32,8 @@ export const projectsSlice = createSlice({
     setQuarterFilter(state, action: PayloadAction<IQuarterFilter>) {
       state.quarterFilter = action.payload
     },
-    setSelectedId(state, action: PayloadAction<number>) {
-      state.selectedId = action.payload
+    setActiveProjectId(state, action: PayloadAction<number>) {
+      state.activeProjectId = action.payload
     },
     setSearchFilter(state, action: PayloadAction<string>) {
       state.searchFilter = action.payload
@@ -42,5 +41,5 @@ export const projectsSlice = createSlice({
   },
 })
 
-export const { setQuarterFilter, setQuarterData, setSelectedId, setSearchFilter } = projectsSlice.actions
+export const { setQuarterFilter, setQuarterData, setActiveProjectId, setSearchFilter } = projectsSlice.actions
 export default projectsSlice.reducer

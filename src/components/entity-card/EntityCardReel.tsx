@@ -1,11 +1,18 @@
 import { EntityIcon } from './EntityIcon'
 import { EntityCardWrapper } from './EntityCardWrapper'
 import { IReel } from '../../interfaces/IReel'
+import { DetailedHTMLProps, HTMLAttributes } from 'react'
+import cn from 'classnames'
 
-export const EntityCardReel = ({ entity }: { entity: IReel }) => {
+interface IEntityCardReel extends DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLDivElement> {
+  entity: IReel
+  isSelected: boolean
+}
+
+export const EntityCardReel = ({ entity, isSelected, onClick }: IEntityCardReel) => {
   return (
-    <EntityCardWrapper entity={entity} variant={'reel'}>
-      <div className={'info'}>
+    <EntityCardWrapper entity={entity} variant={'reel'} isSelected={isSelected} onClick={onClick}>
+      <div className={cn('info', { selected: isSelected })}>
         <div className={'infoTitle'}>{entity.reelsType?.name}</div>
         <div className={'infoReelTitle'}>{entity.duration} sec</div>
         <div>

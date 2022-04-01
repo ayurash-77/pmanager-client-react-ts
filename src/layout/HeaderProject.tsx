@@ -1,7 +1,6 @@
 import { DetailedHTMLProps, FC, HTMLAttributes } from 'react'
 import { useTranslate } from '../hooks/useTranslate'
 import * as ToolbarIcons from '../assets/icons/toolbar-icons'
-import { useGetAllProjectsQuery } from '../store/api/projects.api'
 import styled from 'styled-components'
 import { useAppDispatch, useAppSelector } from '../hooks/redux'
 import { setThemeMode } from '../store/reducers/ui.reducer'
@@ -25,12 +24,14 @@ import { apiBaseUrl } from '../constants/env'
 import * as s from '../components/info-elements/InfoGrid'
 import { Grid } from '../components/ui'
 import Loader from '../components/ui/Loader'
+import { IProject } from '../interfaces/IProject'
 
 interface Props extends DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLDivElement> {
   sidebarShow: boolean
 }
 
 interface IHeaderProject extends Props {
+  project: IProject
   onClick: () => void
 }
 
@@ -92,13 +93,9 @@ const Container = styled.div`
   }
 `
 
-export const HeaderProject: FC<IHeaderProject> = props => {
+export const HeaderProject: FC<IHeaderProject> = ({ project, ...props }) => {
   const { darkMode } = useAppSelector(state => state.ui.theme)
   const { language, setLanguage } = useTranslate()
-
-  const { data: projects = [] } = useGetAllProjectsQuery({})
-  const { selectedId } = useAppSelector(state => state.projects)
-  const project = projects.find(project => project.id === selectedId)
 
   const dispatch = useAppDispatch()
 

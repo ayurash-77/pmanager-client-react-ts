@@ -12,7 +12,8 @@ import { Outlet, useParams } from 'react-router'
 import { useLocationState } from '../hooks/useLocationState'
 import { ProjectMenu } from './menubar/ProjectMenu'
 import { HeaderProject } from './HeaderProject'
-import { setSelectedId } from '../store/reducers/projects.reducer'
+import { setActiveProjectId } from '../store/reducers/projects.reducer'
+import { useGetProjectByIdQuery } from '../store/api/projects.api'
 
 const Container = styled.div`
   transition: color 250ms;
@@ -31,7 +32,9 @@ export const Layout: FC = () => {
   const [menubarExpanded, setMenubarExpanded] = useLocalStorage(true, 'menubarExpanded')
   const [sidebarShow, setSidebarShow] = useLocalStorage(true, 'sidebarShow')
   const { filterBar } = useAppSelector(state => state.ui)
-  const { selectedId } = useAppSelector(state => state.projects)
+  const { activeProjectId } = useAppSelector(state => state.projects)
+
+  const { data: activeProject } = useGetProjectByIdQuery(activeProjectId)
 
   const { id } = useParams()
   const dispatch = useAppDispatch()
@@ -49,8 +52,8 @@ export const Layout: FC = () => {
 
   useEffect(() => {
     document.body.setAttribute('darkMode', darkMode.toString())
-    if (!selectedId && +id) dispatch(setSelectedId(+id))
-  }, [darkMode, dispatch, id, selectedId])
+    if (!activeProjectId && +id) dispatch(setActiveProjectId(+id))
+  }, [activeProjectId, darkMode, dispatch, id])
 
   return (
     <Container>
@@ -60,16 +63,28 @@ export const Layout: FC = () => {
       </Menubar>
 
       <div className={'mainbar'}>
-        {isProjectsState && <HeaderProjects sidebarShow={sidebarShow} onClick={toggleSidebarShowHelper} />}
-        {isProjectState && <HeaderProject sidebarShow={sidebarShow} onClick={toggleSidebarShowHelper} />}
+        {isProjectsState && (
+          <HeaderProjects
+            sidebarShow={sidebarShow}
+            onClick={toggleSidebarShowHelper}
+            activeProject={activeProject}
+          />
+        )}
         {isProjectsState && <Filterbar {...filterBar} />}
+        {isProjectState && (
+          <HeaderProject
+            sidebarShow={sidebarShow}
+            onClick={toggleSidebarShowHelper}
+            project={activeProject}
+          />
+        )}
 
         <Outlet />
 
-        <Statusbar />
+        <Statusbar project={activeProject} />
       </div>
 
-      <Sidebar sidebarShow={sidebarShow} />
+      <Sidebar sidebarShow={sidebarShow} project={activeProject} />
     </Container>
   )
 }
