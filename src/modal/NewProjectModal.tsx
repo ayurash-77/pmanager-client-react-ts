@@ -225,22 +225,22 @@ export const NewProjectModal: FC<INewProjectModal> = ({ ...props }) => {
             />
             <Input
               type={'date'}
-              label={text.project.startAt}
+              label={text.common.startAt}
               onChange={e => onChangeHandler('startAt', e.target)}
             />
             <Input
               type={'date'}
-              label={text.project.deadline}
+              label={text.common.deadline}
               onChange={e => onChangeHandler('deadline', e.target)}
             />
             <Textarea
               value={details}
-              label={text.project.details}
+              label={text.common.details}
               onChange={e => onChangeHandler('details', e.target)}
             />
 
             <Switcher
-              label={text.project.highPriority}
+              label={text.common.highPriority}
               checked={isChecked}
               onChange={() => onCheckedHandler(isChecked)}
             />

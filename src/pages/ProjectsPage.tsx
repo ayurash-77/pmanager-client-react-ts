@@ -91,12 +91,12 @@ const ProjectsPage: FC = () => {
           {projectsViewFilter.client && <th>{text.project.client}</th>}
           {projectsViewFilter.brand && <th>{text.project.brand}</th>}
           {projectsViewFilter.agency && <th>{text.project.agency}</th>}
-          {projectsViewFilter.createdAt && <th>{text.project.createdAt}</th>}
-          {projectsViewFilter.startAt && <th>{text.project.startAt}</th>}
-          {projectsViewFilter.deadline && <th>{text.project.deadline}</th>}
-          {projectsViewFilter.owner && <th>{text.project.owner}</th>}
-          {projectsViewFilter.progress && <th>{text.project.progress}</th>}
-          {projectsViewFilter.details && <th>{text.project.details}</th>}
+          {projectsViewFilter.createdAt && <th>{text.common.createdAt}</th>}
+          {projectsViewFilter.startAt && <th>{text.common.startAt}</th>}
+          {projectsViewFilter.deadline && <th>{text.common.deadline}</th>}
+          {projectsViewFilter.owner && <th>{text.common.owner}</th>}
+          {projectsViewFilter.progress && <th>{text.common.progress}</th>}
+          {projectsViewFilter.details && <th>{text.common.details}</th>}
         </tr>
       </thead>
       <tbody>

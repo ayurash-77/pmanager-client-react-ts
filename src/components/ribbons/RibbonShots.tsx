@@ -6,10 +6,11 @@ import { useEffect, useState } from 'react'
 import { IProject } from '../../interfaces/IProject'
 import NewShotModal from '../../modal/NewShotModal'
 import { useAppDispatch, useAppSelector } from '../../hooks/redux'
-import { setActiveShotId } from '../../store/reducers/entities.reducer'
+import { setActiveReelId, setActiveReelsTypeId, setActiveShotId } from '../../store/reducers/entities.reducer'
 import { useDeleteShotMutation } from '../../store/api/shots.api'
 import DeleteModal from '../../modal/DeleteModal'
 import { ErrorList } from '../errors/ErrorList'
+import { InfoShotBlock } from '../info-elements/InfoShotBlock'
 
 export const RibbonShots = ({ entities, project }: { entities: IShot[]; project: IProject }) => {
   const { text } = useTranslate()
@@ -26,9 +27,12 @@ export const RibbonShots = ({ entities, project }: { entities: IShot[]; project:
 
   const onClickItemHandler = id => {
     dispatch(setActiveShotId(activeShotId === id ? null : id))
+    dispatch(setActiveReelsTypeId(null))
+    dispatch(setActiveReelId(null))
   }
 
   const activeShot = entities?.find(entity => entity.id === activeShotId) || null
+  const detailsJsx = activeShot && <InfoShotBlock {...activeShot} />
 
   const onDeleteHandler = e => {
     e.preventDefault()
@@ -60,6 +64,8 @@ export const RibbonShots = ({ entities, project }: { entities: IShot[]; project:
         deleteItem={activeShot}
         deleteAction={onDeleteHandler}
         errorJsx={errorJsx}
+        detailsJsx={detailsJsx}
+        title={`${text.actions.deleteShot} ${activeShot?.code}?`}
       />
       <RibbonWrapper
         variant={'shot'}

@@ -10,7 +10,7 @@ export const InfoDeadline: FC<Partial<IProject>> = ({ deadline }) => {
   const value = deadline ? toDateStr(deadline) : ' --- '
   return (
     <>
-      <InfoLabel>{text.project.deadline}</InfoLabel>
+      <InfoLabel>{text.common.deadline}</InfoLabel>
       <InfoValue colorFg={'var(--accent)'}>{value}</InfoValue>
     </>
   )

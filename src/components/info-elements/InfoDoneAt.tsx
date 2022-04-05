@@ -10,7 +10,7 @@ export const InfoDoneAt: FC<Partial<IProject>> = ({ doneAt }) => {
   const value = doneAt ? toDateStr(doneAt) : ' --- '
   return (
     <>
-      <InfoLabel>{text.project.doneAt}</InfoLabel>
+      <InfoLabel>{text.common.doneAt}</InfoLabel>
       <InfoValue colorFg={'var(--status-done)'}>{value}</InfoValue>
     </>
   )

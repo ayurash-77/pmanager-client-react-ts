@@ -1,6 +1,5 @@
 import { FC } from 'react'
 import { IProject } from '../../interfaces/IProject'
-import * as s from './InfoGrid'
 import { InfoBrand } from './InfoBrand'
 import { InfoClient } from './InfoClient'
 import { InfoAgency } from './InfoAgency'
@@ -21,12 +20,12 @@ export const InfoProjectBlock: FC<Partial<IProject>> = project => {
           <InfoAgency agency={project.agency} />
           <InfoOwner owner={project.owner} />
         </InfoGrid>
-        <s.InfoGrid>
+        <InfoGrid>
           <InfoStartAt startAt={project.startAt} />
           <InfoDeadline deadline={project.deadline} />
           <InfoStatus status={project.status} />
           <InfoProgress progress={project.progress} status={project.status} withLabel withValue />
-        </s.InfoGrid>
+        </InfoGrid>
       </div>
     </>
   )

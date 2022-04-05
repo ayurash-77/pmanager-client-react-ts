@@ -2,13 +2,14 @@ import { ModalWrapper } from './ModalWrapper'
 import { FC, useCallback, useEffect, useMemo, useState } from 'react'
 import { useTranslate } from '../hooks/useTranslate'
 import { Grid } from '../components/ui'
-import { useAppSelector } from '../hooks/redux'
+import { useAppDispatch, useAppSelector } from '../hooks/redux'
 import { ErrorList } from '../components/errors/ErrorList'
 import { FlexColumn, Input } from '../components/ui'
 import { IProject } from '../interfaces/IProject'
 import { useCreateReelsTypesMutation } from '../store/api/reelsTypes.api'
 import { useParams } from 'react-router'
 import { IReelsTypeCreateDto } from '../interfaces/IReelsTypeCreateDto'
+import { setActiveReelsTypeId } from '../store/reducers/entities.reducer'
 
 interface INewReelsTypeModal {
   isOpen: boolean
@@ -37,8 +38,10 @@ export const NewReelsTypeModal: FC<INewReelsTypeModal> = ({ closeAction, project
 
   const [data, setData] = useState<IReelsTypeCreateDto>(dataInit)
 
-  const [createReelsType, { isError, error, isSuccess }] = useCreateReelsTypesMutation()
+  const [createReelsType, { isError, error, isSuccess, data: newItem }] = useCreateReelsTypesMutation()
   const errorJsx = ErrorList(error && 'data' in error ? error.data.message : [])
+
+  const dispatch = useAppDispatch()
 
   const clearData = useCallback(() => {
     setData(dataInit)
@@ -62,6 +65,7 @@ export const NewReelsTypeModal: FC<INewReelsTypeModal> = ({ closeAction, project
 
   useEffect(() => {
     if (isSuccess) {
+      dispatch(setActiveReelsTypeId(newItem.id))
       clearData()
       closeAction()
     }

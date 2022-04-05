@@ -33,7 +33,7 @@ export const InfoBriefBlock: FC<Partial<IBrief>> = brief => {
           <span style={{ color: 'var(--date1)' }}>{toDateStr(brief.updatedAt)}</span> (
           <span style={{ color: 'var(--user-email)' }}>{brief.updatedBy.username}</span>)
         </InfoValue>
-        <InfoLabel>{text.project.status}</InfoLabel>
+        <InfoLabel>{text.common.status}</InfoLabel>
         <InfoValue colorFg={statusColor}>{approved}</InfoValue>
       </InfoGrid>
     </>

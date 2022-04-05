@@ -2,8 +2,6 @@ import { FC } from 'react'
 import { IProject } from '../../interfaces/IProject'
 import { useTranslate } from '../../hooks/useTranslate'
 import { InfoLabel } from './InfoLabel'
-import { InfoValue } from './InfoValue'
-import { toDateStr } from '../../tools/date-time-format'
 import statuses from '../../constants/statuses'
 import { Progressbar } from '../ui/Progressbar'
 
@@ -29,7 +27,7 @@ export const InfoProgress: FC<IInfoProgress> = ({
   const statusColorBg = status && statuses[status.code].colorBg
   return (
     <>
-      {withLabel && <InfoLabel>{text.project.progress}</InfoLabel>}
+      {withLabel && <InfoLabel>{text.common.progress}</InfoLabel>}
       <Progressbar
         progress={progress}
         colorFg={statusColor}

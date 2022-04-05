@@ -195,7 +195,7 @@ export const NewBriefModal: FC<INewBriefModal> = ({ closeAction, ...props }) => 
 
             <Textarea
               value={details}
-              label={text.project.details}
+              label={text.common.details}
               onChange={e => onChangeHandler('details', e.target)}
             />
 

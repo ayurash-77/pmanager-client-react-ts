@@ -11,7 +11,7 @@ export interface IReel {
   projectId: number
   createdAt?: Date
   updatedAt?: Date
-  progress?: number
+  progress: number
   status?: IStatus
   startAt?: any
   doneAt?: any

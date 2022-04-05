@@ -3,7 +3,6 @@ import { IProject } from '../../interfaces/IProject'
 import { useTranslate } from '../../hooks/useTranslate'
 import { InfoLabel } from './InfoLabel'
 import { InfoValue } from './InfoValue'
-import { toDateStr } from '../../tools/date-time-format'
 import statuses from '../../constants/statuses'
 
 export const InfoStatus: FC<Partial<IProject>> = ({ status }) => {
@@ -12,7 +11,7 @@ export const InfoStatus: FC<Partial<IProject>> = ({ status }) => {
   const value = status?.name
   return (
     <>
-      <InfoLabel>{text.project.status}</InfoLabel>
+      <InfoLabel>{text.common.status}</InfoLabel>
       <InfoValue colorFg={color} selected={false}>
         {value}
       </InfoValue>

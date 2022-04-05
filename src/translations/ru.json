@@ -30,7 +30,28 @@
     "addReelsType": "Добавить тип ролика",
     "addReel": "Добавить ролик",
     "addShot": "Добавить шот",
+    "deleteShot": "Удалить шот",
+    "deleteReel": "Удалить ролик",
     "select": "Выбрать..."
+  },
+  "common": {
+    "number": "Номер",
+    "code": "Код",
+    "name": "Имя",
+    "duration": "Хронометраж",
+    "durationInFrames": "Хронометраж (кадры)",
+    "createdAt": "Создан",
+    "updatedAt": "Обновлен",
+    "startAt": "Старт",
+    "deadline": "Дедлайн",
+    "doneAt": "Сдан",
+    "manager": "Менеджер",
+    "owner": "Владелец",
+    "status": "Статус",
+    "progress": "Прогресс",
+    "details": "Детали",
+    "highPriority": "Высокий приоритет",
+    "usedIn": "Используется в"
   },
   "menu": {
     "favorites": "Избранное",
@@ -60,17 +81,7 @@
     "agency": "Агенство",
     "production": "Продакшн",
     "postProduction": "Пост продакшн",
-    "createdAt": "Создан",
-    "updatedAt": "Обновлен",
-    "startAt": "Старт",
-    "deadline": "Дедлайн",
-    "doneAt": "Сдан",
-    "manager": "Менеджер",
-    "owner": "Владелец",
-    "status": "Статус",
-    "progress": "Прогресс",
-    "details": "Детали",
-    "highPriority": "Высокий приоритет",
+
     "reelType": "Тип ролика",
     "reelsTypes": "Типы роликов",
     "reels": "Ролики",
@@ -90,6 +101,7 @@
   "shots": {
     "number": "Номер шота",
     "code": "Код шота",
+    "name": "Название шота",
     "duration": "Хронометраж ролика"
   },
   "user": {

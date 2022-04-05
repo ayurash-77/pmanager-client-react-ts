@@ -2,7 +2,7 @@ import { ModalWrapper } from './ModalWrapper'
 import { FC, useCallback, useEffect, useMemo, useState } from 'react'
 import { useTranslate } from '../hooks/useTranslate'
 import { Grid } from '../components/ui'
-import { useAppSelector } from '../hooks/redux'
+import { useAppDispatch, useAppSelector } from '../hooks/redux'
 import { ErrorList } from '../components/errors/ErrorList'
 import { FlexColumn, Input, Select } from '../components/ui'
 import { IProject } from '../interfaces/IProject'
@@ -10,6 +10,7 @@ import { useCreateReelMutation } from '../store/api/reels.api'
 import { useGetReelsTypesByProjectIdQuery } from '../store/api/reelsTypes.api'
 import { IReelCreateDto } from '../interfaces/IReelCreateDto'
 import { useParams } from 'react-router'
+import { setActiveReelId } from '../store/reducers/entities.reducer'
 
 interface INewReelModal {
   isOpen: boolean
@@ -38,7 +39,7 @@ export const NewReelModal: FC<INewReelModal> = ({ closeAction, project, ...props
 
   const [data, setData] = useState<IReelCreateDto>(dataInit)
 
-  const [createReel, { isError, error, isSuccess }] = useCreateReelMutation()
+  const [createReel, { isError, error, isSuccess, data: newItem }] = useCreateReelMutation()
   const errorJsx = ErrorList(error && 'data' in error ? error.data.message : [])
 
   const { data: reelsTypes, refetch: refetchReelsTypes } = useGetReelsTypesByProjectIdQuery(+id)
@@ -52,6 +53,8 @@ export const NewReelModal: FC<INewReelModal> = ({ closeAction, project, ...props
   const options = reelsTypesSorted?.map(item => ({ label: `${item.code} | ${item.name}`, value: item.id }))
 
   const [reelsTypeId, setReelsTypeId] = useState(0)
+
+  const dispatch = useAppDispatch()
 
   const clearData = useCallback(() => {
     setData(dataInit)
@@ -82,6 +85,7 @@ export const NewReelModal: FC<INewReelModal> = ({ closeAction, project, ...props
 
   useEffect(() => {
     if (isSuccess) {
+      dispatch(setActiveReelId(newItem.id))
       refetchReelsTypes()
       clearData()
       closeAction()

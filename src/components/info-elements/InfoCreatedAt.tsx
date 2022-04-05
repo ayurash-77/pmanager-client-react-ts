@@ -10,7 +10,7 @@ export const InfoCreatedAt: FC<Partial<IProject>> = ({ createdAt }) => {
   const value = createdAt ? toDateStr(createdAt) : ' --- '
   return (
     <>
-      <InfoLabel>{text.project.createdAt}</InfoLabel>
+      <InfoLabel>{text.common.createdAt}</InfoLabel>
       <InfoValue colorFg={'var(--date1)'}>{value}</InfoValue>
     </>
   )

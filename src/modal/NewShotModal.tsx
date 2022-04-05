@@ -2,7 +2,7 @@ import { ModalWrapper } from './ModalWrapper'
 import { FC, useCallback, useEffect, useMemo, useState } from 'react'
 import { useTranslate } from '../hooks/useTranslate'
 import { Grid } from '../components/ui'
-import { useAppSelector } from '../hooks/redux'
+import { useAppDispatch, useAppSelector } from '../hooks/redux'
 import { ErrorList } from '../components/errors/ErrorList'
 import { FlexColumn, Input, Select } from '../components/ui'
 import { IProject } from '../interfaces/IProject'
@@ -11,6 +11,7 @@ import { IShotCreateDto } from '../interfaces/IShotCreateDto'
 import { useCreateShotMutation } from '../store/api/shots.api'
 import { useParams } from 'react-router'
 import { useGetReelsTypesByProjectIdQuery } from '../store/api/reelsTypes.api'
+import { setActiveShotId } from '../store/reducers/entities.reducer'
 
 interface INewShotModal {
   isOpen: boolean
@@ -40,7 +41,7 @@ export const NewShotModal: FC<INewShotModal> = ({ closeAction, project, ...props
 
   const [data, setData] = useState<IShotCreateDto>(dataInit)
 
-  const [createShot, { isError, error, isSuccess }] = useCreateShotMutation()
+  const [createShot, { isError, error, isSuccess, data: newItem }] = useCreateShotMutation()
   const errorJsx = ErrorList(error && 'data' in error ? error.data.message : [])
 
   const { refetch: refetchReelsTypes } = useGetReelsTypesByProjectIdQuery(+id)
@@ -55,6 +56,8 @@ export const NewShotModal: FC<INewShotModal> = ({ closeAction, project, ...props
   const options = reelsSorted?.map(item => ({ label: item.code, value: item.id }))
 
   const [reelId, setReelId] = useState(0)
+
+  const dispatch = useAppDispatch()
 
   const clearData = useCallback(() => {
     setData(dataInit)
@@ -85,6 +88,7 @@ export const NewShotModal: FC<INewShotModal> = ({ closeAction, project, ...props
 
   useEffect(() => {
     if (isSuccess) {
+      dispatch(setActiveShotId(newItem.id))
       refetchReelsTypes()
       refetchReels()
       closeAction()
@@ -123,12 +127,12 @@ export const NewShotModal: FC<INewShotModal> = ({ closeAction, project, ...props
                 onChange={e => onChangeReelIdHandler(e)}
               />
               <Input
-                label={text.shots.number}
+                label={text.common.number}
                 onChange={e => onChangeInputHandler('number', e.target.value)}
                 autoFocus={true}
               />
               <Input
-                label={text.shots.duration}
+                label={text.common.durationInFrames}
                 onChange={e => onChangeInputHandler('duration', +e.target.value)}
               />
             </Grid>
