@@ -17,10 +17,22 @@ export const reelsApi = createApi({
       query: projectId => ({ url: `reels/projects/${projectId}` }),
       providesTags: ['project', 'reelsTypes', 'reels', 'shots'],
     }),
+    getReelById: build.query<IReel, number>({
+      query: id => ({ url: `reels/${id}` }),
+      providesTags: ['project', 'reelsTypes', 'reels', 'shots'],
+    }),
     createReel: build.mutation<IReel, IReelCreateDto>({
       query: reel => ({
         url: 'reels',
         method: 'POST',
+        body: reel,
+      }),
+      invalidatesTags: ['project', 'reelsTypes', 'reels', 'shots'],
+    }),
+    updateReel: build.mutation<IReel, Partial<IReel>>({
+      query: reel => ({
+        url: `reels/${reel.id}`,
+        method: 'PATCH',
         body: reel,
       }),
       invalidatesTags: ['project', 'reelsTypes', 'reels', 'shots'],
@@ -40,4 +52,6 @@ export const {
   useGetReelsByProjectIdQuery,
   useCreateReelMutation,
   useDeleteReelMutation,
+  useGetReelByIdQuery,
+  useUpdateReelMutation,
 } = reelsApi

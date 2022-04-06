@@ -32,7 +32,7 @@ const Body = styled.div`
   overflow: auto;
 `
 
-const ProjectOverviewPage: FC = () => {
+export const ProjectOverviewPage: FC = () => {
   const { id } = useParams()
 
   const { data: project } = useGetProjectByIdQuery(+id)
@@ -40,30 +40,6 @@ const ProjectOverviewPage: FC = () => {
   const { data: reelsTypes, refetch: refetchReelsTypes } = useGetReelsTypesByProjectIdQuery(+id)
   const { data: reels, refetch: refetchReels } = useGetReelsByProjectIdQuery(+id)
   const { data: shots, refetch: refetchShots } = useGetShotsByProjectIdQuery(+id)
-
-  const reelsTypesSorted = useMemo(() => {
-    const reelsTypesSorted = reelsTypes?.slice()
-    reelsTypesSorted?.sort((a, b) => a.code.localeCompare(b.code))
-    return reelsTypesSorted
-  }, [reelsTypes])
-
-  const reelsSorted = useMemo(() => {
-    const reelsSorted = reels?.slice()
-    reelsSorted?.sort((a, b) => a.code.localeCompare(b.code))
-    return reelsSorted
-  }, [reels])
-
-  const shotsSorted = useMemo(() => {
-    const shotsSorted = shots?.slice()
-    shotsSorted?.sort((a, b) => a.code.localeCompare(b.code))
-    return shotsSorted
-  }, [shots])
-
-  const postsSorted = useMemo(() => {
-    const sortedPosts = posts?.slice()
-    sortedPosts?.sort((a, b) => a.createdAt.toString().localeCompare(b.createdAt.toString()))
-    return sortedPosts
-  }, [posts])
 
   useEffect(() => {
     refetchReelsTypes()
@@ -75,11 +51,11 @@ const ProjectOverviewPage: FC = () => {
 
   return (
     <Container>
-      <RibbonReelsTypes entities={reelsTypesSorted} project={project} />
-      <RibbonReels entities={reelsSorted} project={project} />
-      <RibbonShots entities={shotsSorted} project={project} />
+      <RibbonReelsTypes entities={reelsTypes} project={project} />
+      <RibbonReels entities={reels} project={project} />
+      <RibbonShots entities={shots} project={project} />
       <Body>
-        {postsSorted?.map(post => (
+        {posts?.map(post => (
           <Post
             key={post.id}
             id={post.id}

@@ -42,24 +42,27 @@ body[darkMode='false'] {
   --pc-dummy-fg: #1d1d22;
 
   //----- EntityCard
-  --entity-card-bg: rgba(156, 161, 173, 0.56);
+  --entity-card-bg: #9CA1AD8E;
   --entity-footer-fg: #C0C0D0;
   --entity-icon-shadow: drop-shadow(0 0 1px #ffffff60);
   --entity-card-icon-bg: #DDDDDDBB;
   --reelsType-card-bg: #058805;
+  --reelsType-card-bg-selected: #b0ffb7;
   --reelsType-card-icon-fg: #09a61e;
   --reelsType-card-selected-border: #09900899;
-  --reelsType-card-selected-shadow: #09900877;
+  --reelsType-card-selected-glow: #1aed7680;
   --reel-card-bg: #225fd0;
+  --reel-card-bg-selected: #dbebff;
   --reel-card-icon-fg: #014fe3;
   --reel-card-title-fg: #014fe3;
   --reel-card-icon-bg: #225fd0;
-  --reel-card-selected-border: #225fd099;
-  --reel-card-selected-shadow: #225fd077;
+  --reel-card-selected-border: #2362d690;
+  --reel-card-selected-glow: #5fa5ff80;
   --shot-card-bg: #343442;
+  --shot-card-bg-selected: #bdbdd880;
   --shot-card-icon-fg: #4e4e67;
-  --shot-card-selected-border: #52545E99;
-  --shot-card-selected-shadow: #52545E77;
+  --shot-card-selected-border: #dddddd99;
+  --shot-card-selected-glow: #ffffff;
 
 
   //---------- DATE TIMES ----------//
@@ -139,6 +142,11 @@ body[darkMode='false'] {
   --table-header-bg: #62646d;
   --table-header-fg: #C0C0C0;
   --table-header-fg-hover: #E0E0E0;
+
+  //----- Timeline
+  --timeline-bg: #cccccc99;
+  --timeline-reel-border: #0055ee66;
+  --timeline-border: #bbbbbb99;
 
   //----- Text
   --text-low: #72747e;

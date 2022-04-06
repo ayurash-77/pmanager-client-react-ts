@@ -2,52 +2,72 @@ import styled from 'styled-components'
 
 export const EntityCardContainer = styled.div`
   transition: all 200ms;
-  height: 60px;
+  //height: 60px;
   max-width: 160px;
   display: flex;
   gap: 4px;
-  box-sizing: content-box;
-  margin: 1px;
+
+  //cursor: default;
+
+  //&.draggable {
+  //  cursor: grab;
+  //}
 
   .main {
     transition: 100ms;
     min-width: 80px;
     height: 60px;
-    border-radius: var(--rad);
+
     display: flex;
     flex-direction: column;
-    overflow: hidden;
+
     font-family: var(--ff-entity-card);
     font-size: var(--fs-small2);
+
+    border-radius: 4px;
+    overflow: hidden;
     border: solid 1px transparent;
-    cursor: default;
+
+    box-sizing: content-box;
+
+    //box-shadow: inset 0 0 13px var(--shot-card-bg);
+
+    //cursor: default;
 
     &.selected {
       opacity: 1;
 
       &.shot {
+        background: var(--shot-card-bg-selected);
         border: solid 1px var(--shot-card-selected-border);
-        box-shadow: 0 1px 6px var(--shot-card-selected-shadow);
+        box-shadow: 0 2px 5px #00000060, inset 0 10px 20px var(--shot-card-selected-glow);
       }
 
       &.reel {
+        background: var(--reel-card-bg-selected);
         border: solid 1px var(--reel-card-selected-border);
-        box-shadow: 0 1px 6px var(--reel-card-selected-shadow);
+        box-shadow: 0 2px 5px #00000060, inset 0 10px 20px var(--reel-card-selected-glow);
       }
 
       &.reelsType {
+        background: var(--reelsType-card-bg-selected);
         border: solid 1px var(--reelsType-card-selected-border);
-        box-shadow: 0 1px 6px var(--reelsType-card-selected-shadow);
+        box-shadow: 0 2px 5px #00000060, inset 0 10px 20px var(--reelsType-card-selected-glow);
+      }
+
+      &.disabled {
+        //background: var(--shot-card-bg);
+        //border: transparent;
+        box-shadow: none;
       }
     }
 
     .thumbnail {
       display: flex;
       align-items: center;
-      position: relative;
-      height: 45px;
-      max-height: 45px;
-      width: 80px;
+      height: 100%;
+      //max-height: 45px;
+      //width: 80px;
       overflow: hidden;
       background: var(--entity-card-bg);
 
@@ -71,11 +91,12 @@ export const EntityCardContainer = styled.div`
     .footer {
       transition: opacity 100ms;
       opacity: 0.8;
-      height: 14px;
+      height: 20px;
       color: var(--entity-footer-fg);
       display: flex;
       justify-content: center;
       align-items: center;
+      //border-radius: 0 0 3px 3px;
 
       &.reelsType {
         background: var(--reelsType-card-bg);
@@ -91,7 +112,8 @@ export const EntityCardContainer = styled.div`
     }
 
     &.disabled {
-      opacity: 0.4;
+      opacity: 0.5;
+      filter: contrast(70%);
     }
   }
 
@@ -153,7 +175,7 @@ export const EntityCardContainer = styled.div`
   //&:hover .footer,
   .selected .footer {
     opacity: 1;
-    filter: contrast(120%);
+    //filter: contrast(110%);
   }
 
   &:hover .thumbnail > .image {

@@ -47,7 +47,7 @@ const HeaderContainer = styled.div`
   justify-content: space-between;
 `
 
-const LoginPage: FC = () => {
+export const LoginPage: FC = () => {
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
 

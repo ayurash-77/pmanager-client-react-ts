@@ -7,12 +7,15 @@ import { EntityIcon } from './EntityIcon'
 import { EntityCardContainer } from './EntityCard.styles'
 import { DetailedHTMLProps, FC, HTMLAttributes, ReactNode } from 'react'
 import { entityVariantType } from '../../types/entityVariantType'
+import { Image } from '../ui'
+import { Clapper } from '../../assets/thumbnails/thumbnails'
 
 interface IEntityCardWrapper extends DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLDivElement> {
   children?: ReactNode
   variant: entityVariantType
   isSelected?: boolean
   disabled?: boolean
+  draggable?: boolean
   entity: IReelsType | IReel | IShot
 }
 
@@ -23,6 +26,7 @@ export const EntityCardWrapper: FC<IEntityCardWrapper> = ({
   disabled = false,
   children,
   onClick,
+  draggable,
 }) => {
   const status = {
     id: 1,
@@ -32,15 +36,15 @@ export const EntityCardWrapper: FC<IEntityCardWrapper> = ({
   }
 
   return (
-    <EntityCardContainer onClick={onClick}>
+    <EntityCardContainer onClick={onClick} draggable={draggable} className={cn({ draggable: draggable })}>
       <div className={cn('main', variant, { selected: isSelected }, { disabled: disabled })}>
         <div className={'thumbnail'}>
           <div className={'image'}>
             {/* <Image src={'/sampleImage.jpg'} alt={'image'} fallback={<Clapper />} /> */}
           </div>
-          <div className={cn('icon-bg', variant)}>
-            <EntityIcon variant={variant} />
-          </div>
+          {/* <div className={cn('icon-bg', variant)}> */}
+          {/*   <EntityIcon variant={variant} /> */}
+          {/* </div> */}
         </div>
         <InfoProgress progress={60} status={status} height={2} withValue={false} m={1} />
         <div className={cn('footer', variant, { selected: isSelected })}>{entity?.code}</div>

@@ -7,9 +7,10 @@ interface IEntityCardShot extends DetailedHTMLProps<HTMLAttributes<HTMLDivElemen
   // onClick: () => void
   isSelected: boolean
   disabled?: boolean
+  draggable?: boolean
 }
 
-export const EntityCardShot = ({ entity, isSelected, disabled, onClick }: IEntityCardShot) => {
+export const EntityCardShot = ({ entity, isSelected, disabled, onClick, draggable }: IEntityCardShot) => {
   return (
     <EntityCardWrapper
       entity={entity}
@@ -17,6 +18,7 @@ export const EntityCardShot = ({ entity, isSelected, disabled, onClick }: IEntit
       isSelected={isSelected}
       disabled={disabled}
       onClick={onClick}
+      draggable={draggable}
     />
   )
 }

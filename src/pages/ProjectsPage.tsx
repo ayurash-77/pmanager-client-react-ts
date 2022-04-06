@@ -29,7 +29,7 @@ const ContainerGrid = styled.div`
   justify-content: space-evenly;
 `
 
-const ProjectsPage: FC = () => {
+export const ProjectsPage: FC = () => {
   const {
     data: projects = [],
     isLoading: isLoadingProjects,

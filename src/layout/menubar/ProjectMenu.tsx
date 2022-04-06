@@ -7,22 +7,15 @@ import { useTranslate } from '../../hooks/useTranslate'
 import { useGetAllProjectsQuery } from '../../store/api/projects.api'
 import Loader from '../../components/ui/Loader'
 import { useAppSelector } from '../../hooks/redux'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useLocation } from 'react-router-dom'
+import { useParams } from 'react-router'
 
 export const ProjectMenu: FC<Partial<IMenuItem>> = ({ menubarExpanded }) => {
   const { text } = useTranslate()
-  const [selectedMenuItem, setSelectedMenuItem] = useState(1)
 
-  const navigate = useNavigate()
   const { data: projects = [], isLoading: isLoadingProjects } = useGetAllProjectsQuery({})
   const { activeProjectId } = useAppSelector(state => state.projects)
 
-  const handleMenuItemClick = (idx, link) => {
-    setSelectedMenuItem(idx)
-    if (selectedMenuItem !== idx) {
-      idx === 0 ? navigate('/', { state: 0 }) : navigate(`project/${activeProjectId}/${link}`, { state: 1 })
-    }
-  }
   const projectsCount = isLoadingProjects ? <Loader size={16} translateX={4} /> : projects.length
 
   const mainMenuButtons: IMenuItem[] = [
@@ -36,6 +29,21 @@ export const ProjectMenu: FC<Partial<IMenuItem>> = ({ menubarExpanded }) => {
     { icon: <SideIcons.Stuff />, name: text.menu.stuff, count: 13, link: 'stuff' },
     { icon: <SideIcons.People />, name: text.menu.team, count: 3, link: 'team' },
   ]
+
+  const { pathname } = useLocation()
+  const initMenuId = mainMenuButtons.findIndex(item => item.link === pathname.split('/').pop())
+
+  const [selectedMenuItem, setSelectedMenuItem] = useState(initMenuId)
+
+  const navigate = useNavigate()
+
+  const handleMenuItemClick = (idx, link) => {
+    setSelectedMenuItem(idx)
+    if (selectedMenuItem !== idx) {
+      idx === 0 ? navigate('/', { state: 0 }) : navigate(`project/${activeProjectId}/${link}`, { state: 1 })
+    }
+  }
+
   return (
     <div>
       {mainMenuButtons.map((item, idx) => (
