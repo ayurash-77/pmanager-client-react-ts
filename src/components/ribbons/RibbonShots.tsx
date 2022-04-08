@@ -57,6 +57,7 @@ export const RibbonShots = ({ entities, project }: { entities: IShot[]; project:
         isOpen={isNewShotModalShow}
         closeAction={() => setNewShotModalShow(false)}
         project={project}
+        shots={entities}
       />
       <DeleteModal
         isOpen={isDeleteModalShow}

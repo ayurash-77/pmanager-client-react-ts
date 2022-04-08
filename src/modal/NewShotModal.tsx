@@ -1,5 +1,5 @@
 import { ModalWrapper } from './ModalWrapper'
-import { FC, useCallback, useEffect, useMemo, useState } from 'react'
+import { FC, useEffect, useMemo, useState } from 'react'
 import { useTranslate } from '../hooks/useTranslate'
 import { Grid } from '../components/ui'
 import { useAppDispatch, useAppSelector } from '../hooks/redux'
@@ -10,20 +10,21 @@ import { useGetReelsByProjectIdQuery } from '../store/api/reels.api'
 import { IShotCreateDto } from '../interfaces/IShotCreateDto'
 import { useCreateShotMutation } from '../store/api/shots.api'
 import { useParams } from 'react-router'
-import { useGetReelsTypesByProjectIdQuery } from '../store/api/reelsTypes.api'
 import { setActiveShotId } from '../store/reducers/entities.reducer'
+import { IShot } from '../interfaces/IShot'
 
 interface INewShotModal {
   isOpen: boolean
   project: IProject
   closeAction: () => void
+  shots: IShot[]
 }
 
 //
 // NewShotModal
 //
 
-export const NewShotModal: FC<INewShotModal> = ({ closeAction, project, ...props }) => {
+export const NewShotModal: FC<INewShotModal> = ({ closeAction, project, shots, ...props }) => {
   const { id } = useParams()
   const { text } = useTranslate()
   const user = useAppSelector(state => state.auth.authUser)
@@ -33,71 +34,73 @@ export const NewShotModal: FC<INewShotModal> = ({ closeAction, project, ...props
       projectId: +id,
       reelId: 0,
       duration: 0,
-      number: '010',
+      number: '',
       createdBy: user,
     }),
     [id, user]
   )
 
   const [data, setData] = useState<IShotCreateDto>(dataInit)
-
-  const [createShot, { isError, error, isSuccess, data: newItem }] = useCreateShotMutation()
-  const errorJsx = ErrorList(error && 'data' in error ? error.data.message : [])
-
-  const { refetch: refetchReelsTypes } = useGetReelsTypesByProjectIdQuery(+id)
-  const { data: reels, refetch: refetchReels } = useGetReelsByProjectIdQuery(+id)
-
-  const reelsSorted = useMemo(() => {
-    const reelsSorted = reels?.slice()
-    reelsSorted?.sort((a, b) => a.code.localeCompare(b.code))
-    return reelsSorted
-  }, [reels])
-
-  const options = reelsSorted?.map(item => ({ label: item.code, value: item.id }))
-
+  const [shotNumber, setShotNumber] = useState('')
+  const [code, setCode] = useState(null)
   const [reelId, setReelId] = useState(0)
 
-  const dispatch = useAppDispatch()
+  const [createShot, { isError, error, isSuccess, data: newItem, reset }] = useCreateShotMutation()
+  const errorJsx = ErrorList(error && 'data' in error ? error.data.message : [])
 
-  const clearData = useCallback(() => {
-    setData(dataInit)
-    setReelId(0)
-  }, [dataInit])
+  const { data: reels } = useGetReelsByProjectIdQuery(+id)
+
+  const options = reels?.map(item => ({ label: item.code, value: item.id }))
+
+  const shotNumbers = shots?.map(
+    shot => shot.code.split('_')[0] === code && Math.trunc(parseInt(shot.code.split('_').pop()) / 10)
+  )
+  const maxNumber = shotNumbers?.length > 0 ? Math.max(...shotNumbers) : null
+
+  const dispatch = useAppDispatch()
 
   const onChangeInputHandler = (key, value) => {
     setData({ ...data, [key]: value })
   }
 
+  const onChangeShotNumberHandler = value => {
+    setShotNumber(value)
+    setData({ ...data, number: value })
+  }
+
   const onCancelHandler = async e => {
     e.preventDefault()
-    clearData()
+    setData(dataInit)
+    setReelId(0)
+    setCode(null)
+    setShotNumber('')
+    reset()
     closeAction()
   }
 
   const onChangeReelIdHandler = e => {
     const newReelsTypeId = +e.target.value
     setReelId(newReelsTypeId)
-    setData({ ...data, reelId: newReelsTypeId })
+    setCode(options.find(val => val.value === newReelsTypeId)?.label.split('_')[0])
   }
 
-  const onSubmitHandler = async e => {
+  const onSubmitHandler = e => {
     e.preventDefault()
-    // if (reelId === 0 || !data.number) return
-    await createShot(data)
+    createShot({ ...data, number: shotNumber, reelId: reelId })
   }
 
   useEffect(() => {
-    if (isSuccess) {
-      dispatch(setActiveShotId(newItem.id))
-      refetchReelsTypes()
-      refetchReels()
-      closeAction()
-      clearData()
-    }
-    // eslint-disable-next-line
-  }, [isSuccess])
+    maxNumber && setShotNumber(maxNumber < 99 && `00${maxNumber * 10 + 10}`.slice(-3))
 
-  ////////////////////////////////////////////////////////////////////////////////////////////
+    if (isSuccess) {
+      dispatch(setActiveShotId(newItem?.id))
+      closeAction()
+      setReelId(0)
+      setCode(null)
+      setShotNumber('')
+      reset()
+    }
+  }, [closeAction, dispatch, isSuccess, maxNumber, newItem?.id, reset])
 
   ////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -127,13 +130,15 @@ export const NewShotModal: FC<INewShotModal> = ({ closeAction, project, ...props
                 onChange={e => onChangeReelIdHandler(e)}
               />
               <Input
+                value={shotNumber}
+                placeholder={shotNumber}
                 label={text.common.number}
-                onChange={e => onChangeInputHandler('number', e.target.value)}
-                autoFocus={true}
+                onChange={e => onChangeShotNumberHandler(e.target.value)}
               />
               <Input
                 label={text.common.durationInFrames}
                 onChange={e => onChangeInputHandler('duration', +e.target.value)}
+                autoFocus={true}
               />
             </Grid>
           </Grid>

@@ -15,6 +15,9 @@ import cn from 'classnames'
 import { useEffect, useState } from 'react'
 import { IReel } from '../interfaces/IReel'
 import { setActiveReelId, setActiveReelsTypeId, setActiveShotId } from '../store/reducers/entities.reducer'
+import { SidebarBlockTitle } from '../layout/sidebar/Sidebar.styles'
+import * as CommonIcons from '../assets/icons/common-icons'
+import { IconButton } from '../components/ui'
 
 const Body = styled.div`
   display: flex;
@@ -26,16 +29,21 @@ const Body = styled.div`
   overflow: auto;
 `
 
-const ContainerGrid = styled.div`
+const ShotsBlock = styled.div`
+  display: flex;
+  flex-direction: column;
+  //gap: 10px;
+`
+
+const ShotsContainer = styled.div`
   display: flex;
   flex-wrap: wrap;
   gap: 9px;
-  grid-template-columns: repeat(auto-fill, auto);
-  justify-content: space-evenly;
+  //justify-content: space-evenly;
   border: solid 1px var(--timeline-border);
   background: var(--timeline-bg);
   border-radius: 5px;
-  padding: 15px 9px;
+  padding: 10px;
 `
 
 const DraggableItem = styled.div`
@@ -108,50 +116,56 @@ export const GraphPage = () => {
 
   return (
     <Body>
-      <h3>Project Reels:</h3>
-      {reels?.map(reel => {
-        return (
-          <div key={reel.id} onDrop={e => onDropHandler(e, reel)} onDragOver={e => onDragOverHandler(e)}>
-            <TimelineWrapper title={`${reel.code}`}>
-              {reel.shots?.map(shot => (
-                <DraggableItem
-                  onClick={() => onClickShotHandler(shot.id)}
-                  className={'draggable'}
-                  key={shot.id}
-                  draggable={true}
-                  onDragStart={e => onDragStartHandler(e, shot, reel)}
-                  onDragEnd={e => onDragEndHandler(e)}
-                  onDragOver={e => onDragOverHandler(e)}
-                  // onDrop={e => onDropHandler(e, shot, reel)}
-                >
-                  <EntityCardShot entity={shot} isSelected={activeShotId === shot.id} />
-                </DraggableItem>
-              ))}
-            </TimelineWrapper>
-          </div>
-        )
-      })}
-      <h3>Project Shots:</h3>
-      <ContainerGrid onDrop={e => removeShotHandler(e)} onDragOver={e => onDragOverHandler(e)}>
-        {shots?.map(shot => (
-          <DraggableItem
-            onClick={() => onClickShotHandler(shot.id)}
-            key={shot.id}
-            draggable={true}
-            onDragStart={e => onDragStartHandler(e, shot)}
-            // onDragLeave={e => onDragLeaveHandler(e, shot)}
-            // onDragEnd={e => onDragEndHandler(e)}
-            // onDragOver={e => onDragOverHandler(e)}
-            // onDrop={e => onDropHandler(e, shot)}
-          >
-            <EntityCardShot
-              entity={shot}
-              isSelected={activeShotId === shot.id}
-              disabled={shot.reels?.length === 0}
-            />
-          </DraggableItem>
-        ))}
-      </ContainerGrid>
+      {reels?.map(reel => (
+        <div key={reel.id} onDrop={e => onDropHandler(e, reel)} onDragOver={e => onDragOverHandler(e)}>
+          <TimelineWrapper title={`${reel.code}`}>
+            {reel.shots?.map(shot => (
+              <DraggableItem
+                onClick={() => onClickShotHandler(shot.id)}
+                className={'draggable'}
+                key={shot.id}
+                draggable={true}
+                onDragStart={e => onDragStartHandler(e, shot, reel)}
+                onDragEnd={e => onDragEndHandler(e)}
+                onDragOver={e => onDragOverHandler(e)}
+                // onDrop={e => onDropHandler(e, shot, reel)}
+              >
+                <EntityCardShot entity={shot} isSelected={activeShotId === shot.id} />
+              </DraggableItem>
+            ))}
+          </TimelineWrapper>
+        </div>
+      ))}
+      <ShotsBlock>
+        <SidebarBlockTitle>
+          Shots bin:
+          <IconButton
+            icon={<CommonIcons.Plus />}
+            ml={10}
+            onClick={() => console.log('CommonIcons clicked')}
+          />
+        </SidebarBlockTitle>
+        <ShotsContainer onDrop={e => removeShotHandler(e)} onDragOver={e => onDragOverHandler(e)}>
+          {shots?.map(shot => (
+            <DraggableItem
+              onClick={() => onClickShotHandler(shot.id)}
+              key={shot.id}
+              draggable={true}
+              onDragStart={e => onDragStartHandler(e, shot)}
+              // onDragLeave={e => onDragLeaveHandler(e, shot)}
+              // onDragEnd={e => onDragEndHandler(e)}
+              // onDragOver={e => onDragOverHandler(e)}
+              // onDrop={e => onDropHandler(e, shot)}
+            >
+              <EntityCardShot
+                entity={shot}
+                isSelected={activeShotId === shot.id}
+                disabled={shot.reels?.length === 0}
+              />
+            </DraggableItem>
+          ))}
+        </ShotsContainer>
+      </ShotsBlock>
     </Body>
   )
 }

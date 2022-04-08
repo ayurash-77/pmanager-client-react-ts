@@ -3,6 +3,7 @@ import { FC } from 'react'
 
 const Container = styled.div`
   .title {
+    //text-transform: uppercase;
     margin-bottom: 4px;
     color: var(--ribbon-reel-fg);
     user-select: none;
@@ -22,7 +23,7 @@ const Container = styled.div`
     .timeline {
       min-width: 30px;
       display: flex;
-      gap: 4px;
+      gap: 2px;
       align-items: center;
       border: solid 1px var(--timeline-reel-border);
       box-shadow: 0 0 3px var(--timeline-reel-border);
@@ -43,7 +44,7 @@ interface ITimelineWrapper {
 export const TimelineWrapper: FC<ITimelineWrapper> = ({ title, children }) => {
   return (
     <Container>
-      <h3 className={'title'}>{title}</h3>
+      <h4 className={'title'}>{title}</h4>
       <div className={'body'}>
         <div className={'timeline'}>{children}</div>
       </div>

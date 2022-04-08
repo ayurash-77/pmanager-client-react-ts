@@ -1,20 +1,13 @@
 import styled from 'styled-components'
 
 export const EntityCardContainer = styled.div`
-  transition: all 200ms;
-  //height: 60px;
+  transition: 150ms;
   max-width: 160px;
   display: flex;
   gap: 4px;
 
-  //cursor: default;
-
-  //&.draggable {
-  //  cursor: grab;
-  //}
-
   .main {
-    transition: 100ms;
+    transition: 150ms;
     min-width: 80px;
     height: 60px;
 
@@ -24,41 +17,27 @@ export const EntityCardContainer = styled.div`
     font-family: var(--ff-entity-card);
     font-size: var(--fs-small2);
 
-    border-radius: 4px;
+    border-radius: var(--rad);
     overflow: hidden;
-    border: solid 1px transparent;
-
     box-sizing: content-box;
-
-    //box-shadow: inset 0 0 13px var(--shot-card-bg);
-
-    //cursor: default;
 
     &.selected {
       opacity: 1;
+      filter: contrast(110%);
 
       &.shot {
         background: var(--shot-card-bg-selected);
-        border: solid 1px var(--shot-card-selected-border);
         box-shadow: 0 2px 5px #00000060, inset 0 10px 20px var(--shot-card-selected-glow);
       }
 
       &.reel {
         background: var(--reel-card-bg-selected);
-        border: solid 1px var(--reel-card-selected-border);
         box-shadow: 0 2px 5px #00000060, inset 0 10px 20px var(--reel-card-selected-glow);
       }
 
       &.reelsType {
         background: var(--reelsType-card-bg-selected);
-        border: solid 1px var(--reelsType-card-selected-border);
         box-shadow: 0 2px 5px #00000060, inset 0 10px 20px var(--reelsType-card-selected-glow);
-      }
-
-      &.disabled {
-        //background: var(--shot-card-bg);
-        //border: transparent;
-        box-shadow: none;
       }
     }
 
@@ -66,8 +45,6 @@ export const EntityCardContainer = styled.div`
       display: flex;
       align-items: center;
       height: 100%;
-      //max-height: 45px;
-      //width: 80px;
       overflow: hidden;
       background: var(--entity-card-bg);
 
@@ -96,7 +73,6 @@ export const EntityCardContainer = styled.div`
       display: flex;
       justify-content: center;
       align-items: center;
-      //border-radius: 0 0 3px 3px;
 
       &.reelsType {
         background: var(--reelsType-card-bg);
@@ -113,7 +89,7 @@ export const EntityCardContainer = styled.div`
 
     &.disabled {
       opacity: 0.5;
-      filter: contrast(70%);
+      filter: contrast(75%);
     }
   }
 
@@ -123,8 +99,6 @@ export const EntityCardContainer = styled.div`
     font-size: var(--fs-small2);
     color: var(--text-high);
     display: flex;
-    //grid-template-columns: auto;
-    //grid-template-rows: 28px auto;
     flex-direction: column;
     justify-content: space-between;
 
@@ -162,7 +136,6 @@ export const EntityCardContainer = styled.div`
     &.selected {
       opacity: 1;
       color: var(--text-high2);
-      //filter: contrast(120%);
     }
   }
 
@@ -172,7 +145,6 @@ export const EntityCardContainer = styled.div`
     opacity: 1;
   }
 
-  //&:hover .footer,
   .selected .footer {
     opacity: 1;
     //filter: contrast(110%);
@@ -180,10 +152,5 @@ export const EntityCardContainer = styled.div`
 
   &:hover .thumbnail > .image {
     opacity: 0.8;
-  }
-
-  &:hover {
-    //filter: contrast(110%);
-    //box-shadow: 0 0 2px var(--shot-card-bg);
   }
 `
