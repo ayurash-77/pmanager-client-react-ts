@@ -1,4 +1,4 @@
-import { FC, useEffect, useMemo } from 'react'
+import { FC, useEffect } from 'react'
 
 import styled from 'styled-components'
 import { useParams } from 'react-router'
@@ -12,25 +12,12 @@ import { RibbonReelsTypes } from '../components/ribbons/RibbonReelsTypes'
 import { RibbonReels } from '../components/ribbons/RibbonReels'
 import { RibbonShots } from '../components/ribbons/RibbonShots'
 import { useGetProjectByIdQuery } from '../store/api/projects.api'
-
-const Container = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 1px;
-  height: 100%;
-  min-height: 0;
-  min-width: 0;
-`
-
-const Body = styled.div`
-  display: flex;
-  flex-direction: column;
-  z-index: 1;
-  padding: 10px;
-  gap: 20px;
-  height: 100%;
-  overflow: auto;
-`
+import { MainbarContainer } from '../layout/MainbarContainer'
+import { Sidebar } from '../layout/sidebar/Sidebar'
+import { useAppSelector } from '../hooks/redux'
+import HeaderProjects from '../layout/HeaderProjects'
+import { HeaderProject } from '../layout/HeaderProject'
+import { BodyContainer } from '../layout/BodyContainer'
 
 export const ProjectOverviewPage: FC = () => {
   const { id } = useParams()
@@ -50,26 +37,33 @@ export const ProjectOverviewPage: FC = () => {
   ////////////////////////////////////////////////////////////////////////
 
   return (
-    <Container>
-      <RibbonReelsTypes entities={reelsTypes} project={project} />
-      <RibbonReels entities={reels} project={project} />
-      <RibbonShots entities={shots} project={project} />
-      <Body>
-        {posts?.map(post => (
-          <Post
-            key={post.id}
-            id={post.id}
-            message={post.message}
-            createdAt={post.createdAt}
-            updatedAt={post.updatedAt}
-            createdBy={post.createdBy}
-          >
-            {post.message}
-          </Post>
-        ))}
-      </Body>
-      <Sendbar projectId={+id} />
-    </Container>
+    <>
+      <MainbarContainer>
+        <HeaderProject project={project} />
+
+        <RibbonReelsTypes entities={reelsTypes} project={project} />
+        <RibbonReels entities={reels} project={project} />
+        <RibbonShots entities={shots} project={project} />
+
+        <BodyContainer>
+          {posts?.map(post => (
+            <Post
+              key={post.id}
+              id={post.id}
+              message={post.message}
+              createdAt={post.createdAt}
+              updatedAt={post.updatedAt}
+              createdBy={post.createdBy}
+            >
+              {post.message}
+            </Post>
+          ))}
+        </BodyContainer>
+
+        <Sendbar projectId={+id} />
+      </MainbarContainer>
+      <Sidebar project={project} />
+    </>
   )
 }
 

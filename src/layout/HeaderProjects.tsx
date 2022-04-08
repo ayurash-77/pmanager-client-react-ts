@@ -9,18 +9,18 @@ import { useAppDispatch, useAppSelector } from '../hooks/redux'
 import { IQuarterItem } from '../tools/quarter-filter'
 import NewProjectModal from '../modal/NewProjectModal'
 import DeleteProjectModal from '../modal/DeleteProjectModal'
-import { setFilterbarShow, setProjectsViewMode, setThemeMode } from '../store/reducers/ui.reducer'
+import {
+  setFilterbarShow,
+  setProjectsViewMode,
+  setSidebarShow,
+  setThemeMode,
+} from '../store/reducers/ui.reducer'
 import { IconButton, ToolButton, ToolButtonGroup, FlexRow, Input } from '../components/ui'
 import { setSearchFilter } from '../store/reducers/projects.reducer'
 import { IProject } from '../interfaces/IProject'
 
-interface Props extends DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLDivElement> {
-  sidebarShow: boolean
-}
-
-interface IHeader extends Props {
+interface IHeader extends DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLDivElement> {
   activeProject: IProject
-  onClick: () => void
 }
 
 const Container = styled.div`
@@ -43,8 +43,10 @@ const TitleContainer = styled.div`
   text-wrap: none;
 `
 
-export const HeaderProjects: FC<IHeader> = ({ activeProject, ...props }) => {
+export const HeaderProjects: FC<IHeader> = ({ activeProject }) => {
   const { darkMode } = useAppSelector(state => state.ui.theme)
+  const { show: sidebarShow } = useAppSelector(state => state.ui.sidebar)
+
   const { language, setLanguage } = useTranslate()
   const { text } = useTranslate()
 
@@ -119,7 +121,11 @@ export const HeaderProjects: FC<IHeader> = ({ activeProject, ...props }) => {
           />
         </ToolButtonGroup>
         <ToolButtonGroup>
-          <ToolButton icon={<ToolbarIcons.Info />} selected={props.sidebarShow} onClick={props.onClick} />
+          <ToolButton
+            icon={<ToolbarIcons.Info />}
+            selected={sidebarShow}
+            onClick={() => dispatch(setSidebarShow(!sidebarShow))}
+          />
         </ToolButtonGroup>
         <ToolButtonGroup>
           <ToolButton

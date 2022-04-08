@@ -3,7 +3,7 @@ import { useTranslate } from '../hooks/useTranslate'
 import * as ToolbarIcons from '../assets/icons/toolbar-icons'
 import styled from 'styled-components'
 import { useAppDispatch, useAppSelector } from '../hooks/redux'
-import { setThemeMode } from '../store/reducers/ui.reducer'
+import { setSidebarShow, setThemeMode } from '../store/reducers/ui.reducer'
 import { ToolButton, ToolButtonGroup, FlexRow } from '../components/ui'
 import { setSearchFilter } from '../store/reducers/projects.reducer'
 import {
@@ -26,13 +26,8 @@ import { Grid } from '../components/ui'
 import Loader from '../components/ui/Loader'
 import { IProject } from '../interfaces/IProject'
 
-interface Props extends DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLDivElement> {
-  sidebarShow: boolean
-}
-
-interface IHeaderProject extends Props {
+interface IHeaderProject extends DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLDivElement> {
   project: IProject
-  onClick: () => void
 }
 
 const Container = styled.div`
@@ -93,8 +88,9 @@ const Container = styled.div`
   }
 `
 
-export const HeaderProject: FC<IHeaderProject> = ({ project, ...props }) => {
+export const HeaderProject: FC<IHeaderProject> = ({ project }) => {
   const { darkMode } = useAppSelector(state => state.ui.theme)
+  const { show: sidebarShow } = useAppSelector(state => state.ui.sidebar)
   const { language, setLanguage } = useTranslate()
 
   const dispatch = useAppDispatch()
@@ -133,7 +129,11 @@ export const HeaderProject: FC<IHeaderProject> = ({ project, ...props }) => {
             {/* /> */}
 
             <ToolButtonGroup>
-              <ToolButton icon={<ToolbarIcons.Info />} selected={props.sidebarShow} onClick={props.onClick} />
+              <ToolButton
+                icon={<ToolbarIcons.Info />}
+                selected={sidebarShow}
+                onClick={() => dispatch(setSidebarShow(!sidebarShow))}
+              />
             </ToolButtonGroup>
             <ToolButtonGroup>
               <ToolButton

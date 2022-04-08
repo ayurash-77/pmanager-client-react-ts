@@ -10,9 +10,10 @@ import { useAppSelector } from '../../hooks/redux'
 import { useNavigate, useLocation } from 'react-router-dom'
 import { useParams } from 'react-router'
 
-export const ProjectMenu: FC<Partial<IMenuItem>> = ({ menubarExpanded }) => {
+export const ProjectMenu: FC<Partial<IMenuItem>> = () => {
   const { text } = useTranslate()
 
+  const { expanded: menubarExpanded } = useAppSelector(state => state.ui.menubar)
   const { data: projects = [], isLoading: isLoadingProjects } = useGetAllProjectsQuery({})
   const { activeProjectId } = useAppSelector(state => state.projects)
 

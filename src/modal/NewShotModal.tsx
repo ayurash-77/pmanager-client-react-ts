@@ -26,6 +26,7 @@ interface INewShotModal {
 
 export const NewShotModal: FC<INewShotModal> = ({ closeAction, project, shots, ...props }) => {
   const { id } = useParams()
+  const { activeShotId } = useAppSelector(state => state.entities)
   const { text } = useTranslate()
   const user = useAppSelector(state => state.auth.authUser)
 
@@ -45,7 +46,7 @@ export const NewShotModal: FC<INewShotModal> = ({ closeAction, project, shots, .
   const [code, setCode] = useState(null)
   const [reelId, setReelId] = useState(0)
 
-  const [createShot, { isError, error, isSuccess, data: newItem, reset }] = useCreateShotMutation()
+  const [createShot, { isError, error, isSuccess, status, data: newItem, reset }] = useCreateShotMutation()
   const errorJsx = ErrorList(error && 'data' in error ? error.data.message : [])
 
   const { data: reels } = useGetReelsByProjectIdQuery(+id)
@@ -87,20 +88,23 @@ export const NewShotModal: FC<INewShotModal> = ({ closeAction, project, shots, .
   const onSubmitHandler = e => {
     e.preventDefault()
     createShot({ ...data, number: shotNumber, reelId: reelId })
+    setShotNumber('')
   }
 
+  // console.log(status)
+
   useEffect(() => {
-    maxNumber && setShotNumber(maxNumber < 99 && `00${maxNumber * 10 + 10}`.slice(-3))
+    status !== 'pending' && maxNumber && setShotNumber(maxNumber < 99 && `00${maxNumber * 10 + 10}`.slice(-3))
 
     if (isSuccess) {
+      setShotNumber('')
       dispatch(setActiveShotId(newItem?.id))
       closeAction()
       setReelId(0)
       setCode(null)
-      setShotNumber('')
       reset()
     }
-  }, [closeAction, dispatch, isSuccess, maxNumber, newItem?.id, reset])
+  }, [closeAction, dispatch, isSuccess, maxNumber, newItem?.id, reset, status])
 
   ////////////////////////////////////////////////////////////////////////////////////////////
 

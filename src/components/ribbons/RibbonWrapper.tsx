@@ -12,6 +12,7 @@ const RibbonContainer = styled.div`
   padding: 8px 10px 4px 10px;
   background: var(--ribbon-bg);
   box-shadow: 0 0 3px var(--button-shadow);
+  margin-bottom: 1px;
 `
 
 const RibbonHeader = styled.div`

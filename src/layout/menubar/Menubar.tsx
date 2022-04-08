@@ -1,13 +1,11 @@
 import { DetailedHTMLProps, Dispatch, FC, HTMLAttributes } from 'react'
 import styled from 'styled-components'
 import { BottomMenu } from './BottomMenu'
+import { useAppDispatch, useAppSelector } from '../../hooks/redux'
+import { setMenubarExpanded } from '../../store/reducers/ui.reducer'
 
-interface Props extends DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLDivElement> {
+interface Props {
   menubarExpanded: boolean
-}
-
-interface IMenubar extends Props {
-  toggle: Dispatch<any>
 }
 
 const Container = styled.div<Props>`
@@ -57,11 +55,16 @@ const ToggleContainer = styled.div<Props>`
   }
 `
 
-export const Menubar: FC<IMenubar> = ({ menubarExpanded, toggle, children }: IMenubar) => {
+export const Menubar: FC = ({ children }) => {
+  const { expanded: menubarExpanded } = useAppSelector(state => state.ui.menubar)
+  const dispatch = useAppDispatch()
   return (
     <Container menubarExpanded={menubarExpanded}>
       {children}
-      <ToggleContainer menubarExpanded={menubarExpanded} onClick={toggle} />
+      <ToggleContainer
+        menubarExpanded={menubarExpanded}
+        onClick={() => dispatch(setMenubarExpanded(!menubarExpanded))}
+      />
       <BottomMenu menubarExpanded={menubarExpanded} />
     </Container>
   )

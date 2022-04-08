@@ -10,6 +10,10 @@ const Container = styled.div`
     cursor: default;
   }
 
+  .draggable {
+    cursor: grab;
+  }
+
   .body {
     display: flex;
     justify-content: space-between;
