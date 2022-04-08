@@ -8,7 +8,7 @@ import { EntityCardShot } from '../components/entity-card/EntityCardShot'
 import { IShot } from '../interfaces/IShot'
 import { useEffect, useState } from 'react'
 import { IReel } from '../interfaces/IReel'
-import { setActiveShotId } from '../store/reducers/entities.reducer'
+import { setActiveShotId, setDragShot, setDropReel } from '../store/reducers/entities.reducer'
 import { useGetProjectByIdQuery } from '../store/api/projects.api'
 import { ShotsBlock } from '../layout/shots-block/ShotsBlock'
 import { MainbarContainer } from '../layout/MainbarContainer'
@@ -20,16 +20,17 @@ export const DraggableItem = styled.div`
   cursor: grab;
 `
 
+////////////////////////////////////////////////////////////////////////
+// GraphPage
+////////////////////////////////////////////////////////////////////////
+
 export const GraphPage = () => {
   const { id } = useParams()
+  const dispatch = useAppDispatch()
 
   const { data: project } = useGetProjectByIdQuery(+id)
 
-  const { activeShotId } = useAppSelector(state => state.entities)
-  const dispatch = useAppDispatch()
-
-  const [dragShot, setDragShot] = useState<IShot>(null)
-  const [dragReel, setDragReel] = useState<IReel>(null)
+  const { activeShotId, dragShot, dropReel } = useAppSelector(state => state.entities)
 
   const { data: reels, refetch: refetchReels } = useGetReelsByProjectIdQuery(+id)
   const { data: shots, refetch: refetchShots } = useGetShotsByProjectIdQuery(+id)
@@ -37,10 +38,9 @@ export const GraphPage = () => {
   const [updateReel, { isSuccess }] = useUpdateReelMutation()
 
   const onDragStartHandler = (e, shot: IShot, reel?: IReel) => {
-    setDragShot(shot)
+    dispatch(setDragShot(shot))
     dispatch(setActiveShotId(shot.id))
-    console.log('DragStart', shot)
-    if (reel) setDragReel(reel)
+    if (reel) dispatch(setDropReel(reel))
   }
 
   const onDragLeaveHandler = (e, shot) => {
@@ -48,7 +48,7 @@ export const GraphPage = () => {
   }
 
   const onDragEndHandler = e => {
-    console.log('DragEnd')
+    // console.log('DragEnd', e.target)
   }
 
   const onDragOverHandler = e => {
@@ -56,7 +56,7 @@ export const GraphPage = () => {
   }
 
   const onDropHandler = (e, reel: IReel) => {
-    if (reel) setDragReel(reel)
+    if (reel) dispatch(setDropReel(reel))
     e.preventDefault()
 
     const updatedShots = [...reel.shots, dragShot]
@@ -66,14 +66,14 @@ export const GraphPage = () => {
 
   const removeShotHandler = e => {
     e.preventDefault()
-    const updatedShots: IShot[] = dragReel?.shots?.filter(shot => shot.id !== dragShot.id)
-    const updatedReel: IReel = { ...dragReel, shots: updatedShots }
+    const updatedShots: IShot[] = dropReel?.shots?.filter(shot => shot.id !== dragShot.id)
+    const updatedReel: IReel = { ...dropReel, shots: updatedShots }
     updateReel(updatedReel)
   }
 
   useEffect(() => {
     if (isSuccess) {
-      setDragReel(null)
+      dispatch(setDropReel(null))
       setDragShot(null)
       dispatch(setActiveShotId(null))
       refetchReels()
@@ -94,10 +94,10 @@ export const GraphPage = () => {
               <TimelineWrapper title={`${reel.code}`}>
                 {reel.shots?.map(shot => (
                   <div
-                    onClick={() => dispatch(setActiveShotId(activeShotId === shot.id ? null : shot.id))}
-                    className={'draggable'}
                     key={shot.id}
                     draggable={true}
+                    onClick={() => dispatch(setActiveShotId(activeShotId === shot.id ? null : shot.id))}
+                    className={'draggable'}
                     onDragStart={e => onDragStartHandler(e, shot, reel)}
                     onDragEnd={e => onDragEndHandler(e)}
                     onDragOver={e => e.preventDefault()}
@@ -108,7 +108,7 @@ export const GraphPage = () => {
               </TimelineWrapper>
             </div>
           ))}
-          <div onDrop={e => removeShotHandler(e)} onDragOver={e => e.preventDefault()}>
+          <div>
             <ShotsBlock
               shots={shots}
               project={project}
@@ -118,7 +118,11 @@ export const GraphPage = () => {
           </div>
         </BodyContainer>
       </MainbarContainer>
-      <Sidebar project={project} />
+      <Sidebar
+        project={project}
+        removeShotHandler={removeShotHandler}
+        onDragStartHandler={onDragStartHandler}
+      />
     </>
   )
 }

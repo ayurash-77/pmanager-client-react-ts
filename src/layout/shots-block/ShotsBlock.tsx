@@ -38,11 +38,17 @@ interface IShotsBlock {
   removeShotHandler?: (e) => void
 }
 
+////////////////////////////////////////////////////////////////////////
+// ShotsBlock
+////////////////////////////////////////////////////////////////////////
+
 export const ShotsBlock: FC<IShotsBlock> = ({ project, shots, removeShotHandler, onDragStartHandler }) => {
   const [isNewShotModalShow, setNewShotModalShow] = useState(false)
 
   const { activeShotId } = useAppSelector(state => state.entities)
   const dispatch = useAppDispatch()
+
+  ////////////////////////////////////////////////////////////////////////
 
   return (
     <>
