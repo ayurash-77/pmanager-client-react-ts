@@ -10,16 +10,18 @@ import { Switcher } from '../components/ui/Switcher'
 import { FlexColumn, Input, InputImage, Select, Textarea } from '../components/ui'
 import { apiBaseUrl, apiUploadUrl } from '../constants/env'
 import { UploadingProgress } from '../components/uploading-progress/UploadingProgress'
-import { useGetAllBrandsQuery } from '../store/api/brands.api'
-import { useGetAllClientsQuery } from '../store/api/clients.api'
-import { useGetAllAgenciesQuery } from '../store/api/agencies.api'
 import { IProject } from '../interfaces/IProject'
 import { setActiveProjectId } from '../store/reducers/projects.reducer'
-// import { setActiveProject } from '../store/reducers/projects.reducer'
+import { IAgency } from '../interfaces/IAgency'
+import { IBrand } from '../interfaces/IBrand'
+import { IClient } from '../interfaces/IClient'
 
 interface INewProjectModal {
   isOpen: boolean
   closeAction: () => void
+  agencies: IAgency[]
+  brands: IBrand[]
+  clients: IClient[]
 }
 
 export interface IProjectData extends Partial<IProject> {
@@ -30,13 +32,11 @@ export interface IProjectData extends Partial<IProject> {
 // NewProjectModal
 //
 
-export const NewProjectModal: FC<INewProjectModal> = ({ ...props }) => {
+export const NewProjectModal: FC<INewProjectModal> = ({ agencies, brands, clients, ...props }) => {
   const { text } = useTranslate()
   const token = useAppSelector(state => state.auth.authUser.token)
   const user = useAppSelector(state => state.auth.authUser)
-  const { data: brands } = useGetAllBrandsQuery()
-  const { data: clients } = useGetAllClientsQuery()
-  const { data: agencies } = useGetAllAgenciesQuery()
+
   const selectionsInit = { brandId: 0, clientId: 0, agencyId: 0 }
   const brandsOptions = brands?.map(item => ({ label: item.name, value: item.id }))
   const clientsOptions = clients?.map(item => ({ label: item.name, value: item.id }))

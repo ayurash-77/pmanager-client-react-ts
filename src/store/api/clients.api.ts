@@ -5,12 +5,15 @@ import { getFetchBaseQuery } from './getFetchBaseQuery'
 export const clientsApi = createApi({
   reducerPath: 'clientsApi',
   refetchOnFocus: true,
-  tagTypes: ['clients'],
+  tagTypes: ['Clients'],
   baseQuery: getFetchBaseQuery(),
   endpoints: build => ({
     getAllClients: build.query<IClient[], void>({
       query: () => ({ url: `clients` }),
-      providesTags: result => (result ? result.map(({ id }) => ({ type: 'clients', id })) : []),
+      providesTags: result =>
+        result
+          ? [...result.map(({ id }) => ({ type: 'Clients' as const, id })), { type: 'Clients', id: 'LIST' }]
+          : [{ type: 'Clients', id: 'LIST' }],
     }),
     createClient: build.mutation<IClient, IClient>({
       query: client => ({
@@ -18,9 +21,9 @@ export const clientsApi = createApi({
         method: 'POST',
         body: client,
       }),
-      invalidatesTags: ['clients'],
+      invalidatesTags: [{ type: 'Clients', id: 'LIST' }],
     }),
   }),
 })
 
-export const { useGetAllClientsQuery, useCreateClientMutation } = clientsApi
+export const { useGetAllClientsQuery, useLazyGetAllClientsQuery } = clientsApi

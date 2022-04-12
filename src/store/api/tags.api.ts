@@ -5,12 +5,15 @@ import { getFetchBaseQuery } from './getFetchBaseQuery'
 export const tagsApi = createApi({
   reducerPath: 'tagsApi',
   refetchOnFocus: true,
-  tagTypes: ['tags'],
+  tagTypes: ['Tags'],
   baseQuery: getFetchBaseQuery(),
   endpoints: build => ({
     getAllTags: build.query<ITag[], void>({
       query: () => ({ url: `tags` }),
-      providesTags: result => (result ? result.map(({ id }) => ({ type: 'tags', id })) : []),
+      providesTags: result =>
+        result
+          ? [...result.map(({ id }) => ({ type: 'Tags' as const, id })), { type: 'Tags', id: 'LIST' }]
+          : [{ type: 'Tags', id: 'LIST' }],
     }),
     createTag: build.mutation<ITag, ITag>({
       query: client => ({
@@ -18,7 +21,7 @@ export const tagsApi = createApi({
         method: 'POST',
         body: client,
       }),
-      invalidatesTags: ['tags'],
+      invalidatesTags: [{ type: 'Tags', id: 'LIST' }],
     }),
   }),
 })

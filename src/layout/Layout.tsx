@@ -4,9 +4,10 @@ import { FC, useEffect } from 'react'
 import styled from 'styled-components'
 import { useAppDispatch, useAppSelector } from '../hooks/redux'
 import { Outlet, useParams } from 'react-router'
-import { useLocationState } from '../hooks/useLocationState'
 import { ProjectMenu } from './menubar/ProjectMenu'
 import { setActiveProjectId } from '../store/reducers/projects.reducer'
+import { useLocation } from 'react-router-dom'
+import { setActiveMenu } from '../store/reducers/ui.reducer'
 
 const Container = styled.div`
   transition: color 250ms;
@@ -23,24 +24,26 @@ const Container = styled.div`
 
 export const Layout: FC = () => {
   const { activeProjectId } = useAppSelector(state => state.projects)
+  const { activeMenu } = useAppSelector(state => state.ui.menubar)
 
   const { id } = useParams()
   const dispatch = useAppDispatch()
-  const { isProjectsState, isProjectState } = useLocationState()
 
   const { darkMode } = useAppSelector(state => state.ui.theme)
+
+  const { pathname } = useLocation()
 
   useEffect(() => {
     document.body.setAttribute('darkMode', darkMode.toString())
     if (!activeProjectId && +id) dispatch(setActiveProjectId(+id))
-  }, [activeProjectId, darkMode, dispatch, id])
+    if (pathname === '/projects') {
+      dispatch(setActiveMenu('/projects'))
+    }
+  }, [activeProjectId, darkMode, dispatch, id, pathname])
 
   return (
     <Container>
-      <Menubar>
-        {isProjectsState && <MainMenu />}
-        {isProjectState && <ProjectMenu />}
-      </Menubar>
+      <Menubar>{activeMenu === '/projects' ? <MainMenu /> : <ProjectMenu />}</Menubar>
 
       <Outlet />
     </Container>

@@ -12,8 +12,9 @@ import { IBrief } from '../interfaces/IBrief'
 import { useCreateBriefMutation, useGetAllBriefCategoriesQuery } from '../store/api/briefs.api'
 import { FlexColumn, Input, Select, Textarea } from '../components/ui'
 import { apiBaseUrl, apiUploadUrl } from '../constants/env'
-import { useGetAllProjectsQuery } from '../store/api/projects.api'
+import { useGetAllProjectsQuery, useGetProjectByIdQuery } from '../store/api/projects.api'
 import { UploadingProgress } from '../components/uploading-progress/UploadingProgress'
+import { useParams } from 'react-router'
 
 interface INewBriefModal {
   isOpen: boolean
@@ -32,6 +33,10 @@ export interface IBriefData extends Partial<IBrief> {
 
 export const NewBriefModal: FC<INewBriefModal> = ({ closeAction, ...props }) => {
   const { text } = useTranslate()
+
+  const { id } = useParams()
+  const { activeProjectId } = useAppSelector(state => state.projects)
+  const { data: project, refetch: refetchProject } = useGetProjectByIdQuery(activeProjectId)
   const token = useAppSelector(state => state.auth.authUser.token)
 
   const fileInputRef = useRef<HTMLInputElement>(null)
@@ -42,7 +47,7 @@ export const NewBriefModal: FC<INewBriefModal> = ({ closeAction, ...props }) => 
     approved: false,
     details: '',
     url: '',
-    projectId: props.project.id,
+    projectId: activeProjectId,
     categoryId: 1,
   }
 
@@ -59,7 +64,7 @@ export const NewBriefModal: FC<INewBriefModal> = ({ closeAction, ...props }) => 
   const errorJsx = ErrorList(error && 'data' in error ? error.data.message : [])
 
   const { data: briefCategories } = useGetAllBriefCategoriesQuery()
-  const { refetch: refetchProjects } = useGetAllProjectsQuery({})
+  const { refetch: refetchProjects } = useGetAllProjectsQuery()
   const options = briefCategories?.map(item => ({ label: item.name, value: item.id }))
   const [categoryId, setCategoryId] = useState(1)
 
@@ -100,7 +105,7 @@ export const NewBriefModal: FC<INewBriefModal> = ({ closeAction, ...props }) => 
     setUrl(null)
     setUploaded(false)
     setUploading(true)
-    setBriefData({ ...briefData, projectId: props.project.id })
+    setBriefData({ ...briefData, projectId: activeProjectId })
     try {
       const config = {
         headers: { 'Content-Type': 'multipart/form-data', Authorization: `Bearer ${token}` },
@@ -142,6 +147,7 @@ export const NewBriefModal: FC<INewBriefModal> = ({ closeAction, ...props }) => 
 
   useEffect(() => {
     if (isSuccess && status !== 'uninitialized') {
+      // refetchProject()
       closeAction()
     }
   }, [closeAction, isSuccess, status])

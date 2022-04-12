@@ -4,10 +4,15 @@ import { getFetchBaseQuery } from './getFetchBaseQuery'
 
 export const jobsApi = createApi({
   reducerPath: 'jobsApi',
+  tagTypes: ['Jobs'],
   baseQuery: getFetchBaseQuery(),
   endpoints: build => ({
     getJobs: build.query<IJob[], void>({
       query: () => ({ url: `jobs` }),
+      providesTags: result =>
+        result
+          ? [...result.map(({ id }) => ({ type: 'Jobs' as const, id })), { type: 'Jobs', id: 'LIST' }]
+          : [{ type: 'Jobs', id: 'LIST' }],
     }),
     createJob: build.mutation<IJob, IJob>({
       query: job => ({
@@ -15,6 +20,7 @@ export const jobsApi = createApi({
         method: 'POST',
         body: job,
       }),
+      invalidatesTags: [{ type: 'Jobs', id: 'LIST' }],
     }),
   }),
 })

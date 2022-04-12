@@ -54,6 +54,7 @@ export const ProjectOverviewPage: FC = () => {
               createdAt={post.createdAt}
               updatedAt={post.updatedAt}
               createdBy={post.createdBy}
+              reel={post.reel}
             >
               {post.message}
             </Post>

@@ -6,16 +6,22 @@ import { IShotCreateDto } from '../../interfaces/IShotCreateDto'
 export const shotsApi = createApi({
   reducerPath: 'shotsApi',
   refetchOnFocus: true,
-  tagTypes: ['project', 'reelsTypes', 'reels', 'shots'],
+  tagTypes: ['Shots'],
   baseQuery: getFetchBaseQuery(),
   endpoints: build => ({
     getAllShots: build.query<IShot[], void>({
       query: () => ({ url: `shots` }),
-      providesTags: ['project', 'reelsTypes', 'reels', 'shots'],
+      providesTags: result =>
+        result
+          ? [...result.map(({ id }) => ({ type: 'Shots' as const, id })), { type: 'Shots', id: 'LIST' }]
+          : [{ type: 'Shots', id: 'LIST' }],
     }),
     getShotsByProjectId: build.query<IShot[], number>({
       query: projectId => ({ url: `shots/projects/${projectId}` }),
-      providesTags: ['project', 'reelsTypes', 'reels', 'shots'],
+      providesTags: result =>
+        result
+          ? [...result.map(({ id }) => ({ type: 'Shots' as const, id })), { type: 'Shots', id: 'LIST' }]
+          : [{ type: 'Shots', id: 'LIST' }],
     }),
     createShot: build.mutation<IShot, IShotCreateDto>({
       query: shot => ({
@@ -23,14 +29,14 @@ export const shotsApi = createApi({
         method: 'POST',
         body: shot,
       }),
-      invalidatesTags: ['project', 'reelsTypes', 'reels', 'shots'],
+      invalidatesTags: [{ type: 'Shots', id: 'LIST' }],
     }),
     deleteShot: build.mutation<IShot, number>({
       query: id => ({
         url: `shots/${id}`,
         method: 'DELETE',
       }),
-      invalidatesTags: ['project', 'reelsTypes', 'reels', 'shots'],
+      invalidatesTags: [{ type: 'Shots', id: 'LIST' }],
     }),
   }),
 })

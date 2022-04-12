@@ -69,5 +69,3 @@ export const Menubar: FC = ({ children }) => {
     </Container>
   )
 }
-
-export default Menubar

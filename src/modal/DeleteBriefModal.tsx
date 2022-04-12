@@ -18,7 +18,7 @@ export const DeleteBriefModal: FC<IDeleteBriefModal> = ({ ...props }) => {
   const { text } = useTranslate()
 
   const [deleteBrief, { isError, error }] = useDeleteBriefMutation()
-  const { refetch: refetchProjects } = useGetAllProjectsQuery({})
+  const { refetch: refetchProjects } = useGetAllProjectsQuery()
   const errorJsx = ErrorList(error && 'data' in error ? error.data.message : [])
 
   const onSubmitHandler = e => {

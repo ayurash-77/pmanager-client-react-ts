@@ -6,19 +6,25 @@ import { IPostData } from '../../layout/sendbar/Sendbar'
 export const postsApi = createApi({
   reducerPath: 'postsApi',
   refetchOnFocus: true,
-  tagTypes: ['post', 'project'],
+  tagTypes: ['Posts'],
   baseQuery: getFetchBaseQuery(),
   endpoints: build => ({
     getAllPosts: build.query<IPost[], void>({
       query: () => ({ url: `posts` }),
-      providesTags: ['post'],
+      providesTags: result =>
+        result
+          ? [...result.map(({ id }) => ({ type: 'Posts' as const, id })), { type: 'Posts', id: 'LIST' }]
+          : [{ type: 'Posts', id: 'LIST' }],
     }),
     getPostsByProjectId: build.query<IPost[], number>({
       query: id => ({
         url: `posts/project/${id}`,
         method: 'GET',
       }),
-      providesTags: ['post', 'project'],
+      providesTags: result =>
+        result
+          ? [...result.map(({ id }) => ({ type: 'Posts' as const, id })), { type: 'Posts', id: 'LIST' }]
+          : [{ type: 'Posts', id: 'LIST' }],
     }),
     createPost: build.mutation<IPost, IPostData>({
       query: post => ({
@@ -26,14 +32,14 @@ export const postsApi = createApi({
         method: 'POST',
         body: post,
       }),
-      invalidatesTags: ['post', 'project'],
+      invalidatesTags: [{ type: 'Posts', id: 'LIST' }],
     }),
     deletePost: build.mutation<IPost, number>({
       query: id => ({
         url: `posts/${id}`,
         method: 'POST',
       }),
-      invalidatesTags: ['post', 'project'],
+      invalidatesTags: [{ type: 'Posts', id: 'LIST' }],
     }),
   }),
 })

@@ -5,22 +5,25 @@ import { getFetchBaseQuery } from './getFetchBaseQuery'
 export const agenciesApi = createApi({
   reducerPath: 'agenciesApi',
   refetchOnFocus: true,
-  tagTypes: ['agencies'],
+  tagTypes: ['Agencies'],
   baseQuery: getFetchBaseQuery(),
   endpoints: build => ({
     getAllAgencies: build.query<IAgency[], void>({
       query: () => ({ url: `agencies` }),
-      providesTags: result => (result ? result.map(({ id }) => ({ type: 'agencies', id })) : []),
+      providesTags: result =>
+        result
+          ? [...result.map(({ id }) => ({ type: 'Agencies' as const, id })), { type: 'Agencies', id: 'LIST' }]
+          : [{ type: 'Agencies', id: 'LIST' }],
     }),
-    createAgency: build.mutation<IAgency, IAgency>({
+    createAgency: build.mutation<IAgency, Partial<IAgency>>({
       query: agency => ({
         url: 'agencies',
         method: 'POST',
         body: agency,
       }),
-      invalidatesTags: ['agencies'],
+      invalidatesTags: [{ type: 'Agencies', id: 'LIST' }],
     }),
   }),
 })
 
-export const { useGetAllAgenciesQuery, useCreateAgencyMutation } = agenciesApi
+export const { useGetAllAgenciesQuery, useLazyGetAllAgenciesQuery } = agenciesApi

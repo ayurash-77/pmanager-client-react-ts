@@ -16,6 +16,10 @@ import { Sidebar } from '../layout/sidebar/Sidebar'
 import { HeaderProject } from '../layout/HeaderProject'
 import { BodyContainer } from '../layout/BodyContainer'
 import cn from 'classnames'
+import { useGetPostsByProjectIdQuery } from '../store/api/posts.api'
+import { Sendbar } from '../layout/sendbar/Sendbar'
+import { Post } from '../components/post/Post'
+import { Link } from 'react-router-dom'
 
 export const DraggableItem = styled.div`
   cursor: grab;
@@ -25,18 +29,22 @@ export const DraggableItem = styled.div`
 // GraphPage
 ////////////////////////////////////////////////////////////////////////
 
-export const GraphPage = () => {
-  const { id } = useParams()
+export const ReelsPage = () => {
   const dispatch = useAppDispatch()
 
+  const { id } = useParams()
   const { data: project } = useGetProjectByIdQuery(+id)
+  const { data: posts, refetch: refetchPosts } = useGetPostsByProjectIdQuery(+id)
 
-  const { activeShotId, dragShot, dropReel } = useAppSelector(state => state.entities)
+  const { activeShotId, dragShot, dropReel, activeReelId } = useAppSelector(state => state.entities)
 
   const { data: reels, refetch: refetchReels } = useGetReelsByProjectIdQuery(+id)
   const { data: shots, refetch: refetchShots } = useGetShotsByProjectIdQuery(+id)
 
   const [updateReel, { isSuccess }] = useUpdateReelMutation()
+
+  const reelsFiltered = activeReelId ? reels?.filter(reel => reel.id === activeReelId) : reels
+  const postsFiltered = activeReelId ? posts?.filter(post => post.reel?.id === activeReelId) : posts
 
   const onDragStartHandler = (e, shot: IShot, reel?: IReel) => {
     dispatch(setDragShot(shot))
@@ -81,8 +89,9 @@ export const GraphPage = () => {
       dispatch(setActiveShotId(null))
       refetchReels()
       refetchShots()
+      refetchPosts()
     }
-  }, [dispatch, isSuccess, refetchReels, refetchShots])
+  }, [dispatch, isSuccess, refetchPosts, refetchReels, refetchShots])
 
   ////////////////////////////////////////////////////////////////////////
 
@@ -92,7 +101,7 @@ export const GraphPage = () => {
         <HeaderProject project={project} />
 
         <BodyContainer>
-          {reels?.map(reel => (
+          {reelsFiltered?.map(reel => (
             <div key={reel.id} onDrop={e => onDropHandler(e, reel)} onDragOver={e => e.preventDefault()}>
               <TimelineWrapper title={`${reel.code}`} reel={reel}>
                 {reel.shots?.map(shot => (
@@ -111,15 +120,23 @@ export const GraphPage = () => {
               </TimelineWrapper>
             </div>
           ))}
-          <div>
-            <ShotsBlock
-              shots={shots}
-              project={project}
-              onDragStartHandler={onDragStartHandler}
-              removeShotHandler={removeShotHandler}
-            />
-          </div>
+
+          {postsFiltered?.map(post => (
+            <Post
+              key={post.id}
+              id={post.id}
+              message={post.message}
+              createdAt={post.createdAt}
+              updatedAt={post.updatedAt}
+              createdBy={post.createdBy}
+              reel={post.reel}
+            >
+              {post.message}
+            </Post>
+          ))}
         </BodyContainer>
+
+        <Sendbar projectId={+id} />
       </MainbarContainer>
       <Sidebar
         project={project}

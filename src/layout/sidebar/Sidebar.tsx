@@ -34,7 +34,7 @@ export const Sidebar: FC<ISidebar> = ({ project, removeShotHandler, onDragStartH
   const [showSidebarShots, setShowSidebarShots] = useState(true)
 
   const { activeProjectId } = useAppSelector(state => state.projects)
-  const { data: shots, refetch: refetchShots } = useGetShotsByProjectIdQuery(activeProjectId)
+  const { data: shots } = useGetShotsByProjectIdQuery(activeProjectId)
 
   const dispatch = useAppDispatch()
 
@@ -89,7 +89,7 @@ export const Sidebar: FC<ISidebar> = ({ project, removeShotHandler, onDragStartH
 
         {showSidebarInfo && project && <SidebarProjectInfo project={project} />}
         {showSidebarBriefs && project && <SidebarBriefs project={project} />}
-        {showSidebarShots && project && (
+        {showSidebarShots && project && shots && (
           <ShotsBlock
             shots={shots}
             project={project}

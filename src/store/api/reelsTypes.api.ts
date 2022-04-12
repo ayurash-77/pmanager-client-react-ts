@@ -6,16 +6,28 @@ import { IReelsTypeCreateDto } from '../../interfaces/IReelsTypeCreateDto'
 export const reelsTypesApi = createApi({
   reducerPath: 'reelsTypesApi',
   refetchOnFocus: true,
-  tagTypes: ['project', 'reelsTypes', 'reels'],
+  tagTypes: ['reelsTypes'],
   baseQuery: getFetchBaseQuery(),
   endpoints: build => ({
     getAllReelsTypes: build.query<IReelsType[], void>({
       query: () => ({ url: `reels-types` }),
-      providesTags: ['reelsTypes', 'project'],
+      providesTags: result =>
+        result
+          ? [
+              ...result.map(({ id }) => ({ type: 'reelsTypes' as const, id })),
+              { type: 'reelsTypes', id: 'LIST' },
+            ]
+          : [{ type: 'reelsTypes', id: 'LIST' }],
     }),
     getReelsTypesByProjectId: build.query<IReelsType[], number>({
       query: projectId => ({ url: `reels-types/projects/${projectId}` }),
-      providesTags: ['project', 'reelsTypes', 'reels'],
+      providesTags: result =>
+        result
+          ? [
+              ...result.map(({ id }) => ({ type: 'reelsTypes' as const, id })),
+              { type: 'reelsTypes', id: 'LIST' },
+            ]
+          : [{ type: 'reelsTypes', id: 'LIST' }],
     }),
     createReelsTypes: build.mutation<IReelsType, IReelsTypeCreateDto>({
       query: reelsType => ({
@@ -23,14 +35,14 @@ export const reelsTypesApi = createApi({
         method: 'POST',
         body: reelsType,
       }),
-      invalidatesTags: ['project', 'reelsTypes', 'reels'],
+      invalidatesTags: [{ type: 'reelsTypes', id: 'LIST' }],
     }),
     deleteReelsType: build.mutation<IReelsType, number>({
       query: id => ({
         url: `reels-types/${id}`,
         method: 'DELETE',
       }),
-      invalidatesTags: ['project', 'reelsTypes', 'reels'],
+      invalidatesTags: [{ type: 'reelsTypes', id: 'LIST' }],
     }),
   }),
 })

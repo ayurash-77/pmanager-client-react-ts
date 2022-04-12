@@ -11,19 +11,30 @@ import { useDeleteReelMutation } from '../../store/api/reels.api'
 import { ErrorList } from '../errors/ErrorList'
 import DeleteModal from '../../modal/DeleteModal'
 import { InfoReelBlock } from '../info-elements/InfoReelBlock'
+import { useNavigate } from 'react-router-dom'
+import { setActiveMenu } from '../../store/reducers/ui.reducer'
 
 export const RibbonReels = ({ entities, project }: { entities: IReel[]; project: IProject }) => {
   const { text } = useTranslate()
+  const dispatch = useAppDispatch()
   const count = entities?.length
 
   const [deleteReel, { error, isSuccess, reset }] = useDeleteReelMutation()
   const errorJsx = ErrorList(error && 'data' in error ? error.data.message : [])
 
   const { activeReelId } = useAppSelector(state => state.entities)
-  const dispatch = useAppDispatch()
 
   const [isNewReelModalShow, setNewReelModalShow] = useState(false)
   const [isDeleteModalShow, setDeleteModalShow] = useState(false)
+
+  const onDoubleClickItemHandler = id => {
+    dispatch(setActiveReelId(id))
+    dispatch(setActiveReelsTypeId(null))
+    dispatch(setActiveShotId(null))
+
+    dispatch(setActiveMenu('reels'))
+    navigate(`/project/${project.id}/reels/${id}`)
+  }
 
   const onClickItemHandler = id => {
     dispatch(setActiveReelId(activeReelId === id ? null : id))
@@ -33,6 +44,8 @@ export const RibbonReels = ({ entities, project }: { entities: IReel[]; project:
 
   const activeReel = entities?.find(entity => entity.id === activeReelId) || null
   const detailsJsx = activeReel && <InfoReelBlock {...activeReel} />
+
+  const navigate = useNavigate()
 
   const onDeleteHandler = e => {
     e.preventDefault()
@@ -82,6 +95,7 @@ export const RibbonReels = ({ entities, project }: { entities: IReel[]; project:
             entity={entity}
             isSelected={activeReelId === entity.id}
             onClick={() => onClickItemHandler(entity.id)}
+            onDoubleClick={() => onDoubleClickItemHandler(entity.id)}
           />
         ))}
       </RibbonWrapper>

@@ -26,6 +26,7 @@ export const EntityCardWrapper: FC<IEntityCardWrapper> = ({
   disabled = false,
   children,
   onClick,
+  onDoubleClick,
   draggable,
 }) => {
   const status = {
@@ -36,8 +37,21 @@ export const EntityCardWrapper: FC<IEntityCardWrapper> = ({
   }
 
   return (
-    <EntityCardContainer onClick={onClick} draggable={draggable} className={cn({ draggable: draggable })}>
-      <div className={cn('main', variant, { selected: isSelected }, { disabled: disabled })}>
+    <EntityCardContainer
+      onClick={onClick}
+      onDoubleClick={onDoubleClick}
+      draggable={draggable}
+      className={cn({ draggable: draggable })}
+    >
+      <div
+        className={cn(
+          'main',
+          variant,
+          { draggable: draggable },
+          { selected: isSelected },
+          { disabled: disabled }
+        )}
+      >
         <div className={'thumbnail'}>
           <div className={'image'}>
             {/* <Image src={'/sampleImage.jpg'} alt={'image'} fallback={<Clapper />} /> */}

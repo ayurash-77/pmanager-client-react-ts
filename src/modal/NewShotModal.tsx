@@ -12,6 +12,7 @@ import { useCreateShotMutation } from '../store/api/shots.api'
 import { useParams } from 'react-router'
 import { setActiveShotId } from '../store/reducers/entities.reducer'
 import { IShot } from '../interfaces/IShot'
+import { useGetPostsByProjectIdQuery } from '../store/api/posts.api'
 
 interface INewShotModal {
   isOpen: boolean
@@ -25,20 +26,20 @@ interface INewShotModal {
 //
 
 export const NewShotModal: FC<INewShotModal> = ({ closeAction, project, shots, ...props }) => {
-  const { id } = useParams()
-  const { activeShotId } = useAppSelector(state => state.entities)
+  // const { activeProjectId } = useAppSelector(state => state.projects)
+
   const { text } = useTranslate()
   const user = useAppSelector(state => state.auth.authUser)
 
   const dataInit: IShotCreateDto = useMemo(
     () => ({
-      projectId: +id,
+      projectId: project?.id,
       reelId: 0,
       duration: 0,
       number: '',
       createdBy: user,
     }),
-    [id, user]
+    [project, user]
   )
 
   const [data, setData] = useState<IShotCreateDto>(dataInit)
@@ -49,7 +50,8 @@ export const NewShotModal: FC<INewShotModal> = ({ closeAction, project, shots, .
   const [createShot, { isError, error, isSuccess, status, data: newItem, reset }] = useCreateShotMutation()
   const errorJsx = ErrorList(error && 'data' in error ? error.data.message : [])
 
-  const { data: reels } = useGetReelsByProjectIdQuery(+id)
+  const { data: reels, refetch: refetchReels } = useGetReelsByProjectIdQuery(project?.id)
+  const { data: posts, refetch: refetchPosts } = useGetPostsByProjectIdQuery(project?.id)
 
   const options = reels?.map(item => ({ label: item.code, value: item.id }))
 
@@ -95,6 +97,7 @@ export const NewShotModal: FC<INewShotModal> = ({ closeAction, project, shots, .
 
   useEffect(() => {
     status !== 'pending' && maxNumber && setShotNumber(maxNumber < 99 && `00${maxNumber * 10 + 10}`.slice(-3))
+    status !== 'pending' && reelId && !maxNumber && setShotNumber('010')
 
     if (isSuccess) {
       setShotNumber('')
@@ -103,8 +106,21 @@ export const NewShotModal: FC<INewShotModal> = ({ closeAction, project, shots, .
       setReelId(0)
       setCode(null)
       reset()
+      refetchReels()
+      refetchPosts()
     }
-  }, [closeAction, dispatch, isSuccess, maxNumber, newItem?.id, reset, status])
+  }, [
+    closeAction,
+    dispatch,
+    isSuccess,
+    maxNumber,
+    newItem?.id,
+    reelId,
+    refetchPosts,
+    refetchReels,
+    reset,
+    status,
+  ])
 
   ////////////////////////////////////////////////////////////////////////////////////////////
 

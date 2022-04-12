@@ -11,19 +11,16 @@ import { useDeleteShotMutation } from '../../store/api/shots.api'
 import DeleteModal from '../../modal/DeleteModal'
 import { ErrorList } from '../errors/ErrorList'
 import { InfoShotBlock } from '../info-elements/InfoShotBlock'
+import { useDeleteShot } from '../../hooks/useDeleteShot'
 
 export const RibbonShots = ({ entities, project }: { entities: IShot[]; project: IProject }) => {
   const { text } = useTranslate()
+  const dispatch = useAppDispatch()
   const count = entities?.length
 
-  const [deleteShot, { error, isSuccess, reset }] = useDeleteShotMutation()
-  const errorJsx = ErrorList(error && 'data' in error ? error.data.message : [])
-
   const { activeShotId } = useAppSelector(state => state.entities)
-  const dispatch = useAppDispatch()
 
   const [isNewShotModalShow, setNewShotModalShow] = useState(false)
-  const [isDeleteModalShow, setDeleteModalShow] = useState(false)
 
   const onClickItemHandler = id => {
     dispatch(setActiveShotId(activeShotId === id ? null : id))
@@ -32,24 +29,18 @@ export const RibbonShots = ({ entities, project }: { entities: IShot[]; project:
   }
 
   const activeShot = entities?.find(entity => entity.id === activeShotId) || null
-  const detailsJsx = activeShot && <InfoShotBlock {...activeShot} />
 
-  const onDeleteHandler = e => {
-    e.preventDefault()
-    deleteShot(activeShotId)
-  }
+  const {
+    isDeleteModalShow,
+    setDeleteModalShow,
+    canDeleteItem,
+    cancelDeleteShotHandler,
+    deleteShotHandler,
+    errorJsx,
+    title,
+  } = useDeleteShot(project, activeShot)
 
-  const onCancelHandler = () => {
-    reset()
-    setDeleteModalShow(false)
-  }
-
-  useEffect(() => {
-    if (isSuccess) {
-      setDeleteModalShow(false)
-      dispatch(setActiveShotId(null))
-    }
-  }, [dispatch, isSuccess])
+  ////////////////////////////////////////////////////////////////////////
 
   return (
     <>
@@ -61,12 +52,12 @@ export const RibbonShots = ({ entities, project }: { entities: IShot[]; project:
       />
       <DeleteModal
         isOpen={isDeleteModalShow}
-        closeAction={onCancelHandler}
+        closeAction={cancelDeleteShotHandler}
         deleteItem={activeShot}
-        deleteAction={onDeleteHandler}
+        deleteAction={deleteShotHandler}
         errorJsx={errorJsx}
-        detailsJsx={detailsJsx}
-        title={`${text.actions.deleteShot} ${activeShot?.code}?`}
+        detailsJsx={activeShot && <InfoShotBlock {...activeShot} />}
+        title={title}
       />
       <RibbonWrapper
         variant={'shot'}

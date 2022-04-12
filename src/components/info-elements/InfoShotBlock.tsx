@@ -44,7 +44,7 @@ export const InfoShotBlock: FC<IInfoShotBlock> = ({ code, name, duration, progre
   const durationStr = duration ? duration + ' frames' : '---'
   const title = name ? `${code} (${name})` : code
   const reelsJsx =
-    reels.length > 0
+    reels?.length > 0
       ? //
         reels.map(reel => (
           <span key={reel.id} className={'reel'}>

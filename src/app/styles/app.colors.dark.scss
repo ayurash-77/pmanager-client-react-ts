@@ -100,7 +100,7 @@ body[darkMode='true'] {
   //----- Ribbons
   --ribbon-bg: #40414933;
   --ribbon-reelsType-fg: #07B907;
-  --ribbon-reel-fg: #2264ff;
+  --ribbon-reel-fg: #175af4;
   --ribbon-shot-fg: #9192a1;
 
   //----- Scrollbars
@@ -145,8 +145,10 @@ body[darkMode='true'] {
 
   //----- Timeline
   --timeline-bg: #20212799;
-  --timeline-reel-border: #0044d099;
   --timeline-border: #383a4a60;
+  --timeline-reel-bg-hover: #282a37;
+  --timeline-reel-border: #0939b399;
+  --timeline-reel-border-hover: #0044d0;
 
   //----- Text
   --text-low: #646574;

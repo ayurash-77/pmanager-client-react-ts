@@ -7,6 +7,7 @@ import { IBrief } from './IBrief'
 import { IReel } from './IReel'
 import { IReelsType } from './IReelsType'
 import { IPost } from './IPost'
+import { IShot } from './IShot'
 
 export interface IProject {
   id: number
@@ -28,6 +29,8 @@ export interface IProject {
   sequences?: IReel[]
   team?: IUser[]
   owner: IUser
-  reels?: IReelsType[]
+  reelsTypes?: IReelsType[]
+  reels?: IReel[]
+  shots?: IShot[]
   posts?: IPost[]
 }

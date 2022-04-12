@@ -9,9 +9,15 @@ interface IEntityCardReel extends DetailedHTMLProps<HTMLAttributes<HTMLDivElemen
   isSelected: boolean
 }
 
-export const EntityCardReel = ({ entity, isSelected, onClick }: IEntityCardReel) => {
+export const EntityCardReel = ({ entity, isSelected, onClick, onDoubleClick }: IEntityCardReel) => {
   return (
-    <EntityCardWrapper entity={entity} variant={'reel'} isSelected={isSelected} onClick={onClick}>
+    <EntityCardWrapper
+      entity={entity}
+      variant={'reel'}
+      isSelected={isSelected}
+      onClick={onClick}
+      onDoubleClick={onDoubleClick}
+    >
       <div className={cn('info', { selected: isSelected })}>
         <div className={'infoTitle'}>{entity.reelsType?.name}</div>
         <div className={'infoReelTitle'}>{entity.duration} sec</div>

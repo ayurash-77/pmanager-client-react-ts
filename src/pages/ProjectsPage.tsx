@@ -1,7 +1,11 @@
-import { FC, useEffect } from 'react'
+import { FC, useEffect, useState } from 'react'
 import Loader from '../components/ui/Loader'
 import { ErrorList } from '../components/errors/ErrorList'
-import { useGetAllProjectsQuery, useGetProjectByIdQuery } from '../store/api/projects.api'
+import {
+  useGetAllProjectsQuery,
+  useGetProjectByIdQuery,
+  useLazyGetProjectByIdQuery,
+} from '../store/api/projects.api'
 import { toDateStr, toQuarterStr } from '../tools/date-time-format'
 import { useAppDispatch, useAppSelector } from '../hooks/redux'
 import { setActiveProjectId, setQuarterData } from '../store/reducers/projects.reducer'
@@ -15,18 +19,11 @@ import { useNavigate } from 'react-router-dom'
 import { IProject } from '../interfaces/IProject'
 import { MainbarContainer } from '../layout/MainbarContainer'
 import { Filterbar } from '../layout/filterbar/Filterbar'
-import { HeaderProject } from '../layout/HeaderProject'
 import { Sidebar } from '../layout/sidebar/Sidebar'
 import HeaderProjects from '../layout/HeaderProjects'
 import Statusbar from '../layout/statusbar/Statusbar'
 import { BodyContainer } from '../layout/BodyContainer'
-
-const Body = styled.div`
-  z-index: 1;
-  padding: 10px;
-  height: 100%;
-  overflow: auto;
-`
+import { setActiveMenu } from '../store/reducers/ui.reducer'
 
 const ContainerGrid = styled.div`
   display: flex;
@@ -39,11 +36,7 @@ const ContainerGrid = styled.div`
 export const ProjectsPage: FC = () => {
   const { quarterFilter, activeProjectId, searchFilter } = useAppSelector(state => state.projects)
 
-  const {
-    data: projects = [],
-    isLoading: isLoadingProjects,
-    error: errorProjects,
-  } = useGetAllProjectsQuery({}, { refetchOnFocus: true, pollingInterval: 30000 })
+  const { data: projects = [], isLoading: isLoadingProjects, error: errorProjects } = useGetAllProjectsQuery()
 
   const { data: activeProject } = useGetProjectByIdQuery(activeProjectId)
   const errorJsx = ErrorList(errorProjects && 'data' in errorProjects ? errorProjects.data.message : [])
@@ -56,6 +49,7 @@ export const ProjectsPage: FC = () => {
   }
   const onProjectDoubleClickHandler = (project: IProject) => {
     dispatch(setActiveProjectId(project.id))
+    dispatch(setActiveMenu('overview'))
     navigate(`/project/${project.id}/overview`, { state: 1 })
   }
 

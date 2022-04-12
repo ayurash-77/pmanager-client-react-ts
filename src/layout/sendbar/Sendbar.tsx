@@ -18,18 +18,17 @@ const SendbarContainer = styled.div`
 
 export interface IPostData extends Partial<IPost> {
   projectId: number
+  reelId?: number
 }
 
-interface ISendbar {
-  projectId: number
-}
-
-export const Sendbar: FC<ISendbar> = ({ projectId }) => {
+export const Sendbar: FC<IPostData> = ({ projectId }) => {
   const user = useAppSelector(state => state.auth.authUser)
+  const { activeReelId } = useAppSelector(state => state.entities)
   const [createPost, { data: createdPost, isSuccess, isError, error }] = useCreatePostMutation()
 
   const postDataInit: IPostData = {
     projectId: projectId,
+    reelId: activeReelId || null,
     createdBy: user,
   }
 
@@ -38,7 +37,7 @@ export const Sendbar: FC<ISendbar> = ({ projectId }) => {
 
   const onChangeHandler = (key, target) => {
     setMessage(target.value)
-    setPostData({ ...postData, [key]: target.value })
+    setPostData({ ...postData, reelId: activeReelId, [key]: target.value })
   }
 
   const onSubmitHandler = async e => {

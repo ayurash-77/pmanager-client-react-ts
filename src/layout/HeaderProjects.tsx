@@ -18,6 +18,9 @@ import {
 import { IconButton, ToolButton, ToolButtonGroup, FlexRow, Input } from '../components/ui'
 import { setSearchFilter } from '../store/reducers/projects.reducer'
 import { IProject } from '../interfaces/IProject'
+import { useLazyGetAllAgenciesQuery } from '../store/api/agencies.api'
+import { useLazyGetAllBrandsQuery } from '../store/api/brands.api'
+import { useLazyGetAllClientsQuery } from '../store/api/clients.api'
 
 interface IHeader extends DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLDivElement> {
   activeProject: IProject
@@ -50,7 +53,7 @@ export const HeaderProjects: FC<IHeader> = ({ activeProject }) => {
   const { language, setLanguage } = useTranslate()
   const { text } = useTranslate()
 
-  const { data: projects = [], isLoading: isLoadingProjects } = useGetAllProjectsQuery({})
+  const { data: projects = [], isLoading: isLoadingProjects } = useGetAllProjectsQuery()
   const { quarterFilter, quarterData, activeProjectId } = useAppSelector(state => state.projects)
   const { filterBar, projectsViewMode } = useAppSelector(state => state.ui)
   const { authUser } = useAppSelector(state => state.auth)
@@ -67,6 +70,10 @@ export const HeaderProjects: FC<IHeader> = ({ activeProject }) => {
   const [isNewProjectModalShow, setNewProjectModalShow] = useState(false)
   const [isDeleteProjectModalShow, setDeleteProjectModalShow] = useState(false)
 
+  const [getAgencies, { data: agencies }] = useLazyGetAllAgenciesQuery()
+  const [getBrands, { data: brands }] = useLazyGetAllBrandsQuery()
+  const [getClients, { data: clients }] = useLazyGetAllClientsQuery()
+
   const onSearchHandler = (value: string) => {
     dispatch(setSearchFilter(value))
   }
@@ -75,9 +82,22 @@ export const HeaderProjects: FC<IHeader> = ({ activeProject }) => {
     setDeleteProjectModalShow(true)
   }
 
+  const newProjectModalShowHandler = () => {
+    getAgencies()
+    getBrands()
+    getClients()
+    setNewProjectModalShow(true)
+  }
+
   return (
     <Container>
-      <NewProjectModal isOpen={isNewProjectModalShow} closeAction={() => setNewProjectModalShow(false)} />
+      <NewProjectModal
+        agencies={agencies}
+        brands={brands}
+        clients={clients}
+        isOpen={isNewProjectModalShow}
+        closeAction={() => setNewProjectModalShow(false)}
+      />
       <DeleteProjectModal
         isOpen={isDeleteProjectModalShow}
         closeAction={() => setDeleteProjectModalShow(false)}
@@ -85,7 +105,7 @@ export const HeaderProjects: FC<IHeader> = ({ activeProject }) => {
       />
       <TitleContainer>
         {text.project.projects}: {isLoadingProjects ? <Loader size={16} /> : projectsCount}
-        <IconButton icon={<CommonIcons.Plus />} ml={10} mr={5} onClick={() => setNewProjectModalShow(true)} />
+        <IconButton icon={<CommonIcons.Plus />} ml={10} mr={5} onClick={newProjectModalShowHandler} />
         {canDeleteProject && (
           <IconButton
             icon={<CommonIcons.Minus />}

@@ -6,20 +6,26 @@ import { getFetchBaseQuery } from './getFetchBaseQuery'
 export const reelsApi = createApi({
   reducerPath: 'reelsApi',
   refetchOnFocus: true,
-  tagTypes: ['project', 'reelsTypes', 'reels', 'shots'],
+  tagTypes: ['Reels'],
   baseQuery: getFetchBaseQuery(),
   endpoints: build => ({
     getAllReels: build.query<IReel[], void>({
       query: () => ({ url: `reels` }),
-      providesTags: ['project', 'reelsTypes', 'reels', 'shots'],
+      providesTags: result =>
+        result
+          ? [...result.map(({ id }) => ({ type: 'Reels' as const, id })), { type: 'Reels', id: 'LIST' }]
+          : [{ type: 'Reels', id: 'LIST' }],
     }),
     getReelsByProjectId: build.query<IReel[], number>({
       query: projectId => ({ url: `reels/projects/${projectId}` }),
-      providesTags: ['project', 'reelsTypes', 'reels', 'shots'],
+      providesTags: result =>
+        result
+          ? [...result.map(({ id }) => ({ type: 'Reels' as const, id })), { type: 'Reels', id: 'LIST' }]
+          : [{ type: 'Reels', id: 'LIST' }],
     }),
     getReelById: build.query<IReel, number>({
       query: id => ({ url: `reels/${id}` }),
-      providesTags: ['project', 'reelsTypes', 'reels', 'shots'],
+      providesTags: (result, error, id) => [{ type: 'Reels', id }],
     }),
     createReel: build.mutation<IReel, IReelCreateDto>({
       query: reel => ({
@@ -27,7 +33,7 @@ export const reelsApi = createApi({
         method: 'POST',
         body: reel,
       }),
-      invalidatesTags: ['project', 'reelsTypes', 'reels', 'shots'],
+      invalidatesTags: [{ type: 'Reels', id: 'LIST' }],
     }),
     updateReel: build.mutation<IReel, Partial<IReel>>({
       query: reel => ({
@@ -35,14 +41,14 @@ export const reelsApi = createApi({
         method: 'PATCH',
         body: reel,
       }),
-      invalidatesTags: ['project', 'reelsTypes', 'reels', 'shots'],
+      invalidatesTags: (result, error, arg) => [{ type: 'Reels', id: arg.id }],
     }),
     deleteReel: build.mutation<IReel, number>({
       query: id => ({
         url: `reels/${id}`,
         method: 'DELETE',
       }),
-      invalidatesTags: ['project', 'reelsTypes', 'reels', 'shots'],
+      invalidatesTags: [{ type: 'Reels', id: 'LIST' }],
     }),
   }),
 })

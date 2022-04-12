@@ -5,12 +5,15 @@ import { getFetchBaseQuery } from './getFetchBaseQuery'
 export const rolesApi = createApi({
   reducerPath: 'rolesApi',
   refetchOnFocus: true,
-  tagTypes: ['roles'],
+  tagTypes: ['Roles'],
   baseQuery: getFetchBaseQuery(),
   endpoints: build => ({
     getAllRoles: build.query<IRole[], void>({
       query: () => ({ url: `roles` }),
-      providesTags: result => (result ? result.map(({ id }) => ({ type: 'roles', id })) : []),
+      providesTags: result =>
+        result
+          ? [...result.map(({ id }) => ({ type: 'Roles' as const, id })), { type: 'Roles', id: 'LIST' }]
+          : [{ type: 'Roles', id: 'LIST' }],
     }),
     createRole: build.mutation<IRole, IRole>({
       query: role => ({
@@ -18,7 +21,7 @@ export const rolesApi = createApi({
         method: 'POST',
         body: role,
       }),
-      invalidatesTags: ['roles'],
+      invalidatesTags: [{ type: 'Roles', id: 'LIST' }],
     }),
   }),
 })

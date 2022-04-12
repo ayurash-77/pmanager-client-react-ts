@@ -15,8 +15,20 @@ export interface ISidebar {
   show: boolean
 }
 
+type activeMenuType =
+  | '/projects'
+  | 'overview'
+  | 'reelsTypes'
+  | 'reels'
+  | 'shots'
+  | 'tasks'
+  | 'graph'
+  | 'stuff'
+  | 'team'
+
 export interface IMenubar {
   expanded: boolean
+  activeMenu: activeMenuType
 }
 
 export type IProjectsViewMode = 'grid' | 'list'
@@ -64,7 +76,7 @@ const filterBarInit = {
 }
 
 const sidebarInit: ISidebar = { show: true }
-const menubarInit: IMenubar = { expanded: true }
+const menubarInit: IMenubar = { expanded: true, activeMenu: '/projects' }
 
 const initialState: IInitialState = {
   theme: { darkMode: themeInLocalStorage ? JSON.parse(themeInLocalStorage) : true },
@@ -103,6 +115,10 @@ export const uiSlice = createSlice({
       state.menubar.expanded = action.payload
       localStorage.setItem('menubar', JSON.stringify(state.menubar))
     },
+    setActiveMenu(state, action: PayloadAction<activeMenuType>) {
+      state.menubar.activeMenu = action.payload
+      localStorage.setItem('menubar', JSON.stringify(state.menubar))
+    },
   },
 })
 
@@ -113,5 +129,6 @@ export const {
   setFilterbarFilters,
   setSidebarShow,
   setMenubarExpanded,
+  setActiveMenu,
 } = uiSlice.actions
 export default uiSlice.reducer

@@ -7,7 +7,7 @@ import { getFetchBaseQuery } from './getFetchBaseQuery'
 export const briefsApi = createApi({
   reducerPath: 'briefsApi',
   refetchOnFocus: true,
-  tagTypes: ['briefs', 'brief', 'briefCategories'],
+  tagTypes: ['briefs', 'brief', 'briefCategories', 'project'],
   baseQuery: getFetchBaseQuery(),
 
   endpoints: build => ({
@@ -32,14 +32,14 @@ export const briefsApi = createApi({
         method: 'POST',
         body: brief,
       }),
-      invalidatesTags: ['briefs'],
+      invalidatesTags: ['briefs', 'project'],
     }),
     deleteBrief: build.mutation<IBrief, number>({
       query: id => ({
         url: `briefs/${id}`,
         method: 'DELETE',
       }),
-      invalidatesTags: ['briefs'],
+      invalidatesTags: ['briefs', 'project'],
     }),
   }),
 })

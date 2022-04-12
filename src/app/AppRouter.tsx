@@ -6,6 +6,7 @@ import { ProjectsPage } from '../pages/ProjectsPage'
 import { ProjectOverviewPage } from '../pages/ProjectOverviewPage'
 import { Layout } from '../layout/Layout'
 import { GraphPage } from '../pages/GraphPage'
+import { ReelsPage } from '../pages/ReelsPage'
 
 export const AppRouter: FC = () => {
   const authUser = useAppSelector(state => state.auth.authUser)
@@ -16,6 +17,7 @@ export const AppRouter: FC = () => {
         <Route path={'projects'} element={<ProjectsPage />} />
         <Route path={'project/:id/overview'} element={<ProjectOverviewPage />} />
         <Route path={'project/:id/graph'} element={<GraphPage />} />
+        <Route path={'project/:id/reels/*'} element={<ReelsPage />} />
         <Route path={'*'} element={<Navigate replace to={'projects'} />} />
       </Route>
     </Routes>
