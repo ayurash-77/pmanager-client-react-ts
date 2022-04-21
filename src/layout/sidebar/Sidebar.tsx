@@ -10,20 +10,24 @@ import cn from 'classnames'
 import { IProject } from '../../interfaces/IProject'
 import { useGetShotsByProjectIdQuery } from '../../store/api/shots.api'
 import { ShotsBlock } from '../shots-block/ShotsBlock'
-import { IShot } from '../../interfaces/IShot'
-import { setActiveShotId, setDragShot } from '../../store/reducers/entities.reducer'
 
 interface ISidebar {
   project: IProject | null
   removeShotHandler?: (e) => void
   onDragStartHandler?: (e, shot, reel?) => void
+  isFetchingProject: boolean
 }
 
 ////////////////////////////////////////////////////////////////////////
 // Sidebar
 ////////////////////////////////////////////////////////////////////////
 
-export const Sidebar: FC<ISidebar> = ({ project, removeShotHandler, onDragStartHandler }) => {
+export const Sidebar: FC<ISidebar> = ({
+  project,
+  removeShotHandler,
+  onDragStartHandler,
+  isFetchingProject,
+}) => {
   const { show: sidebarShow } = useAppSelector(state => state.ui.sidebar)
 
   const [showSidebarInfo, setShowSidebarInfo] = useState(true)
@@ -33,7 +37,7 @@ export const Sidebar: FC<ISidebar> = ({ project, removeShotHandler, onDragStartH
   const [showSidebarStuff, setShowSidebarStuff] = useState(true)
   const [showSidebarShots, setShowSidebarShots] = useState(true)
 
-  const { activeProjectId } = useAppSelector(state => state.projects)
+  const { activeProjectId } = useAppSelector(state => state.entities)
   const { data: shots } = useGetShotsByProjectIdQuery(activeProjectId)
 
   const dispatch = useAppDispatch()
@@ -87,8 +91,12 @@ export const Sidebar: FC<ISidebar> = ({ project, removeShotHandler, onDragStartH
           />
         )}
 
-        {showSidebarInfo && project && <SidebarProjectInfo project={project} />}
-        {showSidebarBriefs && project && <SidebarBriefs project={project} />}
+        {showSidebarInfo && project && (
+          <SidebarProjectInfo project={project} isFetchingProject={isFetchingProject} />
+        )}
+        {showSidebarBriefs && project && (
+          <SidebarBriefs project={project} isFetchingProject={isFetchingProject} />
+        )}
         {showSidebarShots && project && shots && (
           <ShotsBlock
             shots={shots}

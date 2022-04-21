@@ -5,7 +5,7 @@ import { IReelsTypeCreateDto } from '../../interfaces/IReelsTypeCreateDto'
 
 export const reelsTypesApi = createApi({
   reducerPath: 'reelsTypesApi',
-  refetchOnFocus: true,
+  // refetchOnFocus: true,
   tagTypes: ['reelsTypes'],
   baseQuery: getFetchBaseQuery(),
   endpoints: build => ({

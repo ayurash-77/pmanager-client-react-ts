@@ -2,7 +2,7 @@ import { DetailedHTMLProps, FC, HTMLAttributes, useState } from 'react'
 import { useTranslate } from '../hooks/useTranslate'
 import * as ToolbarIcons from '../assets/icons/toolbar-icons'
 import * as CommonIcons from '../assets/icons/common-icons'
-import { useGetAllProjectsQuery } from '../store/api/projects.api'
+import { useGetAllProjectsQuery, useGetProjectByIdQuery } from '../store/api/projects.api'
 import Loader from '../components/ui/Loader'
 import styled from 'styled-components'
 import { useAppDispatch, useAppSelector } from '../hooks/redux'
@@ -16,14 +16,14 @@ import {
   setThemeMode,
 } from '../store/reducers/ui.reducer'
 import { IconButton, ToolButton, ToolButtonGroup, FlexRow, Input } from '../components/ui'
-import { setSearchFilter } from '../store/reducers/projects.reducer'
+import { setSearchProjectsFilter } from '../store/reducers/ui.reducer'
 import { IProject } from '../interfaces/IProject'
 import { useLazyGetAllAgenciesQuery } from '../store/api/agencies.api'
 import { useLazyGetAllBrandsQuery } from '../store/api/brands.api'
 import { useLazyGetAllClientsQuery } from '../store/api/clients.api'
 
 interface IHeader extends DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLDivElement> {
-  activeProject: IProject
+  activeProject?: IProject
 }
 
 const Container = styled.div`
@@ -46,7 +46,7 @@ const TitleContainer = styled.div`
   text-wrap: none;
 `
 
-export const HeaderProjects: FC<IHeader> = ({ activeProject }) => {
+export const HeaderProjects: FC<IHeader> = () => {
   const { darkMode } = useAppSelector(state => state.ui.theme)
   const { show: sidebarShow } = useAppSelector(state => state.ui.sidebar)
 
@@ -54,9 +54,12 @@ export const HeaderProjects: FC<IHeader> = ({ activeProject }) => {
   const { text } = useTranslate()
 
   const { data: projects = [], isLoading: isLoadingProjects } = useGetAllProjectsQuery()
-  const { quarterFilter, quarterData, activeProjectId } = useAppSelector(state => state.projects)
+  const { quarterFilter, quarterData } = useAppSelector(state => state.projects)
+  const { activeProjectId } = useAppSelector(state => state.entities)
   const { filterBar, projectsViewMode } = useAppSelector(state => state.ui)
   const { authUser } = useAppSelector(state => state.auth)
+
+  const { data: activeProject, isFetching } = useGetProjectByIdQuery(activeProjectId)
 
   const canDeleteProjectRoles = ['Producer', 'Art director', 'Manager']
 
@@ -75,7 +78,7 @@ export const HeaderProjects: FC<IHeader> = ({ activeProject }) => {
   const [getClients, { data: clients }] = useLazyGetAllClientsQuery()
 
   const onSearchHandler = (value: string) => {
-    dispatch(setSearchFilter(value))
+    dispatch(setSearchProjectsFilter(value))
   }
 
   const deleteProjectHandler = () => {

@@ -6,7 +6,7 @@ import { getFetchBaseQuery } from './getFetchBaseQuery'
 
 export const briefsApi = createApi({
   reducerPath: 'briefsApi',
-  refetchOnFocus: true,
+  // refetchOnFocus: true,
   tagTypes: ['briefs', 'brief', 'briefCategories', 'project'],
   baseQuery: getFetchBaseQuery(),
 

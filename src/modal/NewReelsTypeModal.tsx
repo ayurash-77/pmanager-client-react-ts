@@ -81,7 +81,7 @@ export const NewReelsTypeModal: FC<INewReelsTypeModal> = ({ closeAction, project
       <ModalWrapper
         {...props}
         warning={false}
-        type={'type1'}
+        type={'type2'}
         size={'sm'}
         title={text.actions.addReelsType}
         onSubmitHandler={onSubmitHandler}

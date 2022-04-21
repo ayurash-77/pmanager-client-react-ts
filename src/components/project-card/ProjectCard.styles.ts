@@ -1,11 +1,12 @@
 import styled from 'styled-components'
 
-export const Container = styled.div`
+export const ProjectCardContainer = styled.div`
   user-select: none;
   width: 160px;
   border-radius: 4px;
   margin: 10px;
   color: var(--main-fg);
+  font-size: var(--fs-small1);
 
   .imageContainer {
     transition: opacity 200ms;
@@ -17,7 +18,7 @@ export const Container = styled.div`
     border-radius: 4px;
     color: var(--pc-dummy-fg);
     background: var(--pc-dummy-bg);
-    opacity: 0.8;
+    opacity: 0.75;
     box-shadow: 0 1px 3px #00000020;
     overflow: hidden;
     &.selected {
@@ -32,6 +33,7 @@ export const Container = styled.div`
     padding-bottom: 6px;
     background: var(--pc-info-bg);
     box-shadow: 0 1px 3px #00000020;
+
     &.selected {
       background: var(--pc-info-bg-selected);
     }

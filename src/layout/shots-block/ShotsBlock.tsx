@@ -7,12 +7,17 @@ import { IShot } from '../../interfaces/IShot'
 import { FC, useState } from 'react'
 import NewShotModal from '../../modal/NewShotModal'
 import { IProject } from '../../interfaces/IProject'
-import { setActiveShotId } from '../../store/reducers/entities.reducer'
+import {
+  setActiveReelsIds,
+  setActiveReelsTypeId,
+  setActiveShotId,
+} from '../../store/reducers/entities.reducer'
 import { useAppDispatch, useAppSelector } from '../../hooks/redux'
 import cn from 'classnames'
 import DeleteModal from '../../modal/DeleteModal'
 import { useDeleteShot } from '../../hooks/useDeleteShot'
 import { InfoShotBlock } from '../../components/info-elements/InfoShotBlock'
+import { useGetReelsByProjectIdQuery } from '../../store/api/reels.api'
 
 const Container = styled.div`
   display: flex;
@@ -50,7 +55,12 @@ export const ShotsBlock: FC<IShotsBlock> = ({ project, shots, removeShotHandler,
 
   const [isNewShotModalShow, setNewShotModalShow] = useState(false)
 
-  const { activeShotId, dropReel } = useAppSelector(state => state.entities)
+  const { activeShotId, activeProjectId, activeReelsIds, dropReel } = useAppSelector(state => state.entities)
+  const {
+    data: reels,
+    refetch: refetchReels,
+    status: statusReels,
+  } = useGetReelsByProjectIdQuery(activeProjectId)
 
   const activeShot = shots?.find(shot => shot.id === activeShotId) || null
 
@@ -63,6 +73,15 @@ export const ShotsBlock: FC<IShotsBlock> = ({ project, shots, removeShotHandler,
     errorJsx,
     title,
   } = useDeleteShot(project, activeShot)
+
+  const onShotClickHandler = id => {
+    const currentShotId = activeShotId === id ? null : id
+    dispatch(setActiveShotId(currentShotId))
+    const reelsIds = reels
+      ?.filter(reel => reel.shots?.find(shot => shot.id === currentShotId))
+      .map(reel => reel.id)
+    dispatch(setActiveReelsIds(reelsIds))
+  }
 
   ////////////////////////////////////////////////////////////////////////
 
@@ -105,7 +124,7 @@ export const ShotsBlock: FC<IShotsBlock> = ({ project, shots, removeShotHandler,
               key={shot.id}
               draggable={true}
               className={cn({ draggable: dropReel })}
-              onClick={() => dispatch(setActiveShotId(activeShotId === shot.id ? null : shot.id))}
+              onClick={() => onShotClickHandler(shot.id)}
               onDragStart={e => onDragStartHandler(e, shot)}
             >
               <EntityCardShot

@@ -5,13 +5,12 @@ import styled from 'styled-components'
 import { useAppDispatch, useAppSelector } from '../hooks/redux'
 import { setSidebarShow, setThemeMode } from '../store/reducers/ui.reducer'
 import { ToolButton, ToolButtonGroup, FlexRow } from '../components/ui'
-import { setSearchFilter } from '../store/reducers/projects.reducer'
+import { setSearchProjectsFilter } from '../store/reducers/ui.reducer'
 import {
   InfoAgency,
   InfoBrand,
   InfoClient,
   InfoDeadline,
-  InfoGrid,
   InfoOwner,
   InfoProgress,
   InfoProjectTitle,
@@ -21,10 +20,10 @@ import {
 import Image from '../components/ui/Image'
 import { Clapper } from '../assets/thumbnails/thumbnails'
 import { apiBaseUrl } from '../constants/env'
-import * as s from '../components/info-elements/InfoGrid'
 import { Grid } from '../components/ui'
 import Loader from '../components/ui/Loader'
 import { IProject } from '../interfaces/IProject'
+import { useGetUserByIdQuery } from '../store/api/users.api'
 
 interface IHeaderProject extends DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLDivElement> {
   project: IProject
@@ -93,10 +92,12 @@ export const HeaderProject: FC<IHeaderProject> = ({ project }) => {
   const { show: sidebarShow } = useAppSelector(state => state.ui.sidebar)
   const { language, setLanguage } = useTranslate()
 
+  const { data: owner } = useGetUserByIdQuery(project?.owner.id)
+
   const dispatch = useAppDispatch()
 
   const onSearchHandler = (value: string) => {
-    dispatch(setSearchFilter(value))
+    dispatch(setSearchProjectsFilter(value))
   }
 
   const imageSrc = `${apiBaseUrl}/root/${project?.homeDir}/.pmdata/projectThumbnail.jpg`
@@ -163,18 +164,18 @@ export const HeaderProject: FC<IHeaderProject> = ({ project }) => {
         </div>
         <div className={'bottomRow'}>
           <Grid cols={'auto 1fr'} width={'100%'} align={'left'}>
-            <InfoGrid>
+            <div className={'grid info'}>
               <InfoBrand brand={project?.brand} />
               <InfoClient client={project?.client} />
               <InfoAgency agency={project?.agency} />
-              <InfoOwner owner={project?.owner} />
-            </InfoGrid>
-            <s.InfoGrid>
+              <InfoOwner owner={owner} />
+            </div>
+            <div className={'grid info'}>
               <InfoStartAt startAt={project?.startAt} />
               <InfoDeadline deadline={project?.deadline} />
               <InfoStatus status={project?.status} />
               <InfoProgress progress={project?.progress} status={project?.status} withLabel withValue />
-            </s.InfoGrid>
+            </div>
           </Grid>
         </div>
       </div>

@@ -39,6 +39,7 @@ export interface IInitialState {
   filterBar: IFilterbar
   sidebar: ISidebar
   menubar: IMenubar
+  searchProjectsFilter?: string
 }
 
 const themeInLocalStorage = localStorage.getItem('darkMode')
@@ -84,6 +85,7 @@ const initialState: IInitialState = {
   filterBar: filterBarInLocalStorage ? JSON.parse(filterBarInLocalStorage) : filterBarInit,
   sidebar: sidebarInLocalStorage ? JSON.parse(sidebarInLocalStorage) : sidebarInit,
   menubar: menubarInLocalStorage ? JSON.parse(menubarInLocalStorage) : menubarInit,
+  searchProjectsFilter: null,
 }
 
 export const uiSlice = createSlice({
@@ -119,6 +121,9 @@ export const uiSlice = createSlice({
       state.menubar.activeMenu = action.payload
       localStorage.setItem('menubar', JSON.stringify(state.menubar))
     },
+    setSearchProjectsFilter(state, action: PayloadAction<string>) {
+      state.searchProjectsFilter = action.payload
+    },
   },
 })
 
@@ -130,5 +135,6 @@ export const {
   setSidebarShow,
   setMenubarExpanded,
   setActiveMenu,
+  setSearchProjectsFilter,
 } = uiSlice.actions
 export default uiSlice.reducer

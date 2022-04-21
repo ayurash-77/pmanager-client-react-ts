@@ -5,7 +5,7 @@ import styled from 'styled-components'
 import { useAppDispatch, useAppSelector } from '../hooks/redux'
 import { Outlet, useParams } from 'react-router'
 import { ProjectMenu } from './menubar/ProjectMenu'
-import { setActiveProjectId } from '../store/reducers/projects.reducer'
+import { setActiveProjectId } from '../store/reducers/entities.reducer'
 import { useLocation } from 'react-router-dom'
 import { setActiveMenu } from '../store/reducers/ui.reducer'
 
@@ -23,7 +23,7 @@ const Container = styled.div`
 `
 
 export const Layout: FC = () => {
-  const { activeProjectId } = useAppSelector(state => state.projects)
+  const { activeProjectId } = useAppSelector(state => state.entities)
   const { activeMenu } = useAppSelector(state => state.ui.menubar)
 
   const { id } = useParams()

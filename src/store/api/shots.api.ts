@@ -5,7 +5,7 @@ import { IShotCreateDto } from '../../interfaces/IShotCreateDto'
 
 export const shotsApi = createApi({
   reducerPath: 'shotsApi',
-  refetchOnFocus: true,
+  // refetchOnFocus: true,
   tagTypes: ['Shots'],
   baseQuery: getFetchBaseQuery(),
   endpoints: build => ({

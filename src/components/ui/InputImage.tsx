@@ -5,7 +5,12 @@ import Image from './Image'
 
 interface IInputImageStyled {
   width: string
+  height?: string
+  rad?: string
 }
+
+const rad = p => p.rad || '4px'
+const height = p => p.height || '90px'
 
 const InputImageStyled = styled.div<IInputImageStyled>`
   display: flex;
@@ -13,9 +18,9 @@ const InputImageStyled = styled.div<IInputImageStyled>`
   justify-content: center;
   align-items: center;
   width: ${p => p.width || '100%'};
-  height: 90px;
+  height: ${height};
   position: relative;
-  border-radius: 4px;
+  border-radius: ${rad};
   overflow: hidden;
   background: var(--pc-dummy-bg);
 
@@ -61,10 +66,12 @@ interface IInputImage {
   isBrowse: boolean
   onClick: () => void
   width: string
+  height?: string
+  rad?: string
 }
 
 export const InputImage: FC<IInputImage> = ({ ...props }) => {
-  const { isUploading, url, isBrowse, width } = props
+  const { isUploading, url, isBrowse, width, rad, height } = props
   const browseBtn = (
     <span onClick={() => props.onClick()} className="link" role="button">
       browse file
@@ -73,7 +80,7 @@ export const InputImage: FC<IInputImage> = ({ ...props }) => {
 
   return (
     <>
-      <InputImageStyled width={width}>
+      <InputImageStyled width={width} height={height} rad={rad}>
         {isUploading && <Loader size={48} />}
         <Image src={url} alt={'project thumbnail'} loader={null} />
         {isBrowse && browseBtn}

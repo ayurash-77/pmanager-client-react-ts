@@ -23,7 +23,7 @@ const ModalContainer = styled.div<IModalContainer>`
 
 const Header = styled.div<IHeader>`
   border-radius: 6px 6px 0 0;
-  background: ${p => (p.warning ? 'var(--accent)' : 'var(--modal-header-fg)')};
+  background: ${p => (p.warning ? 'var(--accent)' : 'var(--modal-header-bg)')};
   color: var(--modal-header-fg);
   text-shadow: 0 1px 3px rgba(0, 0, 0, 0.6);
   font-weight: 400;

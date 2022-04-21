@@ -9,9 +9,9 @@ import { IconButton } from '../../components/ui'
 
 interface ISidebarInfo {
   project: IProject | null
-  isFetching?: boolean
+  isFetchingProject?: boolean
 }
-export const SidebarProjectInfo: FC<ISidebarInfo> = ({ project, isFetching }) => {
+export const SidebarProjectInfo: FC<ISidebarInfo> = ({ project, isFetchingProject }) => {
   const { text } = useTranslate()
   const [isProjectSettingsModalShow, setProjectSettingsModalShow] = useState(false)
 
@@ -22,7 +22,7 @@ export const SidebarProjectInfo: FC<ISidebarInfo> = ({ project, isFetching }) =>
         <IconButton icon={<ToolbarIcons.Gear />} ml={10} onClick={() => setProjectSettingsModalShow(true)} />
       </s.SidebarBlockTitle>
       <s.SidebarBlockContainer>
-        {isFetching ? <Loader size={32} /> : <InfoProjectBlock {...project} />}
+        {!project && isFetchingProject ? <Loader size={32} /> : <InfoProjectBlock {...project} />}
       </s.SidebarBlockContainer>
     </>
   )

@@ -4,7 +4,7 @@ import { getFetchBaseQuery } from './getFetchBaseQuery'
 
 export const clientsApi = createApi({
   reducerPath: 'clientsApi',
-  refetchOnFocus: true,
+  // refetchOnFocus: true,
   tagTypes: ['Clients'],
   baseQuery: getFetchBaseQuery(),
   endpoints: build => ({

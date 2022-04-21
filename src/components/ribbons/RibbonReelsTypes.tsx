@@ -73,8 +73,7 @@ export const RibbonReelsTypes = ({ entities, project }: { entities: IReelsType[]
         count={count}
         onClickPlus={() => setNewReelsTypeModalShow(true)}
         onClickMinus={() => setDeleteModalShow(true)}
-        activeItemId={activeReelsTypeId}
-        disableActiveItem={() => dispatch(setActiveReelsTypeId(null))}
+        activeItemsIds={[activeReelsTypeId]}
       >
         {entities?.map(entity => (
           <EntityCardReelsType

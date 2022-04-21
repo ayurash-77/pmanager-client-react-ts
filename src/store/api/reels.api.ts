@@ -5,7 +5,7 @@ import { getFetchBaseQuery } from './getFetchBaseQuery'
 
 export const reelsApi = createApi({
   reducerPath: 'reelsApi',
-  refetchOnFocus: true,
+  // refetchOnFocus: true,
   tagTypes: ['Reels'],
   baseQuery: getFetchBaseQuery(),
   endpoints: build => ({

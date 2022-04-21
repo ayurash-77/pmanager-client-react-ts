@@ -35,7 +35,7 @@ export const NewBriefModal: FC<INewBriefModal> = ({ closeAction, ...props }) => 
   const { text } = useTranslate()
 
   const { id } = useParams()
-  const { activeProjectId } = useAppSelector(state => state.projects)
+  const { activeProjectId } = useAppSelector(state => state.entities)
   const { data: project, refetch: refetchProject } = useGetProjectByIdQuery(activeProjectId)
   const token = useAppSelector(state => state.auth.authUser.token)
 

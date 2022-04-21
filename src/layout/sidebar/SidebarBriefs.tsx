@@ -14,9 +14,9 @@ import { apiBaseUrl } from '../../constants/env'
 
 interface ISidebarBriefs {
   project: IProject | null
-  isFetching?: boolean
+  isFetchingProject?: boolean
 }
-export const SidebarBriefs: FC<ISidebarBriefs> = ({ project, isFetching }) => {
+export const SidebarBriefs: FC<ISidebarBriefs> = ({ project, isFetchingProject }) => {
   const { text } = useTranslate()
   const [isNewBriefModalShow, setNewBriefModalShow] = useState(false)
   const [isDeleteBriefModalShow, setDeleteBriefModalShow] = useState(false)
@@ -94,7 +94,11 @@ export const SidebarBriefs: FC<ISidebarBriefs> = ({ project, isFetching }) => {
         <IconButton icon={<CommonIcons.Plus />} ml={10} onClick={() => setNewBriefModalShow(true)} />
       </s.SidebarBlockTitle>
       <s.SidebarBlockContainer>
-        {isFetching ? <Loader size={32} /> : project.briefs?.length > 0 && projectBriefsBody}
+        {!project && isFetchingProject ? (
+          <Loader size={32} />
+        ) : (
+          project.briefs?.length > 0 && projectBriefsBody
+        )}
       </s.SidebarBlockContainer>
     </>
   )

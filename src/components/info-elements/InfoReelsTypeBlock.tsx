@@ -3,7 +3,6 @@ import { useTranslate } from '../../hooks/useTranslate'
 import { InfoLabel } from './InfoLabel'
 import { InfoValue } from './InfoValue'
 import { InfoProjectTitleContainer } from './InfoProjectTitle'
-import { InfoGrid } from './InfoGrid'
 import { InfoProgress } from './InfoProgress'
 import styled from 'styled-components'
 import { IReelsType } from '../../interfaces/IReelsType'
@@ -92,13 +91,13 @@ export const InfoReelsTypeBlock: FC<IInfoReelsTypeBlock> = ({
       <InfoContainer>
         <InfoProjectTitleContainer>{title}</InfoProjectTitleContainer>
 
-        <InfoGrid>
+        <div className={'grid info'}>
           <InfoLabel>{text.common.status}</InfoLabel>
           <InfoValue>{status?.name || '---'}</InfoValue>
           {/* <InfoLabel>{text.project.reels}</InfoLabel> */}
           {/* <InfoValue>{reelsJsx}</InfoValue> */}
           <InfoProgress progress={progress} status={status} withLabel withValue />
-        </InfoGrid>
+        </div>
 
         {reelsJsx}
       </InfoContainer>

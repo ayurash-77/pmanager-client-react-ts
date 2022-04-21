@@ -16,6 +16,7 @@ import { reelsTypesApi } from './api/reelsTypes.api'
 import { reelsApi } from './api/reels.api'
 import { shotsApi } from './api/shots.api'
 import { entitiesSlice } from './reducers/entities.reducer'
+import { usersApi } from './api/users.api'
 
 const rootReducer = combineReducers({
   ui: uiSlice.reducer,
@@ -24,6 +25,7 @@ const rootReducer = combineReducers({
   entities: entitiesSlice.reducer,
 
   [authApi.reducerPath]: authApi.reducer,
+  [usersApi.reducerPath]: usersApi.reducer,
   [projectsApi.reducerPath]: projectsApi.reducer,
   [briefsApi.reducerPath]: briefsApi.reducer,
   [brandsApi.reducerPath]: brandsApi.reducer,
@@ -44,6 +46,7 @@ export const setupStore: CombinedState<any> = () => {
     middleware: getDefaultMiddleware =>
       getDefaultMiddleware()
         .concat(authApi.middleware)
+        .concat(usersApi.middleware)
         .concat(projectsApi.middleware)
         .concat(briefsApi.middleware)
         .concat(brandsApi.middleware)

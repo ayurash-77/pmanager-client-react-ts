@@ -5,7 +5,6 @@ import { InfoLabel } from './InfoLabel'
 import { InfoValue } from './InfoValue'
 import { toDateStr } from '../../tools/date-time-format'
 import { InfoProjectTitleContainer } from './InfoProjectTitle'
-import { InfoGrid } from './InfoGrid'
 
 export const InfoBriefBlock: FC<Partial<IBrief>> = brief => {
   const { text } = useTranslate()
@@ -16,7 +15,7 @@ export const InfoBriefBlock: FC<Partial<IBrief>> = brief => {
   return (
     <>
       <InfoProjectTitleContainer>{brief.name}</InfoProjectTitleContainer>
-      <InfoGrid>
+      <div className={'grid info'}>
         <InfoLabel>{text.brief.name}</InfoLabel>
         <InfoValue>{brief.name}</InfoValue>
         <InfoLabel>{text.brief.originalMame}</InfoLabel>
@@ -35,7 +34,7 @@ export const InfoBriefBlock: FC<Partial<IBrief>> = brief => {
         </InfoValue>
         <InfoLabel>{text.common.status}</InfoLabel>
         <InfoValue colorFg={statusColor}>{approved}</InfoValue>
-      </InfoGrid>
+      </div>
     </>
   )
 }

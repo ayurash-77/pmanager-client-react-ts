@@ -9,9 +9,11 @@ import {
 } from '../../components/info-elements'
 import { InfoDoneAt } from '../../components/info-elements/InfoDoneAt'
 import { IProject } from '../../interfaces/IProject'
+import { useGetProjectByIdQuery } from '../../store/api/projects.api'
 
 interface Props extends DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLDivElement> {
   project: IProject
+  isFetchingProject: boolean
 }
 
 const Container = styled.div`
@@ -38,7 +40,7 @@ const InfoElement = styled.div`
   width: 100%;
 `
 
-export const Statusbar: FC<Props> = ({ project }) => {
+export const Statusbar: FC<Props> = ({ project, isFetchingProject }) => {
   const projectInfo = (
     <InfoContainer>
       <InfoElement>

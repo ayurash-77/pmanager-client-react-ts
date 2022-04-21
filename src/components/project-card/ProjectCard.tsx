@@ -2,7 +2,6 @@ import { IProject } from '../../interfaces/IProject'
 import { IProjectViewFilter } from '../../interfaces/IProjectViewFilter'
 import { FC } from 'react'
 import { Clapper } from '../../assets/thumbnails/thumbnails'
-import * as s from './ProejctCarg.styles'
 import Image from '../ui/Image'
 import {
   InfoAgency,
@@ -10,7 +9,6 @@ import {
   InfoClient,
   InfoCreatedAt,
   InfoDeadline,
-  InfoGrid,
   InfoOwner,
   InfoProgress,
   InfoProjectTitle,
@@ -18,44 +16,44 @@ import {
   InfoStatus,
 } from '../info-elements'
 import { apiBaseUrl } from '../../constants/env'
+import { ProjectCardContainer } from './ProjectCard.styles'
 import cn from 'classnames'
+import { useAppSelector } from '../../hooks/redux'
 
-interface IProjectCard {
-  selected: boolean
-  item: IProject
-  viewFilter: IProjectViewFilter
-  onClick?: () => void
-  onDoubleClick?: () => void
+export interface IProjectCard {
+  isSelected: boolean
+  project: IProject
+  onClick: () => void
+  onDoubleClick: () => void
 }
 
-export const ProjectCard: FC<IProjectCard> = ({ ...props }) => {
-  const imageSrc = `${apiBaseUrl}/root/${props.item.homeDir}/.pmdata/projectThumbnail.jpg`
+export const ProjectCard: FC<IProjectCard> = props => {
+  const { isSelected, project } = props
+  const imageSrc = `${apiBaseUrl}/root/${project.homeDir}/.pmdata/projectThumbnail.jpg`
+  const { filterBar, projectsViewMode } = useAppSelector(state => state.ui)
+  const viewFilter: IProjectViewFilter = filterBar.filters[projectsViewMode]
 
   return (
-    <s.Container {...props}>
-      <div className={cn('imageContainer', { selected: props.selected })}>
-        <Image src={imageSrc} alt={props.item.title} fallback={<Clapper />} />
+    <ProjectCardContainer {...props}>
+      <div className={cn('imageContainer', { selected: isSelected })}>
+        <Image src={imageSrc} alt={project.title} fallback={<Clapper />} />
       </div>
-      <InfoProgress progress={props.item.progress} status={props.item.status} height={3} withValue={false} />
+      <InfoProgress progress={project.progress} status={project.status} height={3} withValue={false} />
 
-      <div className={cn('infoContainer', { selected: props.selected })}>
-        <InfoProjectTitle
-          title={props.item.title}
-          highPriority={props.item.highPriority}
-          status={props.item.status}
-        />
-        <InfoGrid>
-          {props.viewFilter.brand && <InfoBrand brand={props.item.brand} />}
-          {props.viewFilter.client && <InfoClient client={props.item.client} />}
-          {props.viewFilter.agency && <InfoAgency agency={props.item.agency} />}
-          {props.viewFilter.createdAt && <InfoCreatedAt createdAt={props.item.createdAt} />}
-          {props.viewFilter.startAt && <InfoStartAt startAt={props.item.startAt} />}
-          {props.viewFilter.deadline && <InfoDeadline deadline={props.item.deadline} />}
-          {props.viewFilter.status && <InfoStatus status={props.item.status} />}
-          {props.viewFilter.owner && <InfoOwner owner={props.item.owner} />}
-        </InfoGrid>
+      <div className={cn('infoContainer', { selected: isSelected })}>
+        <InfoProjectTitle title={project.title} highPriority={project.highPriority} status={project.status} />
+        <div className={'grid info'}>
+          {viewFilter.brand && <InfoBrand brand={project.brand} />}
+          {viewFilter.client && <InfoClient client={project.client} />}
+          {viewFilter.agency && <InfoAgency agency={project.agency} />}
+          {viewFilter.createdAt && <InfoCreatedAt createdAt={project.createdAt} />}
+          {viewFilter.startAt && <InfoStartAt startAt={project.startAt} />}
+          {viewFilter.deadline && <InfoDeadline deadline={project.deadline} />}
+          {viewFilter.status && <InfoStatus status={project.status} />}
+          {viewFilter.owner && <InfoOwner owner={project.owner} />}
+        </div>
       </div>
-    </s.Container>
+    </ProjectCardContainer>
   )
 }
 

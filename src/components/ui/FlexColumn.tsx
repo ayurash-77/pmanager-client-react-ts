@@ -3,8 +3,8 @@ import styled from 'styled-components'
 const height = p => p.height || '100%'
 const width = p => p.height || '100%'
 const gap = p => p.gap + 'px' || 0
-const vAlign = props => (props.vAlign ? props.vAlign : 'center')
-const padding = props => (props.padding ? `${props.padding}px` : 0)
+const vAlign = p => p.vAlign || 'center'
+const padding = p => (p.padding ? `${p.padding}px` : 0)
 
 interface IFlexColumn {
   height?: string

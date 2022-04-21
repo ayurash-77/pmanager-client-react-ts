@@ -4,7 +4,6 @@ import { InfoLabel } from './InfoLabel'
 import { InfoValue } from './InfoValue'
 import { IShot } from '../../interfaces/IShot'
 import { InfoProjectTitleContainer } from './InfoProjectTitle'
-import { InfoGrid } from './InfoGrid'
 import { InfoProgress } from './InfoProgress'
 import { Clapper } from '../../assets/thumbnails/thumbnails'
 import { Image } from '../ui'
@@ -60,7 +59,7 @@ export const InfoShotBlock: FC<IInfoShotBlock> = ({ code, name, duration, progre
           {<Image src={'/sampleImage.jpg'} alt={'image'} fallback={<Clapper />} width={320} />}
         </div>
 
-        <InfoGrid>
+        <div className={'grid info'}>
           <InfoLabel>{text.common.duration}</InfoLabel>
           <InfoValue>{durationStr}</InfoValue>
           <InfoLabel>{text.common.status}</InfoLabel>
@@ -69,7 +68,7 @@ export const InfoShotBlock: FC<IInfoShotBlock> = ({ code, name, duration, progre
           <InfoLabel>{text.common.usedIn}</InfoLabel>
           <InfoValue>{reelsJsx}</InfoValue>
           <InfoProgress progress={progress} status={status} withLabel withValue />
-        </InfoGrid>
+        </div>
       </InfoContainer>
     </>
   )

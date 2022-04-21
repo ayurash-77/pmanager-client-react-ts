@@ -5,7 +5,6 @@ import styled from 'styled-components'
 const DateTimeContainer = styled.div`
   display: flex;
   gap: 4px;
-  //color: var(--date-fg);
   .date {
     color: var(--date1);
   }

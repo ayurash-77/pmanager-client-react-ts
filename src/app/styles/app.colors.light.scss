@@ -31,6 +31,12 @@ body[darkMode='false'] {
   --button-shadow: #00000040;
 
 
+  //---------- CONTEXT MENU ----------//
+  --contextMenu-bg: #ffffff20;
+  --contextMenu-border: #ffffff66;
+  --contextMenu-item-hover: #ffffff77;
+
+
   //---------- CARDS ----------//
 
   //----- ProjectCard
@@ -63,6 +69,12 @@ body[darkMode='false'] {
   --shot-card-icon-fg: #4e4e67;
   --shot-card-selected-border: #dddddd99;
   --shot-card-selected-glow: #ffffff;
+
+
+  //----- ExpandedBlock
+  --expanded-block-bg: #464853;
+  --expanded-block-reels-bg: #cfcfd1;
+  --expanded-block-title-bg: linear-gradient(#dfdfe1 0%, var(--expanded-block-reels-bg) 100%);
 
 
   //---------- DATE TIMES ----------//
@@ -144,11 +156,12 @@ body[darkMode='false'] {
   --table-header-fg-hover: #E0E0E0;
 
   //----- Timeline
-  --timeline-bg: #cccccc99;
-  --timeline-border: #bbbbbb99;
-  --timeline-reel-border: #65789a99;
-  --timeline-reel-bg-hover: #e3e3e3;
-  --timeline-reel-border-hover: #1b8dff;
+  //--timeline-row-bg: #cccccc99;
+  --timeline-row-bg: linear-gradient(#cdcdcd 0%, #cacaca 100%);
+  --timeline-row-border: #e8e8e880;
+  --timeline-row-shadow-inner: #00000020;
+  --timeline-border: #65789a99;
+  --timeline-border-active: #1b8dff;
 
   //----- Text
   --text-low: #72747e;

@@ -25,9 +25,7 @@ interface IUserPic {
 export const UserPic = ({ src, name }: IUserPic) => {
   return (
     <Container>
-      {/* <div> */}
       <Image src={src} alt={name} fallback={<UserThumbnail />} width={64} />
-      {/* </div> */}
     </Container>
   )
 }

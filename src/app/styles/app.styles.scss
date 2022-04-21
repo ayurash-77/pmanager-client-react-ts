@@ -36,7 +36,7 @@
   --modal-overlay: #0d0d11AA;
 }
 
-::-webkit-scrollbar { width: 7px; height: 7px; }
+::-webkit-scrollbar { width: 7px; height: 7px;  }
 ::-webkit-scrollbar-corner { background-color: transparent; }
 ::-webkit-scrollbar-track { background: var(--scrollbar-bg); border-radius: 4px; }
 ::-webkit-scrollbar-thumb { background: var(--scrollbar-fg); border-radius: 4px; }
@@ -55,6 +55,12 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+ul, li {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
 @import "app.colors.dark";
 @import "app.colors.light";
 
@@ -62,6 +68,8 @@ body {
 @import "input";
 @import "label";
 @import "form";
+@import "common";
+@import "grid";
 
 #root {
   color: var(--main-fg);
@@ -71,33 +79,5 @@ body {
   width: 100vw;
   overflow: hidden;
 }
-
-.error {
-  color: var(--accent);
-  vertical-align: center;
-  text-align: center;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  border-radius: 4px;
-  width: 100%;
-}
-
-.toolButtonTxt {
-  font-family: var(--ff-button);
-  font-size: 11px;
-  display: flex;
-  align-items: center;
-  margin-top: 2px;
-  flex-wrap: nowrap;
-
-}
-
-.hSpace { width: 10px; }
-.vSpace { height: 10px; }
-
-
-
-
 
 

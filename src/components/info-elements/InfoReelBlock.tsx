@@ -3,7 +3,6 @@ import { useTranslate } from '../../hooks/useTranslate'
 import { InfoLabel } from './InfoLabel'
 import { InfoValue } from './InfoValue'
 import { InfoProjectTitleContainer } from './InfoProjectTitle'
-import { InfoGrid } from './InfoGrid'
 import { InfoProgress } from './InfoProgress'
 import styled from 'styled-components'
 import { IReel } from '../../interfaces/IReel'
@@ -71,7 +70,7 @@ export const InfoReelBlock: FC<IInfoReelBlock> = ({ code, name, duration, progre
       <InfoContainer>
         <InfoProjectTitleContainer>{title}</InfoProjectTitleContainer>
 
-        <InfoGrid>
+        <div className={'grid info'}>
           <InfoLabel>{text.common.duration}</InfoLabel>
           <InfoValue>{durationStr}</InfoValue>
           <InfoLabel>{text.common.status}</InfoLabel>
@@ -79,7 +78,7 @@ export const InfoReelBlock: FC<IInfoReelBlock> = ({ code, name, duration, progre
           <InfoLabel>{text.project.shots}</InfoLabel>
           <InfoValue>{shotsJsx}</InfoValue>
           <InfoProgress progress={progress} status={status} withLabel withValue />
-        </InfoGrid>
+        </div>
 
         {/* {shotsJsx} */}
       </InfoContainer>

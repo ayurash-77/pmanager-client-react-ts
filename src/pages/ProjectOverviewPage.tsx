@@ -1,6 +1,5 @@
 import { FC, useEffect } from 'react'
 
-import styled from 'styled-components'
 import { useParams } from 'react-router'
 import { Sendbar } from '../layout/sendbar/Sendbar'
 import { Post } from '../components/post/Post'
@@ -14,16 +13,14 @@ import { RibbonShots } from '../components/ribbons/RibbonShots'
 import { useGetProjectByIdQuery } from '../store/api/projects.api'
 import { MainbarContainer } from '../layout/MainbarContainer'
 import { Sidebar } from '../layout/sidebar/Sidebar'
-import { useAppSelector } from '../hooks/redux'
-import HeaderProjects from '../layout/HeaderProjects'
 import { HeaderProject } from '../layout/HeaderProject'
 import { BodyContainer } from '../layout/BodyContainer'
 
 export const ProjectOverviewPage: FC = () => {
   const { id } = useParams()
 
-  const { data: project } = useGetProjectByIdQuery(+id)
-  const { data: posts } = useGetPostsByProjectIdQuery(+id)
+  const { data: project, isFetching: isFetchingProject } = useGetProjectByIdQuery(+id)
+  const { data: posts, refetch: refetchPosts } = useGetPostsByProjectIdQuery(+id)
   const { data: reelsTypes, refetch: refetchReelsTypes } = useGetReelsTypesByProjectIdQuery(+id)
   const { data: reels, refetch: refetchReels } = useGetReelsByProjectIdQuery(+id)
   const { data: shots, refetch: refetchShots } = useGetShotsByProjectIdQuery(+id)
@@ -32,7 +29,8 @@ export const ProjectOverviewPage: FC = () => {
     refetchReelsTypes()
     refetchReels()
     refetchShots()
-  }, [reelsTypes, reels, shots, refetchReelsTypes, refetchReels, refetchShots])
+    refetchPosts()
+  }, [reelsTypes, reels, shots, refetchReelsTypes, refetchReels, refetchShots, refetchPosts])
 
   ////////////////////////////////////////////////////////////////////////
 
@@ -45,25 +43,11 @@ export const ProjectOverviewPage: FC = () => {
         <RibbonReels entities={reels} project={project} />
         <RibbonShots entities={shots} project={project} />
 
-        <BodyContainer>
-          {posts?.map(post => (
-            <Post
-              key={post.id}
-              id={post.id}
-              message={post.message}
-              createdAt={post.createdAt}
-              updatedAt={post.updatedAt}
-              createdBy={post.createdBy}
-              reel={post.reel}
-            >
-              {post.message}
-            </Post>
-          ))}
-        </BodyContainer>
+        <BodyContainer>{project && posts?.map(post => <Post key={post.id} {...post} />)}</BodyContainer>
 
         <Sendbar projectId={+id} />
       </MainbarContainer>
-      <Sidebar project={project} />
+      <Sidebar project={project} isFetchingProject={isFetchingProject} />
     </>
   )
 }

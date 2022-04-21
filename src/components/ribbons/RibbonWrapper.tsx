@@ -9,14 +9,16 @@ import { FlexRow } from '../ui'
 import { useAppSelector } from '../../hooks/redux'
 
 const RibbonContainer = styled.div`
-  padding: 8px 10px 4px 10px;
-  background: var(--ribbon-bg);
-  box-shadow: 0 0 3px var(--button-shadow);
+  background: var(--expanded-block-reels-bg);
+  box-shadow: 0 1px 3px var(--button-shadow);
   margin-bottom: 1px;
+  z-index: 1;
 `
 
 const RibbonHeader = styled.div`
+  padding: 0 8px;
   display: flex;
+  align-items: center;
   justify-content: space-between;
   gap: 5px;
 
@@ -31,13 +33,16 @@ const RibbonHeader = styled.div`
   &.shot {
     color: var(--ribbon-shot-fg);
   }
+
+  background: var(--expanded-block-title-bg);
 `
 
 const RibbonTitle = styled.h3`
-  //text-transform: uppercase;
+  height: 26px;
   user-select: none;
   cursor: default;
   display: flex;
+  align-items: center;
   gap: 5px;
 `
 
@@ -56,7 +61,7 @@ const Arrow = styled.div`
 const RibbonRow = styled.div`
   transition: height 250ms, opacity 150ms;
   display: flex;
-  height: 80px;
+  height: 90px;
   &.collapse {
     height: 0;
     opacity: 0;
@@ -64,6 +69,7 @@ const RibbonRow = styled.div`
 `
 
 const RibbonEntities = styled.div`
+  margin: 5px 10px;
   min-width: 0;
   display: flex;
   gap: 20px;
@@ -81,8 +87,7 @@ interface IRibbonWrapper {
   count: number
   onClickPlus: () => void
   onClickMinus: () => void
-  disableActiveItem?: () => void
-  activeItemId?: number
+  activeItemsIds: number[]
 }
 
 export const RibbonWrapper: FC<IRibbonWrapper> = ({
@@ -92,8 +97,7 @@ export const RibbonWrapper: FC<IRibbonWrapper> = ({
   onClickPlus,
   onClickMinus,
   children,
-  activeItemId,
-  disableActiveItem,
+  activeItemsIds = [],
 }) => {
   const [expanded, setExpanded] = useState(true)
   const { authUser } = useAppSelector(state => state.auth)
@@ -101,7 +105,7 @@ export const RibbonWrapper: FC<IRibbonWrapper> = ({
   const canDeleteItem = authUser.isAdmin || canDeleteItemRoles.includes(authUser.role.name)
 
   const onTitleClickHandler = () => {
-    if (expanded) disableActiveItem()
+    // if (expanded) disableActiveItem()
     setExpanded(!expanded)
   }
 
@@ -118,10 +122,11 @@ export const RibbonWrapper: FC<IRibbonWrapper> = ({
           {canDeleteItem && (
             <IconButton
               icon={<CommonIcons.Minus />}
-              disabled={!activeItemId}
+              disabled={activeItemsIds.length !== 1}
               // variant={activeItemId ? 'accent' : null}
+
               variant={'accent'}
-              onClick={activeItemId ? onClickMinus : null}
+              onClick={activeItemsIds.length === 1 ? onClickMinus : null}
             />
           )}
           <IconButton icon={<CommonIcons.Plus />} onClick={onClickPlus} />

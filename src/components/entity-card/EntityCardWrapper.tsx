@@ -3,12 +3,9 @@ import { InfoProgress } from '../info-elements'
 import { IReelsType } from '../../interfaces/IReelsType'
 import { IReel } from '../../interfaces/IReel'
 import { IShot } from '../../interfaces/IShot'
-import { EntityIcon } from './EntityIcon'
 import { EntityCardContainer } from './EntityCard.styles'
 import { DetailedHTMLProps, FC, HTMLAttributes, ReactNode } from 'react'
 import { entityVariantType } from '../../types/entityVariantType'
-import { Image } from '../ui'
-import { Clapper } from '../../assets/thumbnails/thumbnails'
 
 interface IEntityCardWrapper extends DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLDivElement> {
   children?: ReactNode

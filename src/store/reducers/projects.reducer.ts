@@ -10,15 +10,11 @@ interface IQuarterFilter {
 interface IInitialState {
   quarterData: IQuarterItem[] | null
   quarterFilter: IQuarterFilter
-  activeProjectId: number | null
-  searchFilter?: string
 }
 
 const initialState: IInitialState = {
   quarterData: [],
   quarterFilter: { isActive: false, quarter: null },
-  activeProjectId: null,
-  searchFilter: null,
 }
 
 export const projectsSlice = createSlice({
@@ -32,14 +28,8 @@ export const projectsSlice = createSlice({
     setQuarterFilter(state, action: PayloadAction<IQuarterFilter>) {
       state.quarterFilter = action.payload
     },
-    setActiveProjectId(state, action: PayloadAction<number>) {
-      state.activeProjectId = action.payload
-    },
-    setSearchFilter(state, action: PayloadAction<string>) {
-      state.searchFilter = action.payload
-    },
   },
 })
 
-export const { setQuarterFilter, setQuarterData, setActiveProjectId, setSearchFilter } = projectsSlice.actions
+export const { setQuarterFilter, setQuarterData } = projectsSlice.actions
 export default projectsSlice.reducer

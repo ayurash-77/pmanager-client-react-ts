@@ -6,7 +6,12 @@ import { useEffect, useState } from 'react'
 import { IProject } from '../../interfaces/IProject'
 import NewReelModal from '../../modal/NewReelModal'
 import { useAppDispatch, useAppSelector } from '../../hooks/redux'
-import { setActiveReelId, setActiveReelsTypeId, setActiveShotId } from '../../store/reducers/entities.reducer'
+import {
+  setActiveReelId,
+  setActiveReelsIds,
+  setActiveReelsTypeId,
+  setActiveShotId,
+} from '../../store/reducers/entities.reducer'
 import { useDeleteReelMutation } from '../../store/api/reels.api'
 import { ErrorList } from '../errors/ErrorList'
 import DeleteModal from '../../modal/DeleteModal'
@@ -22,24 +27,16 @@ export const RibbonReels = ({ entities, project }: { entities: IReel[]; project:
   const [deleteReel, { error, isSuccess, reset }] = useDeleteReelMutation()
   const errorJsx = ErrorList(error && 'data' in error ? error.data.message : [])
 
-  const { activeReelId } = useAppSelector(state => state.entities)
+  const { activeReelId, activeReelsIds } = useAppSelector(state => state.entities)
 
   const [isNewReelModalShow, setNewReelModalShow] = useState(false)
   const [isDeleteModalShow, setDeleteModalShow] = useState(false)
 
-  const onDoubleClickItemHandler = id => {
-    dispatch(setActiveReelId(id))
-    dispatch(setActiveReelsTypeId(null))
-    dispatch(setActiveShotId(null))
-
-    dispatch(setActiveMenu('reels'))
-    navigate(`/project/${project.id}/reels/${id}`)
-  }
-
   const onClickItemHandler = id => {
-    dispatch(setActiveReelId(activeReelId === id ? null : id))
-    dispatch(setActiveReelsTypeId(null))
+    // dispatch(setActiveReelId(activeReelId === id ? null : id))
+    dispatch(setActiveReelsIds(activeReelsIds.length === 1 && activeReelsIds[0] === id ? [] : [id]))
     dispatch(setActiveShotId(null))
+    dispatch(setActiveReelsTypeId(null))
   }
 
   const activeReel = entities?.find(entity => entity.id === activeReelId) || null
@@ -86,16 +83,14 @@ export const RibbonReels = ({ entities, project }: { entities: IReel[]; project:
         count={count}
         onClickPlus={() => setNewReelModalShow(true)}
         onClickMinus={() => setDeleteModalShow(true)}
-        activeItemId={activeReelId}
-        disableActiveItem={() => dispatch(setActiveReelId(null))}
+        activeItemsIds={activeReelsIds}
       >
         {entities?.map(entity => (
           <EntityCardReel
             key={entity.id}
             entity={entity}
-            isSelected={activeReelId === entity.id}
+            isSelected={activeReelsIds.includes(entity.id)}
             onClick={() => onClickItemHandler(entity.id)}
-            onDoubleClick={() => onDoubleClickItemHandler(entity.id)}
           />
         ))}
       </RibbonWrapper>

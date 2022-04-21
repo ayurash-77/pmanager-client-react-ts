@@ -1,14 +1,11 @@
-import { FC, useEffect, useState } from 'react'
+import { FC, useEffect } from 'react'
 import Loader from '../components/ui/Loader'
 import { ErrorList } from '../components/errors/ErrorList'
-import {
-  useGetAllProjectsQuery,
-  useGetProjectByIdQuery,
-  useLazyGetProjectByIdQuery,
-} from '../store/api/projects.api'
+import { useGetAllProjectsQuery, useGetProjectByIdQuery } from '../store/api/projects.api'
 import { toDateStr, toQuarterStr } from '../tools/date-time-format'
 import { useAppDispatch, useAppSelector } from '../hooks/redux'
-import { setActiveProjectId, setQuarterData } from '../store/reducers/projects.reducer'
+import { setQuarterData } from '../store/reducers/projects.reducer'
+import { setActiveProjectId } from '../store/reducers/entities.reducer'
 import ProjectCard from '../components/project-card/ProjectCard'
 import styled from 'styled-components'
 import { useTranslate } from '../hooks/useTranslate'
@@ -34,11 +31,13 @@ const ContainerGrid = styled.div`
 `
 
 export const ProjectsPage: FC = () => {
-  const { quarterFilter, activeProjectId, searchFilter } = useAppSelector(state => state.projects)
+  const { quarterFilter } = useAppSelector(state => state.projects)
+  const { searchProjectsFilter } = useAppSelector(state => state.ui)
+  const { activeProjectId } = useAppSelector(state => state.entities)
 
   const { data: projects = [], isLoading: isLoadingProjects, error: errorProjects } = useGetAllProjectsQuery()
 
-  const { data: activeProject } = useGetProjectByIdQuery(activeProjectId)
+  const { data: activeProject, isFetching: isFetchingProject } = useGetProjectByIdQuery(activeProjectId)
   const errorJsx = ErrorList(errorProjects && 'data' in errorProjects ? errorProjects.data.message : [])
 
   const dispatch = useAppDispatch()
@@ -49,12 +48,14 @@ export const ProjectsPage: FC = () => {
   }
   const onProjectDoubleClickHandler = (project: IProject) => {
     dispatch(setActiveProjectId(project.id))
-    dispatch(setActiveMenu('overview'))
-    navigate(`/project/${project.id}/overview`, { state: 1 })
+    dispatch(setActiveMenu('reels'))
+    navigate(`/project/${project.id}/reels`, { state: 1 })
   }
 
   const { filterBar, projectsViewMode } = useAppSelector(state => state.ui)
-  const searchProjects = searchFilter ? projects?.filter(item => item.title.includes(searchFilter)) : projects
+  const searchProjects = searchProjectsFilter
+    ? projects?.filter(item => item.title.includes(searchProjectsFilter))
+    : projects
 
   useEffect(() => {
     if (projects.length > 0) {
@@ -67,16 +68,15 @@ export const ProjectsPage: FC = () => {
   })
 
   const projectsFiltered = quarterFilter.isActive ? projectsFilteredByQuarter : searchProjects
-  const projectsViewFilter = filterBar.filters[projectsViewMode]
+  const viewFilter = filterBar.filters[projectsViewMode]
 
   const ProjectGridContent = (
     <ContainerGrid>
       {projectsFiltered.map(item => (
         <ProjectCard
           key={item.id}
-          selected={item.id === activeProjectId}
-          item={item}
-          viewFilter={projectsViewFilter}
+          isSelected={item.id === activeProjectId}
+          project={item}
           onClick={() => onProjectClickHandler(item)}
           onDoubleClick={() => onProjectDoubleClickHandler(item)}
         />
@@ -91,15 +91,15 @@ export const ProjectsPage: FC = () => {
         <tr>
           <th>№</th>
           <th>{text.project.projectName}</th>
-          {projectsViewFilter.client && <th>{text.project.client}</th>}
-          {projectsViewFilter.brand && <th>{text.project.brand}</th>}
-          {projectsViewFilter.agency && <th>{text.project.agency}</th>}
-          {projectsViewFilter.createdAt && <th>{text.common.createdAt}</th>}
-          {projectsViewFilter.startAt && <th>{text.common.startAt}</th>}
-          {projectsViewFilter.deadline && <th>{text.common.deadline}</th>}
-          {projectsViewFilter.owner && <th>{text.common.owner}</th>}
-          {projectsViewFilter.progress && <th>{text.common.progress}</th>}
-          {projectsViewFilter.details && <th>{text.common.details}</th>}
+          {viewFilter.client && <th>{text.project.client}</th>}
+          {viewFilter.brand && <th>{text.project.brand}</th>}
+          {viewFilter.agency && <th>{text.project.agency}</th>}
+          {viewFilter.createdAt && <th>{text.common.createdAt}</th>}
+          {viewFilter.startAt && <th>{text.common.startAt}</th>}
+          {viewFilter.deadline && <th>{text.common.deadline}</th>}
+          {viewFilter.owner && <th>{text.common.owner}</th>}
+          {viewFilter.progress && <th>{text.common.progress}</th>}
+          {viewFilter.details && <th>{text.common.details}</th>}
         </tr>
       </thead>
       <tbody>
@@ -119,25 +119,25 @@ export const ProjectsPage: FC = () => {
                 status={item.status}
               />
             </td>
-            {projectsViewFilter.client && <td style={{ opacity: 0.75 }}>{item.client?.name}</td>}
-            {projectsViewFilter.brand && <td style={{ opacity: 0.75 }}>{item.brand?.name}</td>}
-            {projectsViewFilter.agency && <td style={{ opacity: 0.75 }}>{item.agency?.name}</td>}
-            {projectsViewFilter.createdAt && (
+            {viewFilter.client && <td style={{ opacity: 0.75 }}>{item.client?.name}</td>}
+            {viewFilter.brand && <td style={{ opacity: 0.75 }}>{item.brand?.name}</td>}
+            {viewFilter.agency && <td style={{ opacity: 0.75 }}>{item.agency?.name}</td>}
+            {viewFilter.createdAt && (
               <td className="owner">{item.createdAt ? toDateStr(item.createdAt) : ' --- '}</td>
             )}
-            {projectsViewFilter.startAt && (
+            {viewFilter.startAt && (
               <td className="date">{item.startAt ? toDateStr(item.startAt) : ' --- '}</td>
             )}
-            {projectsViewFilter.deadline && (
+            {viewFilter.deadline && (
               <td className="deadline">{item.deadline ? toDateStr(item.deadline) : ' --- '}</td>
             )}
-            {projectsViewFilter.owner && <td className="owner">{item.owner.username}</td>}
-            {projectsViewFilter.progress && (
+            {viewFilter.owner && <td className="owner">{item.owner.username}</td>}
+            {viewFilter.progress && (
               <td>
                 <InfoProgress progress={item.progress} status={item.status} withValue={false} />
               </td>
             )}
-            {projectsViewFilter.details && <td style={{ opacity: 0.75 }}>{item.details}</td>}
+            {viewFilter.details && <td style={{ opacity: 0.75 }}>{item.details}</td>}
           </tr>
         ))}
       </tbody>
@@ -149,7 +149,7 @@ export const ProjectsPage: FC = () => {
   return (
     <>
       <MainbarContainer>
-        <HeaderProjects activeProject={activeProject} />
+        <HeaderProjects />
         <Filterbar {...filterBar} />
 
         <BodyContainer>
@@ -159,9 +159,9 @@ export const ProjectsPage: FC = () => {
           {projectsViewMode === 'list' && ProjectsListContent}
         </BodyContainer>
 
-        <Statusbar project={activeProject} />
+        <Statusbar project={activeProject} isFetchingProject={isFetchingProject} />
       </MainbarContainer>
-      <Sidebar project={activeProject} />
+      <Sidebar project={activeProject} isFetchingProject={isFetchingProject} />
     </>
   )
 }

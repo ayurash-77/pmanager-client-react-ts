@@ -1,0 +1,9 @@
+
+.grid {
+  display: grid;
+
+  &.info {
+    gap: 2px;
+    grid-template-columns: auto auto;
+  }
+}

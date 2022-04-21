@@ -1,7 +1,7 @@
 import styled from 'styled-components'
 import { useParams } from 'react-router'
 import { useGetReelsByProjectIdQuery, useUpdateReelMutation } from '../store/api/reels.api'
-import { TimelineWrapper } from '../components/timelines/TimelineWrapper'
+import { Timeline } from '../components/timelines/Timeline'
 import { useAppDispatch, useAppSelector } from '../hooks/redux'
 import { useGetShotsByProjectIdQuery } from '../store/api/shots.api'
 import { EntityCardShot } from '../components/entity-card/EntityCardShot'
@@ -29,7 +29,7 @@ export const GraphPage = () => {
   const { id } = useParams()
   const dispatch = useAppDispatch()
 
-  const { data: project } = useGetProjectByIdQuery(+id)
+  const { data: project, isFetching: isFetchingProject } = useGetProjectByIdQuery(+id)
 
   const { activeShotId, dragShot, dropReel } = useAppSelector(state => state.entities)
 
@@ -94,7 +94,7 @@ export const GraphPage = () => {
         <BodyContainer>
           {reels?.map(reel => (
             <div key={reel.id} onDrop={e => onDropHandler(e, reel)} onDragOver={e => e.preventDefault()}>
-              <TimelineWrapper title={`${reel.code}`} reel={reel}>
+              <Timeline title={`${reel.code}`} reel={reel}>
                 {reel.shots?.map(shot => (
                   <div
                     key={shot.id}
@@ -108,7 +108,7 @@ export const GraphPage = () => {
                     <EntityCardShot entity={shot} isSelected={activeShotId === shot.id} />
                   </div>
                 ))}
-              </TimelineWrapper>
+              </Timeline>
             </div>
           ))}
           <div>
@@ -125,6 +125,7 @@ export const GraphPage = () => {
         project={project}
         removeShotHandler={removeShotHandler}
         onDragStartHandler={onDragStartHandler}
+        isFetchingProject={isFetchingProject}
       />
     </>
   )

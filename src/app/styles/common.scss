@@ -1,0 +1,20 @@
+.error {
+  color: var(--accent);
+  vertical-align: center;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 4px;
+  width: 100%;
+}
+
+.toolButtonTxt {
+  font-family: var(--ff-button);
+  font-size: 11px;
+  display: flex;
+  align-items: center;
+  margin-top: 2px;
+  flex-wrap: nowrap;
+}
+

@@ -50,7 +50,7 @@ export const Filterbar = (props: IFilterbar): JSX.Element => {
   const filterbarContent = Object.keys(filterBar.filters[projectsViewMode]).map(key => (
     <Switcher
       key={key}
-      label={text.project[key]}
+      label={text.common[key]}
       checked={filterBar.filters[projectsViewMode][key]}
       onChange={() => onCheckedHandler(key)}
     />

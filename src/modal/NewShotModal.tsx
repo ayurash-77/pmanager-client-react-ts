@@ -129,7 +129,7 @@ export const NewShotModal: FC<INewShotModal> = ({ closeAction, project, shots, .
       <ModalWrapper
         {...props}
         warning={false}
-        type={'type1'}
+        type={'type2'}
         size={'sm'}
         title={text.actions.addShot}
         onSubmitHandler={onSubmitHandler}

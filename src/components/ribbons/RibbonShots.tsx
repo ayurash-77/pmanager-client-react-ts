@@ -65,8 +65,7 @@ export const RibbonShots = ({ entities, project }: { entities: IShot[]; project:
         count={count}
         onClickPlus={() => setNewShotModalShow(true)}
         onClickMinus={() => setDeleteModalShow(true)}
-        activeItemId={activeShotId}
-        disableActiveItem={() => dispatch(setActiveShotId(null))}
+        activeItemsIds={[activeShotId]}
       >
         {entities?.map(entity => (
           <EntityCardShot

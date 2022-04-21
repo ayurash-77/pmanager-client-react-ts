@@ -11,7 +11,7 @@ import { FlexColumn, Input, InputImage, Select, Textarea } from '../components/u
 import { apiBaseUrl, apiUploadUrl } from '../constants/env'
 import { UploadingProgress } from '../components/uploading-progress/UploadingProgress'
 import { IProject } from '../interfaces/IProject'
-import { setActiveProjectId } from '../store/reducers/projects.reducer'
+import { setActiveProjectId } from '../store/reducers/entities.reducer'
 import { IAgency } from '../interfaces/IAgency'
 import { IBrand } from '../interfaces/IBrand'
 import { IClient } from '../interfaces/IClient'

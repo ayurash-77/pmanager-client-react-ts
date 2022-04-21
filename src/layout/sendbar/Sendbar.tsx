@@ -7,6 +7,8 @@ import { useCreatePostMutation } from '../../store/api/posts.api'
 import * as CommonIcons from '../../assets/icons/common-icons'
 
 import TextareaAutosize from 'react-textarea-autosize'
+import { useGetReelsByProjectIdQuery } from '../../store/api/reels.api'
+import { useGetShotsByProjectIdQuery } from '../../store/api/shots.api'
 
 const SendbarContainer = styled.div`
   display: flex;
@@ -19,16 +21,26 @@ const SendbarContainer = styled.div`
 export interface IPostData extends Partial<IPost> {
   projectId: number
   reelId?: number
+  reelsIds?: number[]
+  shotId?: number
+  shotsIds?: number[]
 }
 
 export const Sendbar: FC<IPostData> = ({ projectId }) => {
   const user = useAppSelector(state => state.auth.authUser)
-  const { activeReelId } = useAppSelector(state => state.entities)
+  const { activeReelId, activeShotId, activeProjectId } = useAppSelector(state => state.entities)
+  const { data: reels, refetch: refetchReels } = useGetReelsByProjectIdQuery(activeProjectId)
+  const { data: shots, refetch: refetchShots } = useGetShotsByProjectIdQuery(activeProjectId)
+  // const { data: shot, refetch: refetchShot } = useGetShot
   const [createPost, { data: createdPost, isSuccess, isError, error }] = useCreatePostMutation()
+
+  const reelsIds = shots?.find(shot => shot.id === activeShotId)?.reels?.map(reel => reel.id) || []
 
   const postDataInit: IPostData = {
     projectId: projectId,
     reelId: activeReelId || null,
+    shotId: activeShotId || null,
+    shotsIds: [activeShotId] || null,
     createdBy: user,
   }
 
@@ -37,12 +49,13 @@ export const Sendbar: FC<IPostData> = ({ projectId }) => {
 
   const onChangeHandler = (key, target) => {
     setMessage(target.value)
-    setPostData({ ...postData, reelId: activeReelId, [key]: target.value })
+    setPostData({ ...postData, [key]: target.value })
   }
 
   const onSubmitHandler = async e => {
     e.preventDefault()
-    await createPost(postData)
+
+    await createPost({ ...postData, shotsIds: [activeShotId], reelsIds: [...reelsIds, activeReelId] })
     setMessage('')
     setPostData(postDataInit)
   }

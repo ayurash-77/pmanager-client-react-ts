@@ -4,7 +4,7 @@ import { getFetchBaseQuery } from './getFetchBaseQuery'
 
 export const rolesApi = createApi({
   reducerPath: 'rolesApi',
-  refetchOnFocus: true,
+  // refetchOnFocus: true,
   tagTypes: ['Roles'],
   baseQuery: getFetchBaseQuery(),
   endpoints: build => ({
