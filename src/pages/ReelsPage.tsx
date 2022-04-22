@@ -8,7 +8,6 @@ import { IShot } from '../interfaces/IShot'
 import { useEffect, useRef, useState } from 'react'
 import { IReel } from '../interfaces/IReel'
 import {
-  setActiveReelId,
   setActiveReelsIds,
   setActiveShotId,
   setDragShot,
@@ -28,11 +27,12 @@ import { motion, AnimatePresence, AnimateSharedLayout, Reorder } from 'framer-mo
 import { setReelsBlockExpanded } from '../store/reducers/ui.reducer'
 
 ////////////////////////////////////////////////////////////////////////
-// GraphPage
+// ReelsPage
 ////////////////////////////////////////////////////////////////////////
 
 export const ReelsPage = () => {
   const dispatch = useAppDispatch()
+  const bottomDivRef = useRef(null)
 
   const { id } = useParams()
   const { reelsBlock } = useAppSelector(state => state.ui)
@@ -41,7 +41,7 @@ export const ReelsPage = () => {
   const { data: posts, refetch: refetchPosts } = useGetPostsByProjectIdQuery(+id)
 
   const { data: reels, refetch: refetchReels, status: statusReels } = useGetReelsByProjectIdQuery(+id)
-  const { data: shots, refetch: refetchShots } = useGetShotsByProjectIdQuery(+id)
+  const { data: shots, refetch: refetchShots, status: statusShots } = useGetShotsByProjectIdQuery(+id)
 
   const [updateReel, { isSuccess: isSuccessUpdateReel }] = useUpdateReelMutation()
 
@@ -50,9 +50,12 @@ export const ReelsPage = () => {
       ? posts?.filter(post => post.reels?.find(reel => reel.id === activeReelsIds[0]))
       : posts
 
-  const postsByShot = activeShotId //
+  const postsByShot = activeShotId
     ? postsByReel?.filter(post => post.shots.find(shot => shot.id === activeShotId))
     : postsByReel
+
+  const [reelsOrdered, setReelsOrdered] = useState([])
+  const [shotsOrdered, setShotsOrdered] = useState([])
 
   const onDragStartHandler = (e, shot: IShot, reel?: IReel) => {
     dispatch(setDragShot(shot))
@@ -60,28 +63,17 @@ export const ReelsPage = () => {
     if (reel) dispatch(setDropReel(reel))
   }
 
-  const onDragLeaveHandler = (e, shot) => {
-    //
-  }
-
   const onDragEndHandler = e => {
     // console.log('DragEnd', e.target)
   }
 
-  const onDragOverHandler = e => {
-    e.preventDefault()
-  }
-
   const onDropHandler = (e, reel: IReel) => {
+    e.preventDefault()
     if (reel) {
       dispatch(setDropReel(reel))
       dispatch(setActiveReelsIds([reel.id]))
     }
-
-    e.preventDefault()
-
-    const updatedShots = [...reel.shots, dragShot]
-    const updatedReel = { ...reel, shots: updatedShots }
+    const updatedReel = { ...reel, shots: { ...reel.shots, dragShot } }
     updateReel(updatedReel)
   }
 
@@ -94,7 +86,6 @@ export const ReelsPage = () => {
       dispatch(setActiveReelsIds([dropReel.id]))
     }
   }
-
   // const reelsIds = shots?.find(shot => shot.id === activeShotId)?.reels?.map(reel => reel.id) || []
 
   const onShotClickHandler = id => {
@@ -106,13 +97,9 @@ export const ReelsPage = () => {
     dispatch(setActiveReelsIds(reelsIds))
   }
 
-  const [items, setItems] = useState([])
-
-  const bottomDivRef = useRef(null)
-
   useEffect(() => {
     if (statusReels === 'fulfilled') {
-      setItems(reels)
+      setReelsOrdered(reels)
     }
     if (isSuccessUpdateReel) {
       dispatch(setDragShot(null))
@@ -129,7 +116,7 @@ export const ReelsPage = () => {
 
   useEffect(() => {
     timeout(170).then(r => bottomDivRef.current?.scrollIntoView({ behavior: 'smooth' }))
-  }, [items, posts, activeReelsIds])
+  }, [reelsOrdered, posts, activeReelsIds])
 
   ////////////////////////////////////////////////////////////////////////
 
@@ -147,12 +134,12 @@ export const ReelsPage = () => {
           <Reorder.Group
             as={'div'}
             axis={'y'}
-            values={items}
-            onReorder={setItems}
+            values={reelsOrdered}
+            onReorder={setReelsOrdered}
             style={{ display: 'flex', flexDirection: 'column', gap: 4 }}
           >
             {project &&
-              items?.map(reel => (
+              reelsOrdered?.map(reel => (
                 <Reorder.Item key={reel.id} value={reel}>
                   <div onDrop={e => onDropHandler(e, reel)} onDragOver={e => e.preventDefault()}>
                     <Timeline title={`${reel.code}`} reel={reel}>
