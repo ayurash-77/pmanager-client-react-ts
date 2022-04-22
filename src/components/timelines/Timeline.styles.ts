@@ -1,7 +1,8 @@
 import styled from 'styled-components'
 
 export const TimelineContainer = styled.div`
-  padding: 5px 0;
+  //padding: 5px 0;
+  margin-bottom: 5px;
   display: flex;
   flex-direction: column;
 
@@ -13,6 +14,7 @@ export const TimelineContainer = styled.div`
     color: var(--text-mid);
     cursor: pointer;
     gap: 5px;
+    margin: 0 2px;
 
     &.active {
       color: var(--ribbon-reel-fg);
@@ -22,13 +24,14 @@ export const TimelineContainer = styled.div`
 
   .timelineRow {
     display: flex;
-    gap: 8px;
+
     min-width: 30px;
     border-radius: 8px;
     border: solid 1px var(--timeline-row-border);
     box-shadow: inset 0 2px 5px var(--timeline-row-shadow-inner);
     background: var(--timeline-row-bg);
     padding: 2px;
+    margin: 0 -1px;
 
     .timelineItems {
       transition: 200ms;

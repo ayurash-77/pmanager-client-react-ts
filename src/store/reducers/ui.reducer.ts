@@ -15,6 +15,14 @@ export interface ISidebar {
   show: boolean
 }
 
+export interface IReelsBlock {
+  expanded: boolean
+}
+
+export interface IRibbonReels {
+  expanded: boolean
+}
+
 type activeMenuType =
   | '/projects'
   | 'overview'
@@ -37,16 +45,20 @@ export interface IInitialState {
   theme: { darkMode: boolean }
   projectsViewMode: IProjectsViewMode
   filterBar: IFilterbar
-  sidebar: ISidebar
   menubar: IMenubar
+  sidebar: ISidebar
+  reelsBlock: IReelsBlock
+  ribbonReels: IRibbonReels
   searchProjectsFilter?: string
 }
 
 const themeInLocalStorage = localStorage.getItem('darkMode')
 const projectsViewModeInLocalStorage = localStorage.getItem('projectsViewMode')
 const filterBarInLocalStorage = localStorage.getItem('filterBar')
-const sidebarInLocalStorage = localStorage.getItem('sidebar')
 const menubarInLocalStorage = localStorage.getItem('menubar')
+const sidebarInLocalStorage = localStorage.getItem('sidebar')
+const reelsBlockInLocalStorage = localStorage.getItem('reelsBlock')
+const ribbonReelsInLocalStorage = localStorage.getItem('ribbonReels')
 
 const filterBarInit = {
   show: false,
@@ -76,8 +88,10 @@ const filterBarInit = {
   },
 }
 
-const sidebarInit: ISidebar = { show: true }
 const menubarInit: IMenubar = { expanded: true, activeMenu: '/projects' }
+const sidebarInit: ISidebar = { show: true }
+const reelsBlockInit: IReelsBlock = { expanded: false }
+const ribbonReelsInit: IRibbonReels = { expanded: false }
 
 const initialState: IInitialState = {
   theme: { darkMode: themeInLocalStorage ? JSON.parse(themeInLocalStorage) : true },
@@ -85,6 +99,8 @@ const initialState: IInitialState = {
   filterBar: filterBarInLocalStorage ? JSON.parse(filterBarInLocalStorage) : filterBarInit,
   sidebar: sidebarInLocalStorage ? JSON.parse(sidebarInLocalStorage) : sidebarInit,
   menubar: menubarInLocalStorage ? JSON.parse(menubarInLocalStorage) : menubarInit,
+  reelsBlock: reelsBlockInLocalStorage ? JSON.parse(reelsBlockInLocalStorage) : reelsBlockInit,
+  ribbonReels: ribbonReelsInLocalStorage ? JSON.parse(ribbonReelsInLocalStorage) : ribbonReelsInit,
   searchProjectsFilter: null,
 }
 
@@ -117,6 +133,14 @@ export const uiSlice = createSlice({
       state.menubar.expanded = action.payload
       localStorage.setItem('menubar', JSON.stringify(state.menubar))
     },
+    setReelsBlockExpanded(state, action: PayloadAction<boolean>) {
+      state.reelsBlock.expanded = action.payload
+      localStorage.setItem('reelsBlock', JSON.stringify(state.reelsBlock))
+    },
+    setRibbonReelsExpanded(state, action: PayloadAction<boolean>) {
+      state.ribbonReels.expanded = action.payload
+      localStorage.setItem('ribbonReels', JSON.stringify(state.ribbonReels))
+    },
     setActiveMenu(state, action: PayloadAction<activeMenuType>) {
       state.menubar.activeMenu = action.payload
       localStorage.setItem('menubar', JSON.stringify(state.menubar))
@@ -136,5 +160,7 @@ export const {
   setMenubarExpanded,
   setActiveMenu,
   setSearchProjectsFilter,
+  setReelsBlockExpanded,
+  setRibbonReelsExpanded,
 } = uiSlice.actions
 export default uiSlice.reducer

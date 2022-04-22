@@ -28,17 +28,18 @@ export interface IPostData extends Partial<IPost> {
 
 export const Sendbar: FC<IPostData> = ({ projectId }) => {
   const user = useAppSelector(state => state.auth.authUser)
-  const { activeReelId, activeShotId, activeProjectId } = useAppSelector(state => state.entities)
+  const { activeReelsIds, activeShotId, activeProjectId } = useAppSelector(state => state.entities)
   const { data: reels, refetch: refetchReels } = useGetReelsByProjectIdQuery(activeProjectId)
   const { data: shots, refetch: refetchShots } = useGetShotsByProjectIdQuery(activeProjectId)
   // const { data: shot, refetch: refetchShot } = useGetShot
   const [createPost, { data: createdPost, isSuccess, isError, error }] = useCreatePostMutation()
 
-  const reelsIds = shots?.find(shot => shot.id === activeShotId)?.reels?.map(reel => reel.id) || []
+  const reelsIds =
+    shots?.find(shot => shot.id === activeShotId)?.reels?.map(reel => reel.id) || activeReelsIds
 
   const postDataInit: IPostData = {
     projectId: projectId,
-    reelId: activeReelId || null,
+    reelsIds: activeReelsIds,
     shotId: activeShotId || null,
     shotsIds: [activeShotId] || null,
     createdBy: user,
@@ -55,7 +56,7 @@ export const Sendbar: FC<IPostData> = ({ projectId }) => {
   const onSubmitHandler = async e => {
     e.preventDefault()
 
-    await createPost({ ...postData, shotsIds: [activeShotId], reelsIds: [...reelsIds, activeReelId] })
+    await createPost({ ...postData, shotsIds: [activeShotId], reelsIds: [...reelsIds] })
     setMessage('')
     setPostData(postDataInit)
   }

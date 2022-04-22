@@ -6,10 +6,10 @@ export const BodyContainer = styled.div`
   padding: 10px;
 
   //margin: 1px;
-  gap: 20px;
+  //gap: 20px;
   height: 100%;
   overflow: auto;
-  .child {
-    gap: 20px;
-  }
+  //.child {
+  //  gap: 20px;
+  //}
 `

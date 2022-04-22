@@ -1,9 +1,12 @@
 import { FC, useState } from 'react'
 import styled from 'styled-components'
 import cn from 'classnames'
-import { IconButton } from '../ui'
+import { FlexRow, IconButton } from '../ui'
 import * as CommonIcons from '../../assets/icons/common-icons'
 import { motion, AnimatePresence } from 'framer-motion'
+import { useAppDispatch } from '../../hooks/redux'
+import { setReelsBlockExpanded } from '../../store/reducers/ui.reducer'
+import { entityVariantType } from '../../types/entityVariantType'
 
 const ExpandedBlockContainer = styled.div`
   background: var(--expanded-block-reels-bg);
@@ -12,13 +15,35 @@ const ExpandedBlockContainer = styled.div`
 
   .body {
     display: flex;
-    padding: 6px 10px;
+    padding: 5px 10px;
     flex-direction: column;
+    gap: 15px;
   }
 `
 
-const Title = styled.h3`
+const RibbonHeader = styled.div`
   padding: 0 8px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 5px;
+
+  &.reelsType {
+    color: var(--ribbon-reelsType-fg);
+  }
+
+  &.reel {
+    color: var(--ribbon-reel-fg);
+  }
+
+  &.shot {
+    color: var(--ribbon-shot-fg);
+  }
+
+  background: var(--expanded-block-title-bg);
+`
+
+const Title = styled.h3`
   user-select: none;
   cursor: default;
   display: flex;
@@ -42,25 +67,33 @@ const Arrow = styled.div`
 
 interface IExpandedBlock {
   title?: string
+  expanded?: boolean
+  setExpanded?: (e) => void
+  variant?: entityVariantType
+  headerIcons?: JSX.Element
 }
 
 export const ExpandedBlock: FC<IExpandedBlock> = props => {
-  const { children, title } = props
+  const { children, title, expanded, setExpanded, headerIcons, variant = 'shot' } = props
 
-  const [expanded, setExpanded] = useState(false)
+  const dispatch = useAppDispatch()
 
   const onTitleClickHandler = () => {
-    setExpanded(!expanded)
+    dispatch(setReelsBlockExpanded(!expanded))
   }
 
   return (
     <ExpandedBlockContainer>
-      <Title onClick={onTitleClickHandler}>
-        <Arrow className={cn({ collapse: expanded !== true })}>
-          <IconButton icon={<CommonIcons.ArrDown />} />
-        </Arrow>
-        {title}
-      </Title>
+      <RibbonHeader className={cn(variant)}>
+        <Title onClick={setExpanded}>
+          <Arrow className={cn({ collapse: expanded !== true })}>
+            <IconButton icon={<CommonIcons.ArrDown />} />
+          </Arrow>
+          {title}
+        </Title>
+
+        <FlexRow gap={6}>{headerIcons}</FlexRow>
+      </RibbonHeader>
       <AnimatePresence initial={false}>
         {expanded && (
           <motion.div

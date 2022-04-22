@@ -6,7 +6,8 @@ import * as CommonIcons from '../../assets/icons/common-icons'
 import { IconButton } from '../ui'
 import { IReelsType } from '../../interfaces/IReelsType'
 import { FlexRow } from '../ui'
-import { useAppSelector } from '../../hooks/redux'
+import { useAppDispatch, useAppSelector } from '../../hooks/redux'
+import { ExpandedBlock } from '../expanded-block/ExpandedBlock'
 
 const RibbonContainer = styled.div`
   background: var(--expanded-block-reels-bg);
@@ -15,53 +16,10 @@ const RibbonContainer = styled.div`
   z-index: 1;
 `
 
-const RibbonHeader = styled.div`
-  padding: 0 8px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 5px;
-
-  &.reelsType {
-    color: var(--ribbon-reelsType-fg);
-  }
-
-  &.reel {
-    color: var(--ribbon-reel-fg);
-  }
-
-  &.shot {
-    color: var(--ribbon-shot-fg);
-  }
-
-  background: var(--expanded-block-title-bg);
-`
-
-const RibbonTitle = styled.h3`
-  height: 26px;
-  user-select: none;
-  cursor: default;
-  display: flex;
-  align-items: center;
-  gap: 5px;
-`
-
-const Arrow = styled.div`
-  transition: transform 250ms;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 10px;
-  transform: rotate(0);
-  &.collapse {
-    transform: rotate(-90deg);
-  }
-`
-
 const RibbonRow = styled.div`
   transition: height 250ms, opacity 150ms;
   display: flex;
-  height: 90px;
+  //height: 80px;
   &.collapse {
     height: 0;
     opacity: 0;
@@ -69,7 +27,7 @@ const RibbonRow = styled.div`
 `
 
 const RibbonEntities = styled.div`
-  margin: 5px 10px;
+  padding-bottom: 8px;
   min-width: 0;
   display: flex;
   gap: 20px;
@@ -99,42 +57,42 @@ export const RibbonWrapper: FC<IRibbonWrapper> = ({
   children,
   activeItemsIds = [],
 }) => {
-  const [expanded, setExpanded] = useState(true)
+  const dispatch = useAppDispatch()
+  const { reelsBlock } = useAppSelector(state => state.ui)
   const { authUser } = useAppSelector(state => state.auth)
+  const [expanded, setExpanded] = useState(true)
   const canDeleteItemRoles = ['Producer', 'Art director', 'Manager']
   const canDeleteItem = authUser.isAdmin || canDeleteItemRoles.includes(authUser.role.name)
 
-  const onTitleClickHandler = () => {
-    // if (expanded) disableActiveItem()
-    setExpanded(!expanded)
-  }
+  const headerIconsJsx = (
+    <>
+      {canDeleteItem && (
+        <IconButton
+          icon={<CommonIcons.Minus />}
+          disabled={activeItemsIds.length !== 1}
+          // variant={activeItemId ? 'accent' : null}
+
+          variant={'accent'}
+          onClick={activeItemsIds.length === 1 ? onClickMinus : null}
+        />
+      )}
+      <IconButton icon={<CommonIcons.Plus />} onClick={onClickPlus} />
+    </>
+  )
 
   return (
     <RibbonContainer>
-      <RibbonHeader className={cn(variant)}>
-        <RibbonTitle onClick={onTitleClickHandler}>
-          <Arrow className={cn({ collapse: expanded !== true })}>
-            <IconButton icon={<CommonIcons.ArrDown />} />
-          </Arrow>
-          {title}: {count}
-        </RibbonTitle>
-        <FlexRow gap={6}>
-          {canDeleteItem && (
-            <IconButton
-              icon={<CommonIcons.Minus />}
-              disabled={activeItemsIds.length !== 1}
-              // variant={activeItemId ? 'accent' : null}
-
-              variant={'accent'}
-              onClick={activeItemsIds.length === 1 ? onClickMinus : null}
-            />
-          )}
-          <IconButton icon={<CommonIcons.Plus />} onClick={onClickPlus} />
-        </FlexRow>
-      </RibbonHeader>
-      <RibbonRow className={cn({ collapse: expanded !== true })}>
-        <RibbonEntities>{children}</RibbonEntities>
-      </RibbonRow>
+      <ExpandedBlock
+        title={`${title}: ${count}`}
+        variant={'reel'}
+        expanded={expanded}
+        setExpanded={() => setExpanded(!expanded)}
+        headerIcons={headerIconsJsx}
+      >
+        <RibbonRow className={cn({ collapse: expanded !== true })}>
+          <RibbonEntities>{children}</RibbonEntities>
+        </RibbonRow>
+      </ExpandedBlock>
     </RibbonContainer>
   )
 }
