@@ -36,12 +36,22 @@ export const ReelsPage = () => {
 
   const { id } = useParams()
   const { reelsBlock } = useAppSelector(state => state.ui)
-  const { activeShotId, dragShot, dropReel, activeReelsIds } = useAppSelector(state => state.entities)
-  const { data: project, isFetching: isFetchingProject } = useGetProjectByIdQuery(+id)
-  const { data: posts, refetch: refetchPosts } = useGetPostsByProjectIdQuery(+id)
+  const { activeShotId, dragShot, dropReel, activeReelsIds, activeProjectId } = useAppSelector(
+    state => state.entities
+  )
+  const { data: project, isFetching: isFetchingProject } = useGetProjectByIdQuery(activeProjectId)
+  const { data: posts, refetch: refetchPosts } = useGetPostsByProjectIdQuery(activeProjectId)
 
-  const { data: reels, refetch: refetchReels, status: statusReels } = useGetReelsByProjectIdQuery(+id)
-  const { data: shots, refetch: refetchShots, status: statusShots } = useGetShotsByProjectIdQuery(+id)
+  const {
+    data: reels,
+    refetch: refetchReels,
+    status: statusReels,
+  } = useGetReelsByProjectIdQuery(activeProjectId)
+  const {
+    data: shots,
+    refetch: refetchShots,
+    status: statusShots,
+  } = useGetShotsByProjectIdQuery(activeProjectId)
 
   const [updateReel, { isSuccess: isSuccessUpdateReel }] = useUpdateReelMutation()
 
@@ -115,7 +125,7 @@ export const ReelsPage = () => {
   }
 
   useEffect(() => {
-    timeout(170).then(r => bottomDivRef.current?.scrollIntoView({ behavior: 'smooth' }))
+    timeout(200).then(r => bottomDivRef.current?.scrollIntoView({ behavior: 'smooth' }))
   }, [reelsOrdered, posts, activeReelsIds])
 
   ////////////////////////////////////////////////////////////////////////
@@ -172,7 +182,7 @@ export const ReelsPage = () => {
                     key={post.id}
                     initial={{ height: 0, opacity: 0 }}
                     exit={{ height: 0, opacity: 0 }}
-                    transition={{ type: 'tween', duration: 0.15 }}
+                    transition={{ type: 'tween', duration: 0.1 }}
                     animate={{ height: 'auto', opacity: 1 }}
                   >
                     <Post

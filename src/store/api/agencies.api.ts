@@ -1,12 +1,7 @@
-import { createApi } from '@reduxjs/toolkit/query/react'
 import { IAgency } from '../../interfaces/IAgency'
-import { getFetchBaseQuery } from './getFetchBaseQuery'
+import { baseApi } from './base.api'
 
-export const agenciesApi = createApi({
-  reducerPath: 'agenciesApi',
-  // refetchOnFocus: true,
-  tagTypes: ['Agencies'],
-  baseQuery: getFetchBaseQuery(),
+export const agenciesApi = baseApi.injectEndpoints({
   endpoints: build => ({
     getAllAgencies: build.query<IAgency[], void>({
       query: () => ({ url: `agencies` }),

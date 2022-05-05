@@ -1,11 +1,7 @@
-import { createApi } from '@reduxjs/toolkit/query/react'
 import { IJob } from '../../interfaces/IJob'
-import { getFetchBaseQuery } from './getFetchBaseQuery'
+import { baseApi } from './base.api'
 
-export const jobsApi = createApi({
-  reducerPath: 'jobsApi',
-  tagTypes: ['Jobs'],
-  baseQuery: getFetchBaseQuery(),
+export const jobsApi = baseApi.injectEndpoints({
   endpoints: build => ({
     getJobs: build.query<IJob[], void>({
       query: () => ({ url: `jobs` }),

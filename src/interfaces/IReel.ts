@@ -11,6 +11,7 @@ export interface IReel {
   projectId: number
   createdAt?: Date
   updatedAt?: Date
+  highPriority: boolean
   progress: number
   status?: IStatus
   startAt?: any

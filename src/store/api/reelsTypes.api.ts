@@ -1,33 +1,28 @@
-import { createApi } from '@reduxjs/toolkit/query/react'
 import { IReelsType } from '../../interfaces/IReelsType'
-import { getFetchBaseQuery } from './getFetchBaseQuery'
 import { IReelsTypeCreateDto } from '../../interfaces/IReelsTypeCreateDto'
+import { baseApi } from './base.api'
 
-export const reelsTypesApi = createApi({
-  reducerPath: 'reelsTypesApi',
-  // refetchOnFocus: true,
-  tagTypes: ['reelsTypes'],
-  baseQuery: getFetchBaseQuery(),
+export const reelsTypesApi = baseApi.injectEndpoints({
   endpoints: build => ({
     getAllReelsTypes: build.query<IReelsType[], void>({
       query: () => ({ url: `reels-types` }),
       providesTags: result =>
         result
           ? [
-              ...result.map(({ id }) => ({ type: 'reelsTypes' as const, id })),
-              { type: 'reelsTypes', id: 'LIST' },
+              ...result.map(({ id }) => ({ type: 'ReelsTypes' as const, id })),
+              { type: 'ReelsTypes', id: 'LIST' },
             ]
-          : [{ type: 'reelsTypes', id: 'LIST' }],
+          : [{ type: 'ReelsTypes', id: 'LIST' }],
     }),
     getReelsTypesByProjectId: build.query<IReelsType[], number>({
       query: projectId => ({ url: `reels-types/projects/${projectId}` }),
       providesTags: result =>
         result
           ? [
-              ...result.map(({ id }) => ({ type: 'reelsTypes' as const, id })),
-              { type: 'reelsTypes', id: 'LIST' },
+              ...result.map(({ id }) => ({ type: 'ReelsTypes' as const, id })),
+              { type: 'ReelsTypes', id: 'LIST' },
             ]
-          : [{ type: 'reelsTypes', id: 'LIST' }],
+          : [{ type: 'ReelsTypes', id: 'LIST' }],
     }),
     createReelsTypes: build.mutation<IReelsType, IReelsTypeCreateDto>({
       query: reelsType => ({
@@ -35,14 +30,14 @@ export const reelsTypesApi = createApi({
         method: 'POST',
         body: reelsType,
       }),
-      invalidatesTags: [{ type: 'reelsTypes', id: 'LIST' }],
+      invalidatesTags: [{ type: 'ReelsTypes', id: 'LIST' }],
     }),
     deleteReelsType: build.mutation<IReelsType, number>({
       query: id => ({
         url: `reels-types/${id}`,
         method: 'DELETE',
       }),
-      invalidatesTags: [{ type: 'reelsTypes', id: 'LIST' }],
+      invalidatesTags: [{ type: 'ReelsTypes', id: 'LIST' }],
     }),
   }),
 })

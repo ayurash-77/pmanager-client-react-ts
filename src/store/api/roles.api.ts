@@ -1,12 +1,7 @@
-import { createApi } from '@reduxjs/toolkit/query/react'
 import { IRole } from '../../interfaces/IRole'
-import { getFetchBaseQuery } from './getFetchBaseQuery'
+import { baseApi } from './base.api'
 
-export const rolesApi = createApi({
-  reducerPath: 'rolesApi',
-  // refetchOnFocus: true,
-  tagTypes: ['Roles'],
-  baseQuery: getFetchBaseQuery(),
+export const rolesApi = baseApi.injectEndpoints({
   endpoints: build => ({
     getAllRoles: build.query<IRole[], void>({
       query: () => ({ url: `roles` }),

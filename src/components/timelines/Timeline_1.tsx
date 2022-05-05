@@ -19,16 +19,21 @@ import { useGetShotsByReelIdQuery } from '../../store/api/shots.api'
 interface ITimelineWrapper {
   title: string
   reel: IReel
-  refetchReels?: () => void
-  // updateReel?: (e) => void
 }
 
-export const Timeline: FC<ITimelineWrapper> = ({ title, reel, refetchReels }) => {
+export const Timeline: FC<ITimelineWrapper> = ({ title, reel }) => {
   const dispatch = useAppDispatch()
 
-  const { activeProjectId, activeReelsIds, activeShotId, dragShot } = useAppSelector(state => state.entities)
+  const { activeProjectId, activeReelsIds, activeShotId } = useAppSelector(state => state.entities)
+  const {
+    data: reels,
+    refetch: refetchReels,
+    status: statusReels,
+  } = useGetReelsByProjectIdQuery(activeProjectId)
 
-  const [updateReel, { isSuccess: isSuccessUpdateReel, data: updatedReel, status }] = useUpdateReelMutation()
+  const { data: shots, status: statusShots } = useGetShotsByReelIdQuery(reel.id)
+
+  const [updateReel, { isSuccess: isSuccessUpdateReel, data: reelUpdated }] = useUpdateReelMutation()
 
   const onTitleClickHandler = id => {
     dispatch(setActiveReelsIds(activeReelsIds.length === 1 && activeReelsIds[0] === id ? [] : [id]))
@@ -36,7 +41,16 @@ export const Timeline: FC<ITimelineWrapper> = ({ title, reel, refetchReels }) =>
     dispatch(setActiveReelsTypeId(null))
   }
 
-  const [shotsOrdered, setShotsOrdered] = useState(reel.shots)
+  const [shotsOrdered, setShotsOrdered] = useState([])
+
+  const onShotClickHandler = id => {
+    const currentShotId = activeShotId === id ? null : id
+    dispatch(setActiveShotId(currentShotId))
+    const reelsIds = reels
+      ?.filter(reel => reel.shots?.find(shot => shot.id === currentShotId))
+      .map(reel => reel.id)
+    dispatch(setActiveReelsIds(reelsIds))
+  }
 
   const onDragStartHandler = (e, shot: IShot, reel?: IReel) => {
     dispatch(setDragShot(shot))
@@ -44,34 +58,27 @@ export const Timeline: FC<ITimelineWrapper> = ({ title, reel, refetchReels }) =>
     if (reel) dispatch(setDropReel(reel))
   }
 
-  const onDragEndHandler = () => {
+  const onDragEndHandler = e => {
     // console.log('DragEnd', e.target)
   }
 
-  const onReorderHandler = shots => {
-    const updatedReel = { ...reel, shots: shots }
-    console.log(
-      'Updated Reel:  \t',
-      updatedReel.shots.map(shot => shot?.code)
-    )
-
-    updateReel(updatedReel)
-    setShotsOrdered(shots)
+  const onReorderHandler = e => {
+    setShotsOrdered(e)
   }
 
   useEffect(() => {
-    if (status === 'fulfilled') {
-      refetchReels()
-      console.log(
-        'Reel:  \t\t',
-        reel.shots.map(shot => shot?.code)
-      )
+    if (statusShots === 'fulfilled') {
+      setShotsOrdered(shots)
+      console.log('setShotsOrdered')
     }
+  }, [shots, statusShots])
+
+  useEffect(() => {
+    updateReel({ ...reel, shots: shotsOrdered })
+    console.log('updateReel')
   }, [shotsOrdered])
 
-  console.log(status, isSuccessUpdateReel)
-
-  /////////////////////////////////////////////////////////////////////
+  console.log(reelUpdated, reel)
 
   return (
     <TimelineContainer>
@@ -85,15 +92,25 @@ export const Timeline: FC<ITimelineWrapper> = ({ title, reel, refetchReels }) =>
       <div className={'timelineRow'}>
         <div className={cn('timelineItems', { active: activeReelsIds.includes(reel.id) })}>
           <Reorder.Group
-            as={'div'}
+            // as={'div'}
             axis={'x'}
             values={shotsOrdered}
-            onReorder={e => onReorderHandler(e)}
+            onReorder={setShotsOrdered}
             style={{ display: 'flex', gap: 4 }}
           >
             {shotsOrdered?.map(shot => (
               <Reorder.Item key={shot.id} value={shot}>
+                {/* <div */}
+                {/*   key={shot.id} */}
+                {/*   draggable={true} */}
+                {/*   className={'draggable'} */}
+                {/*   onClick={() => onShotClickHandler(shot.id)} */}
+                {/*   onDragStart={e => onDragStartHandler(e, shot, reel)} */}
+                {/*   onDragEnd={e => onDragEndHandler(e)} */}
+                {/*   onDragOver={e => e.preventDefault()} */}
+                {/* > */}
                 <EntityCardShot entity={shot} isSelected={activeShotId === shot.id} />
+                {/* </div> */}
               </Reorder.Item>
             ))}
           </Reorder.Group>

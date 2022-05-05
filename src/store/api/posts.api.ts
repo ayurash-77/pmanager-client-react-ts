@@ -1,13 +1,8 @@
-import { createApi } from '@reduxjs/toolkit/query/react'
 import { IPost } from '../../interfaces/IPost'
-import { getFetchBaseQuery } from './getFetchBaseQuery'
 import { IPostData } from '../../layout/sendbar/Sendbar'
+import { baseApi } from './base.api'
 
-export const postsApi = createApi({
-  reducerPath: 'postsApi',
-  refetchOnFocus: true,
-  tagTypes: ['Posts'],
-  baseQuery: getFetchBaseQuery(),
+export const postsApi = baseApi.injectEndpoints({
   endpoints: build => ({
     getAllPosts: build.query<IPost[], void>({
       query: () => ({ url: `posts` }),

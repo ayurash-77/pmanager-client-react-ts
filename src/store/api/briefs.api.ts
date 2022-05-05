@@ -1,15 +1,9 @@
-import { createApi } from '@reduxjs/toolkit/query/react'
 import { IBrief } from '../../interfaces/IBrief'
 import { IBriefData } from '../../modal/NewBriefModal'
 import { IBriefCategory } from '../../interfaces/IBriefCategory'
-import { getFetchBaseQuery } from './getFetchBaseQuery'
+import { baseApi } from './base.api'
 
-export const briefsApi = createApi({
-  reducerPath: 'briefsApi',
-  // refetchOnFocus: true,
-  tagTypes: ['briefs', 'brief', 'briefCategories', 'project'],
-  baseQuery: getFetchBaseQuery(),
-
+export const briefsApi = baseApi.injectEndpoints({
   endpoints: build => ({
     getAllBriefs: build.query<IBrief[], void>({
       query: () => ({ url: `briefs` }),
@@ -24,7 +18,7 @@ export const briefsApi = createApi({
         url: `briefs/${id}`,
         method: 'GET',
       }),
-      providesTags: (result, error, id) => [{ type: 'brief', id }],
+      providesTags: (result, error, id) => [{ type: 'briefs', id }],
     }),
     createBrief: build.mutation<IBrief, IBriefData>({
       query: brief => ({
@@ -32,14 +26,14 @@ export const briefsApi = createApi({
         method: 'POST',
         body: brief,
       }),
-      invalidatesTags: ['briefs', 'project'],
+      invalidatesTags: ['briefs', 'Projects'],
     }),
     deleteBrief: build.mutation<IBrief, number>({
       query: id => ({
         url: `briefs/${id}`,
         method: 'DELETE',
       }),
-      invalidatesTags: ['briefs', 'project'],
+      invalidatesTags: ['briefs', 'Projects'],
     }),
   }),
 })

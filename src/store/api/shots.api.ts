@@ -1,13 +1,8 @@
-import { createApi } from '@reduxjs/toolkit/query/react'
 import { IShot } from '../../interfaces/IShot'
-import { getFetchBaseQuery } from './getFetchBaseQuery'
 import { IShotCreateDto } from '../../interfaces/IShotCreateDto'
+import { baseApi } from './base.api'
 
-export const shotsApi = createApi({
-  reducerPath: 'shotsApi',
-  // refetchOnFocus: true,
-  tagTypes: ['Shots'],
-  baseQuery: getFetchBaseQuery(),
+export const shotsApi = baseApi.injectEndpoints({
   endpoints: build => ({
     getAllShots: build.query<IShot[], void>({
       query: () => ({ url: `shots` }),
@@ -18,6 +13,13 @@ export const shotsApi = createApi({
     }),
     getShotsByProjectId: build.query<IShot[], number>({
       query: projectId => ({ url: `shots/projects/${projectId}` }),
+      providesTags: result =>
+        result
+          ? [...result.map(({ id }) => ({ type: 'Shots' as const, id })), { type: 'Shots', id: 'LIST' }]
+          : [{ type: 'Shots', id: 'LIST' }],
+    }),
+    getShotsByReelId: build.query<IShot[], number>({
+      query: reelId => ({ url: `shots/reels/${reelId}` }),
       providesTags: result =>
         result
           ? [...result.map(({ id }) => ({ type: 'Shots' as const, id })), { type: 'Shots', id: 'LIST' }]
@@ -44,6 +46,7 @@ export const shotsApi = createApi({
 export const {
   useGetAllShotsQuery,
   useGetShotsByProjectIdQuery,
+  useGetShotsByReelIdQuery,
   useCreateShotMutation,
   useDeleteShotMutation,
 } = shotsApi

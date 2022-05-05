@@ -47,6 +47,11 @@ export const ReelsPage = () => {
     refetch: refetchReels,
     status: statusReels,
   } = useGetReelsByProjectIdQuery(activeProjectId)
+  const {
+    data: shots,
+    refetch: refetchShots,
+    status: statusShots,
+  } = useGetShotsByProjectIdQuery(activeProjectId)
 
   const [updateReel, { isSuccess: isSuccessUpdateReel }] = useUpdateReelMutation()
 
@@ -67,20 +72,59 @@ export const ReelsPage = () => {
     if (reel) dispatch(setDropReel(reel))
   }
 
+  const onDragEndHandler = e => {
+    // console.log('DragEnd', e.target)
+  }
+
+  const onDropHandler = (e, reel: IReel) => {
+    e.preventDefault()
+    if (reel) {
+      dispatch(setDropReel(reel))
+      dispatch(setActiveReelsIds([reel.id]))
+    }
+    const updatedReel = { ...reel, shots: { ...reel.shots, dragShot } }
+    updateReel(updatedReel)
+  }
+
   const removeShotHandler = e => {
     e.preventDefault()
-    // if (dropReel) {
-    //   const updatedShots: IShot[] = dropReel?.shots?.filter(shot => shot.id !== dragShot.id)
-    //   const updatedReel: IReel = { ...dropReel, shots: updatedShots }
-    //   updateReel(updatedReel)
-    //   dispatch(setActiveReelsIds([dropReel.id]))
-    // }
+    if (dropReel) {
+      const updatedShots: IShot[] = dropReel?.shots?.filter(shot => shot.id !== dragShot.id)
+      const updatedReel: IReel = { ...dropReel, shots: updatedShots }
+      updateReel(updatedReel)
+      dispatch(setActiveReelsIds([dropReel.id]))
+    }
   }
   // const reelsIds = shots?.find(shot => shot.id === activeShotId)?.reels?.map(reel => reel.id) || []
 
+  const onShotClickHandler = id => {
+    const currentShotId = activeShotId === id ? null : id
+    dispatch(setActiveShotId(currentShotId))
+    const reelsIds = reels
+      ?.filter(reel => reel.shots?.find(shot => shot.id === currentShotId))
+      .map(reel => reel.id)
+    dispatch(setActiveReelsIds(reelsIds))
+  }
+
   useEffect(() => {
-    bottomDivRef.current?.scrollIntoView({ behavior: 'smooth' })
-  }, [reels, posts, activeReelsIds])
+    if (statusReels === 'fulfilled') {
+      setReelsOrdered(reels)
+    }
+    if (isSuccessUpdateReel) {
+      dispatch(setDragShot(null))
+      dispatch(setDropReel(null))
+      dispatch(setActiveShotId(null))
+      refetchReels()
+    }
+  }, [dispatch, isSuccessUpdateReel, reels, refetchPosts, statusReels])
+
+  function timeout(delay: number) {
+    return new Promise(res => setTimeout(res, delay))
+  }
+
+  useEffect(() => {
+    timeout(200).then(r => bottomDivRef.current?.scrollIntoView({ behavior: 'smooth' }))
+  }, [reelsOrdered, posts, activeReelsIds])
 
   ////////////////////////////////////////////////////////////////////////
 
@@ -95,33 +139,47 @@ export const ReelsPage = () => {
           expanded={reelsBlock.expanded}
           setExpanded={() => dispatch(setReelsBlockExpanded(!reelsBlock.expanded))}
         >
-          {/* {project && */}
-          {/*   reels?.map(reel => ( */}
-          {/*     <div */}
-          {/*       key={reel.id} // */}
-          {/*       // onDrop={e => onDropHandler(e, reel)} */}
-          {/*       // onDragOver={e => e.preventDefault()} */}
-          {/*     > */}
-          {/*       <Timeline title={`${reel.code}`} reel={reel} /> */}
-          {/*     </div> */}
-          {/*   ))} */}
-          {project && reels && reels.length > 0 && (
-            <div
-              key={reels[1].id} //
-              // onDrop={e => onDropHandler(e, reel)}
-              // onDragOver={e => e.preventDefault()}
-            >
-              {reels[1] && (
-                <Timeline title={`${reels[1].code}`} reel={reels[1]} refetchReels={refetchReels} />
-              )}
-            </div>
-          )}
+          {project &&
+            reelsOrdered?.map(reel => (
+              <div
+                key={reel.id} //
+                // onDrop={e => onDropHandler(e, reel)}
+                // onDragOver={e => e.preventDefault()}
+              >
+                <Timeline title={`${reel.code}`} reel={reel} />
+              </div>
+            ))}
         </ExpandedBlock>
 
         <BodyContainer>
-          {postsByShot?.map(post => (
-            <Post key={post.id} {...post} />
-          ))}
+          <AnimateSharedLayout>
+            <motion.div layout>
+              <AnimatePresence initial={false}>
+                {postsByShot?.map(post => (
+                  <motion.div
+                    key={post.id}
+                    initial={{ height: 0, opacity: 0 }}
+                    exit={{ height: 0, opacity: 0 }}
+                    transition={{ type: 'tween', duration: 0.1 }}
+                    animate={{ height: 'auto', opacity: 1 }}
+                  >
+                    <Post
+                      id={post.id}
+                      message={post.message}
+                      createdAt={post.createdAt}
+                      updatedAt={post.updatedAt}
+                      createdBy={post.createdBy}
+                      reels={post.reels}
+                      shots={post.shots}
+                    >
+                      {post.message}
+                    </Post>
+                    <div style={{ height: 10 }} />
+                  </motion.div>
+                ))}
+              </AnimatePresence>
+            </motion.div>
+          </AnimateSharedLayout>
           <div ref={bottomDivRef} />
         </BodyContainer>
 

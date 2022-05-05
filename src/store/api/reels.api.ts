@@ -1,13 +1,8 @@
-import { createApi } from '@reduxjs/toolkit/query/react'
 import { IReel } from '../../interfaces/IReel'
 import { IReelCreateDto } from '../../interfaces/IReelCreateDto'
-import { getFetchBaseQuery } from './getFetchBaseQuery'
+import { baseApi } from './base.api'
 
-export const reelsApi = createApi({
-  reducerPath: 'reelsApi',
-  // refetchOnFocus: true,
-  tagTypes: ['Reels'],
-  baseQuery: getFetchBaseQuery(),
+export const reelsApi = baseApi.injectEndpoints({
   endpoints: build => ({
     getAllReels: build.query<IReel[], void>({
       query: () => ({ url: `reels` }),

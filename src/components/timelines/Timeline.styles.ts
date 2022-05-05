@@ -25,7 +25,6 @@ export const TimelineContainer = styled.div`
   .timelineRow {
     display: flex;
 
-    min-width: 30px;
     border-radius: 8px;
     border: solid 1px var(--timeline-row-border);
     box-shadow: inset 0 2px 5px var(--timeline-row-shadow-inner);
@@ -35,7 +34,8 @@ export const TimelineContainer = styled.div`
 
     .timelineItems {
       transition: 200ms;
-      min-width: 30px;
+      min-width: 20px;
+      min-height: 66px;
       display: flex;
       gap: 2px;
       align-items: center;

@@ -27,7 +27,7 @@ export const RibbonReels = ({ entities, project }: { entities: IReel[]; project:
   const [deleteReel, { error, isSuccess, reset }] = useDeleteReelMutation()
   const errorJsx = ErrorList(error && 'data' in error ? error.data.message : [])
 
-  const { activeReelId, activeReelsIds } = useAppSelector(state => state.entities)
+  const { activeReelsIds } = useAppSelector(state => state.entities)
 
   const [isNewReelModalShow, setNewReelModalShow] = useState(false)
   const [isDeleteModalShow, setDeleteModalShow] = useState(false)
@@ -39,14 +39,14 @@ export const RibbonReels = ({ entities, project }: { entities: IReel[]; project:
     dispatch(setActiveReelsTypeId(null))
   }
 
-  const activeReel = entities?.find(entity => entity.id === activeReelId) || null
+  const activeReel = entities?.find(entity => activeReelsIds.includes(entity.id)) || null
   const detailsJsx = activeReel && <InfoReelBlock {...activeReel} />
 
   const navigate = useNavigate()
 
   const onDeleteHandler = e => {
     e.preventDefault()
-    deleteReel(activeReelId)
+    deleteReel(activeReel.id)
   }
 
   const onCancelHandler = () => {

@@ -1,12 +1,7 @@
-import { createApi } from '@reduxjs/toolkit/query/react'
 import { ITag } from '../../interfaces/ITag'
-import { getFetchBaseQuery } from './getFetchBaseQuery'
+import { baseApi } from './base.api'
 
-export const tagsApi = createApi({
-  reducerPath: 'tagsApi',
-  // refetchOnFocus: true,
-  tagTypes: ['Tags'],
-  baseQuery: getFetchBaseQuery(),
+export const tagsApi = baseApi.injectEndpoints({
   endpoints: build => ({
     getAllTags: build.query<ITag[], void>({
       query: () => ({ url: `tags` }),

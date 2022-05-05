@@ -1,12 +1,7 @@
-import { createApi } from '@reduxjs/toolkit/query/react'
 import { IUser } from '../../interfaces/IUser'
-import { getFetchBaseQuery } from './getFetchBaseQuery'
+import { baseApi } from './base.api'
 
-export const usersApi = createApi({
-  reducerPath: 'usersApi',
-  // refetchOnFocus: true,
-  tagTypes: ['Users'],
-  baseQuery: getFetchBaseQuery(),
+export const usersApi = baseApi.injectEndpoints({
   endpoints: build => ({
     getAllUsers: build.query<IUser[], void>({
       query: () => ({ url: `users` }),
@@ -41,7 +36,7 @@ export const usersApi = createApi({
         method: 'PATCH',
         body: user,
       }),
-      invalidatesTags: (result, error, arg) => [{ type: 'Users', id: arg.id }],
+      invalidatesTags: (result, error, arg) => [{ type: 'Users', id: arg.id }, { type: 'Posts' }],
     }),
 
     updateUser: build.mutation<IUser, Partial<IUser>>({

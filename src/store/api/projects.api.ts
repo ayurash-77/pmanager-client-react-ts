@@ -1,13 +1,7 @@
-import { createApi } from '@reduxjs/toolkit/query/react'
 import { IProject } from '../../interfaces/IProject'
-import { getFetchBaseQuery } from './getFetchBaseQuery'
+import { baseApi } from './base.api'
 
-export const projectsApi = createApi({
-  reducerPath: 'projectsApi',
-  refetchOnFocus: true,
-  tagTypes: ['Projects'],
-  baseQuery: getFetchBaseQuery(),
-
+export const projectsApi = baseApi.injectEndpoints({
   endpoints: build => ({
     getAllProjects: build.query<IProject[], void>({
       query: () => ({ url: `projects` }),

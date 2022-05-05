@@ -1,6 +1,8 @@
 import styled from 'styled-components'
 import Image from '../ui/Image'
 import { UserThumbnail } from '../../assets/thumbnails/thumbnails'
+import { IUser } from '../../interfaces/IUser'
+import { apiBaseUrl } from '../../constants/env'
 
 const Container = styled.div`
   display: flex;
@@ -18,14 +20,14 @@ const Container = styled.div`
 `
 
 interface IUserPic {
-  src: string
-  name: string
+  user: IUser
 }
 
-export const UserPic = ({ src, name }: IUserPic) => {
+export const UserPic = ({ user }: IUserPic) => {
+  const imageSrc = `${apiBaseUrl}/${user?.image}`
   return (
     <Container>
-      <Image src={src} alt={name} fallback={<UserThumbnail />} width={64} />
+      {user && <Image src={imageSrc} alt={user.name} fallback={<UserThumbnail />} width={64} />}
     </Container>
   )
 }

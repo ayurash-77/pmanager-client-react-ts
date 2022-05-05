@@ -74,15 +74,15 @@ export const GraphPage = () => {
     }
   }
 
-  useEffect(() => {
-    if (isSuccess) {
-      dispatch(setDragShot(null))
-      dispatch(setDropReel(null))
-      dispatch(setActiveShotId(null))
-      refetchReels()
-      refetchShots()
-    }
-  }, [dispatch, isSuccess, refetchReels, refetchShots])
+  // useEffect(() => {
+  //   if (isSuccess) {
+  //     dispatch(setDragShot(null))
+  //     dispatch(setDropReel(null))
+  //     dispatch(setActiveShotId(null))
+  //     refetchReels()
+  //     refetchShots()
+  //   }
+  // }, [dispatch, isSuccess, refetchReels, refetchShots])
 
   ////////////////////////////////////////////////////////////////////////
 

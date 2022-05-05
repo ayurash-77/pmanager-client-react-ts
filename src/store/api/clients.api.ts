@@ -1,12 +1,7 @@
-import { createApi } from '@reduxjs/toolkit/query/react'
 import { IClient } from '../../interfaces/IClient'
-import { getFetchBaseQuery } from './getFetchBaseQuery'
+import { baseApi } from './base.api'
 
-export const clientsApi = createApi({
-  reducerPath: 'clientsApi',
-  // refetchOnFocus: true,
-  tagTypes: ['Clients'],
-  baseQuery: getFetchBaseQuery(),
+export const clientsApi = baseApi.injectEndpoints({
   endpoints: build => ({
     getAllClients: build.query<IClient[], void>({
       query: () => ({ url: `clients` }),

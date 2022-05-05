@@ -20,11 +20,13 @@ export const Post: FC<IPost> = props => {
 
   const [deletePost, { isSuccess }] = useDeletePostMutation()
   const { authUser } = useAppSelector(state => state.auth)
-  const { data: user } = useGetUserByIdQuery(createdBy.id)
+  // const { data: user } = useGetUserByIdQuery(createdBy.id)
   // const [fullName, setFullName] = useState(`${createdBy.name} ${createdBy.surname}`)
 
-  const fullName = `${user?.name} ${user?.surname}`
-  const printName = fullName.trim().length > 0 ? fullName : user?.username
+  const currentUser = authUser.id === createdBy?.id ? authUser : createdBy
+
+  const fullName = `${currentUser?.name} ${currentUser?.surname}`
+  const printName = fullName.trim().length > 0 ? fullName : currentUser?.username
   const dispatch = useAppDispatch()
   const navigate = useNavigate()
 
@@ -37,77 +39,63 @@ export const Post: FC<IPost> = props => {
   const onShotClickHandler = shotId => {
     dispatch(setActiveMenu('shots'))
     dispatch(setActiveShotId(shotId))
-    navigate(`/project/${activeProjectId}/shots/${shotId}`)
+    // navigate(`/project/${activeProjectId}/shots/${shotId}`)
   }
 
-  const isOwner = authUser.isAdmin || authUser.id === user.id
+  const userCanEdit = authUser.isAdmin || authUser.id === createdBy?.id
 
   const onClickPlus = () => {
     //
   }
   const deletePostHandler = () => {
-    if (menuVisible && isOwner) deletePost(id)
+    if (menuVisible && userCanEdit) deletePost(id)
   }
   const editPostHandler = () => {
-    if (menuVisible && isOwner) console.log('editPostHandler clicked')
+    if (menuVisible && userCanEdit) console.log('editPostHandler clicked')
   }
-
-  const imageSrc = `${apiBaseUrl}/${user?.image}`
 
   const [menuVisible, setMenuVisible] = useState(false)
 
-  // useEffect(() => {
-  //   // console.log(authUser)
-  //   // setFullName(`${authUser.name} ${authUser.surname}`)
-  //   // setUser(createdBy)
-  // }, [authUser])
-
   return (
-    <>
-      <Container>
-        <UserPic src={imageSrc} name={'UserName'} />
-        <PostBlock>
-          <PostHeader>
-            <Username>{printName}</Username>
-            <InfoDateTime dateTime={createdAt} />
+    <Container>
+      <UserPic user={currentUser} />
+      <PostBlock>
+        <PostHeader>
+          <Username>{printName}</Username>
+          <InfoDateTime dateTime={createdAt} />
 
-            <PostMenu>
-              {isOwner && <div className={'menuOpen'} onClick={() => setMenuVisible(!menuVisible)} />}
+          <PostMenu>
+            {userCanEdit && <div className={'menuOpen'} onClick={() => setMenuVisible(!menuVisible)} />}
 
-              <div className={cn('menu', { hide: !menuVisible })}>
-                <div className={'item'} onClick={editPostHandler}>
-                  Edit post
-                </div>
-                <div className={'item accent'} onClick={deletePostHandler}>
-                  Delete post
-                </div>
-                {/* <div className={'item'}>Еще что то</div> */}
+            <div className={cn('menu', { hide: !menuVisible })}>
+              <div className={'item'} onClick={editPostHandler}>
+                Edit post
               </div>
-            </PostMenu>
-          </PostHeader>
-          <PostMessage>
-            <div className={'message'}>{message}</div>
-            <FlexRow align={'space-between'}>
-              <Tags>
-                {reels?.map(reel => (
-                  <div key={reel.id} className={'tag'} onClick={() => onReelClickHandler(reel.id)}>
-                    {reel.code}
-                  </div>
-                ))}
-                {shots?.map(shot => (
-                  <div
-                    key={shot.id}
-                    className={cn('tag', 'shot')}
-                    onClick={() => onReelClickHandler(shot.id)}
-                  >
-                    {shot.code}
-                  </div>
-                ))}
-              </Tags>
-            </FlexRow>
-          </PostMessage>
-        </PostBlock>
-      </Container>
-    </>
+              <div className={'item accent'} onClick={deletePostHandler}>
+                Delete post
+              </div>
+              {/* <div className={'item'}>Еще что то</div> */}
+            </div>
+          </PostMenu>
+        </PostHeader>
+        <PostMessage>
+          <div className={'message'}>{message}</div>
+          <FlexRow align={'space-between'}>
+            <Tags>
+              {reels?.map(reel => (
+                <div key={reel.id} className={'tag'} onClick={() => onReelClickHandler(reel.id)}>
+                  {reel.code}
+                </div>
+              ))}
+              {shots?.map(shot => (
+                <div key={shot.id} className={cn('tag', 'shot')} onClick={() => onReelClickHandler(shot.id)}>
+                  {shot.code}
+                </div>
+              ))}
+            </Tags>
+          </FlexRow>
+        </PostMessage>
+      </PostBlock>
+    </Container>
   )
 }
