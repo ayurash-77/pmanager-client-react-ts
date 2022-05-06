@@ -1,5 +1,5 @@
 import React from 'react'
-import ReactDOM from 'react-dom'
+import { createRoot } from 'react-dom/client'
 import { Provider } from 'react-redux'
 import App from './app/App'
 import { setupStore } from './store/store'
@@ -10,12 +10,22 @@ const store = setupStore()
 
 setupListeners(store.dispatch)
 
-ReactDOM.render(
+// ReactDOM.render(
+//   <React.StrictMode>
+//     <Provider store={store}>
+//       <App />
+//     </Provider>
+//   </React.StrictMode>,
+//
+//   document.getElementById('root')
+// )
+
+const container = document.getElementById('root')
+const root = createRoot(container) // createRoot(container!) if you use TypeScript
+root.render(
   <React.StrictMode>
     <Provider store={store}>
       <App />
     </Provider>
-  </React.StrictMode>,
-
-  document.getElementById('root')
+  </React.StrictMode>
 )
