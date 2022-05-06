@@ -9,9 +9,8 @@ import {
 } from '../../components/info-elements'
 import { InfoDoneAt } from '../../components/info-elements/InfoDoneAt'
 import { IProject } from '../../interfaces/IProject'
-import { useGetProjectByIdQuery } from '../../store/api/projects.api'
 
-interface Props extends DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLDivElement> {
+interface IStatusbar extends DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLDivElement> {
   project: IProject
   isLoadingProject?: boolean
 }
@@ -40,7 +39,7 @@ const InfoElement = styled.div`
   width: 100%;
 `
 
-export const Statusbar: FC<Props> = ({ project, isLoadingProject }) => {
+export const Statusbar: FC<IStatusbar> = ({ project, isLoadingProject }) => {
   const projectInfo = project && (
     <InfoContainer>
       <InfoElement>
@@ -68,7 +67,10 @@ export const Statusbar: FC<Props> = ({ project, isLoadingProject }) => {
 
   return (
     <>
-      <Container>{projectInfo}</Container>
+      <Container>
+        {isLoadingProject && <div>loading...</div>}
+        {projectInfo}
+      </Container>
     </>
   )
 }
