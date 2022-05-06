@@ -6,7 +6,7 @@ import { useGetAllProjectsQuery, useGetProjectByIdQuery } from '../store/api/pro
 import Loader from '../components/ui/Loader'
 import styled from 'styled-components'
 import { useAppDispatch, useAppSelector } from '../hooks/redux'
-import { IQuarterItem } from '../tools/quarter-filter'
+import { IQuarterItem } from '../utils/quarter-filter'
 import NewProjectModal from '../modal/NewProjectModal'
 import DeleteProjectModal from '../modal/DeleteProjectModal'
 import {

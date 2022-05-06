@@ -47,7 +47,7 @@ export const ProjectOverviewPage: FC = () => {
 
         <Sendbar projectId={+id} />
       </MainbarContainer>
-      <Sidebar project={project} isFetchingProject={isFetchingProject} />
+      <Sidebar project={project} isLoadingProject={isFetchingProject} />
     </>
   )
 }

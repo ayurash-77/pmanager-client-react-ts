@@ -1,15 +1,19 @@
 import { BrowserRouter } from 'react-router-dom'
-import { FC, Suspense } from 'react'
+import { FC } from 'react'
+import { ReactQueryDevtools } from 'react-query/devtools'
+import { QueryClientProvider, QueryClient } from 'react-query'
 import { AppRouter } from './AppRouter'
 import './styles/app.styles.scss'
 
 const App: FC = () => {
+  const queryClient = new QueryClient()
   return (
-    <Suspense fallback={<div>loading...</div>}>
+    <QueryClientProvider client={queryClient}>
       <BrowserRouter>
         <AppRouter />
       </BrowserRouter>
-    </Suspense>
+      <ReactQueryDevtools position={'bottom-right'} />
+    </QueryClientProvider>
   )
 }
 

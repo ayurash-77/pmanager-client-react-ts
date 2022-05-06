@@ -5,7 +5,7 @@ import { FC, useState } from 'react'
 import Loader from '../../components/ui/Loader'
 
 import * as CommonIcons from '../../assets/icons/common-icons'
-import { toDateStr } from '../../tools/date-time-format'
+import { toDateStr } from '../../utils/date-time-format'
 import axios from 'axios'
 import NewBriefModal from '../../modal/NewBriefModal'
 import DeleteBriefModal from '../../modal/DeleteBriefModal'

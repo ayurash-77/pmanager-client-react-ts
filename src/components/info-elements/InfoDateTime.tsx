@@ -1,4 +1,4 @@
-import { toDateStr, toTimeStr } from '../../tools/date-time-format'
+import { toDateStr, toTimeStr } from '../../utils/date-time-format'
 import { InfoLabel } from './InfoLabel'
 import styled from 'styled-components'
 

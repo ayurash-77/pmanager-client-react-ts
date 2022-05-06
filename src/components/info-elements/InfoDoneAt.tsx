@@ -3,7 +3,7 @@ import { IProject } from '../../interfaces/IProject'
 import { useTranslate } from '../../hooks/useTranslate'
 import { InfoLabel } from './InfoLabel'
 import { InfoValue } from './InfoValue'
-import { toDateStr } from '../../tools/date-time-format'
+import { toDateStr } from '../../utils/date-time-format'
 
 export const InfoDoneAt: FC<Partial<IProject>> = ({ doneAt }) => {
   const { text } = useTranslate()

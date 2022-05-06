@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
-import { IQuarterItem, quartersFilter } from '../../tools/quarter-filter'
+import { IQuarterItem, quartersFilter } from '../../utils/quarter-filter'
 import { IProject } from '../../interfaces/IProject'
 
 interface IQuarterFilter {

@@ -52,6 +52,7 @@ export const LoginPage: FC = () => {
   const [password, setPassword] = useState('')
 
   const [login, { data: user, isLoading, error }] = useLoginMutation()
+
   const dispatch = useAppDispatch()
 
   const loaderJsx = isLoading && <Loader size={32} />

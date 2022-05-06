@@ -3,7 +3,7 @@ import { IBrief } from '../../interfaces/IBrief'
 import { useTranslate } from '../../hooks/useTranslate'
 import { InfoLabel } from './InfoLabel'
 import { InfoValue } from './InfoValue'
-import { toDateStr } from '../../tools/date-time-format'
+import { toDateStr } from '../../utils/date-time-format'
 import { InfoProjectTitleContainer } from './InfoProjectTitle'
 
 export const InfoBriefBlock: FC<Partial<IBrief>> = brief => {

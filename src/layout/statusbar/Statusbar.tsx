@@ -13,7 +13,7 @@ import { useGetProjectByIdQuery } from '../../store/api/projects.api'
 
 interface Props extends DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLDivElement> {
   project: IProject
-  isFetchingProject: boolean
+  isLoadingProject?: boolean
 }
 
 const Container = styled.div`
@@ -40,39 +40,35 @@ const InfoElement = styled.div`
   width: 100%;
 `
 
-export const Statusbar: FC<Props> = ({ project, isFetchingProject }) => {
-  const projectInfo = (
+export const Statusbar: FC<Props> = ({ project, isLoadingProject }) => {
+  const projectInfo = project && (
     <InfoContainer>
       <InfoElement>
-        <InfoProjectTitle
-          title={project?.title}
-          highPriority={project?.highPriority}
-          status={project?.status}
-        />
+        <InfoProjectTitle title={project.title} highPriority={project.highPriority} status={project.status} />
       </InfoElement>
       <InfoElement>
-        <InfoStartAt startAt={project?.startAt} />
+        <InfoStartAt startAt={project.startAt} />
       </InfoElement>
       <InfoElement>
-        <InfoDeadline deadline={project?.deadline} />
+        <InfoDeadline deadline={project.deadline} />
       </InfoElement>
       <InfoElement>
-        <InfoStatus status={project?.status} />
+        <InfoStatus status={project.status} />
       </InfoElement>
-      {project?.status.code === 5 && (
+      {project.status?.code === 5 && (
         <InfoElement>
-          <InfoDoneAt doneAt={project?.doneAt} />
+          <InfoDoneAt doneAt={project.doneAt} />
         </InfoElement>
       )}
       <InfoElement>
-        <InfoProgress progress={project?.progress} status={project?.status} width={80} withValue />
+        <InfoProgress progress={project.progress} status={project.status} width={80} withValue />
       </InfoElement>
     </InfoContainer>
   )
 
   return (
     <>
-      <Container>{project && projectInfo}</Container>
+      <Container>{projectInfo}</Container>
     </>
   )
 }

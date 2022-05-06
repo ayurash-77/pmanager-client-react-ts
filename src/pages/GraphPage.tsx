@@ -125,7 +125,7 @@ export const GraphPage = () => {
         project={project}
         removeShotHandler={removeShotHandler}
         onDragStartHandler={onDragStartHandler}
-        isFetchingProject={isFetchingProject}
+        isLoadingProject={isFetchingProject}
       />
     </>
   )

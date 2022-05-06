@@ -189,7 +189,7 @@ export const ReelsPage = () => {
         project={project}
         removeShotHandler={removeShotHandler}
         onDragStartHandler={onDragStartHandler}
-        isFetchingProject={isFetchingProject}
+        isLoadingProject={isFetchingProject}
       />
     </>
   )

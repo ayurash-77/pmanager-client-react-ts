@@ -15,7 +15,7 @@ interface ISidebar {
   project: IProject | null
   removeShotHandler?: (e) => void
   onDragStartHandler?: (e, shot, reel?) => void
-  isFetchingProject: boolean
+  isLoadingProject?: boolean
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -26,7 +26,7 @@ export const Sidebar: FC<ISidebar> = ({
   project,
   removeShotHandler,
   onDragStartHandler,
-  isFetchingProject,
+  isLoadingProject,
 }) => {
   const { show: sidebarShow } = useAppSelector(state => state.ui.sidebar)
 
@@ -92,10 +92,10 @@ export const Sidebar: FC<ISidebar> = ({
         )}
 
         {showSidebarInfo && project && (
-          <SidebarProjectInfo project={project} isFetchingProject={isFetchingProject} />
+          <SidebarProjectInfo project={project} isFetchingProject={isLoadingProject} />
         )}
         {showSidebarBriefs && project && (
-          <SidebarBriefs project={project} isFetchingProject={isFetchingProject} />
+          <SidebarBriefs project={project} isFetchingProject={isLoadingProject} />
         )}
         {showSidebarShots && project && shots && (
           <ShotsBlock
