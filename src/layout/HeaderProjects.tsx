@@ -17,9 +17,6 @@ import {
 import { IconButton, ToolButton, ToolButtonGroup, FlexRow, Input } from '../components/ui'
 import { setSearchProjectsFilter } from '../store/reducers/ui.reducer'
 import { IProject } from '../interfaces/IProject'
-import { useLazyGetAllAgenciesQuery } from '../store/api/agencies.api'
-import { useLazyGetAllBrandsQuery } from '../store/api/brands.api'
-import { useLazyGetAllClientsQuery } from '../store/api/clients.api'
 import { useGetProjects, useGetProject } from '../hooks/useProjectsData'
 
 interface IHeader extends DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLDivElement> {
@@ -73,10 +70,6 @@ export const HeaderProjects: FC<IHeader> = () => {
   const [isNewProjectModalShow, setNewProjectModalShow] = useState(false)
   const [isDeleteProjectModalShow, setDeleteProjectModalShow] = useState(false)
 
-  const [getAgencies, { data: agencies }] = useLazyGetAllAgenciesQuery()
-  const [getBrands, { data: brands }] = useLazyGetAllBrandsQuery()
-  const [getClients, { data: clients }] = useLazyGetAllClientsQuery()
-
   const onSearchHandler = (value: string) => {
     dispatch(setSearchProjectsFilter(value))
   }
@@ -86,21 +79,12 @@ export const HeaderProjects: FC<IHeader> = () => {
   }
 
   const newProjectModalShowHandler = () => {
-    getAgencies()
-    getBrands()
-    getClients()
     setNewProjectModalShow(true)
   }
 
   return (
     <Container>
-      <NewProjectModal
-        agencies={agencies}
-        brands={brands}
-        clients={clients}
-        isOpen={isNewProjectModalShow}
-        closeAction={() => setNewProjectModalShow(false)}
-      />
+      <NewProjectModal isOpen={isNewProjectModalShow} closeAction={() => setNewProjectModalShow(false)} />
       <DeleteProjectModal
         isOpen={isDeleteProjectModalShow}
         closeAction={() => setDeleteProjectModalShow(false)}

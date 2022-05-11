@@ -4,7 +4,7 @@ import { ProjectsService } from '../app/services/projects.service'
 import { IPost } from '../interfaces/IPost'
 
 export const useGetProjects = () => {
-  return useQuery<IProject[], Error>('projects', () => ProjectsService.getAll())
+  return useQuery<IProject[], Error>('projects', ProjectsService.getAll)
 }
 
 export const useGetProject = projectId => {

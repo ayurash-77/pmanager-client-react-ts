@@ -10,17 +10,14 @@ import { apiBaseUrl, apiUploadUrl } from '../constants/env'
 import { UploadingProgress } from '../components/uploading-progress/UploadingProgress'
 import { IProject } from '../interfaces/IProject'
 import { setActiveProjectId } from '../store/reducers/entities.reducer'
-import { IAgency } from '../interfaces/IAgency'
-import { IBrand } from '../interfaces/IBrand'
-import { IClient } from '../interfaces/IClient'
 import { useCreateProject } from '../hooks/useProjectsData'
+import { useGetAgencies } from '../hooks/useAgenciesData'
+import { useGetBrands } from '../hooks/useBrandsData'
+import { useGetClients } from '../hooks/useClientsData'
 
 interface INewProjectModal {
   isOpen: boolean
   closeAction: () => void
-  agencies: IAgency[]
-  brands: IBrand[]
-  clients: IClient[]
 }
 
 export interface IProjectData extends Partial<IProject> {
@@ -31,10 +28,14 @@ export interface IProjectData extends Partial<IProject> {
 // NewProjectModal
 //
 
-export const NewProjectModal: FC<INewProjectModal> = ({ agencies, brands, clients, ...props }) => {
+export const NewProjectModal: FC<INewProjectModal> = ({ ...props }) => {
   const { text } = useTranslate()
   const token = useAppSelector(state => state.auth.authUser.token)
   const user = useAppSelector(state => state.auth.authUser)
+
+  const { data: agencies } = useGetAgencies()
+  const { data: brands } = useGetBrands()
+  const { data: clients } = useGetClients()
 
   const selectionsInit = { brandId: 0, clientId: 0, agencyId: 0 }
   const brandsOptions = brands?.map(item => ({ label: item.name, value: item.id }))
@@ -62,9 +63,6 @@ export const NewProjectModal: FC<INewProjectModal> = ({ agencies, brands, client
   //   useCreateProjectMutation()
 
   const { mutate: createProject, isSuccess, data: createdProject, isError, error } = useCreateProject()
-
-  const errorJsx = error?.message
-  // const errorJsx = ErrorList(error && 'data' in error ? error.data.message : [])
 
   const deleteFile = async () => {
     try {
@@ -192,11 +190,11 @@ export const NewProjectModal: FC<INewProjectModal> = ({ agencies, brands, client
             isBrowse={!uploading}
           />
           <UploadingProgress uploading={uploading} progress={progress} withValue={true} />
-          <div style={{ textAlign: 'center' }}>{message}</div>
+          <div className="error">{message}</div>
 
           {isError && (
             <FlexColumn vAlign="center" padding={5}>
-              {isError && errorJsx}
+              <div className="error">{error?.message}</div>
             </FlexColumn>
           )}
 
