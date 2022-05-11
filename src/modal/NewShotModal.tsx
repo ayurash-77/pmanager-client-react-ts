@@ -10,8 +10,8 @@ import { IShotCreateDto } from '../interfaces/IShotCreateDto'
 import { useCreateShotMutation } from '../store/api/shots.api'
 import { setActiveShotId } from '../store/reducers/entities.reducer'
 import { IShot } from '../interfaces/IShot'
-import { useGetPostsByProjectIdQuery } from '../store/api/posts.api'
 import { useGetReelsByProjectId } from '../hooks/useReelsData'
+import { useGetPostsByProjectId } from '../hooks/usePostsData'
 
 interface INewShotModal {
   isOpen: boolean
@@ -50,7 +50,7 @@ export const NewShotModal: FC<INewShotModal> = ({ closeAction, project, shots, .
   const errorJsx = ErrorList(error && 'data' in error ? error.data.message : [])
 
   const { data: reels, refetch: refetchReels } = useGetReelsByProjectId(project?.id)
-  const { data: posts, refetch: refetchPosts } = useGetPostsByProjectIdQuery(project?.id)
+  const { data: posts, refetch: refetchPosts } = useGetPostsByProjectId(project?.id)
 
   const options = reels?.map(item => ({ label: item.code, value: item.id }))
 

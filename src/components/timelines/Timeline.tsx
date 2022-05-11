@@ -68,7 +68,7 @@ export const Timeline: FC<ITimelineWrapper> = ({ title, reel, refetchReels }) =>
     }
   }, [shotsOrdered])
 
-  console.log(status, isSuccessUpdateReel)
+  // console.log(status, isSuccessUpdateReel)
 
   /////////////////////////////////////////////////////////////////////
 

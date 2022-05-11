@@ -10,13 +10,13 @@ import { MainbarContainer } from '../layout/MainbarContainer'
 import { Sidebar } from '../layout/sidebar/Sidebar'
 import { HeaderProject } from '../layout/HeaderProject'
 import { BodyContainer } from '../layout/BodyContainer'
-import { useGetPostsByProjectIdQuery } from '../store/api/posts.api'
 import { Sendbar } from '../layout/sendbar/Sendbar'
 import { Post } from '../components/post/Post'
 import { RibbonReels } from '../components/ribbons/RibbonReels'
 import { ExpandedBlock } from '../components/expanded-block/ExpandedBlock'
 import { setReelsBlockExpanded } from '../store/reducers/ui.reducer'
 import { useGetProject } from '../hooks/useProjectsData'
+import { useGetPostsByProjectId } from '../hooks/usePostsData'
 
 ////////////////////////////////////////////////////////////////////////
 // ReelsPage
@@ -30,7 +30,7 @@ export const ReelsPage = () => {
   const { reelsBlock } = useAppSelector(state => state.ui)
   const { activeShotId, activeReelsIds, activeProjectId } = useAppSelector(state => state.entities)
   const { data: project, isFetching: isFetchingProject } = useGetProject(activeProjectId)
-  const { data: posts } = useGetPostsByProjectIdQuery(activeProjectId)
+  const { data: posts } = useGetPostsByProjectId(activeProjectId)
 
   const { data: reels, refetch: refetchReels } = useGetReelsByProjectIdQuery(activeProjectId)
 

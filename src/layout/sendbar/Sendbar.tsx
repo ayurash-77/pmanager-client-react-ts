@@ -3,11 +3,11 @@ import { IconButton } from '../../components/ui'
 import { IPost } from '../../interfaces/IPost'
 import { useAppSelector } from '../../hooks/redux'
 import { FC, useState } from 'react'
-import { useCreatePostMutation } from '../../store/api/posts.api'
 import * as CommonIcons from '../../assets/icons/common-icons'
 
 import TextareaAutosize from 'react-textarea-autosize'
 import { useGetShotsByProjectId } from '../../hooks/useShotsData'
+import { useCreatePost } from '../../hooks/usePostsData'
 
 const SendbarContainer = styled.div`
   display: flex;
@@ -30,7 +30,7 @@ export const Sendbar: FC<IPostData> = ({ projectId }) => {
   const { activeReelsIds, activeShotId, activeProjectId } = useAppSelector(state => state.entities)
   const { data: shots } = useGetShotsByProjectId(activeProjectId)
   // const { data: shot, refetch: refetchShot } = useGetShot
-  const [createPost, { data: createdPost, isSuccess, isError, error }] = useCreatePostMutation()
+  const { mutate: createPost } = useCreatePost()
 
   const reelsIds =
     shots?.find(shot => shot.id === activeShotId)?.reels?.map(reel => reel.id) || activeReelsIds
@@ -54,7 +54,8 @@ export const Sendbar: FC<IPostData> = ({ projectId }) => {
   const onSubmitHandler = async e => {
     e.preventDefault()
 
-    await createPost({ ...postData, shotsIds: [activeShotId], reelsIds: [...reelsIds] })
+    const newPost: IPostData = { ...postData, shotsIds: [activeShotId], reelsIds: [...reelsIds] }
+    createPost(newPost)
     setMessage('')
     setPostData(postDataInit)
   }

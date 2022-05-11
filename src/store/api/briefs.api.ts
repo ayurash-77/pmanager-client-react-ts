@@ -38,10 +38,4 @@ export const briefsApi = baseApi.injectEndpoints({
   }),
 })
 
-export const {
-  useGetAllBriefsQuery,
-  useGetBriefQuery,
-  useCreateBriefMutation,
-  useDeleteBriefMutation,
-  useGetAllBriefCategoriesQuery,
-} = briefsApi
+export const { useCreateBriefMutation, useDeleteBriefMutation, useGetAllBriefCategoriesQuery } = briefsApi

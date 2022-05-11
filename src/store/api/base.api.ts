@@ -17,7 +17,6 @@ export const baseApi = createApi({
     'Jobs',
     'Users',
     'Roles',
-    'Posts',
     'briefs',
     'briefCategories',
     'Projects',

@@ -5,17 +5,16 @@ import { InfoDateTime } from '../info-elements'
 import { setActiveMenu } from '../../store/reducers/ui.reducer'
 import { setActiveReelsIds, setActiveShotId } from '../../store/reducers/entities.reducer'
 import { useAppDispatch, useAppSelector } from '../../hooks/redux'
-import { useNavigate } from 'react-router-dom'
 import cn from 'classnames'
 import { FlexRow } from '../ui'
-import { useDeletePostMutation } from '../../store/api/posts.api'
 import { Container, PostBlock, PostHeader, PostMessage, Username, Tags, PostMenu } from './Post.styles'
+import { useDeletePost } from '../../hooks/usePostsData'
 
 export const Post: FC<IPost> = props => {
   const { id, createdBy, createdAt, reels = [], shots = [], message } = props
   // const { activeProjectId } = useAppSelector(state => state.entities)
 
-  const [deletePost, { isSuccess }] = useDeletePostMutation()
+  const { mutate: deletePost } = useDeletePost()
   const { authUser } = useAppSelector(state => state.auth)
   // const { data: user } = useGetUserByIdQuery(createdBy.id)
   // const [fullName, setFullName] = useState(`${createdBy.name} ${createdBy.surname}`)
@@ -25,7 +24,7 @@ export const Post: FC<IPost> = props => {
   const fullName = `${currentUser?.name} ${currentUser?.surname}`
   const printName = fullName.trim().length > 0 ? fullName : currentUser?.username
   const dispatch = useAppDispatch()
-  const navigate = useNavigate()
+  // const navigate = useNavigate()
 
   const onReelClickHandler = reelId => {
     dispatch(setActiveMenu('reels'))

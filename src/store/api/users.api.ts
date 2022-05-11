@@ -36,7 +36,7 @@ export const usersApi = baseApi.injectEndpoints({
         method: 'PATCH',
         body: user,
       }),
-      invalidatesTags: (result, error, arg) => [{ type: 'Users', id: arg.id }, { type: 'Posts' }],
+      invalidatesTags: (result, error, arg) => [{ type: 'Users', id: arg.id }],
     }),
 
     updateUser: build.mutation<IUser, Partial<IUser>>({

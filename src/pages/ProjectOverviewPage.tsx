@@ -3,7 +3,6 @@ import { FC, useEffect } from 'react'
 import { useParams } from 'react-router'
 import { Sendbar } from '../layout/sendbar/Sendbar'
 import { Post } from '../components/post/Post'
-import { useGetPostsByProjectIdQuery } from '../store/api/posts.api'
 import { useGetReelsTypesByProjectIdQuery } from '../store/api/reelsTypes.api'
 import { useGetReelsByProjectIdQuery } from '../store/api/reels.api'
 import { RibbonReelsTypes } from '../components/ribbons/RibbonReelsTypes'
@@ -15,12 +14,13 @@ import { HeaderProject } from '../layout/HeaderProject'
 import { BodyContainer } from '../layout/BodyContainer'
 import { useGetProject } from '../hooks/useProjectsData'
 import { useGetShotsByProjectId } from '../hooks/useShotsData'
+import { useGetPostsByProjectId } from '../hooks/usePostsData'
 
 export const ProjectOverviewPage: FC = () => {
   const { id } = useParams()
 
   const { data: project, isFetching: isFetchingProject } = useGetProject(+id)
-  const { data: posts, refetch: refetchPosts } = useGetPostsByProjectIdQuery(+id)
+  const { data: posts, refetch: refetchPosts } = useGetPostsByProjectId(+id)
   const { data: reelsTypes, refetch: refetchReelsTypes } = useGetReelsTypesByProjectIdQuery(+id)
   const { data: reels, refetch: refetchReels } = useGetReelsByProjectIdQuery(+id)
   const { data: shots, refetch: refetchShots } = useGetShotsByProjectId(+id)
