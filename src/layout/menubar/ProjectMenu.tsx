@@ -2,20 +2,20 @@ import { FC } from 'react'
 import { IMenuItem, MenuItem } from './MenuItem'
 import * as SideIcons from '../../assets/icons/menubar-icons'
 import { useTranslate } from '../../hooks/useTranslate'
-import { useGetAllProjectsQuery, useGetProjectByIdQuery } from '../../store/api/projects.api'
 import Loader from '../../components/ui/Loader'
 import { useAppDispatch, useAppSelector } from '../../hooks/redux'
-import { useNavigate, useLocation } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import { setActiveMenu } from '../../store/reducers/ui.reducer'
 import { setActiveReelId, setActiveReelsTypeId, setActiveShotId } from '../../store/reducers/entities.reducer'
+import { useGetProjects, useGetProject } from '../../hooks/useProjectsData'
 
 export const ProjectMenu: FC<Partial<IMenuItem>> = () => {
   const { text } = useTranslate()
 
   const { expanded: menubarExpanded } = useAppSelector(state => state.ui.menubar)
-  const { data: projects = [], isLoading: isLoadingProjects } = useGetAllProjectsQuery()
+  const { data: projects = [], isLoading: isLoadingProjects } = useGetProjects()
   const { activeProjectId } = useAppSelector(state => state.entities)
-  const { data: project, isLoading: isLoadingProject } = useGetProjectByIdQuery(activeProjectId)
+  const { data: project, isLoading: isLoadingProject } = useGetProject(activeProjectId)
 
   const projectsCount = isLoadingProjects ? <Loader size={16} translateX={4} /> : projects.length
   const reelsCount = isLoadingProject ? <Loader size={16} translateX={4} /> : project?.reels?.length
@@ -33,11 +33,8 @@ export const ProjectMenu: FC<Partial<IMenuItem>> = () => {
     { icon: <SideIcons.People />, name: text.menu.team, count: 3, link: 'team' },
   ]
 
-  const { pathname } = useLocation()
-
   const { activeMenu } = useAppSelector(state => state.ui.menubar)
   const dispatch = useAppDispatch()
-
   const navigate = useNavigate()
 
   const handleMenuItemClick = link => {

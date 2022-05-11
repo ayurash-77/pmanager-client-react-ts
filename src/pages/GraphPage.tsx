@@ -3,19 +3,18 @@ import { useParams } from 'react-router'
 import { useGetReelsByProjectIdQuery, useUpdateReelMutation } from '../store/api/reels.api'
 import { Timeline } from '../components/timelines/Timeline'
 import { useAppDispatch, useAppSelector } from '../hooks/redux'
-import { useGetShotsByProjectIdQuery } from '../store/api/shots.api'
 import { EntityCardShot } from '../components/entity-card/EntityCardShot'
 import { IShot } from '../interfaces/IShot'
-import { useEffect, useState } from 'react'
 import { IReel } from '../interfaces/IReel'
 import { setActiveShotId, setDragShot, setDropReel } from '../store/reducers/entities.reducer'
-import { useGetProjectByIdQuery } from '../store/api/projects.api'
 import { ShotsBlock } from '../layout/shots-block/ShotsBlock'
 import { MainbarContainer } from '../layout/MainbarContainer'
 import { Sidebar } from '../layout/sidebar/Sidebar'
 import { HeaderProject } from '../layout/HeaderProject'
 import { BodyContainer } from '../layout/BodyContainer'
 import cn from 'classnames'
+import { useGetProject } from '../hooks/useProjectsData'
+import { useGetShotsByProjectId } from '../hooks/useShotsData'
 
 export const DraggableItem = styled.div`
   cursor: grab;
@@ -29,12 +28,12 @@ export const GraphPage = () => {
   const { id } = useParams()
   const dispatch = useAppDispatch()
 
-  const { data: project, isFetching: isFetchingProject } = useGetProjectByIdQuery(+id)
+  const { data: project, isFetching: isFetchingProject } = useGetProject(+id)
 
   const { activeShotId, dragShot, dropReel } = useAppSelector(state => state.entities)
 
-  const { data: reels, refetch: refetchReels } = useGetReelsByProjectIdQuery(+id)
-  const { data: shots, refetch: refetchShots } = useGetShotsByProjectIdQuery(+id)
+  const { data: reels } = useGetReelsByProjectIdQuery(+id)
+  const { data: shots } = useGetShotsByProjectId(+id)
 
   const [updateReel, { isSuccess }] = useUpdateReelMutation()
 

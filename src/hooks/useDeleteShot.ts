@@ -1,12 +1,12 @@
-import React, { Dispatch, ReactElement, SetStateAction, useEffect, useState } from 'react'
+import { Dispatch, SetStateAction, useEffect, useState } from 'react'
 import { useDeleteShotMutation } from '../store/api/shots.api'
 import { ErrorList } from '../components/errors/ErrorList'
 import { IShot } from '../interfaces/IShot'
 import { useAppDispatch, useAppSelector } from './redux'
 import { setActiveShotId } from '../store/reducers/entities.reducer'
 import { useTranslate } from './useTranslate'
-import { useGetReelsByProjectIdQuery } from '../store/api/reels.api'
 import { IProject } from '../interfaces/IProject'
+import { useGetReelsByProjectId } from './useReelsData'
 
 interface IUseDeleteShot {
   isDeleteModalShow: boolean
@@ -23,7 +23,7 @@ export const useDeleteShot = (project: IProject, activeShot: IShot | null): IUse
   const dispatch = useAppDispatch()
   const [deleteShot, { error, isSuccess, reset }] = useDeleteShotMutation()
 
-  const { refetch: refetchReels } = useGetReelsByProjectIdQuery(project?.id)
+  const { refetch: refetchReels } = useGetReelsByProjectId(project?.id)
   const errorJsx = ErrorList(error && 'data' in error ? error.data.message : [])
 
   const [isDeleteModalShow, setDeleteModalShow] = useState<boolean>(false)

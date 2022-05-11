@@ -1,11 +1,12 @@
 import { axiosRequest } from '../../utils/axios-utils'
+import { IProject } from '../../interfaces/IProject'
 
 export const ProjectsService = {
-  async getAll() {
+  async getAll(): Promise<IProject[]> {
     const { data } = await axiosRequest({ url: '/projects' })
     return data
   },
-  async getById(projectId) {
+  async getById(projectId): Promise<IProject> {
     const { data } = await axiosRequest({ url: `/projects/${projectId}` })
     return data
   },

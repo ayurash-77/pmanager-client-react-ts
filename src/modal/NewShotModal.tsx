@@ -6,13 +6,12 @@ import { useAppDispatch, useAppSelector } from '../hooks/redux'
 import { ErrorList } from '../components/errors/ErrorList'
 import { FlexColumn, Input, Select } from '../components/ui'
 import { IProject } from '../interfaces/IProject'
-import { useGetReelsByProjectIdQuery } from '../store/api/reels.api'
 import { IShotCreateDto } from '../interfaces/IShotCreateDto'
 import { useCreateShotMutation } from '../store/api/shots.api'
-import { useParams } from 'react-router'
 import { setActiveShotId } from '../store/reducers/entities.reducer'
 import { IShot } from '../interfaces/IShot'
 import { useGetPostsByProjectIdQuery } from '../store/api/posts.api'
+import { useGetReelsByProjectId } from '../hooks/useReelsData'
 
 interface INewShotModal {
   isOpen: boolean
@@ -50,7 +49,7 @@ export const NewShotModal: FC<INewShotModal> = ({ closeAction, project, shots, .
   const [createShot, { isError, error, isSuccess, status, data: newItem, reset }] = useCreateShotMutation()
   const errorJsx = ErrorList(error && 'data' in error ? error.data.message : [])
 
-  const { data: reels, refetch: refetchReels } = useGetReelsByProjectIdQuery(project?.id)
+  const { data: reels, refetch: refetchReels } = useGetReelsByProjectId(project?.id)
   const { data: posts, refetch: refetchPosts } = useGetPostsByProjectIdQuery(project?.id)
 
   const options = reels?.map(item => ({ label: item.code, value: item.id }))

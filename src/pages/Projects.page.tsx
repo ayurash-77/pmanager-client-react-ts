@@ -18,8 +18,7 @@ import { ProjectsService } from '../app/services/projects.service'
 import { useAuth } from '../hooks/useAuth'
 import { ProjectsList } from '../components/projects-list/ProjectsList'
 import { ProjectsGrid } from '../components/projects-grid/ProjectsGrid'
-import { useProjectsData } from '../hooks/useProjectsData'
-import { useProjectData } from '../hooks/useProjectData'
+import { useGetProjects, useGetProject } from '../hooks/useProjectsData'
 
 export const ProjectsPage: FC = () => {
   const { quarterFilter } = useAppSelector(state => state.projects)
@@ -29,8 +28,8 @@ export const ProjectsPage: FC = () => {
   const dispatch = useAppDispatch()
   const navigate = useNavigate()
 
-  const { data: projects = [], isLoading: isLoadingProjects, error: errorProjects } = useProjectsData()
-  const { data: activeProject, isLoading: isLoadingProject } = useProjectData(activeProjectId)
+  const { data: projects = [], isLoading: isLoadingProjects, error: errorProjects } = useGetProjects()
+  const { data: activeProject, isLoading: isLoadingProject } = useGetProject(activeProjectId)
   const errorJsx = errorProjects?.message
 
   const onProjectClickHandler = (project: IProject) => {

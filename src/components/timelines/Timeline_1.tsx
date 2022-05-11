@@ -13,8 +13,9 @@ import cn from 'classnames'
 import { IShot } from '../../interfaces/IShot'
 import { Reorder } from 'framer-motion'
 import { EntityCardShot } from '../entity-card/EntityCardShot'
-import { useGetReelsByProjectIdQuery, useUpdateReelMutation } from '../../store/api/reels.api'
+import { useUpdateReelMutation } from '../../store/api/reels.api'
 import { useGetShotsByReelIdQuery } from '../../store/api/shots.api'
+import { useGetReelsByProjectId } from '../../hooks/useReelsData'
 
 interface ITimelineWrapper {
   title: string
@@ -25,11 +26,7 @@ export const Timeline: FC<ITimelineWrapper> = ({ title, reel }) => {
   const dispatch = useAppDispatch()
 
   const { activeProjectId, activeReelsIds, activeShotId } = useAppSelector(state => state.entities)
-  const {
-    data: reels,
-    refetch: refetchReels,
-    status: statusReels,
-  } = useGetReelsByProjectIdQuery(activeProjectId)
+  const { data: reels, refetch: refetchReels, status: statusReels } = useGetReelsByProjectId(activeProjectId)
 
   const { data: shots, status: statusShots } = useGetShotsByReelIdQuery(reel.id)
 

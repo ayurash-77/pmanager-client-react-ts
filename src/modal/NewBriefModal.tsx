@@ -12,9 +12,9 @@ import { IBrief } from '../interfaces/IBrief'
 import { useCreateBriefMutation, useGetAllBriefCategoriesQuery } from '../store/api/briefs.api'
 import { FlexColumn, Input, Select, Textarea } from '../components/ui'
 import { apiBaseUrl, apiUploadUrl } from '../constants/env'
-import { useGetAllProjectsQuery, useGetProjectByIdQuery } from '../store/api/projects.api'
 import { UploadingProgress } from '../components/uploading-progress/UploadingProgress'
 import { useParams } from 'react-router'
+import { useGetProjects, useGetProject } from '../hooks/useProjectsData'
 
 interface INewBriefModal {
   isOpen: boolean
@@ -36,7 +36,7 @@ export const NewBriefModal: FC<INewBriefModal> = ({ closeAction, ...props }) => 
 
   const { id } = useParams()
   const { activeProjectId } = useAppSelector(state => state.entities)
-  const { data: project, refetch: refetchProject } = useGetProjectByIdQuery(activeProjectId)
+  const { data: project, refetch: refetchProject } = useGetProject(activeProjectId)
   const token = useAppSelector(state => state.auth.authUser.token)
 
   const fileInputRef = useRef<HTMLInputElement>(null)
@@ -64,7 +64,7 @@ export const NewBriefModal: FC<INewBriefModal> = ({ closeAction, ...props }) => 
   const errorJsx = ErrorList(error && 'data' in error ? error.data.message : [])
 
   const { data: briefCategories } = useGetAllBriefCategoriesQuery()
-  const { refetch: refetchProjects } = useGetAllProjectsQuery()
+  const { refetch: refetchProjects } = useGetProjects()
   const options = briefCategories?.map(item => ({ label: item.name, value: item.id }))
   const [categoryId, setCategoryId] = useState(1)
 

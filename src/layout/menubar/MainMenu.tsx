@@ -4,17 +4,17 @@ import { IMenuItem, MenuItem } from './MenuItem'
 import * as SideIcons from '../../assets/icons/menubar-icons'
 
 import { useTranslate } from '../../hooks/useTranslate'
-import { useGetAllProjectsQuery } from '../../store/api/projects.api'
 import Loader from '../../components/ui/Loader'
 import { QuartersMenu } from './QuartersMenu'
 import { setQuarterFilter } from '../../store/reducers/projects.reducer'
 import { useAppDispatch, useAppSelector } from '../../hooks/redux'
+import { useGetProjects } from '../../hooks/useProjectsData'
 
 export const MainMenu: FC<Partial<IMenuItem>> = () => {
   const { text } = useTranslate()
   const [selectedMenuItem, setSelectedMenuItem] = useState(0)
 
-  const { data: projects = [], isLoading: isLoadingProjects } = useGetAllProjectsQuery()
+  const { data: projects = [], isLoading: isLoadingProjects } = useGetProjects()
   const { expanded: menubarExpanded } = useAppSelector(state => state.ui.menubar)
   const { quarterFilter } = useAppSelector(state => state.projects)
   const dispatch = useAppDispatch()

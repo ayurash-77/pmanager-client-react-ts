@@ -2,18 +2,10 @@ import { useParams } from 'react-router'
 import { useGetReelsByProjectIdQuery, useUpdateReelMutation } from '../store/api/reels.api'
 import { Timeline } from '../components/timelines/Timeline'
 import { useAppDispatch, useAppSelector } from '../hooks/redux'
-import { useGetShotsByProjectIdQuery } from '../store/api/shots.api'
-import { EntityCardShot } from '../components/entity-card/EntityCardShot'
 import { IShot } from '../interfaces/IShot'
 import { useEffect, useRef, useState } from 'react'
 import { IReel } from '../interfaces/IReel'
-import {
-  setActiveReelsIds,
-  setActiveShotId,
-  setDragShot,
-  setDropReel,
-} from '../store/reducers/entities.reducer'
-import { useGetProjectByIdQuery } from '../store/api/projects.api'
+import { setActiveShotId, setDragShot, setDropReel } from '../store/reducers/entities.reducer'
 import { MainbarContainer } from '../layout/MainbarContainer'
 import { Sidebar } from '../layout/sidebar/Sidebar'
 import { HeaderProject } from '../layout/HeaderProject'
@@ -23,8 +15,8 @@ import { Sendbar } from '../layout/sendbar/Sendbar'
 import { Post } from '../components/post/Post'
 import { RibbonReels } from '../components/ribbons/RibbonReels'
 import { ExpandedBlock } from '../components/expanded-block/ExpandedBlock'
-import { motion, AnimatePresence, AnimateSharedLayout, Reorder } from 'framer-motion'
 import { setReelsBlockExpanded } from '../store/reducers/ui.reducer'
+import { useGetProject } from '../hooks/useProjectsData'
 
 ////////////////////////////////////////////////////////////////////////
 // ReelsPage
@@ -36,17 +28,11 @@ export const ReelsPage = () => {
 
   const { id } = useParams()
   const { reelsBlock } = useAppSelector(state => state.ui)
-  const { activeShotId, dragShot, dropReel, activeReelsIds, activeProjectId } = useAppSelector(
-    state => state.entities
-  )
-  const { data: project, isFetching: isFetchingProject } = useGetProjectByIdQuery(activeProjectId)
-  const { data: posts, refetch: refetchPosts } = useGetPostsByProjectIdQuery(activeProjectId)
+  const { activeShotId, activeReelsIds, activeProjectId } = useAppSelector(state => state.entities)
+  const { data: project, isFetching: isFetchingProject } = useGetProject(activeProjectId)
+  const { data: posts } = useGetPostsByProjectIdQuery(activeProjectId)
 
-  const {
-    data: reels,
-    refetch: refetchReels,
-    status: statusReels,
-  } = useGetReelsByProjectIdQuery(activeProjectId)
+  const { data: reels, refetch: refetchReels } = useGetReelsByProjectIdQuery(activeProjectId)
 
   const [updateReel, { isSuccess: isSuccessUpdateReel }] = useUpdateReelMutation()
 

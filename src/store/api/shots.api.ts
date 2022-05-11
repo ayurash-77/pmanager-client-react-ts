@@ -43,10 +43,4 @@ export const shotsApi = baseApi.injectEndpoints({
   }),
 })
 
-export const {
-  useGetAllShotsQuery,
-  useGetShotsByProjectIdQuery,
-  useGetShotsByReelIdQuery,
-  useCreateShotMutation,
-  useDeleteShotMutation,
-} = shotsApi
+export const { useGetShotsByReelIdQuery, useCreateShotMutation, useDeleteShotMutation } = shotsApi

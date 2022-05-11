@@ -2,7 +2,6 @@ import { DetailedHTMLProps, FC, HTMLAttributes, useState } from 'react'
 import { useTranslate } from '../hooks/useTranslate'
 import * as ToolbarIcons from '../assets/icons/toolbar-icons'
 import * as CommonIcons from '../assets/icons/common-icons'
-import { useGetAllProjectsQuery, useGetProjectByIdQuery } from '../store/api/projects.api'
 import Loader from '../components/ui/Loader'
 import styled from 'styled-components'
 import { useAppDispatch, useAppSelector } from '../hooks/redux'
@@ -21,6 +20,7 @@ import { IProject } from '../interfaces/IProject'
 import { useLazyGetAllAgenciesQuery } from '../store/api/agencies.api'
 import { useLazyGetAllBrandsQuery } from '../store/api/brands.api'
 import { useLazyGetAllClientsQuery } from '../store/api/clients.api'
+import { useGetProjects, useGetProject } from '../hooks/useProjectsData'
 
 interface IHeader extends DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLDivElement> {
   activeProject?: IProject
@@ -53,13 +53,13 @@ export const HeaderProjects: FC<IHeader> = () => {
   const { language, setLanguage } = useTranslate()
   const { text } = useTranslate()
 
-  const { data: projects = [], isLoading: isLoadingProjects } = useGetAllProjectsQuery()
+  const { data: projects = [], isLoading: isLoadingProjects } = useGetProjects()
   const { quarterFilter, quarterData } = useAppSelector(state => state.projects)
   const { activeProjectId } = useAppSelector(state => state.entities)
   const { filterBar, projectsViewMode } = useAppSelector(state => state.ui)
   const { authUser } = useAppSelector(state => state.auth)
 
-  const { data: activeProject, isFetching } = useGetProjectByIdQuery(activeProjectId)
+  const { data: activeProject } = useGetProject(activeProjectId)
 
   const canDeleteProjectRoles = ['Producer', 'Art director', 'Manager']
 

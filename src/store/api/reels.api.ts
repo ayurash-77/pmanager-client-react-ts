@@ -49,10 +49,8 @@ export const reelsApi = baseApi.injectEndpoints({
 })
 
 export const {
-  useGetAllReelsQuery,
   useGetReelsByProjectIdQuery,
   useCreateReelMutation,
   useDeleteReelMutation,
-  useGetReelByIdQuery,
   useUpdateReelMutation,
 } = reelsApi

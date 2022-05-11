@@ -13,8 +13,7 @@ import cn from 'classnames'
 import { IShot } from '../../interfaces/IShot'
 import { Reorder } from 'framer-motion'
 import { EntityCardShot } from '../entity-card/EntityCardShot'
-import { useGetReelsByProjectIdQuery, useUpdateReelMutation } from '../../store/api/reels.api'
-import { useGetShotsByReelIdQuery } from '../../store/api/shots.api'
+import { useUpdateReelMutation } from '../../store/api/reels.api'
 
 interface ITimelineWrapper {
   title: string
@@ -26,9 +25,9 @@ interface ITimelineWrapper {
 export const Timeline: FC<ITimelineWrapper> = ({ title, reel, refetchReels }) => {
   const dispatch = useAppDispatch()
 
-  const { activeProjectId, activeReelsIds, activeShotId, dragShot } = useAppSelector(state => state.entities)
+  const { activeReelsIds, activeShotId } = useAppSelector(state => state.entities)
 
-  const [updateReel, { isSuccess: isSuccessUpdateReel, data: updatedReel, status }] = useUpdateReelMutation()
+  const [updateReel, { isSuccess: isSuccessUpdateReel, status }] = useUpdateReelMutation()
 
   const onTitleClickHandler = id => {
     dispatch(setActiveReelsIds(activeReelsIds.length === 1 && activeReelsIds[0] === id ? [] : [id]))

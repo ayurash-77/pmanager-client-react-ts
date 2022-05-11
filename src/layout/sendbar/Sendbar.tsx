@@ -7,8 +7,7 @@ import { useCreatePostMutation } from '../../store/api/posts.api'
 import * as CommonIcons from '../../assets/icons/common-icons'
 
 import TextareaAutosize from 'react-textarea-autosize'
-import { useGetReelsByProjectIdQuery } from '../../store/api/reels.api'
-import { useGetShotsByProjectIdQuery } from '../../store/api/shots.api'
+import { useGetShotsByProjectId } from '../../hooks/useShotsData'
 
 const SendbarContainer = styled.div`
   display: flex;
@@ -29,8 +28,7 @@ export interface IPostData extends Partial<IPost> {
 export const Sendbar: FC<IPostData> = ({ projectId }) => {
   const user = useAppSelector(state => state.auth.authUser)
   const { activeReelsIds, activeShotId, activeProjectId } = useAppSelector(state => state.entities)
-  const { data: reels, refetch: refetchReels } = useGetReelsByProjectIdQuery(activeProjectId)
-  const { data: shots, refetch: refetchShots } = useGetShotsByProjectIdQuery(activeProjectId)
+  const { data: shots } = useGetShotsByProjectId(activeProjectId)
   // const { data: shot, refetch: refetchShot } = useGetShot
   const [createPost, { data: createdPost, isSuccess, isError, error }] = useCreatePostMutation()
 

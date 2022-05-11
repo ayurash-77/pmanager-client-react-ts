@@ -2,8 +2,6 @@ import { useParams } from 'react-router'
 import { useGetReelsByProjectIdQuery, useUpdateReelMutation } from '../store/api/reels.api'
 import { Timeline } from '../components/timelines/Timeline'
 import { useAppDispatch, useAppSelector } from '../hooks/redux'
-import { useGetShotsByProjectIdQuery } from '../store/api/shots.api'
-import { EntityCardShot } from '../components/entity-card/EntityCardShot'
 import { IShot } from '../interfaces/IShot'
 import { useEffect, useRef, useState } from 'react'
 import { IReel } from '../interfaces/IReel'
@@ -13,7 +11,6 @@ import {
   setDragShot,
   setDropReel,
 } from '../store/reducers/entities.reducer'
-import { useGetProjectByIdQuery } from '../store/api/projects.api'
 import { MainbarContainer } from '../layout/MainbarContainer'
 import { Sidebar } from '../layout/sidebar/Sidebar'
 import { HeaderProject } from '../layout/HeaderProject'
@@ -25,6 +22,8 @@ import { RibbonReels } from '../components/ribbons/RibbonReels'
 import { ExpandedBlock } from '../components/expanded-block/ExpandedBlock'
 import { motion, AnimatePresence, AnimateSharedLayout, Reorder } from 'framer-motion'
 import { setReelsBlockExpanded } from '../store/reducers/ui.reducer'
+import { useGetProject } from '../hooks/useProjectsData'
+import { useGetShotsByProjectId } from '../hooks/useShotsData'
 
 ////////////////////////////////////////////////////////////////////////
 // ReelsPage
@@ -39,7 +38,7 @@ export const ReelsPage = () => {
   const { activeShotId, dragShot, dropReel, activeReelsIds, activeProjectId } = useAppSelector(
     state => state.entities
   )
-  const { data: project, isFetching: isFetchingProject } = useGetProjectByIdQuery(activeProjectId)
+  const { data: project, isFetching: isFetchingProject } = useGetProject(activeProjectId)
   const { data: posts, refetch: refetchPosts } = useGetPostsByProjectIdQuery(activeProjectId)
 
   const {
@@ -47,11 +46,7 @@ export const ReelsPage = () => {
     refetch: refetchReels,
     status: statusReels,
   } = useGetReelsByProjectIdQuery(activeProjectId)
-  const {
-    data: shots,
-    refetch: refetchShots,
-    status: statusShots,
-  } = useGetShotsByProjectIdQuery(activeProjectId)
+  const { data: shots, refetch: refetchShots, status: statusShots } = useGetShotsByProjectId(activeProjectId)
 
   const [updateReel, { isSuccess: isSuccessUpdateReel }] = useUpdateReelMutation()
 
