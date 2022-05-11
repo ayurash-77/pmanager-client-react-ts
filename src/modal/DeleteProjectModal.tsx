@@ -2,11 +2,10 @@ import { ModalWrapper } from './ModalWrapper'
 import { FC } from 'react'
 import { useTranslate } from '../hooks/useTranslate'
 import { Grid } from '../components/ui'
-import { ErrorList } from '../components/errors/ErrorList'
 import { InfoProjectTitle } from '../components/info-elements'
 import { IProject } from '../interfaces/IProject'
-import { useDeleteProjectMutation } from '../store/api/projects.api'
 import { InfoProjectBlock } from '../components/info-elements'
+import { useDeleteProject } from '../hooks/useProjectsData'
 
 export interface IDeleteProjectModal {
   isOpen: boolean
@@ -17,8 +16,8 @@ export interface IDeleteProjectModal {
 export const DeleteProjectModal: FC<IDeleteProjectModal> = ({ ...props }) => {
   const { text } = useTranslate()
 
-  const [deleteProject, { isError, error }] = useDeleteProjectMutation()
-  const errorJsx = ErrorList(error && 'data' in error ? error.data.message : [])
+  const { mutate: deleteProject, isError, error } = useDeleteProject()
+  const errorJsx = error?.message
 
   const onSubmitHandler = e => {
     e.preventDefault()

@@ -4,8 +4,6 @@ import { useTranslate } from '../hooks/useTranslate'
 import { Grid } from '../components/ui'
 import axios from 'axios'
 import { useAppDispatch, useAppSelector } from '../hooks/redux'
-import { useCreateProjectMutation } from '../store/api/projects.api'
-import { ErrorList } from '../components/errors/ErrorList'
 import { Switcher } from '../components/ui/Switcher'
 import { FlexColumn, Input, InputImage, Select, Textarea } from '../components/ui'
 import { apiBaseUrl, apiUploadUrl } from '../constants/env'
@@ -15,6 +13,7 @@ import { setActiveProjectId } from '../store/reducers/entities.reducer'
 import { IAgency } from '../interfaces/IAgency'
 import { IBrand } from '../interfaces/IBrand'
 import { IClient } from '../interfaces/IClient'
+import { useCreateProject } from '../hooks/useProjectsData'
 
 interface INewProjectModal {
   isOpen: boolean
@@ -59,9 +58,13 @@ export const NewProjectModal: FC<INewProjectModal> = ({ agencies, brands, client
   const [waiting, setWaiting] = useState(false)
   const [details, setDetails] = useState('')
 
-  const [createProject, { data: createdProject, isSuccess, isError, error, reset }] =
-    useCreateProjectMutation()
-  const errorJsx = ErrorList(error && 'data' in error ? error.data.message : [])
+  // const [createProject, { data: createdProject, isSuccess, isError, error, reset }] =
+  //   useCreateProjectMutation()
+
+  const { mutate: createProject, isSuccess, data: createdProject, isError, error } = useCreateProject()
+
+  const errorJsx = error?.message
+  // const errorJsx = ErrorList(error && 'data' in error ? error.data.message : [])
 
   const deleteFile = async () => {
     try {
@@ -82,7 +85,7 @@ export const NewProjectModal: FC<INewProjectModal> = ({ agencies, brands, client
     setChecked(false)
     setUrl(null)
 
-    reset()
+    // reset()
     setWaiting(false)
     setMessage(null)
     setProjectData(projectDataInit)

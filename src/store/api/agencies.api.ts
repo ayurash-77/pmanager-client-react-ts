@@ -21,4 +21,4 @@ export const agenciesApi = baseApi.injectEndpoints({
   }),
 })
 
-export const { useGetAllAgenciesQuery, useLazyGetAllAgenciesQuery } = agenciesApi
+export const { useLazyGetAllAgenciesQuery } = agenciesApi

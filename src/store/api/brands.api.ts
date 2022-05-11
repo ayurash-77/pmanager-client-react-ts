@@ -21,4 +21,4 @@ export const brandsApi = baseApi.injectEndpoints({
   }),
 })
 
-export const { useGetAllBrandsQuery, useLazyGetAllBrandsQuery } = brandsApi
+export const { useLazyGetAllBrandsQuery } = brandsApi

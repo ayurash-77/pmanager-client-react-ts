@@ -42,9 +42,5 @@ export const reelsTypesApi = baseApi.injectEndpoints({
   }),
 })
 
-export const {
-  useGetAllReelsTypesQuery,
-  useGetReelsTypesByProjectIdQuery,
-  useCreateReelsTypesMutation,
-  useDeleteReelsTypeMutation,
-} = reelsTypesApi
+export const { useGetReelsTypesByProjectIdQuery, useCreateReelsTypesMutation, useDeleteReelsTypeMutation } =
+  reelsTypesApi
