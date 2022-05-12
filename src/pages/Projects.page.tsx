@@ -82,9 +82,9 @@ export const ProjectsPage: FC = () => {
           )}
         </BodyContainer>
 
-        <Statusbar project={activeProject} isLoadingProject={isLoadingProject} />
+        <Statusbar />
       </MainbarContainer>
-      <Sidebar project={activeProject} isLoadingProject={isLoadingProject} />
+      <Sidebar />
     </>
   )
 }

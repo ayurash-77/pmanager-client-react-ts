@@ -19,7 +19,7 @@ import { useGetPostsByProjectId } from '../hooks/usePostsData'
 export const ProjectOverviewPage: FC = () => {
   const { id } = useParams()
 
-  const { data: project, isFetching: isFetchingProject } = useGetProject(+id)
+  const { data: project } = useGetProject(+id)
   const { data: posts, refetch: refetchPosts } = useGetPostsByProjectId(+id)
   const { data: reelsTypes, refetch: refetchReelsTypes } = useGetReelsTypesByProjectIdQuery(+id)
   const { data: reels, refetch: refetchReels } = useGetReelsByProjectIdQuery(+id)
@@ -47,7 +47,7 @@ export const ProjectOverviewPage: FC = () => {
 
         <Sendbar projectId={+id} />
       </MainbarContainer>
-      <Sidebar project={project} isLoadingProject={isFetchingProject} />
+      <Sidebar />
     </>
   )
 }

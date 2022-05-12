@@ -113,12 +113,7 @@ export const ReelsPage = () => {
 
         <Sendbar projectId={+id} />
       </MainbarContainer>
-      <Sidebar
-        project={project}
-        removeShotHandler={removeShotHandler}
-        onDragStartHandler={onDragStartHandler}
-        isLoadingProject={isFetchingProject}
-      />
+      <Sidebar removeShotHandler={removeShotHandler} onDragStartHandler={onDragStartHandler} />
     </>
   )
 }

@@ -4,7 +4,7 @@ import { PostsService } from '../app/services/posts.service'
 import { IPostData } from '../layout/sendbar/Sendbar'
 
 export const useGetPostsByProjectId = projectId => {
-  return useQuery<IPost[], Error>(['posts'], () => PostsService.getByProjectId(projectId), {
+  return useQuery<IPost[], Error>(['posts', projectId], () => PostsService.getByProjectId(projectId), {
     enabled: !!projectId,
   })
 }

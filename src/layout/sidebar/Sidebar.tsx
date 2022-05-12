@@ -7,27 +7,21 @@ import SidebarProjectInfo from './SidebarProjectInfo'
 import SidebarBriefs from './SidebarBriefs'
 import { InfoProjectTitle } from '../../components/info-elements'
 import cn from 'classnames'
-import { IProject } from '../../interfaces/IProject'
 import { ShotsBlock } from '../shots-block/ShotsBlock'
 import { useGetShotsByProjectId } from '../../hooks/useShotsData'
+import { useGetProject } from '../../hooks/useProjectsData'
 
 interface ISidebar {
-  project: IProject | null
   removeShotHandler?: (e) => void
   onDragStartHandler?: (e, shot, reel?) => void
-  isLoadingProject?: boolean
 }
 
 ////////////////////////////////////////////////////////////////////////
 // Sidebar
 ////////////////////////////////////////////////////////////////////////
 
-export const Sidebar: FC<ISidebar> = ({
-  project,
-  removeShotHandler,
-  onDragStartHandler,
-  isLoadingProject,
-}) => {
+export const Sidebar: FC<ISidebar> = ({ removeShotHandler, onDragStartHandler }) => {
+  const dispatch = useAppDispatch()
   const { show: sidebarShow } = useAppSelector(state => state.ui.sidebar)
 
   const [showSidebarInfo, setShowSidebarInfo] = useState(true)
@@ -38,9 +32,8 @@ export const Sidebar: FC<ISidebar> = ({
   const [showSidebarShots, setShowSidebarShots] = useState(true)
 
   const { activeProjectId } = useAppSelector(state => state.entities)
-  const { data: shots } = useGetShotsByProjectId(activeProjectId)
-
-  const dispatch = useAppDispatch()
+  const { data: project, isLoading: isLoadingProject } = useGetProject(activeProjectId)
+  const { data: shots, isLoading: isLoadingShots } = useGetShotsByProjectId(activeProjectId)
 
   ////////////////////////////////////////////////////////////////////////
 

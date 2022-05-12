@@ -22,7 +22,6 @@ import { ExpandedBlock } from '../components/expanded-block/ExpandedBlock'
 import { motion, AnimatePresence, AnimateSharedLayout, Reorder } from 'framer-motion'
 import { setReelsBlockExpanded } from '../store/reducers/ui.reducer'
 import { useGetProject } from '../hooks/useProjectsData'
-import { useGetShotsByProjectId } from '../hooks/useShotsData'
 import { useGetPostsByProjectId } from '../hooks/usePostsData'
 
 ////////////////////////////////////////////////////////////////////////
@@ -38,7 +37,7 @@ export const ReelsPage = () => {
   const { activeShotId, dragShot, dropReel, activeReelsIds, activeProjectId } = useAppSelector(
     state => state.entities
   )
-  const { data: project, isFetching: isFetchingProject } = useGetProject(activeProjectId)
+  const { data: project } = useGetProject(activeProjectId)
   const { data: posts, refetch: refetchPosts } = useGetPostsByProjectId(activeProjectId)
 
   const {
@@ -46,7 +45,6 @@ export const ReelsPage = () => {
     refetch: refetchReels,
     status: statusReels,
   } = useGetReelsByProjectIdQuery(activeProjectId)
-  const { data: shots, refetch: refetchShots, status: statusShots } = useGetShotsByProjectId(activeProjectId)
 
   const [updateReel, { isSuccess: isSuccessUpdateReel }] = useUpdateReelMutation()
 
@@ -180,12 +178,7 @@ export const ReelsPage = () => {
 
         <Sendbar projectId={+id} />
       </MainbarContainer>
-      <Sidebar
-        project={project}
-        removeShotHandler={removeShotHandler}
-        onDragStartHandler={onDragStartHandler}
-        isLoadingProject={isFetchingProject}
-      />
+      <Sidebar removeShotHandler={removeShotHandler} onDragStartHandler={onDragStartHandler} />
     </>
   )
 }

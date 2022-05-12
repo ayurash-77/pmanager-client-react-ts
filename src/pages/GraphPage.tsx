@@ -12,7 +12,6 @@ import { MainbarContainer } from '../layout/MainbarContainer'
 import { Sidebar } from '../layout/sidebar/Sidebar'
 import { HeaderProject } from '../layout/HeaderProject'
 import { BodyContainer } from '../layout/BodyContainer'
-import cn from 'classnames'
 import { useGetProject } from '../hooks/useProjectsData'
 import { useGetShotsByProjectId } from '../hooks/useShotsData'
 
@@ -28,7 +27,7 @@ export const GraphPage = () => {
   const { id } = useParams()
   const dispatch = useAppDispatch()
 
-  const { data: project, isFetching: isFetchingProject } = useGetProject(+id)
+  const { data: project } = useGetProject(+id)
 
   const { activeShotId, dragShot, dropReel } = useAppSelector(state => state.entities)
 
@@ -120,12 +119,7 @@ export const GraphPage = () => {
           </div>
         </BodyContainer>
       </MainbarContainer>
-      <Sidebar
-        project={project}
-        removeShotHandler={removeShotHandler}
-        onDragStartHandler={onDragStartHandler}
-        isLoadingProject={isFetchingProject}
-      />
+      <Sidebar removeShotHandler={removeShotHandler} onDragStartHandler={onDragStartHandler} />
     </>
   )
 }

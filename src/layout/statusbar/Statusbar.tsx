@@ -1,4 +1,4 @@
-import { DetailedHTMLProps, FC, HTMLAttributes } from 'react'
+import { FC } from 'react'
 import styled from 'styled-components'
 import {
   InfoDeadline,
@@ -8,12 +8,9 @@ import {
   InfoStatus,
 } from '../../components/info-elements'
 import { InfoDoneAt } from '../../components/info-elements/InfoDoneAt'
-import { IProject } from '../../interfaces/IProject'
-
-interface IStatusbar extends DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLDivElement> {
-  project: IProject
-  isLoadingProject?: boolean
-}
+import { useAppSelector } from '../../hooks/redux'
+import { useGetProject } from '../../hooks/useProjectsData'
+import Loader from '../../components/ui/Loader'
 
 const Container = styled.div`
   padding: 0 6px;
@@ -39,7 +36,10 @@ const InfoElement = styled.div`
   width: 100%;
 `
 
-export const Statusbar: FC<IStatusbar> = ({ project, isLoadingProject }) => {
+export const Statusbar: FC = () => {
+  const { activeProjectId } = useAppSelector(state => state.entities)
+  const { data: project, isLoading: isLoadingProject } = useGetProject(activeProjectId)
+
   const projectInfo = project && (
     <InfoContainer>
       <InfoElement>
@@ -68,7 +68,7 @@ export const Statusbar: FC<IStatusbar> = ({ project, isLoadingProject }) => {
   return (
     <>
       <Container>
-        {isLoadingProject && <div>loading...</div>}
+        {isLoadingProject && <Loader size={24} />}
         {projectInfo}
       </Container>
     </>
