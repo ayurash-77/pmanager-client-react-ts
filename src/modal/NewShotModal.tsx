@@ -10,8 +10,8 @@ import { IShotCreateDto } from '../interfaces/IShotCreateDto'
 import { useCreateShotMutation } from '../store/api/shots.api'
 import { setActiveShotId } from '../store/reducers/entities.reducer'
 import { IShot } from '../interfaces/IShot'
-import { useGetReelsByProjectId } from '../hooks/useReelsData'
-import { useGetPostsByProjectId } from '../hooks/usePostsData'
+import { useGetReelsByProjectId } from '../hooks/api/useReelsApi'
+import { useGetPostsByProjectId } from '../hooks/api/usePostsApi'
 
 interface INewShotModal {
   isOpen: boolean

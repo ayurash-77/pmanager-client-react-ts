@@ -8,8 +8,8 @@ import SidebarBriefs from './SidebarBriefs'
 import { InfoProjectTitle } from '../../components/info-elements'
 import cn from 'classnames'
 import { ShotsBlock } from '../shots-block/ShotsBlock'
-import { useGetShotsByProjectId } from '../../hooks/useShotsData'
-import { useGetProject } from '../../hooks/useProjectsData'
+import { useGetShotsByProjectId } from '../../hooks/api/useShotsApi'
+import { useGetProject } from '../../hooks/api/useProjectsApi'
 
 interface ISidebar {
   removeShotHandler?: (e) => void

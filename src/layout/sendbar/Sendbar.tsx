@@ -6,8 +6,8 @@ import { FC, useState } from 'react'
 import * as CommonIcons from '../../assets/icons/common-icons'
 
 import TextareaAutosize from 'react-textarea-autosize'
-import { useGetShotsByProjectId } from '../../hooks/useShotsData'
-import { useCreatePost } from '../../hooks/usePostsData'
+import { useGetShotsByProjectId } from '../../hooks/api/useShotsApi'
+import { useCreatePost } from '../../hooks/api/usePostsApi'
 
 const SendbarContainer = styled.div`
   display: flex;

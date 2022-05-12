@@ -21,8 +21,8 @@ import { RibbonReels } from '../components/ribbons/RibbonReels'
 import { ExpandedBlock } from '../components/expanded-block/ExpandedBlock'
 import { motion, AnimatePresence, AnimateSharedLayout, Reorder } from 'framer-motion'
 import { setReelsBlockExpanded } from '../store/reducers/ui.reducer'
-import { useGetProject } from '../hooks/useProjectsData'
-import { useGetPostsByProjectId } from '../hooks/usePostsData'
+import { useGetProject } from '../hooks/api/useProjectsApi'
+import { useGetPostsByProjectId } from '../hooks/api/usePostsApi'
 
 ////////////////////////////////////////////////////////////////////////
 // ReelsPage

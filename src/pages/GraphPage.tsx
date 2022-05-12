@@ -12,8 +12,8 @@ import { MainbarContainer } from '../layout/MainbarContainer'
 import { Sidebar } from '../layout/sidebar/Sidebar'
 import { HeaderProject } from '../layout/HeaderProject'
 import { BodyContainer } from '../layout/BodyContainer'
-import { useGetProject } from '../hooks/useProjectsData'
-import { useGetShotsByProjectId } from '../hooks/useShotsData'
+import { useGetProject } from '../hooks/api/useProjectsApi'
+import { useGetShotsByProjectId } from '../hooks/api/useShotsApi'
 
 export const DraggableItem = styled.div`
   cursor: grab;

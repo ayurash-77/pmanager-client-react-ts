@@ -17,7 +17,7 @@ import {
 import { IconButton, ToolButton, ToolButtonGroup, FlexRow, Input } from '../components/ui'
 import { setSearchProjectsFilter } from '../store/reducers/ui.reducer'
 import { IProject } from '../interfaces/IProject'
-import { useGetProjects, useGetProject } from '../hooks/useProjectsData'
+import { useGetProjects, useGetProject } from '../hooks/api/useProjectsApi'
 
 interface IHeader extends DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLDivElement> {
   activeProject?: IProject

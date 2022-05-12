@@ -15,7 +15,11 @@ import { BodyContainer } from '../layout/BodyContainer'
 import { setActiveMenu } from '../store/reducers/ui.reducer'
 import { ProjectsList } from '../components/projects-list/ProjectsList'
 import { ProjectsGrid } from '../components/projects-grid/ProjectsGrid'
-import { useGetProjects, useGetProject } from '../hooks/useProjectsData'
+import { useGetProjects } from '../hooks/api/useProjectsApi'
+
+////////////////////////////////////////////////////////////////////////
+// ProjectsPage
+////////////////////////////////////////////////////////////////////////
 
 export const ProjectsPage: FC = () => {
   const { quarterFilter } = useAppSelector(state => state.projects)
@@ -26,7 +30,6 @@ export const ProjectsPage: FC = () => {
   const navigate = useNavigate()
 
   const { data: projects = [], isLoading: isLoadingProjects, error: errorProjects } = useGetProjects()
-  const { data: activeProject, isLoading: isLoadingProject } = useGetProject(activeProjectId)
   const errorJsx = errorProjects?.message
 
   const onProjectClickHandler = (project: IProject) => {

@@ -5,7 +5,7 @@ import { Grid } from '../components/ui'
 import { InfoProjectTitle } from '../components/info-elements'
 import { IProject } from '../interfaces/IProject'
 import { InfoProjectBlock } from '../components/info-elements'
-import { useDeleteProject } from '../hooks/useProjectsData'
+import { useDeleteProject } from '../hooks/api/useProjectsApi'
 
 export interface IDeleteProjectModal {
   isOpen: boolean

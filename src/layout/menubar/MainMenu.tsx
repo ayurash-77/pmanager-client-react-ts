@@ -8,7 +8,7 @@ import Loader from '../../components/ui/Loader'
 import { QuartersMenu } from './QuartersMenu'
 import { setQuarterFilter } from '../../store/reducers/projects.reducer'
 import { useAppDispatch, useAppSelector } from '../../hooks/redux'
-import { useGetProjects } from '../../hooks/useProjectsData'
+import { useGetProjects } from '../../hooks/api/useProjectsApi'
 
 export const MainMenu: FC<Partial<IMenuItem>> = () => {
   const { text } = useTranslate()

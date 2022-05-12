@@ -1,7 +1,7 @@
 import { useMutation, useQuery, useQueryClient } from 'react-query'
-import { IPost } from '../interfaces/IPost'
-import { PostsService } from '../app/services/posts.service'
-import { IPostData } from '../layout/sendbar/Sendbar'
+import { IPost } from '../../interfaces/IPost'
+import { PostsService } from '../../app/services/posts.service'
+import { IPostData } from '../../layout/sendbar/Sendbar'
 
 export const useGetPostsByProjectId = projectId => {
   return useQuery<IPost[], Error>(['posts', projectId], () => PostsService.getByProjectId(projectId), {

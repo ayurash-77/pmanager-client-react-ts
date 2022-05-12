@@ -41,7 +41,7 @@ const ProgressValue = styled.span<IProgressbar>`
 `
 
 const Progress = styled.div<IProgressbar>`
-  width: ${progressWidth}px;
+  width: ${progressWidth}%;
   height: 100%;
   background: ${colorFg};
 `

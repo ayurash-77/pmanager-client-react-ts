@@ -1,7 +1,7 @@
 import { useMutation, useQuery, useQueryClient } from 'react-query'
-import { IProject } from '../interfaces/IProject'
-import { ProjectsService } from '../app/services/projects.service'
-import { IPost } from '../interfaces/IPost'
+import { IProject } from '../../interfaces/IProject'
+import { ProjectsService } from '../../app/services/projects.service'
+import { IPost } from '../../interfaces/IPost'
 
 export const useGetProjects = () => {
   return useQuery<IProject[], Error>('projects', ProjectsService.getAll)

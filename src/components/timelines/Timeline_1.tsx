@@ -15,7 +15,7 @@ import { Reorder } from 'framer-motion'
 import { EntityCardShot } from '../entity-card/EntityCardShot'
 import { useUpdateReelMutation } from '../../store/api/reels.api'
 import { useGetShotsByReelIdQuery } from '../../store/api/shots.api'
-import { useGetReelsByProjectId } from '../../hooks/useReelsData'
+import { useGetReelsByProjectId } from '../../hooks/api/useReelsApi'
 
 interface ITimelineWrapper {
   title: string

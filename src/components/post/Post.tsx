@@ -8,7 +8,7 @@ import { useAppDispatch, useAppSelector } from '../../hooks/redux'
 import cn from 'classnames'
 import { FlexRow } from '../ui'
 import { Container, PostBlock, PostHeader, PostMessage, Username, Tags, PostMenu } from './Post.styles'
-import { useDeletePost } from '../../hooks/usePostsData'
+import { useDeletePost } from '../../hooks/api/usePostsApi'
 
 export const Post: FC<IPost> = props => {
   const { id, createdBy, createdAt, reels = [], shots = [], message } = props

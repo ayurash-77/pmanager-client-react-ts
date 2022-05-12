@@ -7,7 +7,7 @@ import { useAppDispatch, useAppSelector } from '../../hooks/redux'
 import { useNavigate } from 'react-router-dom'
 import { setActiveMenu } from '../../store/reducers/ui.reducer'
 import { setActiveReelId, setActiveReelsTypeId, setActiveShotId } from '../../store/reducers/entities.reducer'
-import { useGetProjects, useGetProject } from '../../hooks/useProjectsData'
+import { useGetProjects, useGetProject } from '../../hooks/api/useProjectsApi'
 
 export const ProjectMenu: FC<Partial<IMenuItem>> = () => {
   const { text } = useTranslate()

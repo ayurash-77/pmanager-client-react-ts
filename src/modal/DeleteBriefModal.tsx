@@ -6,7 +6,7 @@ import { ErrorList } from '../components/errors/ErrorList'
 import { IBrief } from '../interfaces/IBrief'
 import { useDeleteBriefMutation } from '../store/api/briefs.api'
 import { InfoBriefBlock } from '../components/info-elements'
-import { useGetProjects } from '../hooks/useProjectsData'
+import { useGetProjects } from '../hooks/api/useProjectsApi'
 
 export interface IDeleteBriefModal {
   isOpen: boolean

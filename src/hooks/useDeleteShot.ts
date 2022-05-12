@@ -6,7 +6,7 @@ import { useAppDispatch, useAppSelector } from './redux'
 import { setActiveShotId } from '../store/reducers/entities.reducer'
 import { useTranslate } from './useTranslate'
 import { IProject } from '../interfaces/IProject'
-import { useGetReelsByProjectId } from './useReelsData'
+import { useGetReelsByProjectId } from './api/useReelsApi'
 
 interface IUseDeleteShot {
   isDeleteModalShow: boolean

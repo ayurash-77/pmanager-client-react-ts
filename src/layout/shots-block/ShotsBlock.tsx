@@ -13,7 +13,7 @@ import cn from 'classnames'
 import DeleteModal from '../../modal/DeleteModal'
 import { useDeleteShot } from '../../hooks/useDeleteShot'
 import { InfoShotBlock } from '../../components/info-elements/InfoShotBlock'
-import { useGetReelsByProjectId } from '../../hooks/useReelsData'
+import { useGetReelsByProjectId } from '../../hooks/api/useReelsApi'
 
 const Container = styled.div`
   display: flex;

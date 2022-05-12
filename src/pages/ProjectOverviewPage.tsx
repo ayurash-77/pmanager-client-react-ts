@@ -12,9 +12,9 @@ import { MainbarContainer } from '../layout/MainbarContainer'
 import { Sidebar } from '../layout/sidebar/Sidebar'
 import { HeaderProject } from '../layout/HeaderProject'
 import { BodyContainer } from '../layout/BodyContainer'
-import { useGetProject } from '../hooks/useProjectsData'
-import { useGetShotsByProjectId } from '../hooks/useShotsData'
-import { useGetPostsByProjectId } from '../hooks/usePostsData'
+import { useGetProject } from '../hooks/api/useProjectsApi'
+import { useGetShotsByProjectId } from '../hooks/api/useShotsApi'
+import { useGetPostsByProjectId } from '../hooks/api/usePostsApi'
 
 export const ProjectOverviewPage: FC = () => {
   const { id } = useParams()

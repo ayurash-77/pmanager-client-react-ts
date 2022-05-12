@@ -10,10 +10,10 @@ import { apiBaseUrl, apiUploadUrl } from '../constants/env'
 import { UploadingProgress } from '../components/uploading-progress/UploadingProgress'
 import { IProject } from '../interfaces/IProject'
 import { setActiveProjectId } from '../store/reducers/entities.reducer'
-import { useCreateProject } from '../hooks/useProjectsData'
-import { useGetAgencies } from '../hooks/useAgenciesData'
-import { useGetBrands } from '../hooks/useBrandsData'
-import { useGetClients } from '../hooks/useClientsData'
+import { useCreateProject } from '../hooks/api/useProjectsApi'
+import { useGetAgencies } from '../hooks/api/useAgenciesApi'
+import { useGetBrands } from '../hooks/api/useBrandsApi'
+import { useGetClients } from '../hooks/api/useClientsApi'
 
 interface INewProjectModal {
   isOpen: boolean

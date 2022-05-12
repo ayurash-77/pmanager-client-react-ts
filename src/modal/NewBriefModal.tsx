@@ -14,7 +14,7 @@ import { FlexColumn, Input, Select, Textarea } from '../components/ui'
 import { apiBaseUrl, apiUploadUrl } from '../constants/env'
 import { UploadingProgress } from '../components/uploading-progress/UploadingProgress'
 import { useParams } from 'react-router'
-import { useGetProjects, useGetProject } from '../hooks/useProjectsData'
+import { useGetProjects, useGetProject } from '../hooks/api/useProjectsApi'
 
 interface INewBriefModal {
   isOpen: boolean
