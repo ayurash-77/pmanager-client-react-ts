@@ -6,6 +6,8 @@ import { IShot } from '../../interfaces/IShot'
 import { EntityCardContainer } from './EntityCard.styles'
 import { DetailedHTMLProps, FC, HTMLAttributes, ReactNode } from 'react'
 import { entityVariantType } from '../../types/entityVariantType'
+import { Image } from '../ui'
+import { Clapper } from '../../assets/thumbnails/thumbnails'
 
 interface IEntityCardWrapper extends DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLDivElement> {
   children?: ReactNode
@@ -37,7 +39,7 @@ export const EntityCardWrapper: FC<IEntityCardWrapper> = ({
     <EntityCardContainer
       onClick={onClick}
       onDoubleClick={onDoubleClick}
-      draggable={draggable}
+      // draggable={draggable}
       className={cn({ draggable: draggable })}
     >
       <div

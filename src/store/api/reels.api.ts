@@ -12,7 +12,7 @@ export const reelsApi = baseApi.injectEndpoints({
           : [{ type: 'Reels', id: 'LIST' }],
     }),
     getReelsByProjectId: build.query<IReel[], number>({
-      query: projectId => ({ url: `reels/projects/${projectId}` }),
+      query: projectId => ({ url: `reels?projectId=${projectId}` }),
       providesTags: result =>
         result
           ? [...result.map(({ id }) => ({ type: 'Reels' as const, id })), { type: 'Reels', id: 'LIST' }]
@@ -48,9 +48,4 @@ export const reelsApi = baseApi.injectEndpoints({
   }),
 })
 
-export const {
-  useGetReelsByProjectIdQuery,
-  useCreateReelMutation,
-  useDeleteReelMutation,
-  useUpdateReelMutation,
-} = reelsApi
+export const { useCreateReelMutation, useDeleteReelMutation } = reelsApi

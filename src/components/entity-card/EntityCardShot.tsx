@@ -17,7 +17,7 @@ export const EntityCardShot = ({ entity, isSelected, disabled, onClick, draggabl
       variant={'shot'}
       isSelected={isSelected}
       disabled={disabled}
-      onClick={onClick}
+      // onClick={onClick}
       draggable={draggable}
     />
   )

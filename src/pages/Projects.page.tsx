@@ -46,17 +46,18 @@ export const ProjectsPage: FC = () => {
     ? projects?.filter(item => item.title.includes(searchProjectsFilter))
     : projects
 
-  useEffect(() => {
-    if (projects.length > 0) {
-      dispatch(setQuarterData(projects))
-    }
-  }, [activeProjectId, dispatch, projects])
-
   const projectsFilteredByQuarter = searchProjects.filter(project => {
     return toQuarterStr(project.createdAt) === quarterFilter.quarter
   })
 
   const projectsFiltered = quarterFilter.isActive ? projectsFilteredByQuarter : searchProjects
+  const activeProject = projectsFiltered?.find(project => project.id === activeProjectId)
+
+  useEffect(() => {
+    if (projects.length > 0) {
+      dispatch(setQuarterData(projects))
+    }
+  }, [activeProjectId, dispatch, projects])
 
   ////////////////////////////////////////////////////////////////////////
 
@@ -85,9 +86,9 @@ export const ProjectsPage: FC = () => {
           )}
         </BodyContainer>
 
-        <Statusbar />
+        <Statusbar project={activeProject} />
       </MainbarContainer>
-      <Sidebar />
+      <Sidebar project={activeProject} />
     </>
   )
 }

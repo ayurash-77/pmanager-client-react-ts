@@ -3,7 +3,7 @@ import { IClient } from '../../interfaces/IClient'
 
 export const ClientsService = {
   async getAll(): Promise<IClient[]> {
-    const { data } = await axiosRequest({ url: '/clients' })
+    const { data } = await axiosRequest({ url: 'clients' })
     return data
   },
 }

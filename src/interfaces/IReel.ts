@@ -4,7 +4,7 @@ import { IShot } from './IShot'
 import { IReelsType } from './IReelsType'
 
 export interface IReel {
-  id?: number
+  id: number
   name: string
   duration: number
   code: string
@@ -19,5 +19,6 @@ export interface IReel {
   reelsType?: IReelsType
   reelsTypeId?: number
   shots: IShot[]
+  shotsIds: number[]
   createdBy: IUser
 }

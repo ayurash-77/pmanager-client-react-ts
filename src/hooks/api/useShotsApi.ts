@@ -7,3 +7,9 @@ export const useGetShotsByProjectId = projectId => {
     enabled: !!projectId,
   })
 }
+
+export const useGetShotsByReelId = reelId => {
+  return useQuery<IShot[], Error>(['shots', reelId], () => ShotsService.getByReelId(reelId), {
+    enabled: !!reelId,
+  })
+}

@@ -4,7 +4,6 @@ import { useParams } from 'react-router'
 import { Sendbar } from '../layout/sendbar/Sendbar'
 import { Post } from '../components/post/Post'
 import { useGetReelsTypesByProjectIdQuery } from '../store/api/reelsTypes.api'
-import { useGetReelsByProjectIdQuery } from '../store/api/reels.api'
 import { RibbonReelsTypes } from '../components/ribbons/RibbonReelsTypes'
 import { RibbonReels } from '../components/ribbons/RibbonReels'
 import { RibbonShots } from '../components/ribbons/RibbonShots'
@@ -15,14 +14,15 @@ import { BodyContainer } from '../layout/BodyContainer'
 import { useGetProject } from '../hooks/api/useProjectsApi'
 import { useGetShotsByProjectId } from '../hooks/api/useShotsApi'
 import { useGetPostsByProjectId } from '../hooks/api/usePostsApi'
+import { useGetReelsByProjectId } from '../hooks/api/useReelsApi'
 
 export const ProjectOverviewPage: FC = () => {
   const { id } = useParams()
 
-  const { data: project } = useGetProject(+id)
+  const { data: project, isLoading: isLoadingProject } = useGetProject(+id)
   const { data: posts, refetch: refetchPosts } = useGetPostsByProjectId(+id)
   const { data: reelsTypes, refetch: refetchReelsTypes } = useGetReelsTypesByProjectIdQuery(+id)
-  const { data: reels, refetch: refetchReels } = useGetReelsByProjectIdQuery(+id)
+  const { data: reels, refetch: refetchReels } = useGetReelsByProjectId(+id)
   const { data: shots, refetch: refetchShots } = useGetShotsByProjectId(+id)
 
   useEffect(() => {
@@ -47,7 +47,7 @@ export const ProjectOverviewPage: FC = () => {
 
         <Sendbar projectId={+id} />
       </MainbarContainer>
-      <Sidebar />
+      <Sidebar project={project} isLoadingProject={isLoadingProject} />
     </>
   )
 }

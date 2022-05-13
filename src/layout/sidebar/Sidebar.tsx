@@ -9,10 +9,13 @@ import { InfoProjectTitle } from '../../components/info-elements'
 import cn from 'classnames'
 import { ShotsBlock } from '../shots-block/ShotsBlock'
 import { useGetShotsByProjectId } from '../../hooks/api/useShotsApi'
-import { useGetProject } from '../../hooks/api/useProjectsApi'
+import { IProject } from '../../interfaces/IProject'
+import Loader from '../../components/ui/Loader'
+import { useGetBriefsByProjectId } from '../../hooks/api/useBriefsApi'
 
 interface ISidebar {
-  removeShotHandler?: (e) => void
+  project: IProject
+  isLoadingProject?: boolean
   onDragStartHandler?: (e, shot, reel?) => void
 }
 
@@ -20,7 +23,7 @@ interface ISidebar {
 // Sidebar
 ////////////////////////////////////////////////////////////////////////
 
-export const Sidebar: FC<ISidebar> = ({ removeShotHandler, onDragStartHandler }) => {
+export const Sidebar: FC<ISidebar> = ({ project, isLoadingProject, onDragStartHandler }) => {
   const dispatch = useAppDispatch()
   const { show: sidebarShow } = useAppSelector(state => state.ui.sidebar)
 
@@ -32,8 +35,8 @@ export const Sidebar: FC<ISidebar> = ({ removeShotHandler, onDragStartHandler })
   const [showSidebarShots, setShowSidebarShots] = useState(true)
 
   const { activeProjectId } = useAppSelector(state => state.entities)
-  const { data: project, isLoading: isLoadingProject } = useGetProject(activeProjectId)
   const { data: shots, isLoading: isLoadingShots } = useGetShotsByProjectId(activeProjectId)
+  const { data: briefs, isLoading: isLoadingBriefs } = useGetBriefsByProjectId(activeProjectId)
 
   ////////////////////////////////////////////////////////////////////////
 
@@ -85,17 +88,17 @@ export const Sidebar: FC<ISidebar> = ({ removeShotHandler, onDragStartHandler })
         )}
 
         {showSidebarInfo && project && (
-          <SidebarProjectInfo project={project} isFetchingProject={isLoadingProject} />
+          <SidebarProjectInfo project={project} isLoadingProject={isLoadingProject} />
         )}
         {showSidebarBriefs && project && (
-          <SidebarBriefs project={project} isFetchingProject={isLoadingProject} />
+          <SidebarBriefs project={project} briefs={briefs} isLoadingBriefs={isLoadingBriefs} />
         )}
-        {showSidebarShots && project && shots && (
+        {showSidebarShots && project && (
           <ShotsBlock
+            isLoadingShots={isLoadingShots}
             shots={shots}
             project={project}
             onDragStartHandler={onDragStartHandler}
-            removeShotHandler={removeShotHandler}
           />
         )}
       </SidebarBodyContainer>

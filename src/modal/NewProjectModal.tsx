@@ -59,9 +59,6 @@ export const NewProjectModal: FC<INewProjectModal> = ({ ...props }) => {
   const [waiting, setWaiting] = useState(false)
   const [details, setDetails] = useState('')
 
-  // const [createProject, { data: createdProject, isSuccess, isError, error, reset }] =
-  //   useCreateProjectMutation()
-
   const { mutate: createProject, isSuccess, data: createdProject, isError, error } = useCreateProject()
 
   const deleteFile = async () => {

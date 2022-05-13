@@ -1,9 +1,7 @@
-import * as s from './Sidebar.styles'
+import { SidebarBlockTitle, SidebarBlockContainer } from './Sidebar.styles'
 import { useTranslate } from '../../hooks/useTranslate'
 import { IProject } from '../../interfaces/IProject'
 import { FC, useState } from 'react'
-import Loader from '../../components/ui/Loader'
-
 import * as CommonIcons from '../../assets/icons/common-icons'
 import { toDateStr } from '../../utils/date-time-format'
 import axios from 'axios'
@@ -11,12 +9,15 @@ import NewBriefModal from '../../modal/NewBriefModal'
 import DeleteBriefModal from '../../modal/DeleteBriefModal'
 import { IconButton, Table } from '../../components/ui'
 import { apiBaseUrl } from '../../constants/env'
+import { IBrief } from '../../interfaces/IBrief'
+import Loader from '../../components/ui/Loader'
 
 interface ISidebarBriefs {
   project: IProject | null
-  isFetchingProject?: boolean
+  briefs: IBrief[]
+  isLoadingBriefs?: boolean
 }
-export const SidebarBriefs: FC<ISidebarBriefs> = ({ project, isFetchingProject }) => {
+export const SidebarBriefs: FC<ISidebarBriefs> = ({ project, briefs, isLoadingBriefs }) => {
   const { text } = useTranslate()
   const [isNewBriefModalShow, setNewBriefModalShow] = useState(false)
   const [isDeleteBriefModalShow, setDeleteBriefModalShow] = useState(false)
@@ -55,7 +56,7 @@ export const SidebarBriefs: FC<ISidebarBriefs> = ({ project, isFetchingProject }
         </tr>
       </thead>
       <tbody>
-        {project.briefs?.map(brief => (
+        {briefs?.map(brief => (
           <tr key={brief.id} className="hover">
             <td>
               <IconButton
@@ -89,17 +90,14 @@ export const SidebarBriefs: FC<ISidebarBriefs> = ({ project, isFetchingProject }
         closeAction={() => setDeleteBriefModalShow(false)}
         brief={selectedBrief}
       />
-      <s.SidebarBlockTitle>
+      <SidebarBlockTitle>
         {text.menu.briefs}
         <IconButton icon={<CommonIcons.Plus />} ml={10} onClick={() => setNewBriefModalShow(true)} />
-      </s.SidebarBlockTitle>
-      <s.SidebarBlockContainer>
-        {!project && isFetchingProject ? (
-          <Loader size={32} />
-        ) : (
-          project.briefs?.length > 0 && projectBriefsBody
-        )}
-      </s.SidebarBlockContainer>
+      </SidebarBlockTitle>
+      <SidebarBlockContainer>
+        {isLoadingBriefs && <Loader size={32} />}
+        {briefs?.length > 0 && projectBriefsBody}
+      </SidebarBlockContainer>
     </>
   )
 }

@@ -13,9 +13,8 @@ import cn from 'classnames'
 import { IShot } from '../../interfaces/IShot'
 import { Reorder } from 'framer-motion'
 import { EntityCardShot } from '../entity-card/EntityCardShot'
-import { useUpdateReelMutation } from '../../store/api/reels.api'
-import { useGetShotsByReelIdQuery } from '../../store/api/shots.api'
-import { useGetReelsByProjectId } from '../../hooks/api/useReelsApi'
+import { useGetReelsByProjectId, useUpdateReel } from '../../hooks/api/useReelsApi'
+import { useGetShotsByReelId } from '../../hooks/api/useShotsApi'
 
 interface ITimelineWrapper {
   title: string
@@ -26,11 +25,11 @@ export const Timeline: FC<ITimelineWrapper> = ({ title, reel }) => {
   const dispatch = useAppDispatch()
 
   const { activeProjectId, activeReelsIds, activeShotId } = useAppSelector(state => state.entities)
-  const { data: reels, refetch: refetchReels, status: statusReels } = useGetReelsByProjectId(activeProjectId)
+  const { data: reels } = useGetReelsByProjectId(activeProjectId)
 
-  const { data: shots, status: statusShots } = useGetShotsByReelIdQuery(reel.id)
+  const { data: shots, status: statusShots } = useGetShotsByReelId(reel.id)
 
-  const [updateReel, { isSuccess: isSuccessUpdateReel, data: reelUpdated }] = useUpdateReelMutation()
+  const { mutate: updateReel, isSuccess: isSuccessUpdateReel, data: reelUpdated } = useUpdateReel()
 
   const onTitleClickHandler = id => {
     dispatch(setActiveReelsIds(activeReelsIds.length === 1 && activeReelsIds[0] === id ? [] : [id]))
@@ -64,7 +63,7 @@ export const Timeline: FC<ITimelineWrapper> = ({ title, reel }) => {
   }
 
   useEffect(() => {
-    if (statusShots === 'fulfilled') {
+    if (statusShots === 'success') {
       setShotsOrdered(shots)
       console.log('setShotsOrdered')
     }

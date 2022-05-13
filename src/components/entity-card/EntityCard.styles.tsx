@@ -61,6 +61,7 @@ export const EntityCardContainer = styled.div`
 
       .image {
         transition: opacity 200ms;
+        width: 80px;
         opacity: 0.6;
       }
     }

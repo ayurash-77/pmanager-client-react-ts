@@ -12,11 +12,11 @@ export const useGetPostsByProjectId = projectId => {
 export const useCreatePost = () => {
   const queryClient = useQueryClient()
   return useMutation<IPost, Error, IPostData>(PostsService.create, {
-    onSuccess: async (data: IPost) => {
-      // await queryClient.invalidateQueries('posts')
-      queryClient.setQueryData('posts', (oldQueryData: IPost[] | undefined) => {
-        return [...oldQueryData, data]
-      })
+    onSuccess: async (data: IPost, variables) => {
+      await queryClient.invalidateQueries('posts')
+      // queryClient.setQueryData('posts', (oldQueryData: IPost[] | undefined) => {
+      //   return [...oldQueryData, data]
+      // })
     },
   })
 }
@@ -24,11 +24,11 @@ export const useCreatePost = () => {
 export const useDeletePost = () => {
   const queryClient = useQueryClient()
   return useMutation<IPost, Error, number>(PostsService.delete, {
-    onSuccess: async (data, variables) => {
-      // await queryClient.invalidateQueries('posts')
-      queryClient.setQueryData('posts', (oldQueryData: IPost[] | undefined) => {
-        return [...oldQueryData.filter(item => item.id !== variables)]
-      })
+    onSuccess: async (data: IPost, variables) => {
+      await queryClient.invalidateQueries('posts')
+      // queryClient.setQueryData('posts', (oldQueryData: IPost[] | undefined) => {
+      //   return [...oldQueryData.filter(item => item.id !== variables)]
+      // })
     },
   })
 }

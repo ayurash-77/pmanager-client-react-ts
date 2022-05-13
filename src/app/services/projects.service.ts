@@ -3,15 +3,15 @@ import { IProject } from '../../interfaces/IProject'
 
 export const ProjectsService = {
   async getAll(): Promise<IProject[]> {
-    const { data } = await axiosRequest({ url: '/projects' })
+    const { data } = await axiosRequest({ url: 'projects' })
     return data
   },
   async getById(projectId: number): Promise<IProject> {
-    const { data } = await axiosRequest({ url: `/projects/${projectId}` })
+    const { data } = await axiosRequest({ url: `projects/${projectId}` })
     return data
   },
   async create(projectData: Partial<IProject>): Promise<IProject> {
-    const { data } = await axiosRequest({ url: '/projects', method: 'POST', data: projectData })
+    const { data } = await axiosRequest({ url: 'projects', method: 'POST', data: projectData })
     return data
   },
   async delete(projectId: number): Promise<IProject> {

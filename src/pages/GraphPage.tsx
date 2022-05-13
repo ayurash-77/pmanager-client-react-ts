@@ -1,6 +1,5 @@
 import styled from 'styled-components'
 import { useParams } from 'react-router'
-import { useGetReelsByProjectIdQuery, useUpdateReelMutation } from '../store/api/reels.api'
 import { Timeline } from '../components/timelines/Timeline'
 import { useAppDispatch, useAppSelector } from '../hooks/redux'
 import { EntityCardShot } from '../components/entity-card/EntityCardShot'
@@ -14,6 +13,7 @@ import { HeaderProject } from '../layout/HeaderProject'
 import { BodyContainer } from '../layout/BodyContainer'
 import { useGetProject } from '../hooks/api/useProjectsApi'
 import { useGetShotsByProjectId } from '../hooks/api/useShotsApi'
+import { useGetReelsByProjectId, useUpdateReel } from '../hooks/api/useReelsApi'
 
 export const DraggableItem = styled.div`
   cursor: grab;
@@ -27,14 +27,14 @@ export const GraphPage = () => {
   const { id } = useParams()
   const dispatch = useAppDispatch()
 
-  const { data: project } = useGetProject(+id)
+  const { data: project, isLoading: isLoadingProject } = useGetProject(+id)
 
   const { activeShotId, dragShot, dropReel } = useAppSelector(state => state.entities)
 
-  const { data: reels } = useGetReelsByProjectIdQuery(+id)
+  const { data: reels } = useGetReelsByProjectId(+id)
   const { data: shots } = useGetShotsByProjectId(+id)
 
-  const [updateReel, { isSuccess }] = useUpdateReelMutation()
+  const { mutateAsync: updateReel, isSuccess } = useUpdateReel()
 
   const onDragStartHandler = (e, shot: IShot, reel?: IReel) => {
     dispatch(setDragShot(shot))
@@ -92,7 +92,7 @@ export const GraphPage = () => {
         <BodyContainer>
           {reels?.map(reel => (
             <div key={reel.id} onDrop={e => onDropHandler(e, reel)} onDragOver={e => e.preventDefault()}>
-              <Timeline title={`${reel.code}`} reel={reel}>
+              <Timeline reel={reel}>
                 {reel.shots?.map(shot => (
                   <div
                     key={shot.id}
@@ -119,7 +119,11 @@ export const GraphPage = () => {
           </div>
         </BodyContainer>
       </MainbarContainer>
-      <Sidebar removeShotHandler={removeShotHandler} onDragStartHandler={onDragStartHandler} />
+      <Sidebar
+        project={project}
+        isLoadingProject={isLoadingProject}
+        onDragStartHandler={onDragStartHandler}
+      />
     </>
   )
 }

@@ -11,6 +11,7 @@ import { InfoDoneAt } from '../../components/info-elements/InfoDoneAt'
 import { useAppSelector } from '../../hooks/redux'
 import { useGetProject } from '../../hooks/api/useProjectsApi'
 import Loader from '../../components/ui/Loader'
+import { IProject } from '../../interfaces/IProject'
 
 const Container = styled.div`
   padding: 0 6px;
@@ -36,10 +37,11 @@ const InfoElement = styled.div`
   width: 100%;
 `
 
-export const Statusbar: FC = () => {
-  const { activeProjectId } = useAppSelector(state => state.entities)
-  const { data: project, isLoading: isLoadingProject } = useGetProject(activeProjectId)
+interface IStatusbar {
+  project: IProject
+}
 
+export const Statusbar: FC<IStatusbar> = ({ project }) => {
   const projectInfo = project && (
     <InfoContainer>
       <InfoElement>
@@ -65,14 +67,7 @@ export const Statusbar: FC = () => {
     </InfoContainer>
   )
 
-  return (
-    <>
-      <Container>
-        {isLoadingProject && <Loader size={24} />}
-        {projectInfo}
-      </Container>
-    </>
-  )
+  return <Container>{projectInfo}</Container>
 }
 
 export default Statusbar

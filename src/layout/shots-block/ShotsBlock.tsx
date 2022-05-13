@@ -14,6 +14,7 @@ import DeleteModal from '../../modal/DeleteModal'
 import { useDeleteShot } from '../../hooks/useDeleteShot'
 import { InfoShotBlock } from '../../components/info-elements/InfoShotBlock'
 import { useGetReelsByProjectId } from '../../hooks/api/useReelsApi'
+import Loader from '../../components/ui/Loader'
 
 const Container = styled.div`
   display: flex;
@@ -38,6 +39,7 @@ const ShotsContainer = styled.div`
 interface IShotsBlock {
   project: IProject
   shots: IShot[]
+  isLoadingShots?: boolean
   onDragStartHandler: (e, shot) => void
   removeShotHandler?: (e) => void
 }
@@ -46,13 +48,19 @@ interface IShotsBlock {
 // ShotsBlock
 ////////////////////////////////////////////////////////////////////////
 
-export const ShotsBlock: FC<IShotsBlock> = ({ project, shots, removeShotHandler, onDragStartHandler }) => {
+export const ShotsBlock: FC<IShotsBlock> = ({
+  project,
+  shots,
+  isLoadingShots,
+  removeShotHandler,
+  onDragStartHandler,
+}) => {
   const dispatch = useAppDispatch()
 
   const [isNewShotModalShow, setNewShotModalShow] = useState(false)
 
   const { activeShotId, activeProjectId, activeReelsIds, dropReel } = useAppSelector(state => state.entities)
-  const { data: reels, refetch: refetchReels, status: statusReels } = useGetReelsByProjectId(activeProjectId)
+  const { data: reels } = useGetReelsByProjectId(activeProjectId)
 
   const activeShot = shots?.find(shot => shot.id === activeShotId) || null
 
@@ -111,6 +119,7 @@ export const ShotsBlock: FC<IShotsBlock> = ({ project, shots, removeShotHandler,
           </FlexRow>
         </SidebarBlockTitle>
         <ShotsContainer onDragOver={e => e.preventDefault()} onDrop={e => removeShotHandler(e)}>
+          {isLoadingShots && <Loader size={32} />}
           {shots?.map(shot => (
             <div
               key={shot.id}

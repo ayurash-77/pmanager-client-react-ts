@@ -4,15 +4,17 @@ import { IPostData } from '../../layout/sendbar/Sendbar'
 
 export const PostsService = {
   async getAll(): Promise<IPost[]> {
-    const { data } = await axiosRequest({ url: '/posts' })
+    const { data } = await axiosRequest({ url: 'posts' })
     return data
   },
+
   async getByProjectId(projectId: number): Promise<IPost[]> {
-    const { data } = await axiosRequest({ url: `/posts/projects/${projectId}` })
+    const { data } = await axiosRequest({ url: `posts/projects/${projectId}` })
     return data
   },
+
   async create(postData: IPostData): Promise<IPost> {
-    const { data } = await axiosRequest({ url: '/posts', method: 'POST', data: postData })
+    const { data } = await axiosRequest({ url: 'posts', method: 'POST', data: postData })
     return data
   },
 
