@@ -16,14 +16,14 @@ import { useGetBriefsByProjectId } from '../../hooks/api/useBriefsApi'
 interface ISidebar {
   project: IProject
   isLoadingProject?: boolean
-  onDragStartHandler?: (e, shot, reel?) => void
 }
 
 ////////////////////////////////////////////////////////////////////////
 // Sidebar
 ////////////////////////////////////////////////////////////////////////
 
-export const Sidebar: FC<ISidebar> = ({ project, isLoadingProject, onDragStartHandler }) => {
+export const Sidebar: FC<ISidebar> = props => {
+  const { project, isLoadingProject } = props
   const dispatch = useAppDispatch()
   const { show: sidebarShow } = useAppSelector(state => state.ui.sidebar)
 
@@ -94,12 +94,7 @@ export const Sidebar: FC<ISidebar> = ({ project, isLoadingProject, onDragStartHa
           <SidebarBriefs project={project} briefs={briefs} isLoadingBriefs={isLoadingBriefs} />
         )}
         {showSidebarShots && project && (
-          <ShotsBlock
-            isLoadingShots={isLoadingShots}
-            shots={shots}
-            project={project}
-            onDragStartHandler={onDragStartHandler}
-          />
+          <ShotsBlock isLoadingShots={isLoadingShots} shots={shots} project={project} />
         )}
       </SidebarBodyContainer>
     </SideBarContainer>

@@ -7,8 +7,8 @@ import { IReel } from '../interfaces/IReel'
 import {
   setActiveReelsIds,
   setActiveShotId,
-  setDragShot,
-  setDropReel,
+  setDragShotId,
+  setDropReelId,
 } from '../store/reducers/entities.reducer'
 import { MainbarContainer } from '../layout/MainbarContainer'
 import { Sidebar } from '../layout/sidebar/Sidebar'
@@ -30,11 +30,12 @@ import { Reorder, motion, AnimatePresence, AnimateSharedLayout } from 'framer-mo
 
 export const ReelsPage = () => {
   const dispatch = useAppDispatch()
+
   const bottomDivRef = useRef(null)
 
   const { id } = useParams()
   const { reelsBlock } = useAppSelector(state => state.ui)
-  const { activeShotId, activeReelsIds, activeProjectId } = useAppSelector(state => state.entities)
+  const { activeShotId, activeReelsIds, activeProjectId, dragShot } = useAppSelector(state => state.entities)
   const { data: project, isLoading: isLoadingProject } = useGetProject(activeProjectId)
   const { data: posts } = useGetPostsByProjectId(activeProjectId)
   const { data: reels } = useGetReelsByProjectId(activeProjectId)
@@ -47,22 +48,6 @@ export const ReelsPage = () => {
   const postsByShot = activeShotId
     ? postsByReel?.filter(post => post.shots.find(shot => shot.id === activeShotId))
     : postsByReel
-
-  const onDragStartHandler = (e, shot: IShot, reel?: IReel) => {
-    dispatch(setDragShot(shot))
-    dispatch(setActiveShotId(shot.id))
-    if (reel) dispatch(setDropReel(reel))
-  }
-
-  const onShotClickHandler = id => {
-    console.log(id)
-    const currentShotId = activeShotId === id ? null : id
-    dispatch(setActiveShotId(currentShotId))
-    const reelsIds = reels
-      ?.filter(reel => reel.shots?.find(shot => shot.id === currentShotId))
-      .map(reel => reel.id)
-    dispatch(setActiveReelsIds(reelsIds))
-  }
 
   const removeShotHandler = e => {
     e.preventDefault()
@@ -99,7 +84,7 @@ export const ReelsPage = () => {
                 // onDrop={e => onDropHandler(e, reel)}
                 // onDragOver={e => e.preventDefault()}
               >
-                <Timeline reel={reel} onShotClickHandler={onShotClickHandler} />
+                <Timeline reel={reel} />
               </div>
             ))}
         </ExpandedBlock>
@@ -113,11 +98,7 @@ export const ReelsPage = () => {
 
         <Sendbar projectId={+id} />
       </MainbarContainer>
-      <Sidebar
-        project={project}
-        isLoadingProject={isLoadingProject}
-        onDragStartHandler={onDragStartHandler}
-      />
+      <Sidebar project={project} isLoadingProject={isLoadingProject} />
     </>
   )
 }

@@ -7,7 +7,6 @@ import { IShot } from '../../interfaces/IShot'
 import { FC, useState } from 'react'
 import NewShotModal from '../../modal/NewShotModal'
 import { IProject } from '../../interfaces/IProject'
-import { setActiveReelsIds, setActiveShotId } from '../../store/reducers/entities.reducer'
 import { useAppDispatch, useAppSelector } from '../../hooks/redux'
 import cn from 'classnames'
 import DeleteModal from '../../modal/DeleteModal'
@@ -15,6 +14,8 @@ import { useDeleteShot } from '../../hooks/useDeleteShot'
 import { InfoShotBlock } from '../../components/info-elements/InfoShotBlock'
 import { useGetReelsByProjectId } from '../../hooks/api/useReelsApi'
 import Loader from '../../components/ui/Loader'
+import { useOnShotClickHandler } from '../../hooks/useOnClickHandlers'
+import { setActiveShotId, setDragShotId } from '../../store/reducers/entities.reducer'
 
 const Container = styled.div`
   display: flex;
@@ -40,22 +41,16 @@ interface IShotsBlock {
   project: IProject
   shots: IShot[]
   isLoadingShots?: boolean
-  onDragStartHandler: (e, shot) => void
-  removeShotHandler?: (e) => void
 }
 
 ////////////////////////////////////////////////////////////////////////
 // ShotsBlock
 ////////////////////////////////////////////////////////////////////////
 
-export const ShotsBlock: FC<IShotsBlock> = ({
-  project,
-  shots,
-  isLoadingShots,
-  removeShotHandler,
-  onDragStartHandler,
-}) => {
+export const ShotsBlock: FC<IShotsBlock> = props => {
+  const { project, shots, isLoadingShots } = props
   const dispatch = useAppDispatch()
+  const { onShotClickHandler } = useOnShotClickHandler()
 
   const [isNewShotModalShow, setNewShotModalShow] = useState(false)
 
@@ -74,13 +69,12 @@ export const ShotsBlock: FC<IShotsBlock> = ({
     title,
   } = useDeleteShot(project, activeShot)
 
-  const onShotClickHandler = id => {
-    const currentShotId = activeShotId === id ? null : id
-    dispatch(setActiveShotId(currentShotId))
-    const reelsIds = reels
-      ?.filter(reel => reel.shots?.find(shot => shot.id === currentShotId))
-      .map(reel => reel.id)
-    dispatch(setActiveReelsIds(reelsIds))
+  const onDragStartHandler = (shotId: number) => {
+    dispatch(setDragShotId(shotId))
+    dispatch(setActiveShotId(shotId))
+  }
+  const onDragEndHandler = () => {
+    dispatch(setDragShotId(null))
   }
 
   ////////////////////////////////////////////////////////////////////////
@@ -118,7 +112,7 @@ export const ShotsBlock: FC<IShotsBlock> = ({
             <IconButton icon={<CommonIcons.Plus />} onClick={() => setNewShotModalShow(true)} />
           </FlexRow>
         </SidebarBlockTitle>
-        <ShotsContainer onDragOver={e => e.preventDefault()} onDrop={e => removeShotHandler(e)}>
+        <ShotsContainer onDragOver={e => e.preventDefault()}>
           {isLoadingShots && <Loader size={32} />}
           {shots?.map(shot => (
             <div
@@ -126,7 +120,8 @@ export const ShotsBlock: FC<IShotsBlock> = ({
               draggable={true}
               className={cn({ draggable: dropReel })}
               onClick={() => onShotClickHandler(shot.id)}
-              onDragStart={e => onDragStartHandler(e, shot)}
+              onDragStart={() => onDragStartHandler(shot.id)}
+              onDragEnd={onDragEndHandler}
             >
               <EntityCardShot
                 entity={shot}

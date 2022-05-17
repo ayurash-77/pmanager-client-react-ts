@@ -1,7 +1,6 @@
 import styled from 'styled-components'
 
 export const TimelineContainer = styled.div`
-  //padding: 5px 0;
   margin-bottom: 5px;
   display: flex;
   flex-direction: column;

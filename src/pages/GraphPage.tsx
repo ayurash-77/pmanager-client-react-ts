@@ -5,7 +5,7 @@ import { useAppDispatch, useAppSelector } from '../hooks/redux'
 import { EntityCardShot } from '../components/entity-card/EntityCardShot'
 import { IShot } from '../interfaces/IShot'
 import { IReel } from '../interfaces/IReel'
-import { setActiveShotId, setDragShot, setDropReel } from '../store/reducers/entities.reducer'
+import { setActiveShotId, setDragShotId, setDropReelId } from '../store/reducers/entities.reducer'
 import { ShotsBlock } from '../layout/shots-block/ShotsBlock'
 import { MainbarContainer } from '../layout/MainbarContainer'
 import { Sidebar } from '../layout/sidebar/Sidebar'
@@ -37,9 +37,9 @@ export const GraphPage = () => {
   const { mutateAsync: updateReel, isSuccess } = useUpdateReel()
 
   const onDragStartHandler = (e, shot: IShot, reel?: IReel) => {
-    dispatch(setDragShot(shot))
+    dispatch(setDragShotId(shot.id))
     dispatch(setActiveShotId(shot.id))
-    if (reel) dispatch(setDropReel(reel))
+    if (reel) dispatch(setDropReelId(reel.id))
   }
 
   const onDragLeaveHandler = (e, shot) => {
@@ -55,7 +55,7 @@ export const GraphPage = () => {
   }
 
   const onDropHandler = (e, reel: IReel) => {
-    if (reel) dispatch(setDropReel(reel))
+    if (reel) dispatch(setDropReelId(reel.id))
     e.preventDefault()
 
     const updatedShots = [...reel.shots, dragShot]
@@ -110,20 +110,11 @@ export const GraphPage = () => {
             </div>
           ))}
           <div>
-            <ShotsBlock
-              shots={shots}
-              project={project}
-              onDragStartHandler={onDragStartHandler}
-              removeShotHandler={removeShotHandler}
-            />
+            <ShotsBlock shots={shots} project={project} />
           </div>
         </BodyContainer>
       </MainbarContainer>
-      <Sidebar
-        project={project}
-        isLoadingProject={isLoadingProject}
-        onDragStartHandler={onDragStartHandler}
-      />
+      <Sidebar project={project} isLoadingProject={isLoadingProject} />
     </>
   )
 }

@@ -8,8 +8,8 @@ interface IInitialState {
   activeReelId: number | null
   activeReelsIds: number[]
   activeShotId: number | null
-  dragShot: IShot | null
-  dropReel: IReel | null
+  dragShotId: number | null
+  dropReelId: number | null
 }
 
 const initialState: IInitialState = {
@@ -18,8 +18,8 @@ const initialState: IInitialState = {
   activeReelId: null,
   activeReelsIds: [],
   activeShotId: null,
-  dragShot: null,
-  dropReel: null,
+  dragShotId: null,
+  dropReelId: null,
 }
 
 export const entitiesSlice = createSlice({
@@ -41,11 +41,11 @@ export const entitiesSlice = createSlice({
     setActiveShotId(state, action: PayloadAction<number | null>) {
       state.activeShotId = action.payload
     },
-    setDragShot(state, action: PayloadAction<IShot | null>) {
-      state.dragShot = action.payload
+    setDragShotId(state, action: PayloadAction<number | null>) {
+      state.dragShotId = action.payload
     },
-    setDropReel(state, action: PayloadAction<IReel | null>) {
-      state.dropReel = action.payload
+    setDropReelId(state, action: PayloadAction<number | null>) {
+      state.dropReelId = action.payload
     },
   },
 })
@@ -56,7 +56,7 @@ export const {
   setActiveReelId,
   setActiveReelsIds,
   setActiveShotId,
-  setDragShot,
-  setDropReel,
+  setDragShotId,
+  setDropReelId,
 } = entitiesSlice.actions
 export default entitiesSlice.reducer

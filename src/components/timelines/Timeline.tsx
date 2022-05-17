@@ -1,30 +1,28 @@
-import { FC, useEffect, useState } from 'react'
+import { FC, useState } from 'react'
 import { useAppDispatch, useAppSelector } from '../../hooks/redux'
 import { IReel } from '../../interfaces/IReel'
 import {
   setActiveReelsIds,
   setActiveReelsTypeId,
   setActiveShotId,
-  setDragShot,
-  setDropReel,
+  setDragShotId,
 } from '../../store/reducers/entities.reducer'
 import { TimelineContainer } from './Timeline.styles'
 import cn from 'classnames'
-import { IShot } from '../../interfaces/IShot'
 import { Reorder, AnimatePresence } from 'framer-motion'
 import { EntityCardShot } from '../entity-card/EntityCardShot'
 import { useUpdateReel } from '../../hooks/api/useReelsApi'
+import { useOnShotClickHandler } from '../../hooks/useOnClickHandlers'
 
 interface ITimelineWrapper {
   reel: IReel
-  onShotClickHandler?: (e) => void
 }
 
-export const Timeline: FC<ITimelineWrapper> = props => {
-  const { reel, onShotClickHandler } = props
+export const Timeline: FC<ITimelineWrapper> = ({ reel }) => {
   const dispatch = useAppDispatch()
+  const { onShotClickHandler } = useOnShotClickHandler()
 
-  const { activeReelsIds, activeShotId } = useAppSelector(state => state.entities)
+  const { activeReelsIds, activeShotId, dragShotId } = useAppSelector(state => state.entities)
 
   const { mutateAsync: updateReel, isSuccess: isSuccessUpdateReel } = useUpdateReel()
 
@@ -43,9 +41,10 @@ export const Timeline: FC<ITimelineWrapper> = props => {
 
   const onDragEndHandler = async () => {
     await updateReel({ ...reel, shotsIds: shotsIds })
+    dispatch(setDragShotId(null))
   }
   const onDragStartHandler = shotId => {
-    dispatch(setDragShot(reel.shots.find(shot => shot.id === shotId)))
+    dispatch(setDragShotId(shotId))
   }
 
   /////////////////////////////////////////////////////////////////////
@@ -57,7 +56,7 @@ export const Timeline: FC<ITimelineWrapper> = props => {
           className={cn('title', { active: activeReelsIds.includes(reel.id) })}
           onClick={() => onTitleClickHandler(reel.id)}
         >
-          {reel.code} {reel.name} ({reel.shots.length} shots)
+          {reel.code} / {reel.name} ({reel.shots.length} shots)
         </div>
 
         <div className={'timelineRow'}>
