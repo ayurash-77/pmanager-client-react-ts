@@ -5,7 +5,6 @@ import { FC, ReactNode, useState } from 'react'
 import * as CommonIcons from '../../assets/icons/common-icons'
 import { IconButton } from '../ui'
 import { IReelsType } from '../../interfaces/IReelsType'
-import { FlexRow } from '../ui'
 import { useAppDispatch, useAppSelector } from '../../hooks/redux'
 import { ExpandedBlock } from '../expanded-block/ExpandedBlock'
 
@@ -57,8 +56,6 @@ export const RibbonWrapper: FC<IRibbonWrapper> = ({
   children,
   activeItemsIds = [],
 }) => {
-  const dispatch = useAppDispatch()
-  const { reelsBlock } = useAppSelector(state => state.ui)
   const { authUser } = useAppSelector(state => state.auth)
   const [expanded, setExpanded] = useState(true)
   const canDeleteItemRoles = ['Producer', 'Art director', 'Manager']
@@ -71,7 +68,6 @@ export const RibbonWrapper: FC<IRibbonWrapper> = ({
           icon={<CommonIcons.Minus />}
           disabled={activeItemsIds.length !== 1}
           // variant={activeItemId ? 'accent' : null}
-
           variant={'accent'}
           onClick={activeItemsIds.length === 1 ? onClickMinus : null}
         />
