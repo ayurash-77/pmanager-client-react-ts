@@ -24,13 +24,6 @@ export const InfoProjectTitleContainer = styled.div<ITitleStyled>`
   text-align: ${align};
   margin: ${margin} 2px;
   color: ${statusColor};
-  .accent {
-    &:after {
-      content: '! ';
-    }
-    color: var(--accent);
-    font-weight: 600;
-  }
 `
 
 interface InfoProjectTitle extends Partial<IProject> {
@@ -50,7 +43,7 @@ export const InfoProjectTitle: FC<InfoProjectTitle> = ({
   const statusColor = status ? statuses[status.code].color : null
   return (
     <InfoProjectTitleContainer align={align} margin={margin} statusColor={statusColor} fontSize={fontSize}>
-      {highPriority && <span className="accent" />}
+      {highPriority && <span className="highPriority" />}
       {title}
     </InfoProjectTitleContainer>
   )

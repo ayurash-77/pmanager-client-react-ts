@@ -18,3 +18,11 @@
   flex-wrap: nowrap;
 }
 
+.highPriority {
+  &:after {
+    content: '! ';
+  }
+  color: var(--accent);
+  font-weight: 600;
+}
+

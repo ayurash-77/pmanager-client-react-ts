@@ -88,7 +88,7 @@ export const RibbonReels = ({ entities, project }: { entities: IReel[]; project:
         {entities?.map(entity => (
           <EntityCardReel
             key={entity.id}
-            entity={entity}
+            reel={entity}
             isSelected={activeReelsIds.includes(entity.id)}
             onClick={() => onClickItemHandler(entity.id)}
           />

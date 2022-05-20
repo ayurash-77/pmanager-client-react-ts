@@ -53,7 +53,11 @@ export const Timeline: FC<ITimelineWrapper> = ({ reel }) => {
 
   const removeShotFromReelHandler = async () => {
     if (!activeShotId) return
-    console.log(`Remove shot (id: ${activeShotId}) from Reel (id: ${reel.id})`)
+    const newShots = reel.shots.filter(shot => shot.id !== activeShotId)
+    const newShotsIds = reel.shotsIds.filter(id => id !== activeShotId)
+    await updateReel({ ...reel, shots: newShots, shotsIds: newShotsIds })
+    dispatch(setActiveShotId(null))
+    setShotsIds(newShotsIds)
   }
   const addShotToReelHandler = async () => {
     console.log(`Add shot to Reel (id: ${reel.id})`)
@@ -68,6 +72,7 @@ export const Timeline: FC<ITimelineWrapper> = ({ reel }) => {
           className={cn('code', { active: activeReelsIds.includes(reel.id) })}
           onClick={() => onTitleClickHandler(reel.id)}
         >
+          {reel.highPriority && <span className="highPriority" />}
           {reel.code}
           {reel.name?.length > 0 && <div className={'name'}> - {reel.name}</div>}
           <div className={'shotsCount'}>
