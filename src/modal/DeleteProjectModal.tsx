@@ -5,7 +5,8 @@ import { Grid } from '../components/ui'
 import { InfoProjectTitle } from '../components/info-elements'
 import { IProject } from '../interfaces/IProject'
 import { InfoProjectBlock } from '../components/info-elements'
-import { useDeleteProject } from '../hooks/api/useProjectsApi'
+import { useDeleteProjectMutation } from '../store/api/projects.api'
+import { ErrorList } from '../components/errors/ErrorList'
 
 export interface IDeleteProjectModal {
   isOpen: boolean
@@ -16,8 +17,8 @@ export interface IDeleteProjectModal {
 export const DeleteProjectModal: FC<IDeleteProjectModal> = ({ ...props }) => {
   const { text } = useTranslate()
 
-  const { mutate: deleteProject, isError, error } = useDeleteProject()
-  const errorJsx = error?.message
+  const [deleteProject, { isError, error }] = useDeleteProjectMutation()
+  const errorJsx = ErrorList(error && 'data' in error ? error.data.message : [])
 
   const onSubmitHandler = e => {
     e.preventDefault()
@@ -55,8 +56,10 @@ export const DeleteProjectModal: FC<IDeleteProjectModal> = ({ ...props }) => {
         onCancelHandler={onCancelHandler}
       >
         <Grid cols="auto" gap={5}>
-          {details}
-          {isError && errorJsx}
+          <>
+            {details}
+            {isError && errorJsx}
+          </>
         </Grid>
       </ModalWrapper>
     </>

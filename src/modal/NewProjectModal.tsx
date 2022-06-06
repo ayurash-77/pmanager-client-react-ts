@@ -5,15 +5,16 @@ import { Grid } from '../components/ui'
 import axios from 'axios'
 import { useAppDispatch, useAppSelector } from '../hooks/redux'
 import { Switcher } from '../components/ui/Switcher'
-import { FlexColumn, Input, InputImage, Select, Textarea } from '../components/ui'
+import { Input, InputImage, Select, Textarea } from '../components/ui'
 import { apiBaseUrl, apiUploadUrl } from '../constants/env'
 import { UploadingProgress } from '../components/uploading-progress/UploadingProgress'
 import { IProject } from '../interfaces/IProject'
 import { setActiveProjectId } from '../store/reducers/entities.reducer'
-import { useCreateProject } from '../hooks/api/useProjectsApi'
 import { useGetAgencies } from '../hooks/api/useAgenciesApi'
 import { useGetBrands } from '../hooks/api/useBrandsApi'
 import { useGetClients } from '../hooks/api/useClientsApi'
+import { useCreateProjectMutation } from '../store/api/projects.api'
+import { ErrorList } from '../components/errors/ErrorList'
 
 interface INewProjectModal {
   isOpen: boolean
@@ -59,7 +60,8 @@ export const NewProjectModal: FC<INewProjectModal> = ({ ...props }) => {
   const [waiting, setWaiting] = useState(false)
   const [details, setDetails] = useState('')
 
-  const { mutate: createProject, isSuccess, data: createdProject, isError, error } = useCreateProject()
+  const [createProject, { isSuccess, data: createdProject, isError, error }] = useCreateProjectMutation()
+  const errorJsx = ErrorList(error && 'data' in error ? error.data.message : [])
 
   const deleteFile = async () => {
     try {
@@ -178,71 +180,74 @@ export const NewProjectModal: FC<INewProjectModal> = ({ ...props }) => {
         onCancelHandler={onCancelHandler}
       >
         <Grid cols="auto" gap={5}>
-          <input style={{ display: 'none' }} type="file" onChange={fileSelectedHandler} ref={fileInputRef} />
-          <InputImage
-            width={'100%'}
-            onClick={() => fileInputRef.current.click()}
-            isUploading={uploading}
-            url={url}
-            isBrowse={!uploading}
-          />
-          <UploadingProgress uploading={uploading} progress={progress} withValue={true} />
-          <div className="error">{message}</div>
+          <>
+            <input
+              style={{ display: 'none' }}
+              type="file"
+              onChange={fileSelectedHandler}
+              ref={fileInputRef}
+            />
+            <InputImage
+              width={'100%'}
+              onClick={() => fileInputRef.current.click()}
+              isUploading={uploading}
+              url={url}
+              isBrowse={!uploading}
+            />
+            <UploadingProgress uploading={uploading} progress={progress} withValue={true} />
+            <div className="error">{message}</div>
 
-          {isError && (
-            <FlexColumn vAlign="center" padding={5}>
-              <div className="error">{error?.message}</div>
-            </FlexColumn>
-          )}
+            {isError && errorJsx}
 
-          <Grid cols="max-content auto " marginTop={5} align={'right'}>
-            <Input
-              disabled={waiting}
-              label={text.project.projectName}
-              onChange={e => onChangeHandler('title', e.target)}
-              autoFocus={true}
-              placeholder={text.project.projectName}
-            />
-            <Select
-              label={text.project.brand}
-              options={brandsOptions}
-              value={selectId.brandId}
-              onChange={e => onChangeSelectHandler('brandId', +e.target.value)}
-            />
-            <Select
-              label={text.project.client}
-              options={clientsOptions}
-              value={selectId.clientId}
-              onChange={e => onChangeSelectHandler('clientId', +e.target.value)}
-            />
-            <Select
-              label={text.project.agency}
-              options={agenciesOptions}
-              value={selectId.agencyId}
-              onChange={e => onChangeSelectHandler('agencyId', +e.target.value)}
-            />
-            <Input
-              type={'date'}
-              label={text.common.startAt}
-              onChange={e => onChangeHandler('startAt', e.target)}
-            />
-            <Input
-              type={'date'}
-              label={text.common.deadline}
-              onChange={e => onChangeHandler('deadline', e.target)}
-            />
-            <Textarea
-              value={details}
-              label={text.common.details}
-              onChange={e => onChangeHandler('details', e.target)}
-            />
+            <Grid cols="max-content auto " marginTop={5} align={'right'}>
+              <Input
+                disabled={waiting}
+                label={text.project.projectName}
+                onChange={e => onChangeHandler('title', e.target)}
+                autoFocus={true}
+                placeholder={text.project.projectName}
+              />
+              <Select
+                label={text.project.brand}
+                options={brandsOptions}
+                value={selectId.brandId}
+                onChange={e => onChangeSelectHandler('brandId', +e.target.value)}
+              />
+              <Select
+                label={text.project.client}
+                options={clientsOptions}
+                value={selectId.clientId}
+                onChange={e => onChangeSelectHandler('clientId', +e.target.value)}
+              />
+              <Select
+                label={text.project.agency}
+                options={agenciesOptions}
+                value={selectId.agencyId}
+                onChange={e => onChangeSelectHandler('agencyId', +e.target.value)}
+              />
+              <Input
+                type={'date'}
+                label={text.common.startAt}
+                onChange={e => onChangeHandler('startAt', e.target)}
+              />
+              <Input
+                type={'date'}
+                label={text.common.deadline}
+                onChange={e => onChangeHandler('deadline', e.target)}
+              />
+              <Textarea
+                value={details}
+                label={text.common.details}
+                onChange={e => onChangeHandler('details', e.target)}
+              />
 
-            <Switcher
-              label={text.common.highPriority}
-              checked={isChecked}
-              onChange={() => onCheckedHandler(isChecked)}
-            />
-          </Grid>
+              <Switcher
+                label={text.common.highPriority}
+                checked={isChecked}
+                onChange={() => onCheckedHandler(isChecked)}
+              />
+            </Grid>
+          </>
         </Grid>
       </ModalWrapper>
     </>

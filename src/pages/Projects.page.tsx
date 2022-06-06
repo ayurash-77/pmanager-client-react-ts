@@ -17,7 +17,6 @@ import { ProjectsList } from '../components/projects-list/ProjectsList'
 import { ProjectsGrid } from '../components/projects-grid/ProjectsGrid'
 import { useGetProjectsQuery } from '../store/api/projects.api'
 import { ErrorList } from '../components/errors/ErrorList'
-import useSingleAndDoubleClick from '../hooks/useDoubleAndSingleClick'
 
 ////////////////////////////////////////////////////////////////////////
 // ProjectsPage
@@ -36,13 +35,13 @@ export const ProjectsPage: FC = () => {
 
   const onProjectClickHandler = (project: IProject) => {
     dispatch(setActiveProjectId(activeProjectId === project.id ? null : project.id))
-    console.log('CLICK')
+    // console.log('CLICK')
   }
   const onProjectDoubleClickHandler = (project: IProject) => {
     dispatch(setActiveProjectId(project.id))
     dispatch(setActiveMenu('reels'))
     navigate(`/projects/${project.id}/reels`, { state: 1 })
-    console.log('DOUBLE CLICK')
+    // console.log('DOUBLE CLICK')
   }
 
   // const onClickHandler = useSingleAndDoubleClick(onProjectClickHandler, onProjectDoubleClickHandler)
@@ -87,18 +86,10 @@ export const ProjectsPage: FC = () => {
             {isLoadingProjects && <Loader size={64} border={8} />}
             {errorJsx}
             {projectsViewMode === 'grid' && (
-              <ProjectsGrid
-                projects={projectsFiltered}
-                onProjectClickHandler={onClickHandler}
-                // onProjectDoubleClickHandler={onProjectDoubleClickHandler}
-              />
+              <ProjectsGrid projects={projectsFiltered} onProjectClickHandler={onClickHandler} />
             )}
             {projectsViewMode === 'list' && (
-              <ProjectsList
-                projects={projectsFiltered}
-                onProjectClickHandler={onClickHandler}
-                // onProjectDoubleClickHandler={onProjectDoubleClickHandler}
-              />
+              <ProjectsList projects={projectsFiltered} onProjectClickHandler={onClickHandler} />
             )}
           </>
         </BodyContainer>
