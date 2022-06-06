@@ -47,15 +47,8 @@ interface IRibbonWrapper {
   activeItemsIds: number[]
 }
 
-export const RibbonWrapper: FC<IRibbonWrapper> = ({
-  variant,
-  title,
-  count,
-  onClickPlus,
-  onClickMinus,
-  children,
-  activeItemsIds = [],
-}) => {
+export const RibbonWrapper: FC<IRibbonWrapper> = props => {
+  const { variant, title, count, onClickPlus, onClickMinus, children, activeItemsIds = [] } = props
   const { authUser } = useAppSelector(state => state.auth)
   const [expanded, setExpanded] = useState(true)
   const canDeleteItemRoles = ['Producer', 'Art director', 'Manager']
@@ -65,11 +58,10 @@ export const RibbonWrapper: FC<IRibbonWrapper> = ({
     <>
       {canDeleteItem && (
         <IconButton
-          icon={<CommonIcons.Minus />}
-          disabled={activeItemsIds.length !== 1}
-          // variant={activeItemId ? 'accent' : null}
+          icon={<CommonIcons.Trash />}
+          disabled={activeItemsIds?.length !== 1}
           variant={'accent'}
-          onClick={activeItemsIds.length === 1 ? onClickMinus : null}
+          onClick={activeItemsIds?.length === 1 ? onClickMinus : null}
         />
       )}
       <IconButton icon={<CommonIcons.Plus />} onClick={onClickPlus} />
@@ -80,7 +72,7 @@ export const RibbonWrapper: FC<IRibbonWrapper> = ({
     <RibbonContainer>
       <ExpandedBlock
         title={`${title}: ${count}`}
-        variant={'reel'}
+        variant={variant}
         expanded={expanded}
         setExpanded={() => setExpanded(!expanded)}
         headerIcons={headerIconsJsx}

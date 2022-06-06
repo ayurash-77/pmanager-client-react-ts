@@ -28,9 +28,10 @@
     "browse": "Browse",
     "add": "Add",
     "addBrief": "Add brief",
-    "addReelsType": "Add reels type",
-    "addReel": "Add reel",
-    "addShot": "Add shot",
+    "addReelsType": "Add new reels type",
+    "addReel": "Add new reel",
+    "addShot": "Add new shot",
+    "addShotToReel": "Add shot to the reel",
     "deleteShot": "Delete shot",
     "deleteReel": "Delete reel",
     "select": "Select..."

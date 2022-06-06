@@ -30,8 +30,10 @@ export const DeleteBriefModal: FC<IDeleteModal> = ({ ...props }) => {
         onCancelHandler={closeAction}
       >
         <Grid cols="auto" gap={5}>
-          {detailsJsx}
-          {errorJsx}
+          <>
+            {detailsJsx}
+            {errorJsx}
+          </>
         </Grid>
       </ModalWrapper>
     </>

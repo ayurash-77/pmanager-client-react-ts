@@ -6,7 +6,7 @@ import { ErrorList } from '../components/errors/ErrorList'
 import { IBrief } from '../interfaces/IBrief'
 import { useDeleteBriefMutation } from '../store/api/briefs.api'
 import { InfoBriefBlock } from '../components/info-elements'
-import { useGetProjects } from '../hooks/api/useProjectsApi'
+import { useGetProjectsQuery } from '../store/api/projects.api'
 
 export interface IDeleteBriefModal {
   isOpen: boolean
@@ -18,7 +18,7 @@ export const DeleteBriefModal: FC<IDeleteBriefModal> = ({ ...props }) => {
   const { text } = useTranslate()
 
   const [deleteBrief, { isError, error }] = useDeleteBriefMutation()
-  const { refetch: refetchProjects } = useGetProjects()
+  const { refetch: refetchProjects } = useGetProjectsQuery()
   const errorJsx = ErrorList(error && 'data' in error ? error.data.message : [])
 
   const onSubmitHandler = e => {
@@ -49,8 +49,10 @@ export const DeleteBriefModal: FC<IDeleteBriefModal> = ({ ...props }) => {
         onCancelHandler={onCancelHandler}
       >
         <Grid cols="auto" gap={5}>
-          {details}
-          {isError && errorJsx}
+          <>
+            {details}
+            {isError && errorJsx}
+          </>
         </Grid>
       </ModalWrapper>
     </>

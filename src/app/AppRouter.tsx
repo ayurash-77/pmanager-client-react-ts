@@ -15,9 +15,9 @@ export const AppRouter: FC = () => {
     <Routes>
       <Route path={'/*'} element={<Layout />}>
         <Route path={'projects'} element={<ProjectsPage />} />
-        <Route path={'project/:id/overview'} element={<ProjectOverviewPage />} />
-        <Route path={'project/:id/graph'} element={<GraphPage />} />
-        <Route path={'project/:id/reels/*'} element={<ReelsPage />} />
+        <Route path={'projects/:id/overview'} element={<ProjectOverviewPage />} />
+        <Route path={'projects/:id/graph'} element={<GraphPage />} />
+        <Route path={'projects/:id/reels/*'} element={<ReelsPage />} />
         <Route path={'*'} element={<Navigate replace to={'projects'} />} />
       </Route>
     </Routes>

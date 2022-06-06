@@ -8,9 +8,6 @@ import {
   InfoStatus,
 } from '../../components/info-elements'
 import { InfoDoneAt } from '../../components/info-elements/InfoDoneAt'
-import { useAppSelector } from '../../hooks/redux'
-import { useGetProject } from '../../hooks/api/useProjectsApi'
-import Loader from '../../components/ui/Loader'
 import { IProject } from '../../interfaces/IProject'
 
 const Container = styled.div`

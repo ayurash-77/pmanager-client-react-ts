@@ -21,6 +21,11 @@ export const EntityCardContainer = styled.div`
     overflow: hidden;
     box-sizing: content-box;
 
+    //&.shot {
+    //  box-sizing: border-box;
+    //  border: solid 1px transparent;
+    //}
+
     &.selected {
       opacity: 1;
       filter: contrast(110%);
@@ -28,6 +33,7 @@ export const EntityCardContainer = styled.div`
       &.shot {
         background: var(--shot-card-bg-selected);
         box-shadow: 0 2px 5px #00000060, inset 0 10px 20px var(--shot-card-selected-glow);
+        //border: 1px solid #ffffff60;
       }
 
       &.reel {
@@ -89,7 +95,7 @@ export const EntityCardContainer = styled.div`
     }
 
     &.disabled {
-      opacity: 0.5;
+      opacity: 0.7;
       filter: contrast(75%);
     }
   }
@@ -148,7 +154,6 @@ export const EntityCardContainer = styled.div`
 
   .selected .footer {
     opacity: 1;
-    //filter: contrast(110%);
   }
 
   &:hover .thumbnail > .image {

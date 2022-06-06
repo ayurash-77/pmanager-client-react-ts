@@ -6,7 +6,11 @@ import { useEffect, useState } from 'react'
 import { IProject } from '../../interfaces/IProject'
 import NewShotModal from '../../modal/NewShotModal'
 import { useAppDispatch, useAppSelector } from '../../hooks/redux'
-import { setActiveReelId, setActiveReelsTypeId, setActiveShotId } from '../../store/reducers/entities.reducer'
+import {
+  setActiveReelsIds,
+  setActiveReelsTypeId,
+  setActiveShotId,
+} from '../../store/reducers/entities.reducer'
 import { useDeleteShotMutation } from '../../store/api/shots.api'
 import DeleteModal from '../../modal/DeleteModal'
 import { ErrorList } from '../errors/ErrorList'
@@ -25,7 +29,7 @@ export const RibbonShots = ({ entities, project }: { entities: IShot[]; project:
   const onClickItemHandler = id => {
     dispatch(setActiveShotId(activeShotId === id ? null : id))
     dispatch(setActiveReelsTypeId(null))
-    dispatch(setActiveReelId(null))
+    dispatch(setActiveReelsIds([]))
   }
 
   const activeShot = entities?.find(entity => entity.id === activeShotId) || null

@@ -17,7 +17,7 @@ import {
 import { IconButton, ToolButton, ToolButtonGroup, FlexRow, Input } from '../components/ui'
 import { setSearchProjectsFilter } from '../store/reducers/ui.reducer'
 import { IProject } from '../interfaces/IProject'
-import { useGetProjects, useGetProject } from '../hooks/api/useProjectsApi'
+import { useGetProjectQuery, useGetProjectsQuery } from '../store/api/projects.api'
 
 interface IHeader extends DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLDivElement> {
   activeProject?: IProject
@@ -50,13 +50,13 @@ export const HeaderProjects: FC<IHeader> = () => {
   const { language, setLanguage } = useTranslate()
   const { text } = useTranslate()
 
-  const { data: projects = [], isLoading: isLoadingProjects } = useGetProjects()
+  const { data: projects = [], isLoading: isLoadingProjects } = useGetProjectsQuery()
   const { quarterFilter, quarterData } = useAppSelector(state => state.projects)
   const { activeProjectId } = useAppSelector(state => state.entities)
   const { filterBar, projectsViewMode } = useAppSelector(state => state.ui)
   const { authUser } = useAppSelector(state => state.auth)
 
-  const { data: activeProject } = useGetProject(activeProjectId)
+  const { data: activeProject } = useGetProjectQuery(activeProjectId)
 
   const canDeleteProjectRoles = ['Producer', 'Art director', 'Manager']
 
@@ -95,7 +95,7 @@ export const HeaderProjects: FC<IHeader> = () => {
         <IconButton icon={<CommonIcons.Plus />} ml={10} mr={5} onClick={newProjectModalShowHandler} />
         {canDeleteProject && (
           <IconButton
-            icon={<CommonIcons.Minus />}
+            icon={<CommonIcons.Trash />}
             disabled={!activeProjectId}
             variant={'accent'}
             onClick={activeProjectId ? deleteProjectHandler : null}

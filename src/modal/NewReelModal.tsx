@@ -7,10 +7,10 @@ import { ErrorList } from '../components/errors/ErrorList'
 import { FlexColumn, Input, Select } from '../components/ui'
 import { IProject } from '../interfaces/IProject'
 import { useCreateReelMutation } from '../store/api/reels.api'
-import { useGetReelsTypesByProjectIdQuery } from '../store/api/reelsTypes.api'
 import { IReelCreateDto } from '../interfaces/IReelCreateDto'
 import { useParams } from 'react-router'
-import { setActiveReelId } from '../store/reducers/entities.reducer'
+import { setActiveReelsIds } from '../store/reducers/entities.reducer'
+import { useGetReelsTypesByProjectId } from '../hooks/api/useReelsTypesApi'
 
 interface INewReelModal {
   isOpen: boolean
@@ -42,7 +42,7 @@ export const NewReelModal: FC<INewReelModal> = ({ closeAction, project, ...props
   const [createReel, { isError, error, isSuccess, data: newItem }] = useCreateReelMutation()
   const errorJsx = ErrorList(error && 'data' in error ? error.data.message : [])
 
-  const { data: reelsTypes, refetch: refetchReelsTypes } = useGetReelsTypesByProjectIdQuery(+id)
+  const { data: reelsTypes, refetch: refetchReelsTypes } = useGetReelsTypesByProjectId(+id)
 
   const reelsTypesSorted = useMemo(() => {
     const reelsTypesSorted = reelsTypes?.slice()
@@ -85,7 +85,7 @@ export const NewReelModal: FC<INewReelModal> = ({ closeAction, project, ...props
 
   useEffect(() => {
     if (isSuccess) {
-      dispatch(setActiveReelId(newItem.id))
+      dispatch(setActiveReelsIds([newItem.id]))
       refetchReelsTypes()
       clearData()
       closeAction()
@@ -111,7 +111,7 @@ export const NewReelModal: FC<INewReelModal> = ({ closeAction, project, ...props
         <Grid cols="auto" gap={5}>
           <div>
             <FlexColumn vAlign="center" padding={5}>
-              {isError && errorJsx}
+              <>{isError && errorJsx}</>
             </FlexColumn>
           </div>
           <Grid cols="auto" gap={5}>

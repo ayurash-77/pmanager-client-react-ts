@@ -1,5 +1,5 @@
 import styled from 'styled-components'
-import { FC } from 'react'
+import { FC, ReactNode } from 'react'
 
 export const TableContainer = styled.div`
   margin-bottom: 10px;
@@ -89,7 +89,7 @@ const TableStyled = styled.table`
   }
 `
 
-export const Table: FC = ({ children, ...props }) => {
+export const Table: FC<{ children?: ReactNode }> = ({ children }) => {
   return (
     <TableContainer>
       <TableStyled>{children}</TableStyled>

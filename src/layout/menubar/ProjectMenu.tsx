@@ -6,23 +6,28 @@ import Loader from '../../components/ui/Loader'
 import { useAppDispatch, useAppSelector } from '../../hooks/redux'
 import { useNavigate } from 'react-router-dom'
 import { setActiveMenu } from '../../store/reducers/ui.reducer'
-import { setActiveReelId, setActiveReelsTypeId, setActiveShotId } from '../../store/reducers/entities.reducer'
-import { useGetProjects, useGetProject } from '../../hooks/api/useProjectsApi'
+import {
+  // setActiveReelId,
+  setActiveReelsIds,
+  setActiveReelsTypeId,
+  setActiveShotId,
+} from '../../store/reducers/entities.reducer'
+import { useGetProjectQuery, useGetProjectsQuery } from '../../store/api/projects.api'
 
 export const ProjectMenu: FC<Partial<IMenuItem>> = () => {
   const { text } = useTranslate()
 
   const { expanded: menubarExpanded } = useAppSelector(state => state.ui.menubar)
-  const { data: projects = [], isLoading: isLoadingProjects } = useGetProjects()
+  const { data: projects = [], isLoading: isLoadingProjects } = useGetProjectsQuery()
   const { activeProjectId } = useAppSelector(state => state.entities)
-  const { data: project, isLoading: isLoadingProject } = useGetProject(activeProjectId)
+  const { data: project, isLoading: isLoadingProject } = useGetProjectQuery(activeProjectId)
 
   const projectsCount = isLoadingProjects ? <Loader size={16} translateX={4} /> : projects.length
   const reelsCount = isLoadingProject ? <Loader size={16} translateX={4} /> : project?.reels?.length
   const shotsCount = isLoadingProject ? <Loader size={16} translateX={4} /> : project?.shots?.length
 
   const mainMenuButtons: IMenuItem[] = [
-    { icon: <SideIcons.Home />, name: text.menu.allProjects, count: projectsCount, link: '/projects' },
+    { icon: <SideIcons.Home />, name: text.menu.allProjects, count: projectsCount, link: 'projects' },
     { icon: <SideIcons.Project />, name: text.menu.overview, link: `overview` },
     // { icon: <SideIcons.Reels />, name: text.menu.reelsTypes, count: 2, link: 'reelsTypes' },
     { icon: <SideIcons.Sequence />, name: text.menu.reels, count: reelsCount, link: 'reels' },
@@ -40,11 +45,12 @@ export const ProjectMenu: FC<Partial<IMenuItem>> = () => {
   const handleMenuItemClick = link => {
     dispatch(setActiveMenu(link))
     dispatch(setActiveReelsTypeId(null))
-    dispatch(setActiveReelId(null))
+    // dispatch(setActiveReelId(null))
+    dispatch(setActiveReelsIds([]))
     dispatch(setActiveShotId(null))
 
     if (activeMenu !== link) {
-      navigate(`project/${activeProjectId}/${link}`)
+      navigate(`projects/${activeProjectId}/${link}`)
     }
   }
 

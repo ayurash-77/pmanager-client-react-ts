@@ -1,8 +1,8 @@
 import styled from 'styled-components'
-import { SidebarBlockTitle } from '../sidebar/Sidebar.styles'
-import { FlexRow, IconButton } from '../../components/ui'
+import { SidebarBlockTitle } from '../../layout/sidebar/Sidebar.styles'
+import { FlexRow, IconButton } from '../ui'
 import * as CommonIcons from '../../assets/icons/common-icons'
-import { EntityCardShot } from '../../components/entity-card/EntityCardShot'
+import { EntityCardShot } from '../entity-card/EntityCardShot'
 import { IShot } from '../../interfaces/IShot'
 import { FC, useState } from 'react'
 import NewShotModal from '../../modal/NewShotModal'
@@ -11,11 +11,12 @@ import { useAppDispatch, useAppSelector } from '../../hooks/redux'
 import cn from 'classnames'
 import DeleteModal from '../../modal/DeleteModal'
 import { useDeleteShot } from '../../hooks/useDeleteShot'
-import { InfoShotBlock } from '../../components/info-elements/InfoShotBlock'
+import { InfoShotBlock } from '../info-elements/InfoShotBlock'
 import { useGetReelsByProjectId } from '../../hooks/api/useReelsApi'
-import Loader from '../../components/ui/Loader'
+import Loader from '../ui/Loader'
 import { useOnShotClickHandler } from '../../hooks/useOnClickHandlers'
 import { setActiveShotId, setDragShotId } from '../../store/reducers/entities.reducer'
+import { useTranslate } from '../../hooks/useTranslate'
 
 const Container = styled.div`
   display: flex;
@@ -28,8 +29,8 @@ const ShotsContainer = styled.div`
   flex-wrap: wrap;
   gap: 9px;
   //justify-content: space-evenly;
-  border: solid 1px var(--timeline-border);
-  background: var(--timeline-bg);
+  border: solid 1px var(--group-border);
+  background: var(--group-bg);
   border-radius: 5px;
   padding: 10px;
   .draggable {
@@ -49,6 +50,7 @@ interface IShotsBlock {
 
 export const ShotsBlock: FC<IShotsBlock> = props => {
   const { project, shots, isLoadingShots } = props
+  const { text } = useTranslate()
   const dispatch = useAppDispatch()
   const { onShotClickHandler } = useOnShotClickHandler()
 
@@ -98,11 +100,11 @@ export const ShotsBlock: FC<IShotsBlock> = props => {
       />
       <Container>
         <SidebarBlockTitle>
-          Shots bin:
+          {text.project.shots}
           <FlexRow gap={6}>
             {canDeleteItem && (
               <IconButton
-                icon={<CommonIcons.Minus />}
+                icon={<CommonIcons.Trash />}
                 disabled={!activeShot}
                 // variant={activeItemId ? 'accent' : null}
                 variant={'accent'}
@@ -115,21 +117,13 @@ export const ShotsBlock: FC<IShotsBlock> = props => {
         <ShotsContainer onDragOver={e => e.preventDefault()}>
           {isLoadingShots && <Loader size={32} />}
           {shots?.map(shot => (
-            <div
+            <EntityCardShot
               key={shot.id}
-              draggable={true}
-              className={cn({ draggable: dropReel })}
+              entity={shot}
+              isSelected={activeShotId === shot.id}
+              disabled={shot.reels?.length === 0}
               onClick={() => onShotClickHandler(shot.id)}
-              onDragStart={() => onDragStartHandler(shot.id)}
-              onDragEnd={onDragEndHandler}
-            >
-              <EntityCardShot
-                entity={shot}
-                isSelected={activeShotId === shot.id}
-                disabled={shot.reels?.length === 0}
-                draggable={true}
-              />
-            </div>
+            />
           ))}
         </ShotsContainer>
       </Container>

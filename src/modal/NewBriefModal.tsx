@@ -14,7 +14,7 @@ import { FlexColumn, Input, Select, Textarea } from '../components/ui'
 import { apiBaseUrl, apiUploadUrl } from '../constants/env'
 import { UploadingProgress } from '../components/uploading-progress/UploadingProgress'
 import { useParams } from 'react-router'
-import { useGetProjects, useGetProject } from '../hooks/api/useProjectsApi'
+import { useGetProjectQuery, useGetProjectsQuery } from '../store/api/projects.api'
 
 interface INewBriefModal {
   isOpen: boolean
@@ -36,7 +36,7 @@ export const NewBriefModal: FC<INewBriefModal> = ({ closeAction, ...props }) => 
 
   const { id } = useParams()
   const { activeProjectId } = useAppSelector(state => state.entities)
-  const { data: project, refetch: refetchProject } = useGetProject(activeProjectId)
+  const { data: project, refetch: refetchProject } = useGetProjectQuery(activeProjectId)
   const token = useAppSelector(state => state.auth.authUser.token)
 
   const fileInputRef = useRef<HTMLInputElement>(null)
@@ -64,7 +64,7 @@ export const NewBriefModal: FC<INewBriefModal> = ({ closeAction, ...props }) => 
   const errorJsx = ErrorList(error && 'data' in error ? error.data.message : [])
 
   const { data: briefCategories } = useGetAllBriefCategoriesQuery()
-  const { refetch: refetchProjects } = useGetProjects()
+  const { refetch: refetchProjects } = useGetProjectsQuery()
   const options = briefCategories?.map(item => ({ label: item.name, value: item.id }))
   const [categoryId, setCategoryId] = useState(1)
 
@@ -181,7 +181,7 @@ export const NewBriefModal: FC<INewBriefModal> = ({ closeAction, ...props }) => 
         <Grid cols="auto" gap={5}>
           <div>
             <FlexColumn vAlign="center" padding={5}>
-              {isError && errorJsx}
+              <>{isError && errorJsx}</>
             </FlexColumn>
           </div>
 

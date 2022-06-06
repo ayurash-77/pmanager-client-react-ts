@@ -19,16 +19,19 @@ import { Post } from '../components/post/Post'
 import { RibbonReels } from '../components/ribbons/RibbonReels'
 import { ExpandedBlock } from '../components/expanded-block/ExpandedBlock'
 import { setReelsBlockExpanded } from '../store/reducers/ui.reducer'
-import { useGetProject } from '../hooks/api/useProjectsApi'
 import { useGetPostsByProjectId } from '../hooks/api/usePostsApi'
 import { useGetReelsByProjectId, useUpdateReel } from '../hooks/api/useReelsApi'
-import { Reorder, motion, AnimatePresence, AnimateSharedLayout } from 'framer-motion'
+import { useTranslate } from '../hooks/useTranslate'
+import { RibbonReelsTypes } from '../components/ribbons/RibbonReelsTypes'
+import { useGetReelsTypesByProjectId } from '../hooks/api/useReelsTypesApi'
+import { useGetProjectQuery } from '../store/api/projects.api'
 
 ////////////////////////////////////////////////////////////////////////
 // ReelsPage
 ////////////////////////////////////////////////////////////////////////
 
 export const ReelsPage = () => {
+  const { text } = useTranslate()
   const dispatch = useAppDispatch()
 
   const bottomDivRef = useRef(null)
@@ -36,9 +39,14 @@ export const ReelsPage = () => {
   const { id } = useParams()
   const { reelsBlock } = useAppSelector(state => state.ui)
   const { activeShotId, activeReelsIds, activeProjectId, dragShot } = useAppSelector(state => state.entities)
-  const { data: project, isLoading: isLoadingProject } = useGetProject(activeProjectId)
+  const { data: project, isLoading: isLoadingProject } = useGetProjectQuery(activeProjectId)
   const { data: posts } = useGetPostsByProjectId(activeProjectId)
-  const { data: reels } = useGetReelsByProjectId(activeProjectId)
+  const {
+    data: reelsTypes,
+    refetch: refetchReelsTypes,
+    isError,
+  } = useGetReelsTypesByProjectId(activeProjectId)
+  const { data: reels, refetch: refetchReels } = useGetReelsByProjectId(activeProjectId)
 
   const postsByReel =
     activeReelsIds.length === 1
@@ -60,9 +68,10 @@ export const ReelsPage = () => {
   }
   // const reelsIds = shots?.find(shot => shot.id === activeShotId)?.reels?.map(reel => reel.id) || []
 
-  // useEffect(() => {
-  //   bottomDivRef.current?.scrollIntoView({ behavior: 'smooth' })
-  // }, [reels, posts, activeReelsIds])
+  useEffect(() => {
+    // bottomDivRef.current?.scrollIntoView({ behavior: 'smooth' })
+    bottomDivRef.current?.scrollIntoView()
+  }, [reels, posts, activeReelsIds])
 
   ////////////////////////////////////////////////////////////////////////
 
@@ -71,9 +80,10 @@ export const ReelsPage = () => {
       <MainbarContainer>
         <HeaderProject project={project} />
 
+        <RibbonReelsTypes entities={reelsTypes} project={project} />
         <RibbonReels entities={reels} project={project} />
         <ExpandedBlock
-          title={'Details'}
+          title={text.common.details}
           expanded={reelsBlock.expanded}
           setExpanded={() => dispatch(setReelsBlockExpanded(!reelsBlock.expanded))}
         >
@@ -84,7 +94,7 @@ export const ReelsPage = () => {
                 // onDrop={e => onDropHandler(e, reel)}
                 // onDragOver={e => e.preventDefault()}
               >
-                <Timeline reel={reel} />
+                <Timeline reelInit={reel} />
               </div>
             ))}
         </ExpandedBlock>
@@ -96,7 +106,7 @@ export const ReelsPage = () => {
           <div ref={bottomDivRef} />
         </BodyContainer>
 
-        <Sendbar projectId={+id} />
+        <Sendbar projectId={activeProjectId} />
       </MainbarContainer>
       <Sidebar project={project} isLoadingProject={isLoadingProject} />
     </>

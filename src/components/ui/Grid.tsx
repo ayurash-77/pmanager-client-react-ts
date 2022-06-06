@@ -1,4 +1,5 @@
 import styled from 'styled-components'
+import { FC, ReactNode } from 'react'
 
 const cols = p => p.cols || 'auto auto'
 const rows = p => p.rows || 'max-content'
@@ -8,7 +9,11 @@ const gapCol = p => p.gapCol || 4
 const gapRow = p => p.gapRow || 4
 const align = p => p.align || 'right'
 
-interface IGrid {
+interface IGrid extends IGridStyled {
+  children?: ReactNode
+}
+
+interface IGridStyled {
   cols?: string
   gap?: number
   gapRow?: number
@@ -18,7 +23,8 @@ interface IGrid {
   marginBottom?: number
   width?: string
 }
-export const Grid = styled.div<IGrid>`
+
+const GridStyled = styled.div<IGridStyled>`
   label {
     text-align: ${align};
     margin-left: 1px;
@@ -37,3 +43,6 @@ export const Grid = styled.div<IGrid>`
 
 }
 `
+export const Grid: FC<IGrid> = ({ children, ...rest }) => {
+  return <GridStyled {...rest}>{children}</GridStyled>
+}

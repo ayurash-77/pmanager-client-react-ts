@@ -3,17 +3,6 @@ import { IProject } from '../../interfaces/IProject'
 import { ProjectsService } from '../../app/services/projects.service'
 import { IPost } from '../../interfaces/IPost'
 
-export const useGetProjects = () => {
-  return useQuery<IProject[], Error>('projects', ProjectsService.getAll)
-}
-
-export const useGetProject = projectId => {
-  return useQuery<IProject, Error>(['project', projectId], () => ProjectsService.getById(projectId), {
-    enabled: !!projectId,
-    // staleTime: 2000,
-  })
-}
-
 export const useCreateProject = () => {
   const queryClient = useQueryClient()
   return useMutation<IProject, Error, Partial<IProject>>(ProjectsService.create, {

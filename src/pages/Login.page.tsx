@@ -147,8 +147,10 @@ export const LoginPage: FC = () => {
         </form>
 
         <FlexColumn>
-          {loaderJsx}
-          {errorJsx}
+          <>
+            {loaderJsx}
+            {errorJsx}
+          </>
         </FlexColumn>
       </LoginContainer>
     </LoginPageContainer>

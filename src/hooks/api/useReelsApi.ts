@@ -8,6 +8,16 @@ export const useGetReelsByProjectId = projectId => {
   })
 }
 
+export const useGetReelById = reelId => {
+  const queryClient = useQueryClient()
+  return useQuery<IReel, Error>(['reels', reelId], () => ReelsService.getById(reelId), {
+    enabled: !!reelId,
+    onSuccess: async (reelData: Partial<IReel>) => {
+      await queryClient.invalidateQueries(['shots'])
+    },
+  })
+}
+
 export const useUpdateReel = () => {
   const queryClient = useQueryClient()
   return useMutation<IReel, Error, Partial<IReel>>(ReelsService.update, {

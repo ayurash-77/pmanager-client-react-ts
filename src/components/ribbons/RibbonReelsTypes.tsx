@@ -6,7 +6,11 @@ import { useEffect, useState } from 'react'
 import NewReelsTypeModal from '../../modal/NewReelsTypeModal'
 import { IProject } from '../../interfaces/IProject'
 import { useAppDispatch, useAppSelector } from '../../hooks/redux'
-import { setActiveReelId, setActiveReelsTypeId, setActiveShotId } from '../../store/reducers/entities.reducer'
+import {
+  setActiveReelsIds,
+  setActiveReelsTypeId,
+  setActiveShotId,
+} from '../../store/reducers/entities.reducer'
 import { useDeleteReelsTypeMutation } from '../../store/api/reelsTypes.api'
 import { ErrorList } from '../errors/ErrorList'
 import DeleteModal from '../../modal/DeleteModal'
@@ -27,7 +31,7 @@ export const RibbonReelsTypes = ({ entities, project }: { entities: IReelsType[]
 
   const onClickItemHandler = id => {
     dispatch(setActiveReelsTypeId(activeReelsTypeId === id ? null : id))
-    dispatch(setActiveReelId(null))
+    dispatch(setActiveReelsIds([]))
     dispatch(setActiveShotId(null))
   }
 
@@ -73,7 +77,7 @@ export const RibbonReelsTypes = ({ entities, project }: { entities: IReelsType[]
         count={count}
         onClickPlus={() => setNewReelsTypeModalShow(true)}
         onClickMinus={() => setDeleteModalShow(true)}
-        activeItemsIds={[activeReelsTypeId]}
+        activeItemsIds={activeReelsTypeId && [activeReelsTypeId]}
       >
         {entities?.map(entity => (
           <EntityCardReelsType

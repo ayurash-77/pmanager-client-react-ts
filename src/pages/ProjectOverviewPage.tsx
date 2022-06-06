@@ -3,7 +3,6 @@ import { FC, useEffect } from 'react'
 import { useParams } from 'react-router'
 import { Sendbar } from '../layout/sendbar/Sendbar'
 import { Post } from '../components/post/Post'
-import { useGetReelsTypesByProjectIdQuery } from '../store/api/reelsTypes.api'
 import { RibbonReelsTypes } from '../components/ribbons/RibbonReelsTypes'
 import { RibbonReels } from '../components/ribbons/RibbonReels'
 import { RibbonShots } from '../components/ribbons/RibbonShots'
@@ -11,17 +10,18 @@ import { MainbarContainer } from '../layout/MainbarContainer'
 import { Sidebar } from '../layout/sidebar/Sidebar'
 import { HeaderProject } from '../layout/HeaderProject'
 import { BodyContainer } from '../layout/BodyContainer'
-import { useGetProject } from '../hooks/api/useProjectsApi'
 import { useGetShotsByProjectId } from '../hooks/api/useShotsApi'
 import { useGetPostsByProjectId } from '../hooks/api/usePostsApi'
 import { useGetReelsByProjectId } from '../hooks/api/useReelsApi'
+import { useGetReelsTypesByProjectId } from '../hooks/api/useReelsTypesApi'
+import { useGetProjectQuery } from '../store/api/projects.api'
 
 export const ProjectOverviewPage: FC = () => {
   const { id } = useParams()
 
-  const { data: project, isLoading: isLoadingProject } = useGetProject(+id)
+  const { data: project, isLoading: isLoadingProject } = useGetProjectQuery(+id)
   const { data: posts, refetch: refetchPosts } = useGetPostsByProjectId(+id)
-  const { data: reelsTypes, refetch: refetchReelsTypes } = useGetReelsTypesByProjectIdQuery(+id)
+  const { data: reelsTypes, refetch: refetchReelsTypes } = useGetReelsTypesByProjectId(+id)
   const { data: reels, refetch: refetchReels } = useGetReelsByProjectId(+id)
   const { data: shots, refetch: refetchShots } = useGetShotsByProjectId(+id)
 

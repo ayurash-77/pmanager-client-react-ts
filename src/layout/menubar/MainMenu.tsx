@@ -8,13 +8,13 @@ import Loader from '../../components/ui/Loader'
 import { QuartersMenu } from './QuartersMenu'
 import { setQuarterFilter } from '../../store/reducers/projects.reducer'
 import { useAppDispatch, useAppSelector } from '../../hooks/redux'
-import { useGetProjects } from '../../hooks/api/useProjectsApi'
+import { useGetProjectsQuery } from '../../store/api/projects.api'
 
 export const MainMenu: FC<Partial<IMenuItem>> = () => {
   const { text } = useTranslate()
   const [selectedMenuItem, setSelectedMenuItem] = useState(0)
 
-  const { data: projects = [], isLoading: isLoadingProjects } = useGetProjects()
+  const { data: projects = [], isLoading: isLoadingProjects } = useGetProjectsQuery()
   const { expanded: menubarExpanded } = useAppSelector(state => state.ui.menubar)
   const { quarterFilter } = useAppSelector(state => state.projects)
   const dispatch = useAppDispatch()

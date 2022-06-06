@@ -75,7 +75,7 @@ const SwitcherContainer = styled.div`
 `
 
 interface ISwitcher {
-  label: string
+  label?: string
   checked: boolean
   onChange: () => void
 }

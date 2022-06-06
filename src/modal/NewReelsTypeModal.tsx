@@ -6,10 +6,10 @@ import { useAppDispatch, useAppSelector } from '../hooks/redux'
 import { ErrorList } from '../components/errors/ErrorList'
 import { FlexColumn, Input } from '../components/ui'
 import { IProject } from '../interfaces/IProject'
-import { useCreateReelsTypesMutation } from '../store/api/reelsTypes.api'
 import { useParams } from 'react-router'
 import { IReelsTypeCreateDto } from '../interfaces/IReelsTypeCreateDto'
 import { setActiveReelsTypeId } from '../store/reducers/entities.reducer'
+import { useCreateReelsType } from '../hooks/api/useReelsTypesApi'
 
 interface INewReelsTypeModal {
   isOpen: boolean
@@ -21,52 +21,58 @@ interface INewReelsTypeModal {
 // NewReelsTypeModal
 //
 
-export const NewReelsTypeModal: FC<INewReelsTypeModal> = ({ closeAction, project, ...props }) => {
+export const NewReelsTypeModal: FC<INewReelsTypeModal> = props => {
+  const { closeAction, project, ...rest } = props
+  const dispatch = useAppDispatch()
   const { id } = useParams()
   const { text } = useTranslate()
   const user = useAppSelector(state => state.auth.authUser)
 
-  const dataInit: IReelsTypeCreateDto = useMemo(
-    () => ({
-      projectId: +id,
-      name: '',
-      code: '',
-      createdBy: user,
-    }),
-    [id, user]
-  )
+  const dataInit: IReelsTypeCreateDto = {
+    projectId: +id,
+    name: '',
+    code: '',
+    createdBy: user,
+  }
 
   const [data, setData] = useState<IReelsTypeCreateDto>(dataInit)
+  // const [error, setError] = useState(null)
 
-  const [createReelsType, { isError, error, isSuccess, data: newItem }] = useCreateReelsTypesMutation()
-  const errorJsx = ErrorList(error && 'data' in error ? error.data.message : [])
-
-  const dispatch = useAppDispatch()
-
-  const clearData = useCallback(() => {
-    setData(dataInit)
-  }, [dataInit])
+  const {
+    mutate: createReelsType,
+    isError: isErrorCreateReelsType,
+    error,
+    isSuccess,
+    data: newItem,
+  } = useCreateReelsType(+id)
+  // const errorJsx = ErrorList(error?.message?.length > 0 ? error.message : [])
+  // const errorJsx = () => <div className="error">{error?.message}</div>
 
   const onChangeHandler = (key, target) => {
     setData({ ...data, [key]: target.value })
   }
 
-  const onCancelHandler = async e => {
+  const onCancelHandler = e => {
     e.preventDefault()
-    clearData()
+    setData(dataInit)
     closeAction()
   }
 
-  const onSubmitHandler = async e => {
+  const onSubmitHandler = e => {
     e.preventDefault()
     if (!data.name || !data.code) return
-    await createReelsType(data)
+    createReelsType(data)
   }
+
+  // console.log('isSuccess: ', isSuccess)
+  // console.log('isErrorCreateReelsType: ', isErrorCreateReelsType)
 
   useEffect(() => {
     if (isSuccess) {
-      dispatch(setActiveReelsTypeId(newItem.id))
-      clearData()
+      // console.log('isSuccess: ', isSuccess)
+      console.log('newItem: ', newItem)
+      // dispatch(setActiveReelsTypeId(newItem?.id))
+      // setData(dataInit)
       closeAction()
     }
     // eslint-disable-next-line
@@ -79,7 +85,7 @@ export const NewReelsTypeModal: FC<INewReelsTypeModal> = ({ closeAction, project
   return (
     <>
       <ModalWrapper
-        {...props}
+        {...rest}
         warning={false}
         type={'type2'}
         size={'sm'}
@@ -90,7 +96,8 @@ export const NewReelsTypeModal: FC<INewReelsTypeModal> = ({ closeAction, project
         <Grid cols="auto" gap={5}>
           <div>
             <FlexColumn vAlign="center" padding={5}>
-              {isError && errorJsx}
+              {/* {error && <div className="error">error</div>} */}
+              {isErrorCreateReelsType && <div>error?.message</div>}
             </FlexColumn>
           </div>
           <Grid cols="auto" gap={5}>

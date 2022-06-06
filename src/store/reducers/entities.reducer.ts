@@ -1,11 +1,8 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
-import { IShot } from '../../interfaces/IShot'
-import { IReel } from '../../interfaces/IReel'
 
 interface IInitialState {
   activeProjectId: number | null
   activeReelsTypeId: number | null
-  activeReelId: number | null
   activeReelsIds: number[]
   activeShotId: number | null
   dragShotId: number | null
@@ -15,7 +12,6 @@ interface IInitialState {
 const initialState: IInitialState = {
   activeProjectId: null,
   activeReelsTypeId: null,
-  activeReelId: null,
   activeReelsIds: [],
   activeShotId: null,
   dragShotId: null,
@@ -31,9 +27,6 @@ export const entitiesSlice = createSlice({
     },
     setActiveReelsTypeId(state, action: PayloadAction<number | null>) {
       state.activeReelsTypeId = action.payload
-    },
-    setActiveReelId(state, action: PayloadAction<number | null>) {
-      state.activeReelId = action.payload
     },
     setActiveReelsIds(state, action: PayloadAction<number[]>) {
       state.activeReelsIds = action.payload
@@ -53,7 +46,6 @@ export const entitiesSlice = createSlice({
 export const {
   setActiveProjectId,
   setActiveReelsTypeId,
-  setActiveReelId,
   setActiveReelsIds,
   setActiveShotId,
   setDragShotId,

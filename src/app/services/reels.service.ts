@@ -12,6 +12,11 @@ export const ReelsService = {
     return data
   },
 
+  async getById(reelId): Promise<IReel> {
+    const { data } = await axiosRequest({ url: `reels/${reelId}` })
+    return data
+  },
+
   async update(reelData: IReel): Promise<IReel> {
     const { data } = await axiosRequest({ url: `reels/${reelData.id}`, method: 'PUT', data: reelData })
     return data

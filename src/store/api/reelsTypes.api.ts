@@ -15,7 +15,7 @@ export const reelsTypesApi = baseApi.injectEndpoints({
           : [{ type: 'ReelsTypes', id: 'LIST' }],
     }),
     getReelsTypesByProjectId: build.query<IReelsType[], number>({
-      query: projectId => ({ url: `reels-types/projects/${projectId}` }),
+      query: projectId => ({ url: `reels-types?projectId=${projectId}` }),
       providesTags: result =>
         result
           ? [
@@ -42,5 +42,4 @@ export const reelsTypesApi = baseApi.injectEndpoints({
   }),
 })
 
-export const { useGetReelsTypesByProjectIdQuery, useCreateReelsTypesMutation, useDeleteReelsTypeMutation } =
-  reelsTypesApi
+export const { useDeleteReelsTypeMutation } = reelsTypesApi

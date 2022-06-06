@@ -1,4 +1,4 @@
-import { FC, useState } from 'react'
+import { FC, ReactNode, useState } from 'react'
 import styled from 'styled-components'
 import cn from 'classnames'
 import { FlexRow, IconButton } from '../ui'
@@ -71,6 +71,7 @@ interface IExpandedBlock {
   setExpanded?: (e) => void
   variant?: entityVariantType
   headerIcons?: JSX.Element
+  children?: ReactNode
 }
 
 export const ExpandedBlock: FC<IExpandedBlock> = props => {

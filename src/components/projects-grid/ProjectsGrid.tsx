@@ -14,12 +14,12 @@ const ContainerGrid = styled.div`
 
 interface IProjectsGrid {
   projects: IProject[]
-  onProjectClickHandler: (e) => void
-  onProjectDoubleClickHandler: (e) => void
+  onProjectClickHandler: (e, item) => void
+  // onProjectDoubleClickHandler: (e) => void
 }
 
 export const ProjectsGrid: FC<IProjectsGrid> = props => {
-  const { projects, onProjectClickHandler, onProjectDoubleClickHandler } = props
+  const { projects, onProjectClickHandler } = props
   const { activeProjectId } = useAppSelector(state => state.entities)
   const ProjectGridContent = (
     <ContainerGrid>
@@ -28,8 +28,8 @@ export const ProjectsGrid: FC<IProjectsGrid> = props => {
           key={item.id}
           isSelected={item.id === activeProjectId}
           project={item}
-          onClick={() => onProjectClickHandler(item)}
-          onDoubleClick={() => onProjectDoubleClickHandler(item)}
+          onClick={e => onProjectClickHandler(e, item)}
+          // onDoubleClick={() => onProjectDoubleClickHandler(item)}
         />
       ))}
     </ContainerGrid>

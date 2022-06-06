@@ -24,7 +24,7 @@ export interface IRibbonReels {
 }
 
 type activeMenuType =
-  | '/projects'
+  | 'projects'
   | 'overview'
   | 'reelsTypes'
   | 'reels'
@@ -88,7 +88,7 @@ const filterBarInit = {
   },
 }
 
-const menubarInit: IMenubar = { expanded: true, activeMenu: '/projects' }
+const menubarInit: IMenubar = { expanded: true, activeMenu: 'projects' }
 const sidebarInit: ISidebar = { show: true }
 const reelsBlockInit: IReelsBlock = { expanded: false }
 const ribbonReelsInit: IRibbonReels = { expanded: false }

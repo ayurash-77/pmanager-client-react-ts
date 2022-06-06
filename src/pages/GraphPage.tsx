@@ -6,14 +6,14 @@ import { EntityCardShot } from '../components/entity-card/EntityCardShot'
 import { IShot } from '../interfaces/IShot'
 import { IReel } from '../interfaces/IReel'
 import { setActiveShotId, setDragShotId, setDropReelId } from '../store/reducers/entities.reducer'
-import { ShotsBlock } from '../layout/shots-block/ShotsBlock'
+import { ShotsBlock } from '../components/shots-block/ShotsBlock'
 import { MainbarContainer } from '../layout/MainbarContainer'
 import { Sidebar } from '../layout/sidebar/Sidebar'
 import { HeaderProject } from '../layout/HeaderProject'
 import { BodyContainer } from '../layout/BodyContainer'
-import { useGetProject } from '../hooks/api/useProjectsApi'
 import { useGetShotsByProjectId } from '../hooks/api/useShotsApi'
 import { useGetReelsByProjectId, useUpdateReel } from '../hooks/api/useReelsApi'
+import { useGetProjectQuery } from '../store/api/projects.api'
 
 export const DraggableItem = styled.div`
   cursor: grab;
@@ -27,7 +27,7 @@ export const GraphPage = () => {
   const { id } = useParams()
   const dispatch = useAppDispatch()
 
-  const { data: project, isLoading: isLoadingProject } = useGetProject(+id)
+  const { data: project, isLoading: isLoadingProject } = useGetProjectQuery(+id)
 
   const { activeShotId, dragShot, dropReel } = useAppSelector(state => state.entities)
 
@@ -92,7 +92,7 @@ export const GraphPage = () => {
         <BodyContainer>
           {reels?.map(reel => (
             <div key={reel.id} onDrop={e => onDropHandler(e, reel)} onDragOver={e => e.preventDefault()}>
-              <Timeline reel={reel}>
+              <Timeline reelInit={reel}>
                 {reel.shots?.map(shot => (
                   <div
                     key={shot.id}

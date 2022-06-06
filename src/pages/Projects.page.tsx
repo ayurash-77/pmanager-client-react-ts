@@ -15,7 +15,9 @@ import { BodyContainer } from '../layout/BodyContainer'
 import { setActiveMenu } from '../store/reducers/ui.reducer'
 import { ProjectsList } from '../components/projects-list/ProjectsList'
 import { ProjectsGrid } from '../components/projects-grid/ProjectsGrid'
-import { useGetProjects } from '../hooks/api/useProjectsApi'
+import { useGetProjectsQuery } from '../store/api/projects.api'
+import { ErrorList } from '../components/errors/ErrorList'
+import useSingleAndDoubleClick from '../hooks/useDoubleAndSingleClick'
 
 ////////////////////////////////////////////////////////////////////////
 // ProjectsPage
@@ -29,16 +31,29 @@ export const ProjectsPage: FC = () => {
   const dispatch = useAppDispatch()
   const navigate = useNavigate()
 
-  const { data: projects = [], isLoading: isLoadingProjects, error: errorProjects } = useGetProjects()
-  const errorJsx = errorProjects?.message
+  const { data: projects = [], isLoading: isLoadingProjects, error: errorProjects } = useGetProjectsQuery()
+  const errorJsx = ErrorList(errorProjects && 'data' in errorProjects ? errorProjects.data.message : [])
 
   const onProjectClickHandler = (project: IProject) => {
     dispatch(setActiveProjectId(activeProjectId === project.id ? null : project.id))
+    console.log('CLICK')
   }
   const onProjectDoubleClickHandler = (project: IProject) => {
     dispatch(setActiveProjectId(project.id))
     dispatch(setActiveMenu('reels'))
-    navigate(`/project/${project.id}/reels`, { state: 1 })
+    navigate(`/projects/${project.id}/reels`, { state: 1 })
+    console.log('DOUBLE CLICK')
+  }
+
+  // const onClickHandler = useSingleAndDoubleClick(onProjectClickHandler, onProjectDoubleClickHandler)
+
+  const onClickHandler = (e, project: IProject) => {
+    switch (e.detail) {
+      case 2:
+        return onProjectDoubleClickHandler(project)
+      case 1:
+        return onProjectClickHandler(project)
+    }
   }
 
   const { filterBar, projectsViewMode } = useAppSelector(state => state.ui)
@@ -68,22 +83,24 @@ export const ProjectsPage: FC = () => {
         <Filterbar {...filterBar} />
 
         <BodyContainer>
-          {isLoadingProjects && <Loader size={64} border={8} />}
-          {errorJsx}
-          {projectsViewMode === 'grid' && (
-            <ProjectsGrid
-              projects={projectsFiltered}
-              onProjectClickHandler={onProjectClickHandler}
-              onProjectDoubleClickHandler={onProjectDoubleClickHandler}
-            />
-          )}
-          {projectsViewMode === 'list' && (
-            <ProjectsList
-              projects={projectsFiltered}
-              onProjectClickHandler={onProjectClickHandler}
-              onProjectDoubleClickHandler={onProjectDoubleClickHandler}
-            />
-          )}
+          <>
+            {isLoadingProjects && <Loader size={64} border={8} />}
+            {errorJsx}
+            {projectsViewMode === 'grid' && (
+              <ProjectsGrid
+                projects={projectsFiltered}
+                onProjectClickHandler={onClickHandler}
+                // onProjectDoubleClickHandler={onProjectDoubleClickHandler}
+              />
+            )}
+            {projectsViewMode === 'list' && (
+              <ProjectsList
+                projects={projectsFiltered}
+                onProjectClickHandler={onClickHandler}
+                // onProjectDoubleClickHandler={onProjectDoubleClickHandler}
+              />
+            )}
+          </>
         </BodyContainer>
 
         <Statusbar project={activeProject} />

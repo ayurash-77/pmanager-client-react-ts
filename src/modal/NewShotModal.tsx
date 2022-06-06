@@ -137,7 +137,7 @@ export const NewShotModal: FC<INewShotModal> = ({ closeAction, project, shots, .
         <Grid cols="auto" gap={5}>
           <div>
             <FlexColumn vAlign="center" padding={5}>
-              {isError && errorJsx}
+              <>{isError && errorJsx}</>
             </FlexColumn>
           </div>
           <Grid cols="auto" gap={5}>

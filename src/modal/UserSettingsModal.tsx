@@ -164,7 +164,7 @@ export const UserSettingsModal: FC<IUserSettingsModal> = ({ closeAction, ...prop
 
           <div>
             <FlexColumn vAlign="center" padding={5}>
-              {isError && errorJsx}
+              <>{isError && errorJsx}</>
             </FlexColumn>
           </div>
           <Grid cols="auto" gap={5}>

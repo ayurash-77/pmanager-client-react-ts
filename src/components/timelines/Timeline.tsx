@@ -1,4 +1,4 @@
-import { FC, useState } from 'react'
+import { FC, ReactNode, useEffect, useState } from 'react'
 import { useAppDispatch, useAppSelector } from '../../hooks/redux'
 import { IReel } from '../../interfaces/IReel'
 import {
@@ -11,21 +11,27 @@ import { TimelineContainer } from './Timeline.styles'
 import cn from 'classnames'
 import { Reorder } from 'framer-motion'
 import { EntityCardShot } from '../entity-card/EntityCardShot'
-import { useUpdateReel } from '../../hooks/api/useReelsApi'
+import { useGetReelById, useGetReelsByProjectId, useUpdateReel } from '../../hooks/api/useReelsApi'
 import { useOnShotClickHandler } from '../../hooks/useOnClickHandlers'
 import * as CommonIcons from '../../assets/icons/common-icons'
 import { IconButton } from '../ui'
+import { AddShotToReelModal } from '../../modal/AddShotToReelModal'
+import { useTranslate } from '../../hooks/useTranslate'
 
 interface ITimelineWrapper {
-  reel: IReel
+  reelInit: IReel
+  children?: ReactNode
 }
 
-export const Timeline: FC<ITimelineWrapper> = ({ reel }) => {
+export const Timeline: FC<ITimelineWrapper> = ({ reelInit }) => {
+  const { text } = useTranslate()
   const dispatch = useAppDispatch()
   const { onShotClickHandler } = useOnShotClickHandler()
 
-  const { activeReelsIds, activeShotId } = useAppSelector(state => state.entities)
+  const { activeReelsIds, activeShotId, activeProjectId } = useAppSelector(state => state.entities)
 
+  const { refetch: refetchReels } = useGetReelsByProjectId(activeProjectId)
+  const { data: reel = { ...reelInit } } = useGetReelById(reelInit.id)
   const { mutateAsync: updateReel, isSuccess: isSuccessUpdateReel } = useUpdateReel()
 
   const shotInReel = reel.shotsIds.includes(activeShotId)
@@ -36,7 +42,8 @@ export const Timeline: FC<ITimelineWrapper> = ({ reel }) => {
     dispatch(setActiveReelsTypeId(null))
   }
 
-  const [shotsIds, setShotsIds] = useState(reel.shotsIds)
+  const [shotsIds, setShotsIds] = useState(reel?.shotsIds)
+  const [isAddShotModalShow, setAddShotModalShow] = useState(false)
 
   const onReorderHandler = ids => {
     dispatch(setActiveReelsIds([reel.id]))
@@ -57,16 +64,30 @@ export const Timeline: FC<ITimelineWrapper> = ({ reel }) => {
     const newShotsIds = reel.shotsIds.filter(id => id !== activeShotId)
     await updateReel({ ...reel, shots: newShots, shotsIds: newShotsIds })
     dispatch(setActiveShotId(null))
+    dispatch(setActiveReelsIds([reel.id]))
     setShotsIds(newShotsIds)
   }
-  const addShotToReelHandler = async () => {
-    console.log(`Add shot to Reel (id: ${reel.id})`)
+
+  const addShotToReelHandler = () => {
+    dispatch(setActiveReelsIds([reel.id]))
+    setAddShotModalShow(true)
   }
 
+  useEffect(() => {
+    setShotsIds(reel.shotsIds)
+    refetchReels()
+  }, [reel, refetchReels])
+
+  /////////////////////////////////////////////////////////////////////
   /////////////////////////////////////////////////////////////////////
 
   return (
     <>
+      <AddShotToReelModal
+        isOpen={isAddShotModalShow}
+        reel={reel}
+        closeAction={() => setAddShotModalShow(false)}
+      />
       <TimelineContainer>
         <div
           className={cn('code', { active: activeReelsIds.includes(reel.id) })}

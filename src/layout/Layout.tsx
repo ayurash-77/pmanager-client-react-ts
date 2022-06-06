@@ -36,9 +36,8 @@ export const Layout: FC = () => {
   useEffect(() => {
     document.body.setAttribute('darkMode', darkMode.toString())
     if (!activeProjectId && +id) dispatch(setActiveProjectId(+id))
-    if (pathname === '/projects') {
-      dispatch(setActiveMenu('/projects'))
-    }
+    pathname === '/projects' && dispatch(setActiveMenu('projects'))
+    pathname.includes('reel') && dispatch(setActiveMenu('reels'))
   }, [activeProjectId, darkMode, dispatch, id, pathname])
 
   return (

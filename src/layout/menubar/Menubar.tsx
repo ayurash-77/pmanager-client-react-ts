@@ -1,4 +1,4 @@
-import { DetailedHTMLProps, Dispatch, FC, HTMLAttributes } from 'react'
+import { DetailedHTMLProps, Dispatch, FC, HTMLAttributes, ReactNode } from 'react'
 import styled from 'styled-components'
 import { BottomMenu } from './BottomMenu'
 import { useAppDispatch, useAppSelector } from '../../hooks/redux'
@@ -55,7 +55,7 @@ const ToggleContainer = styled.div<Props>`
   }
 `
 
-export const Menubar: FC = ({ children }) => {
+export const Menubar: FC<{ children: ReactNode }> = ({ children }) => {
   const { expanded: menubarExpanded } = useAppSelector(state => state.ui.menubar)
   const dispatch = useAppDispatch()
   return (

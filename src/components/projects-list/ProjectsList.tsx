@@ -9,12 +9,12 @@ import { useAppSelector } from '../../hooks/redux'
 
 interface IProjectsList {
   projects: IProject[]
-  onProjectClickHandler: (e) => void
-  onProjectDoubleClickHandler: (e) => void
+  onProjectClickHandler: (e, item) => void
+  // onProjectDoubleClickHandler: (e) => void
 }
 
 export const ProjectsList: FC<IProjectsList> = props => {
-  const { projects = [], onProjectClickHandler, onProjectDoubleClickHandler } = props
+  const { projects = [], onProjectClickHandler } = props
   const { text } = useTranslate()
   const { activeProjectId } = useAppSelector(state => state.entities)
   const { filterBar, projectsViewMode } = useAppSelector(state => state.ui)
@@ -41,8 +41,8 @@ export const ProjectsList: FC<IProjectsList> = props => {
         {projects.map((item, idx) => (
           <tr
             key={item.id}
-            onClick={() => onProjectClickHandler(item)}
-            onDoubleClick={() => onProjectDoubleClickHandler(item)}
+            onClick={e => onProjectClickHandler(e, item)}
+            // onDoubleClick={() => onProjectDoubleClickHandler(item)}
             className={cn({ selected: item.id === activeProjectId })}
           >
             <td style={{ opacity: 0.5 }}>{idx + 1}</td>

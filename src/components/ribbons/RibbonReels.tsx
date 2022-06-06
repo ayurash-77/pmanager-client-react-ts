@@ -7,7 +7,6 @@ import { IProject } from '../../interfaces/IProject'
 import NewReelModal from '../../modal/NewReelModal'
 import { useAppDispatch, useAppSelector } from '../../hooks/redux'
 import {
-  setActiveReelId,
   setActiveReelsIds,
   setActiveReelsTypeId,
   setActiveShotId,
@@ -57,7 +56,7 @@ export const RibbonReels = ({ entities, project }: { entities: IReel[]; project:
   useEffect(() => {
     if (isSuccess) {
       setDeleteModalShow(false)
-      dispatch(setActiveReelId(null))
+      dispatch(setActiveReelsIds([]))
     }
   }, [dispatch, isSuccess])
 
