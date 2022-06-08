@@ -1,15 +1,7 @@
 import { useParams } from 'react-router'
 import { Timeline } from '../components/timelines/Timeline'
 import { useAppDispatch, useAppSelector } from '../hooks/redux'
-import { IShot } from '../interfaces/IShot'
-import { useEffect, useRef, useState } from 'react'
-import { IReel } from '../interfaces/IReel'
-import {
-  setActiveReelsIds,
-  setActiveShotId,
-  setDragShotId,
-  setDropReelId,
-} from '../store/reducers/entities.reducer'
+import { useEffect, useRef } from 'react'
 import { MainbarContainer } from '../layout/MainbarContainer'
 import { Sidebar } from '../layout/sidebar/Sidebar'
 import { HeaderProject } from '../layout/HeaderProject'
@@ -19,13 +11,13 @@ import { Post } from '../components/post/Post'
 import { RibbonReels } from '../components/ribbons/RibbonReels'
 import { ExpandedBlock } from '../components/expanded-block/ExpandedBlock'
 import { setReelsBlockExpanded } from '../store/reducers/ui.reducer'
-import { useGetPostsByProjectId } from '../hooks/api/usePostsApi'
-import { useGetReelsByProjectId, useUpdateReel } from '../hooks/api/useReelsApi'
+import { useGetReelsByProjectId } from '../hooks/api/useReelsApi'
 import { useTranslate } from '../hooks/useTranslate'
 import { RibbonReelsTypes } from '../components/ribbons/RibbonReelsTypes'
 import { useGetReelsTypesByProjectId } from '../hooks/api/useReelsTypesApi'
 import { useGetProjectQuery } from '../store/api/projects.api'
 import { skipToken } from '@reduxjs/toolkit/query'
+import { useGetPostsQuery } from '../store/api/posts.api'
 
 ////////////////////////////////////////////////////////////////////////
 // ReelsPage
@@ -41,12 +33,8 @@ export const ReelsPage = () => {
   const { reelsBlock } = useAppSelector(state => state.ui)
   const { activeShotId, activeReelsIds, activeProjectId, dragShot } = useAppSelector(state => state.entities)
   const { data: project, isLoading: isLoadingProject } = useGetProjectQuery(activeProjectId ?? skipToken)
-  const { data: posts } = useGetPostsByProjectId(activeProjectId)
-  const {
-    data: reelsTypes,
-    refetch: refetchReelsTypes,
-    isError,
-  } = useGetReelsTypesByProjectId(activeProjectId)
+  const { data: posts } = useGetPostsQuery(activeProjectId ?? skipToken)
+  const { data: reelsTypes, refetch: refetchReelsTypes } = useGetReelsTypesByProjectId(activeProjectId)
   const { data: reels, refetch: refetchReels } = useGetReelsByProjectId(activeProjectId)
 
   const postsByReel =

@@ -8,13 +8,13 @@ import { useAppDispatch, useAppSelector } from '../../hooks/redux'
 import cn from 'classnames'
 import { FlexRow } from '../ui'
 import { Container, PostBlock, PostHeader, PostMessage, Username, Tags, PostMenu } from './Post.styles'
-import { useDeletePost } from '../../hooks/api/usePostsApi'
+import { useDeletePostMutation } from '../../store/api/posts.api'
 
 export const Post: FC<IPost> = props => {
   const { id, createdBy, createdAt, reels = [], shots = [], message } = props
   // const { activeProjectId } = useAppSelector(state => state.entities)
 
-  const { mutate: deletePost } = useDeletePost()
+  const [deletePost] = useDeletePostMutation()
   const { authUser } = useAppSelector(state => state.auth)
   // const { data: user } = useGetUserByIdQuery(createdBy.id)
   // const [fullName, setFullName] = useState(`${createdBy.name} ${createdBy.surname}`)

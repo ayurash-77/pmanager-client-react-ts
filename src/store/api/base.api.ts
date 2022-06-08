@@ -19,6 +19,7 @@ export const baseApi = createApi({
     'Roles',
     'Briefs',
     'BriefCategories',
+    'Posts',
     'Projects',
     'ReelsTypes',
     'Reels',

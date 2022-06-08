@@ -11,7 +11,8 @@ import { useCreateShotMutation } from '../store/api/shots.api'
 import { setActiveShotId } from '../store/reducers/entities.reducer'
 import { IShot } from '../interfaces/IShot'
 import { useGetReelsByProjectId } from '../hooks/api/useReelsApi'
-import { useGetPostsByProjectId } from '../hooks/api/usePostsApi'
+import { useGetPostsQuery } from '../store/api/posts.api'
+import { skipToken } from '@reduxjs/toolkit/query'
 
 interface INewShotModal {
   isOpen: boolean
@@ -50,7 +51,7 @@ export const NewShotModal: FC<INewShotModal> = ({ closeAction, project, shots, .
   const errorJsx = ErrorList(error && 'data' in error ? error.data.message : [])
 
   const { data: reels, refetch: refetchReels } = useGetReelsByProjectId(project?.id)
-  const { data: posts, refetch: refetchPosts } = useGetPostsByProjectId(project?.id)
+  const { data: posts, refetch: refetchPosts } = useGetPostsQuery(project?.id ?? skipToken)
 
   const options = reels?.map(item => ({ label: item.code, value: item.id }))
 

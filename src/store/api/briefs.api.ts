@@ -23,12 +23,18 @@ export const briefsApi = baseApi.injectEndpoints({
 
     createBrief: build.mutation<IBrief, IBriefData>({
       query: brief => ({ url: 'briefs', method: 'POST', body: brief }),
-      invalidatesTags: ['Briefs', 'Projects'],
+      invalidatesTags: [
+        { type: 'Briefs', id: 'LIST' },
+        { type: 'Projects', id: 'LIST' },
+      ],
     }),
 
     deleteBrief: build.mutation<IBrief, number>({
       query: id => ({ url: `briefs/${id}`, method: 'DELETE' }),
-      invalidatesTags: ['Briefs', 'Projects'],
+      invalidatesTags: [
+        { type: 'Briefs', id: 'LIST' },
+        { type: 'Projects', id: 'LIST' },
+      ],
     }),
   }),
 })

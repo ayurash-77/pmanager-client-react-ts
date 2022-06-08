@@ -7,7 +7,7 @@ import * as CommonIcons from '../../assets/icons/common-icons'
 
 import TextareaAutosize from 'react-textarea-autosize'
 import { useGetShotsByProjectId } from '../../hooks/api/useShotsApi'
-import { useCreatePost } from '../../hooks/api/usePostsApi'
+import { useCreatePostMutation } from '../../store/api/posts.api'
 
 const SendbarContainer = styled.div`
   display: flex;
@@ -30,7 +30,7 @@ export const Sendbar: FC<IPostData> = ({ projectId }) => {
   const { activeReelsIds, activeShotId, activeProjectId } = useAppSelector(state => state.entities)
   const { data: shots } = useGetShotsByProjectId(activeProjectId)
   // const { data: shot, refetch: refetchShot } = useGetShot
-  const { mutate: createPost } = useCreatePost()
+  const [createPost] = useCreatePostMutation()
 
   const reelsIds =
     shots?.find(shot => shot.id === activeShotId)?.reels?.map(reel => reel.id) || activeReelsIds
