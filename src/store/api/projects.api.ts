@@ -13,7 +13,7 @@ export const projectsApi = baseApi.injectEndpoints({
       providesTags: (result, error, id) => [{ type: 'Projects', id }],
     }),
     createProject: build.mutation<IProject, Partial<IProject>>({
-      query: project => ({ url: 'projects', method: 'POST', body: project }),
+      query: data => ({ url: 'projects', method: 'POST', body: data }),
       invalidatesTags: [{ type: 'Projects', id: 'LIST' }],
     }),
     deleteProject: build.mutation<IProject, number>({

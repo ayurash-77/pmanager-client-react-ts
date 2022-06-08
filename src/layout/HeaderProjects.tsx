@@ -18,6 +18,7 @@ import { IconButton, ToolButton, ToolButtonGroup, FlexRow, Input } from '../comp
 import { setSearchProjectsFilter } from '../store/reducers/ui.reducer'
 import { IProject } from '../interfaces/IProject'
 import { useGetProjectQuery, useGetProjectsQuery } from '../store/api/projects.api'
+import { skipToken } from '@reduxjs/toolkit/query'
 
 interface IHeader extends DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLDivElement> {
   activeProject?: IProject
@@ -56,7 +57,7 @@ export const HeaderProjects: FC<IHeader> = () => {
   const { filterBar, projectsViewMode } = useAppSelector(state => state.ui)
   const { authUser } = useAppSelector(state => state.auth)
 
-  const { data: activeProject } = useGetProjectQuery(activeProjectId)
+  const { data: activeProject } = useGetProjectQuery(activeProjectId ?? skipToken)
 
   const canDeleteProjectRoles = ['Producer', 'Art director', 'Manager']
 

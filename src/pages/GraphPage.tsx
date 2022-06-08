@@ -14,6 +14,7 @@ import { BodyContainer } from '../layout/BodyContainer'
 import { useGetShotsByProjectId } from '../hooks/api/useShotsApi'
 import { useGetReelsByProjectId, useUpdateReel } from '../hooks/api/useReelsApi'
 import { useGetProjectQuery } from '../store/api/projects.api'
+import { skipToken } from '@reduxjs/toolkit/query'
 
 export const DraggableItem = styled.div`
   cursor: grab;
@@ -27,7 +28,7 @@ export const GraphPage = () => {
   const { id } = useParams()
   const dispatch = useAppDispatch()
 
-  const { data: project, isLoading: isLoadingProject } = useGetProjectQuery(+id)
+  const { data: project, isLoading: isLoadingProject } = useGetProjectQuery(+id ?? skipToken)
 
   const { activeShotId, dragShot, dropReel } = useAppSelector(state => state.entities)
 

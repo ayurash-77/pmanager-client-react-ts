@@ -25,6 +25,7 @@ import { useTranslate } from '../hooks/useTranslate'
 import { RibbonReelsTypes } from '../components/ribbons/RibbonReelsTypes'
 import { useGetReelsTypesByProjectId } from '../hooks/api/useReelsTypesApi'
 import { useGetProjectQuery } from '../store/api/projects.api'
+import { skipToken } from '@reduxjs/toolkit/query'
 
 ////////////////////////////////////////////////////////////////////////
 // ReelsPage
@@ -39,7 +40,7 @@ export const ReelsPage = () => {
   const { id } = useParams()
   const { reelsBlock } = useAppSelector(state => state.ui)
   const { activeShotId, activeReelsIds, activeProjectId, dragShot } = useAppSelector(state => state.entities)
-  const { data: project, isLoading: isLoadingProject } = useGetProjectQuery(activeProjectId)
+  const { data: project, isLoading: isLoadingProject } = useGetProjectQuery(activeProjectId ?? skipToken)
   const { data: posts } = useGetPostsByProjectId(activeProjectId)
   const {
     data: reelsTypes,

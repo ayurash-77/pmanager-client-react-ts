@@ -15,11 +15,12 @@ import { useGetPostsByProjectId } from '../hooks/api/usePostsApi'
 import { useGetReelsByProjectId } from '../hooks/api/useReelsApi'
 import { useGetReelsTypesByProjectId } from '../hooks/api/useReelsTypesApi'
 import { useGetProjectQuery } from '../store/api/projects.api'
+import { skipToken } from '@reduxjs/toolkit/query'
 
 export const ProjectOverviewPage: FC = () => {
   const { id } = useParams()
 
-  const { data: project, isLoading: isLoadingProject } = useGetProjectQuery(+id)
+  const { data: project, isLoading: isLoadingProject } = useGetProjectQuery(+id ?? skipToken)
   const { data: posts, refetch: refetchPosts } = useGetPostsByProjectId(+id)
   const { data: reelsTypes, refetch: refetchReelsTypes } = useGetReelsTypesByProjectId(+id)
   const { data: reels, refetch: refetchReels } = useGetReelsByProjectId(+id)

@@ -13,6 +13,7 @@ import {
   setActiveShotId,
 } from '../../store/reducers/entities.reducer'
 import { useGetProjectQuery, useGetProjectsQuery } from '../../store/api/projects.api'
+import { skipToken } from '@reduxjs/toolkit/query'
 
 export const ProjectMenu: FC<Partial<IMenuItem>> = () => {
   const { text } = useTranslate()
@@ -20,7 +21,7 @@ export const ProjectMenu: FC<Partial<IMenuItem>> = () => {
   const { expanded: menubarExpanded } = useAppSelector(state => state.ui.menubar)
   const { data: projects = [], isLoading: isLoadingProjects } = useGetProjectsQuery()
   const { activeProjectId } = useAppSelector(state => state.entities)
-  const { data: project, isLoading: isLoadingProject } = useGetProjectQuery(activeProjectId)
+  const { data: project, isLoading: isLoadingProject } = useGetProjectQuery(activeProjectId ?? skipToken)
 
   const projectsCount = isLoadingProjects ? <Loader size={16} translateX={4} /> : projects.length
   const reelsCount = isLoadingProject ? <Loader size={16} translateX={4} /> : project?.reels?.length
