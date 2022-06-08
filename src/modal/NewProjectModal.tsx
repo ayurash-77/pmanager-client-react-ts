@@ -10,11 +10,11 @@ import { apiBaseUrl, apiUploadUrl } from '../constants/env'
 import { UploadingProgress } from '../components/uploading-progress/UploadingProgress'
 import { IProject } from '../interfaces/IProject'
 import { setActiveProjectId } from '../store/reducers/entities.reducer'
-import { useGetClients } from '../hooks/api/useClientsApi'
 import { useCreateProjectMutation } from '../store/api/projects.api'
 import { ErrorList } from '../components/errors/ErrorList'
 import { useGetAgenciesQuery } from '../store/api/agencies.api'
 import { useGetBrandsQuery } from '../store/api/brands.api'
+import { useGetClientsQuery } from '../store/api/clients.api'
 
 interface INewProjectModal {
   isOpen: boolean
@@ -36,7 +36,7 @@ export const NewProjectModal: FC<INewProjectModal> = ({ ...props }) => {
 
   const { data: agencies } = useGetAgenciesQuery()
   const { data: brands } = useGetBrandsQuery()
-  const { data: clients } = useGetClients()
+  const { data: clients } = useGetClientsQuery()
 
   const selectionsInit = { brandId: 0, clientId: 0, agencyId: 0 }
   const brandsOptions = brands?.map(item => ({ label: item.name, value: item.id }))
