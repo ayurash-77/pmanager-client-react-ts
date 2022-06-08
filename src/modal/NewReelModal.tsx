@@ -6,11 +6,11 @@ import { useAppDispatch, useAppSelector } from '../hooks/redux'
 import { ErrorList } from '../components/errors/ErrorList'
 import { FlexColumn, Input, Select } from '../components/ui'
 import { IProject } from '../interfaces/IProject'
-import { useCreateReelMutation } from '../store/api/reels.api'
+import { useCreateReelMutation, useGetReelsQuery } from '../store/api/reels.api'
 import { IReelCreateDto } from '../interfaces/IReelCreateDto'
 import { useParams } from 'react-router'
 import { setActiveReelsIds } from '../store/reducers/entities.reducer'
-import { useGetReelsTypesByProjectId } from '../hooks/api/useReelsTypesApi'
+import { skipToken } from '@reduxjs/toolkit/query'
 
 interface INewReelModal {
   isOpen: boolean
@@ -42,7 +42,7 @@ export const NewReelModal: FC<INewReelModal> = ({ closeAction, project, ...props
   const [createReel, { isError, error, isSuccess, data: newItem }] = useCreateReelMutation()
   const errorJsx = ErrorList(error && 'data' in error ? error.data.message : [])
 
-  const { data: reelsTypes, refetch: refetchReelsTypes } = useGetReelsTypesByProjectId(+id)
+  const { data: reelsTypes, refetch: refetchReelsTypes } = useGetReelsQuery(+id ?? skipToken)
 
   const reelsTypesSorted = useMemo(() => {
     const reelsTypesSorted = reelsTypes?.slice()

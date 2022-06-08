@@ -11,13 +11,13 @@ import { Post } from '../components/post/Post'
 import { RibbonReels } from '../components/ribbons/RibbonReels'
 import { ExpandedBlock } from '../components/expanded-block/ExpandedBlock'
 import { setReelsBlockExpanded } from '../store/reducers/ui.reducer'
-import { useGetReelsByProjectId } from '../hooks/api/useReelsApi'
 import { useTranslate } from '../hooks/useTranslate'
 import { RibbonReelsTypes } from '../components/ribbons/RibbonReelsTypes'
-import { useGetReelsTypesByProjectId } from '../hooks/api/useReelsTypesApi'
 import { useGetProjectQuery } from '../store/api/projects.api'
 import { skipToken } from '@reduxjs/toolkit/query'
 import { useGetPostsQuery } from '../store/api/posts.api'
+import { useGetReelsQuery } from '../store/api/reels.api'
+import { useGetReelsTypesQuery } from '../store/api/reelsTypes.api'
 
 ////////////////////////////////////////////////////////////////////////
 // ReelsPage
@@ -34,8 +34,8 @@ export const ReelsPage = () => {
   const { activeShotId, activeReelsIds, activeProjectId, dragShot } = useAppSelector(state => state.entities)
   const { data: project, isLoading: isLoadingProject } = useGetProjectQuery(activeProjectId ?? skipToken)
   const { data: posts } = useGetPostsQuery(activeProjectId ?? skipToken)
-  const { data: reelsTypes, refetch: refetchReelsTypes } = useGetReelsTypesByProjectId(activeProjectId)
-  const { data: reels, refetch: refetchReels } = useGetReelsByProjectId(activeProjectId)
+  const { data: reelsTypes, refetch: refetchReelsTypes } = useGetReelsTypesQuery(activeProjectId ?? skipToken)
+  const { data: reels, refetch: refetchReels } = useGetReelsQuery(activeProjectId ?? skipToken)
 
   const postsByReel =
     activeReelsIds.length === 1

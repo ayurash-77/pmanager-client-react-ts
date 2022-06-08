@@ -11,12 +11,13 @@ import { TimelineContainer } from './Timeline.styles'
 import cn from 'classnames'
 import { Reorder } from 'framer-motion'
 import { EntityCardShot } from '../entity-card/EntityCardShot'
-import { useGetReelById, useGetReelsByProjectId, useUpdateReel } from '../../hooks/api/useReelsApi'
 import { useOnShotClickHandler } from '../../hooks/useOnClickHandlers'
 import * as CommonIcons from '../../assets/icons/common-icons'
 import { IconButton } from '../ui'
 import { AddShotToReelModal } from '../../modal/AddShotToReelModal'
 import { useTranslate } from '../../hooks/useTranslate'
+import { useGetReelQuery, useGetReelsQuery, useUpdateReelMutation } from '../../store/api/reels.api'
+import { skipToken } from '@reduxjs/toolkit/query'
 
 interface ITimelineWrapper {
   reelInit: IReel
@@ -30,9 +31,9 @@ export const Timeline: FC<ITimelineWrapper> = ({ reelInit }) => {
 
   const { activeReelsIds, activeShotId, activeProjectId } = useAppSelector(state => state.entities)
 
-  const { refetch: refetchReels } = useGetReelsByProjectId(activeProjectId)
-  const { data: reel = { ...reelInit } } = useGetReelById(reelInit.id)
-  const { mutateAsync: updateReel, isSuccess: isSuccessUpdateReel } = useUpdateReel()
+  const { refetch: refetchReels } = useGetReelsQuery(activeProjectId ?? skipToken)
+  const { data: reel = { ...reelInit } } = useGetReelQuery(reelInit.id ?? skipToken)
+  const [updateReel, { isSuccess: isSuccessUpdateReel }] = useUpdateReelMutation()
 
   const shotInReel = reel.shotsIds.includes(activeShotId)
 

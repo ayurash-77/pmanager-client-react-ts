@@ -10,21 +10,21 @@ import { MainbarContainer } from '../layout/MainbarContainer'
 import { Sidebar } from '../layout/sidebar/Sidebar'
 import { HeaderProject } from '../layout/HeaderProject'
 import { BodyContainer } from '../layout/BodyContainer'
-import { useGetShotsByProjectId } from '../hooks/api/useShotsApi'
-import { useGetReelsByProjectId } from '../hooks/api/useReelsApi'
-import { useGetReelsTypesByProjectId } from '../hooks/api/useReelsTypesApi'
 import { useGetProjectQuery } from '../store/api/projects.api'
 import { skipToken } from '@reduxjs/toolkit/query'
 import { useGetPostsQuery } from '../store/api/posts.api'
+import { useGetReelsQuery } from '../store/api/reels.api'
+import { useGetReelsTypesQuery } from '../store/api/reelsTypes.api'
+import { useGetShotsQuery } from '../store/api/shots.api'
 
 export const ProjectOverviewPage: FC = () => {
   const { id } = useParams()
 
   const { data: project, isLoading: isLoadingProject } = useGetProjectQuery(+id ?? skipToken)
   const { data: posts, refetch: refetchPosts } = useGetPostsQuery(+id ?? skipToken)
-  const { data: reelsTypes, refetch: refetchReelsTypes } = useGetReelsTypesByProjectId(+id)
-  const { data: reels, refetch: refetchReels } = useGetReelsByProjectId(+id)
-  const { data: shots, refetch: refetchShots } = useGetShotsByProjectId(+id)
+  const { data: reelsTypes, refetch: refetchReelsTypes } = useGetReelsTypesQuery(+id)
+  const { data: reels, refetch: refetchReels } = useGetReelsQuery(+id ?? skipToken)
+  const { data: shots, refetch: refetchShots } = useGetShotsQuery(+id ?? skipToken)
 
   useEffect(() => {
     refetchReelsTypes()

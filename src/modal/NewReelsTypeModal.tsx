@@ -1,5 +1,5 @@
 import { ModalWrapper } from './ModalWrapper'
-import { FC, useCallback, useEffect, useMemo, useState } from 'react'
+import { FC, useEffect, useState } from 'react'
 import { useTranslate } from '../hooks/useTranslate'
 import { Grid } from '../components/ui'
 import { useAppDispatch, useAppSelector } from '../hooks/redux'
@@ -9,7 +9,7 @@ import { IProject } from '../interfaces/IProject'
 import { useParams } from 'react-router'
 import { IReelsTypeCreateDto } from '../interfaces/IReelsTypeCreateDto'
 import { setActiveReelsTypeId } from '../store/reducers/entities.reducer'
-import { useCreateReelsType } from '../hooks/api/useReelsTypesApi'
+import { useCreateReelsTypesMutation } from '../store/api/reelsTypes.api'
 
 interface INewReelsTypeModal {
   isOpen: boolean
@@ -38,13 +38,8 @@ export const NewReelsTypeModal: FC<INewReelsTypeModal> = props => {
   const [data, setData] = useState<IReelsTypeCreateDto>(dataInit)
   // const [error, setError] = useState(null)
 
-  const {
-    mutate: createReelsType,
-    isError: isErrorCreateReelsType,
-    error,
-    isSuccess,
-    data: newItem,
-  } = useCreateReelsType(+id)
+  const [createReelsType, { isError: isErrorCreateReelsType, error, isSuccess, data: newItem }] =
+    useCreateReelsTypesMutation()
   // const errorJsx = ErrorList(error?.message?.length > 0 ? error.message : [])
   // const errorJsx = () => <div className="error">{error?.message}</div>
 

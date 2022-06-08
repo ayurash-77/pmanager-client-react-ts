@@ -1,51 +1,37 @@
 import { IReel } from '../../interfaces/IReel'
 import { IReelCreateDto } from '../../interfaces/IReelCreateDto'
 import { baseApi } from './base.api'
+import { providesList } from '../../utils/provides-list'
 
 export const reelsApi = baseApi.injectEndpoints({
   endpoints: build => ({
-    getAllReels: build.query<IReel[], void>({
-      query: () => ({ url: `reels` }),
-      providesTags: result =>
-        result
-          ? [...result.map(({ id }) => ({ type: 'Reels' as const, id })), { type: 'Reels', id: 'LIST' }]
-          : [{ type: 'Reels', id: 'LIST' }],
-    }),
-    getReelsByProjectId: build.query<IReel[], number>({
+    getReels: build.query<IReel[], number>({
       query: projectId => ({ url: `reels?projectId=${projectId}` }),
-      providesTags: result =>
-        result
-          ? [...result.map(({ id }) => ({ type: 'Reels' as const, id })), { type: 'Reels', id: 'LIST' }]
-          : [{ type: 'Reels', id: 'LIST' }],
+      providesTags: result => providesList(result, 'Reels'),
     }),
-    getReelById: build.query<IReel, number>({
+    getReel: build.query<IReel, number>({
       query: id => ({ url: `reels/${id}` }),
       providesTags: (result, error, id) => [{ type: 'Reels', id }],
     }),
     createReel: build.mutation<IReel, IReelCreateDto>({
-      query: reel => ({
-        url: 'reels',
-        method: 'POST',
-        body: reel,
-      }),
+      query: reel => ({ url: 'reels', method: 'POST', body: reel }),
       invalidatesTags: [{ type: 'Reels', id: 'LIST' }],
     }),
     updateReel: build.mutation<IReel, Partial<IReel>>({
-      query: reel => ({
-        url: `reels/${reel.id}`,
-        method: 'PATCH',
-        body: reel,
-      }),
+      query: reel => ({ url: `reels/${reel.id}`, method: 'PATCH', body: reel }),
       invalidatesTags: (result, error, arg) => [{ type: 'Reels', id: arg.id }],
     }),
     deleteReel: build.mutation<IReel, number>({
-      query: id => ({
-        url: `reels/${id}`,
-        method: 'DELETE',
-      }),
+      query: id => ({ url: `reels/${id}`, method: 'DELETE' }),
       invalidatesTags: [{ type: 'Reels', id: 'LIST' }],
     }),
   }),
 })
 
-export const { useCreateReelMutation, useDeleteReelMutation } = reelsApi
+export const {
+  useGetReelsQuery,
+  useGetReelQuery,
+  useCreateReelMutation,
+  useUpdateReelMutation,
+  useDeleteReelMutation,
+} = reelsApi

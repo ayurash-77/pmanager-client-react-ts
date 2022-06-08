@@ -6,7 +6,8 @@ import { useAppDispatch, useAppSelector } from './redux'
 import { setActiveShotId } from '../store/reducers/entities.reducer'
 import { useTranslate } from './useTranslate'
 import { IProject } from '../interfaces/IProject'
-import { useGetReelsByProjectId } from './api/useReelsApi'
+import { useGetReelsQuery } from '../store/api/reels.api'
+import { skipToken } from '@reduxjs/toolkit/query'
 
 interface IUseDeleteShot {
   isDeleteModalShow: boolean
@@ -23,7 +24,7 @@ export const useDeleteShot = (project: IProject, activeShot: IShot | null): IUse
   const dispatch = useAppDispatch()
   const [deleteShot, { error, isSuccess, reset }] = useDeleteShotMutation()
 
-  const { refetch: refetchReels } = useGetReelsByProjectId(project?.id)
+  const { refetch: refetchReels } = useGetReelsQuery(project?.id ?? skipToken)
   const errorJsx = ErrorList(error && 'data' in error ? error.data.message : [])
 
   const [isDeleteModalShow, setDeleteModalShow] = useState<boolean>(false)

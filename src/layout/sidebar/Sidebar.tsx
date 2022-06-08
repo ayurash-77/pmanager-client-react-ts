@@ -8,9 +8,9 @@ import SidebarBriefs from './SidebarBriefs'
 import { InfoProjectTitle } from '../../components/info-elements'
 import cn from 'classnames'
 import { ShotsBlock } from '../../components/shots-block/ShotsBlock'
-import { useGetShotsByProjectId } from '../../hooks/api/useShotsApi'
 import { IProject } from '../../interfaces/IProject'
 import { useGetBriefsQuery } from '../../store/api/briefs.api'
+import { useGetShotsQuery } from '../../store/api/shots.api'
 
 interface ISidebar {
   project: IProject
@@ -34,7 +34,7 @@ export const Sidebar: FC<ISidebar> = props => {
   const [showSidebarShots, setShowSidebarShots] = useState(true)
 
   const { activeProjectId } = useAppSelector(state => state.entities)
-  const { data: shots, isLoading: isLoadingShots } = useGetShotsByProjectId(activeProjectId)
+  const { data: shots, isLoading: isLoadingShots } = useGetShotsQuery(activeProjectId)
   const { data: briefs, isLoading: isLoadingBriefs } = useGetBriefsQuery(activeProjectId)
 
   ////////////////////////////////////////////////////////////////////////

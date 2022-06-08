@@ -11,10 +11,10 @@ import { MainbarContainer } from '../layout/MainbarContainer'
 import { Sidebar } from '../layout/sidebar/Sidebar'
 import { HeaderProject } from '../layout/HeaderProject'
 import { BodyContainer } from '../layout/BodyContainer'
-import { useGetShotsByProjectId } from '../hooks/api/useShotsApi'
-import { useGetReelsByProjectId, useUpdateReel } from '../hooks/api/useReelsApi'
 import { useGetProjectQuery } from '../store/api/projects.api'
 import { skipToken } from '@reduxjs/toolkit/query'
+import { useGetReelsQuery, useUpdateReelMutation } from '../store/api/reels.api'
+import { useGetShotsQuery } from '../store/api/shots.api'
 
 export const DraggableItem = styled.div`
   cursor: grab;
@@ -32,10 +32,10 @@ export const GraphPage = () => {
 
   const { activeShotId, dragShot, dropReel } = useAppSelector(state => state.entities)
 
-  const { data: reels } = useGetReelsByProjectId(+id)
-  const { data: shots } = useGetShotsByProjectId(+id)
+  const { data: reels } = useGetReelsQuery(+id ?? skipToken)
+  const { data: shots } = useGetShotsQuery(+id ?? skipToken)
 
-  const { mutateAsync: updateReel, isSuccess } = useUpdateReel()
+  const [updateReel, { isSuccess }] = useUpdateReelMutation()
 
   const onDragStartHandler = (e, shot: IShot, reel?: IReel) => {
     dispatch(setDragShotId(shot.id))

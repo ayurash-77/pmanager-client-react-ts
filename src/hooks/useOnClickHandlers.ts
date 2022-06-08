@@ -1,12 +1,12 @@
 import { useAppDispatch, useAppSelector } from './redux'
 import { setActiveReelsIds, setActiveShotId } from '../store/reducers/entities.reducer'
-import { useGetReelsByProjectId } from './api/useReelsApi'
-import { useEffect, useState } from 'react'
+import { useGetReelsQuery } from '../store/api/reels.api'
+import { skipToken } from '@reduxjs/toolkit/query'
 
 export const useOnShotClickHandler = () => {
   const dispatch = useAppDispatch()
   const { activeShotId, activeProjectId, dragShotId } = useAppSelector(state => state.entities)
-  const { data: reels } = useGetReelsByProjectId(activeProjectId)
+  const { data: reels } = useGetReelsQuery(activeProjectId ?? skipToken)
   // const [reels, setReels] = useState(reelsInit)
 
   const onShotClickHandler = shotId => {

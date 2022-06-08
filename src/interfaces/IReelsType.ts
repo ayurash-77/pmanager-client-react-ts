@@ -4,7 +4,7 @@ import { IShot } from './IShot'
 import { IStatus } from './IStatus'
 
 export interface IReelsType {
-  id?: number
+  id: number
   name: string
   code: string
   projectId: number

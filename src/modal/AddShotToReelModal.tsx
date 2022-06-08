@@ -4,13 +4,14 @@ import { FlexColumn } from '../components/ui'
 import { useTranslate } from '../hooks/useTranslate'
 import { IReel } from '../interfaces/IReel'
 import { useParams } from 'react-router'
-import { useGetShotsByProjectId } from '../hooks/api/useShotsApi'
 import cn from 'classnames'
 import { EntityCardShot } from '../components/entity-card/EntityCardShot'
 import styled from 'styled-components'
-import { useUpdateReel } from '../hooks/api/useReelsApi'
 import { useAppDispatch } from '../hooks/redux'
 import { setActiveShotId } from '../store/reducers/entities.reducer'
+import { useUpdateReelMutation } from '../store/api/reels.api'
+import { useGetShotsQuery } from '../store/api/shots.api'
+import { skipToken } from '@reduxjs/toolkit/query'
 
 const Container = styled.div`
   display: flex;
@@ -43,8 +44,8 @@ export const AddShotToReelModal: FC<IAddShotToReelModal> = props => {
   const { text } = useTranslate()
 
   const { id } = useParams()
-  const { data: shots = [], isSuccess: isSuccessShots } = useGetShotsByProjectId(+id)
-  const { mutateAsync: updateReel, isSuccess: isSuccessUpdateReel } = useUpdateReel()
+  const { data: shots = [], isSuccess: isSuccessShots } = useGetShotsQuery(+id ?? skipToken)
+  const [updateReel, { isSuccess: isSuccessUpdateReel }] = useUpdateReelMutation()
 
   const [selectedShotsIds, setSelectedShotsIds] = useState([])
 

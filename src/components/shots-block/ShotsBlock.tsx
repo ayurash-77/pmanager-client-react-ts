@@ -12,11 +12,12 @@ import cn from 'classnames'
 import DeleteModal from '../../modal/DeleteModal'
 import { useDeleteShot } from '../../hooks/useDeleteShot'
 import { InfoShotBlock } from '../info-elements/InfoShotBlock'
-import { useGetReelsByProjectId } from '../../hooks/api/useReelsApi'
 import Loader from '../ui/Loader'
 import { useOnShotClickHandler } from '../../hooks/useOnClickHandlers'
 import { setActiveShotId, setDragShotId } from '../../store/reducers/entities.reducer'
 import { useTranslate } from '../../hooks/useTranslate'
+import { useGetReelsQuery } from '../../store/api/reels.api'
+import { skipToken } from '@reduxjs/toolkit/query'
 
 const Container = styled.div`
   display: flex;
@@ -57,7 +58,7 @@ export const ShotsBlock: FC<IShotsBlock> = props => {
   const [isNewShotModalShow, setNewShotModalShow] = useState(false)
 
   const { activeShotId, activeProjectId, activeReelsIds, dropReel } = useAppSelector(state => state.entities)
-  const { data: reels } = useGetReelsByProjectId(activeProjectId)
+  const { data: reels } = useGetReelsQuery(activeProjectId ?? skipToken)
 
   const activeShot = shots?.find(shot => shot.id === activeShotId) || null
 
