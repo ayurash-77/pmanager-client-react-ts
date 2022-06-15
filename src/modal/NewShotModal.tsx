@@ -25,22 +25,20 @@ interface INewShotModal {
 // NewShotModal
 //
 
-export const NewShotModal: FC<INewShotModal> = ({ closeAction, project, shots, ...props }) => {
-  // const { activeProjectId } = useAppSelector(state => state.projects)
+export const NewShotModal: FC<INewShotModal> = props => {
+  const { closeAction, project, shots, ...rest } = props
+  const { activeProjectId } = useAppSelector(state => state.entities)
 
   const { text } = useTranslate()
   const user = useAppSelector(state => state.auth.authUser)
 
-  const dataInit: IShotCreateDto = useMemo(
-    () => ({
-      projectId: project?.id,
-      reelId: 0,
-      duration: 0,
-      number: '',
-      createdBy: user,
-    }),
-    [project, user]
-  )
+  const dataInit: IShotCreateDto = {
+    projectId: activeProjectId,
+    reelId: 0,
+    duration: 0,
+    number: '',
+    createdBy: user,
+  }
 
   const [data, setData] = useState<IShotCreateDto>(dataInit)
   const [shotNumber, setShotNumber] = useState('')
@@ -49,8 +47,8 @@ export const NewShotModal: FC<INewShotModal> = ({ closeAction, project, shots, .
 
   const [createShot, { isError, error, isSuccess, status, data: newItem, reset }] = useCreateShotMutation()
 
-  const { data: reels, refetch: refetchReels } = useGetReelsQuery(project?.id ?? skipToken)
-  const { data: posts, refetch: refetchPosts } = useGetPostsQuery(project?.id ?? skipToken)
+  const { data: reels, refetch: refetchReels } = useGetReelsQuery(activeProjectId ?? skipToken)
+  const { data: posts, refetch: refetchPosts } = useGetPostsQuery(activeProjectId ?? skipToken)
 
   const options = reels?.map(item => ({ label: item.code, value: item.id }))
 
@@ -86,10 +84,10 @@ export const NewShotModal: FC<INewShotModal> = ({ closeAction, project, shots, .
     setCode(options.find(val => val.value === newReelsTypeId)?.label.split('_')[0])
   }
 
-  const onSubmitHandler = e => {
+  const onSubmitHandler = async e => {
     e.preventDefault()
-    createShot({ ...data, number: shotNumber, reelId: reelId })
-    setShotNumber('')
+    console.log(data)
+    await createShot({ ...data, number: shotNumber, reelId: reelId })
   }
 
   // console.log(status)
@@ -126,7 +124,7 @@ export const NewShotModal: FC<INewShotModal> = ({ closeAction, project, shots, .
   return (
     <>
       <ModalWrapper
-        {...props}
+        {...rest}
         warning={false}
         type={'type2'}
         size={'sm'}

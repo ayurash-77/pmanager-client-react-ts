@@ -6,7 +6,7 @@ import { providesList } from '../../utils/provides-list'
 
 export const briefsApi = baseApi.injectEndpoints({
   endpoints: build => ({
-    getBriefs: build.query<IBrief[], void>({
+    getBriefs: build.query<IBrief[], number>({
       query: projectId => ({ url: `briefs?projectId=${projectId}` }),
       providesTags: result => providesList(result, 'Briefs'),
     }),

@@ -12,11 +12,8 @@ import {
   setActiveShotId,
 } from '../../store/reducers/entities.reducer'
 import { useDeleteReelMutation } from '../../store/api/reels.api'
-import { ErrorList } from '../errors/ErrorList'
 import DeleteModal from '../../modal/DeleteModal'
 import { InfoReelBlock } from '../info-elements/InfoReelBlock'
-import { useNavigate } from 'react-router-dom'
-import { setActiveMenu } from '../../store/reducers/ui.reducer'
 
 export const RibbonReels = ({ entities, project }: { entities: IReel[]; project: IProject }) => {
   const { text } = useTranslate()

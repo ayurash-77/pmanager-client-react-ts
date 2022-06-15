@@ -42,7 +42,7 @@ export const Layout: FC = () => {
 
   return (
     <Container>
-      <Menubar>{activeMenu === '/projects' ? <MainMenu /> : <ProjectMenu />}</Menubar>
+      <Menubar>{activeMenu === 'projects' ? <MainMenu /> : <ProjectMenu />}</Menubar>
 
       <Outlet />
     </Container>

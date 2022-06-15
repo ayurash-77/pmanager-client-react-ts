@@ -11,12 +11,18 @@ export const shotsApi = baseApi.injectEndpoints({
     }),
     createShot: build.mutation<IShot, IShotCreateDto>({
       query: body => ({ url: 'shots', method: 'POST', body: body }),
-      invalidatesTags: [{ type: 'Shots', id: 'LIST' }],
+      invalidatesTags: (result, error, arg) => [
+        { type: 'Shots', id: 'LIST' },
+        { type: 'Reels', id: arg.reelId },
+      ],
     }),
 
     deleteShot: build.mutation<IShot, number>({
       query: id => ({ url: `shots/${id}`, method: 'DELETE' }),
-      invalidatesTags: [{ type: 'Shots', id: 'LIST' }],
+      invalidatesTags: [
+        { type: 'Shots', id: 'LIST' },
+        { type: 'Reels', id: 'LIST' },
+      ],
     }),
   }),
 })

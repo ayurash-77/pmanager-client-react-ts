@@ -14,6 +14,8 @@ import {
 } from '../../store/reducers/entities.reducer'
 import { useGetProjectQuery, useGetProjectsQuery } from '../../store/api/projects.api'
 import { skipToken } from '@reduxjs/toolkit/query'
+import { useGetReelsQuery } from '../../store/api/reels.api'
+import { useGetShotsQuery } from '../../store/api/shots.api'
 
 export const ProjectMenu: FC<Partial<IMenuItem>> = () => {
   const { text } = useTranslate()
@@ -22,10 +24,12 @@ export const ProjectMenu: FC<Partial<IMenuItem>> = () => {
   const { data: projects = [], isLoading: isLoadingProjects } = useGetProjectsQuery()
   const { activeProjectId } = useAppSelector(state => state.entities)
   const { data: project, isLoading: isLoadingProject } = useGetProjectQuery(activeProjectId ?? skipToken)
+  const { data: reels, isLoading: isLoadingReels } = useGetReelsQuery(activeProjectId ?? skipToken)
+  const { data: shots, isLoading: isLoadingShots } = useGetShotsQuery(activeProjectId ?? skipToken)
 
   const projectsCount = isLoadingProjects ? <Loader size={16} translateX={4} /> : projects.length
-  const reelsCount = isLoadingProject ? <Loader size={16} translateX={4} /> : project?.reels?.length
-  const shotsCount = isLoadingProject ? <Loader size={16} translateX={4} /> : project?.shots?.length
+  const reelsCount = isLoadingReels ? <Loader size={16} translateX={4} /> : reels?.length
+  const shotsCount = isLoadingShots ? <Loader size={16} translateX={4} /> : shots?.length
 
   const mainMenuButtons: IMenuItem[] = [
     { icon: <SideIcons.Home />, name: text.menu.allProjects, count: projectsCount, link: 'projects' },

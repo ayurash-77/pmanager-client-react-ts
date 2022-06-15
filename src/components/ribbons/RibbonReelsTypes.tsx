@@ -57,7 +57,7 @@ export const RibbonReelsTypes = ({ entities, project }: { entities: IReelsType[]
       dispatch(setActiveReelsTypeId(null))
       refetchReels()
     }
-  }, [dispatch, isSuccess])
+  }, [dispatch, isSuccess, refetchReels])
 
   return (
     <>

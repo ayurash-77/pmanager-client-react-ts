@@ -31,7 +31,7 @@ export const ReelsPage = () => {
 
   const { id } = useParams()
   const { reelsBlock } = useAppSelector(state => state.ui)
-  const { activeShotId, activeReelsIds, activeProjectId, dragShot } = useAppSelector(state => state.entities)
+  const { activeShotId, activeReelsIds, activeProjectId } = useAppSelector(state => state.entities)
   const { data: project, isLoading: isLoadingProject } = useGetProjectQuery(activeProjectId ?? skipToken)
   const { data: posts } = useGetPostsQuery(activeProjectId ?? skipToken)
   const { data: reelsTypes, refetch: refetchReelsTypes } = useGetReelsTypesQuery(activeProjectId ?? skipToken)

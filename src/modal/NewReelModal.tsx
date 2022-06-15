@@ -40,7 +40,7 @@ export const NewReelModal: FC<INewReelModal> = props => {
   const [data, setData] = useState<IReelCreateDto>(dataInit)
 
   const [createReel, { isError, error, isSuccess, reset, isLoading, data: newItem }] = useCreateReelMutation()
-  const { data: reelsTypes, refetch: refetchReelsTypes } = useGetReelsTypesQuery(+id ?? skipToken)
+  const { data: reelsTypes } = useGetReelsTypesQuery(+id ?? skipToken)
 
   const options = reelsTypes?.map(item => ({ label: `${item.code} | ${item.name}`, value: item.id }))
 

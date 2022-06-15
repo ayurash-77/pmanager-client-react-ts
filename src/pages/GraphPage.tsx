@@ -30,12 +30,10 @@ export const GraphPage = () => {
 
   const { data: project, isLoading: isLoadingProject } = useGetProjectQuery(+id ?? skipToken)
 
-  const { activeShotId, dragShot, dropReel } = useAppSelector(state => state.entities)
+  const { activeShotId } = useAppSelector(state => state.entities)
 
   const { data: reels } = useGetReelsQuery(+id ?? skipToken)
   const { data: shots } = useGetShotsQuery(+id ?? skipToken)
-
-  const [updateReel, { isSuccess }] = useUpdateReelMutation()
 
   const onDragStartHandler = (e, shot: IShot, reel?: IReel) => {
     dispatch(setDragShotId(shot.id))
@@ -43,45 +41,9 @@ export const GraphPage = () => {
     if (reel) dispatch(setDropReelId(reel.id))
   }
 
-  const onDragLeaveHandler = (e, shot) => {
-    //
-  }
-
   const onDragEndHandler = e => {
     // console.log('DragEnd', e.target)
   }
-
-  const onDragOverHandler = e => {
-    e.preventDefault()
-  }
-
-  const onDropHandler = (e, reel: IReel) => {
-    if (reel) dispatch(setDropReelId(reel.id))
-    e.preventDefault()
-
-    const updatedShots = [...reel.shots, dragShot]
-    const updatedReel = { ...reel, shots: updatedShots }
-    updateReel(updatedReel)
-  }
-
-  const removeShotHandler = e => {
-    e.preventDefault()
-    if (dropReel) {
-      const updatedShots: IShot[] = dropReel?.shots?.filter(shot => shot.id !== dragShot.id)
-      const updatedReel: IReel = { ...dropReel, shots: updatedShots }
-      updateReel(updatedReel)
-    }
-  }
-
-  // useEffect(() => {
-  //   if (isSuccess) {
-  //     dispatch(setDragShot(null))
-  //     dispatch(setDropReel(null))
-  //     dispatch(setActiveShotId(null))
-  //     refetchReels()
-  //     refetchShots()
-  //   }
-  // }, [dispatch, isSuccess, refetchReels, refetchShots])
 
   ////////////////////////////////////////////////////////////////////////
 
@@ -92,7 +54,7 @@ export const GraphPage = () => {
 
         <BodyContainer>
           {reels?.map(reel => (
-            <div key={reel.id} onDrop={e => onDropHandler(e, reel)} onDragOver={e => e.preventDefault()}>
+            <div key={reel.id}>
               <Timeline reelInit={reel}>
                 {reel.shots?.map(shot => (
                   <div
