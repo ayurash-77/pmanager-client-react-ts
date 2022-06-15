@@ -11,6 +11,7 @@ import { IReelCreateDto } from '../interfaces/IReelCreateDto'
 import { useParams } from 'react-router'
 import { setActiveReelsIds } from '../store/reducers/entities.reducer'
 import { skipToken } from '@reduxjs/toolkit/query'
+import { useGetReelsTypesQuery } from '../store/api/reelsTypes.api'
 
 interface INewReelModal {
   isOpen: boolean
@@ -41,15 +42,11 @@ export const NewReelModal: FC<INewReelModal> = ({ closeAction, project, ...props
 
   const [createReel, { isError, error, isSuccess, data: newItem }] = useCreateReelMutation()
 
-  const { data: reelsTypes, refetch: refetchReelsTypes } = useGetReelsQuery(+id ?? skipToken)
+  const { data: reelsTypes, refetch: refetchReelsTypes } = useGetReelsTypesQuery(+id ?? skipToken)
 
-  const reelsTypesSorted = useMemo(() => {
-    const reelsTypesSorted = reelsTypes?.slice()
-    reelsTypesSorted?.sort((a, b) => a.code.localeCompare(b.code))
-    return reelsTypesSorted
-  }, [reelsTypes])
+  // console.log('reelsTypes: ', reelsTypes)
 
-  const options = reelsTypesSorted?.map(item => ({ label: `${item.code} | ${item.name}`, value: item.id }))
+  const options = reelsTypes?.map(item => ({ label: `${item.code} | ${item.name}`, value: item.id }))
 
   const [reelsTypeId, setReelsTypeId] = useState(0)
 
