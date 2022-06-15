@@ -40,8 +40,6 @@ export const RibbonReels = ({ entities, project }: { entities: IReel[]; project:
   const activeReel = entities?.find(entity => activeReelsIds.includes(entity.id)) || null
   const detailsJsx = activeReel && <InfoReelBlock {...activeReel} />
 
-  const navigate = useNavigate()
-
   const onDeleteHandler = e => {
     e.preventDefault()
     deleteReel(activeReel.id)

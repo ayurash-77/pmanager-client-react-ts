@@ -1,13 +1,14 @@
 import { useAppDispatch, useAppSelector } from './redux'
-import { setActiveReelsIds, setActiveShotId } from '../store/reducers/entities.reducer'
+import { setActiveReelsIds, setActiveReelsTypeId, setActiveShotId } from '../store/reducers/entities.reducer'
 import { useGetReelsQuery } from '../store/api/reels.api'
 import { skipToken } from '@reduxjs/toolkit/query'
 
 export const useOnShotClickHandler = () => {
   const dispatch = useAppDispatch()
-  const { activeShotId, activeProjectId, dragShotId } = useAppSelector(state => state.entities)
+  const { activeShotId, activeReelsTypeId, activeProjectId, dragShotId } = useAppSelector(
+    state => state.entities
+  )
   const { data: reels } = useGetReelsQuery(activeProjectId ?? skipToken)
-  // const [reels, setReels] = useState(reelsInit)
 
   const onShotClickHandler = shotId => {
     const isDragShot = shotId === dragShotId
@@ -17,13 +18,17 @@ export const useOnShotClickHandler = () => {
 
     dispatch(setActiveShotId(selectedShotId))
     dispatch(setActiveReelsIds(reelsIds))
-    console.log(shotId)
+    dispatch(setActiveReelsTypeId(null))
   }
 
-  // useEffect(() => {
-  //   setReels(reelsInit)
-  //   return onShotClickHandler(shotId)
-  // }, [reelsInit])
+  const onReelsTypeClickHandler = reelsTypeId => {
+    const isSameItem = reelsTypeId === activeReelsTypeId
+    const reelsIds = reels?.filter(reel => reel.reelsTypeId === reelsTypeId).map(reel => reel.id)
 
-  return { onShotClickHandler }
+    dispatch(setActiveReelsIds(isSameItem ? [] : reelsIds))
+    dispatch(setActiveReelsTypeId(isSameItem ? null : reelsTypeId))
+    dispatch(setActiveShotId(null))
+  }
+
+  return { onShotClickHandler, onReelsTypeClickHandler }
 }

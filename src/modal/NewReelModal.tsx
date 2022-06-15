@@ -23,39 +23,28 @@ interface INewReelModal {
 // NewReelModal
 //
 
-export const NewReelModal: FC<INewReelModal> = ({ closeAction, project, ...props }) => {
+export const NewReelModal: FC<INewReelModal> = props => {
+  const { closeAction, project, ...rest } = props
+  const dispatch = useAppDispatch()
   const { id } = useParams()
   const { text } = useTranslate()
   const user = useAppSelector(state => state.auth.authUser)
 
-  const dataInit: IReelCreateDto = useMemo(
-    () => ({
-      duration: 0,
-      projectId: +id,
-      reelsTypeId: 0,
-      createdBy: user,
-    }),
-    [id, user]
-  )
+  const dataInit: IReelCreateDto = {
+    duration: 0,
+    projectId: +id,
+    reelsTypeId: 0,
+    createdBy: user,
+  }
 
   const [data, setData] = useState<IReelCreateDto>(dataInit)
 
-  const [createReel, { isError, error, isSuccess, data: newItem }] = useCreateReelMutation()
-
+  const [createReel, { isError, error, isSuccess, reset, isLoading, data: newItem }] = useCreateReelMutation()
   const { data: reelsTypes, refetch: refetchReelsTypes } = useGetReelsTypesQuery(+id ?? skipToken)
-
-  // console.log('reelsTypes: ', reelsTypes)
 
   const options = reelsTypes?.map(item => ({ label: `${item.code} | ${item.name}`, value: item.id }))
 
   const [reelsTypeId, setReelsTypeId] = useState(0)
-
-  const dispatch = useAppDispatch()
-
-  const clearData = useCallback(() => {
-    setData(dataInit)
-    setReelsTypeId(0)
-  }, [dataInit])
 
   const onChangeInputHandler = (key, value) => {
     setData({ ...data, [key]: value })
@@ -63,7 +52,8 @@ export const NewReelModal: FC<INewReelModal> = ({ closeAction, project, ...props
 
   const onCancelHandler = async e => {
     e.preventDefault()
-    clearData()
+    reset()
+    setReelsTypeId(0)
     closeAction()
   }
 
@@ -82,12 +72,11 @@ export const NewReelModal: FC<INewReelModal> = ({ closeAction, project, ...props
   useEffect(() => {
     if (isSuccess) {
       dispatch(setActiveReelsIds([newItem.id]))
-      refetchReelsTypes()
-      clearData()
       closeAction()
+      setReelsTypeId(0)
+      reset()
     }
-    // eslint-disable-next-line
-  }, [isSuccess])
+  }, [closeAction, dispatch, isSuccess, newItem, reset])
 
   ////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -96,7 +85,7 @@ export const NewReelModal: FC<INewReelModal> = ({ closeAction, project, ...props
   return (
     <>
       <ModalWrapper
-        {...props}
+        {...rest}
         warning={false}
         type={'type2'}
         size={'sm'}

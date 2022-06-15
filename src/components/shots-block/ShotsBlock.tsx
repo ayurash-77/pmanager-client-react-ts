@@ -52,12 +52,11 @@ interface IShotsBlock {
 export const ShotsBlock: FC<IShotsBlock> = props => {
   const { project, shots, isLoadingShots } = props
   const { text } = useTranslate()
-  const dispatch = useAppDispatch()
   const { onShotClickHandler } = useOnShotClickHandler()
 
   const [isNewShotModalShow, setNewShotModalShow] = useState(false)
 
-  const { activeShotId, activeProjectId, activeReelsIds, dropReel } = useAppSelector(state => state.entities)
+  const { activeShotId, activeProjectId } = useAppSelector(state => state.entities)
   const { data: reels } = useGetReelsQuery(activeProjectId ?? skipToken)
 
   const activeShot = shots?.find(shot => shot.id === activeShotId) || null
@@ -71,14 +70,6 @@ export const ShotsBlock: FC<IShotsBlock> = props => {
     error,
     title,
   } = useDeleteShot(project, activeShot)
-
-  const onDragStartHandler = (shotId: number) => {
-    dispatch(setDragShotId(shotId))
-    dispatch(setActiveShotId(shotId))
-  }
-  const onDragEndHandler = () => {
-    dispatch(setDragShotId(null))
-  }
 
   ////////////////////////////////////////////////////////////////////////
 

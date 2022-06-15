@@ -23,7 +23,11 @@ export const reelsTypesApi = baseApi.injectEndpoints({
     }),
     deleteReelsType: build.mutation<IReelsType, number>({
       query: id => ({ url: `reels-types/${id}`, method: 'DELETE' }),
-      invalidatesTags: [{ type: 'ReelsTypes', id: 'LIST' }],
+      invalidatesTags: [
+        { type: 'ReelsTypes', id: 'LIST' },
+        { type: 'Reels', id: 'LIST' },
+        { type: 'Shots', id: 'LIST' },
+      ],
     }),
   }),
 })
