@@ -51,12 +51,11 @@ export const LoginPage: FC = () => {
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
 
-  const [login, { data: user, isLoading, error }] = useLoginMutation()
+  const [login, { data: user, isLoading, isError, error }] = useLoginMutation()
 
   const dispatch = useAppDispatch()
 
   const loaderJsx = isLoading && <Loader size={32} />
-  const errorJsx = ErrorList(error && 'data' in error ? error.data.message : [])
 
   const onSubmitHandler = async e => {
     e.preventDefault()
@@ -149,7 +148,7 @@ export const LoginPage: FC = () => {
         <FlexColumn>
           <>
             {loaderJsx}
-            {errorJsx}
+            {isError && <ErrorList error={error} />}
           </>
         </FlexColumn>
       </LoginContainer>

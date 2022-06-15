@@ -18,7 +18,7 @@ const RibbonContainer = styled.div`
 const RibbonRow = styled.div`
   transition: height 250ms, opacity 150ms;
   display: flex;
-  //height: 80px;
+
   &.collapse {
     height: 0;
     opacity: 0;

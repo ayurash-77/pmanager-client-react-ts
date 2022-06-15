@@ -1,5 +1,5 @@
 import { ModalWrapper } from './ModalWrapper'
-import { FC, useEffect, useState } from 'react'
+import { FC, useEffect, useMemo, useState } from 'react'
 import { useTranslate } from '../hooks/useTranslate'
 import { Grid } from '../components/ui'
 import { useAppDispatch, useAppSelector } from '../hooks/redux'
@@ -10,6 +10,7 @@ import { useParams } from 'react-router'
 import { IReelsTypeCreateDto } from '../interfaces/IReelsTypeCreateDto'
 import { setActiveReelsTypeId } from '../store/reducers/entities.reducer'
 import { useCreateReelsTypesMutation } from '../store/api/reelsTypes.api'
+import Loader from '../components/ui/Loader'
 
 interface INewReelsTypeModal {
   isOpen: boolean
@@ -35,13 +36,10 @@ export const NewReelsTypeModal: FC<INewReelsTypeModal> = props => {
     createdBy: user,
   }
 
-  const [data, setData] = useState<IReelsTypeCreateDto>(dataInit)
-  // const [error, setError] = useState(null)
+  const [data, setData] = useState(dataInit)
 
-  const [createReelsType, { isError: isErrorCreateReelsType, error, isSuccess, data: newItem }] =
+  const [createReelsType, { isError, error, isSuccess, reset, isLoading, data: newReelType }] =
     useCreateReelsTypesMutation()
-  // const errorJsx = ErrorList(error?.message?.length > 0 ? error.message : [])
-  // const errorJsx = () => <div className="error">{error?.message}</div>
 
   const onChangeHandler = (key, target) => {
     setData({ ...data, [key]: target.value })
@@ -49,29 +47,23 @@ export const NewReelsTypeModal: FC<INewReelsTypeModal> = props => {
 
   const onCancelHandler = e => {
     e.preventDefault()
-    setData(dataInit)
     closeAction()
+    reset()
   }
 
-  const onSubmitHandler = e => {
+  const onSubmitHandler = async e => {
     e.preventDefault()
-    if (!data.name || !data.code) return
-    createReelsType(data)
+    if (!data.code || !data.name) return
+    await createReelsType(data)
   }
-
-  // console.log('isSuccess: ', isSuccess)
-  // console.log('isErrorCreateReelsType: ', isErrorCreateReelsType)
 
   useEffect(() => {
     if (isSuccess) {
-      // console.log('isSuccess: ', isSuccess)
-      console.log('newItem: ', newItem)
-      // dispatch(setActiveReelsTypeId(newItem?.id))
-      // setData(dataInit)
+      dispatch(setActiveReelsTypeId(newReelType.id))
       closeAction()
+      reset()
     }
-    // eslint-disable-next-line
-  }, [isSuccess])
+  }, [closeAction, dispatch, isSuccess, newReelType, reset])
 
   ////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -89,12 +81,11 @@ export const NewReelsTypeModal: FC<INewReelsTypeModal> = props => {
         onCancelHandler={onCancelHandler}
       >
         <Grid cols="auto" gap={5}>
-          <div>
-            <FlexColumn vAlign="center" padding={5}>
-              {/* {error && <div className="error">error</div>} */}
-              {isErrorCreateReelsType && <div>error?.message</div>}
-            </FlexColumn>
-          </div>
+          <FlexColumn vAlign="center" padding={5}>
+            {isLoading && <Loader size={24} />}
+            {isError && <ErrorList error={error} />}
+          </FlexColumn>
+
           <Grid cols="auto" gap={5}>
             <Grid cols="max-content auto " marginTop={5} align={'right'}>
               <Input

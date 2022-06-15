@@ -1,51 +1,27 @@
 import styled from 'styled-components'
 
-export const EntityCardContainer = styled.div`
+export const EntityCardReelContainer = styled.div`
   transition: 150ms;
   max-width: 160px;
   display: flex;
   gap: 4px;
+  border: 2px solid transparent;
+  border-radius: 6px;
+  padding: 2px;
+  margin-right: 2px;
+  user-select: none;
 
   .main {
     transition: 150ms;
     min-width: 80px;
     height: 60px;
-
     display: flex;
     flex-direction: column;
-
     font-family: var(--ff-entity-card);
     font-size: var(--fs-small2);
-
     border-radius: var(--rad);
     overflow: hidden;
     box-sizing: content-box;
-
-    //&.shot {
-    //  box-sizing: border-box;
-    //  border: solid 1px transparent;
-    //}
-
-    &.selected {
-      opacity: 1;
-      filter: contrast(110%);
-
-      &.shot {
-        background: var(--shot-card-bg-selected);
-        box-shadow: 0 2px 5px #00000060, inset 0 10px 20px var(--shot-card-selected-glow);
-        //border: 1px solid #ffffff60;
-      }
-
-      &.reel {
-        background: var(--reel-card-bg-selected);
-        box-shadow: 0 2px 5px #00000060, inset 0 10px 20px var(--reel-card-selected-glow);
-      }
-
-      &.reelsType {
-        background: var(--reelsType-card-bg-selected);
-        box-shadow: 0 2px 5px #00000060, inset 0 10px 20px var(--reelsType-card-selected-glow);
-      }
-    }
 
     .thumbnail {
       display: flex;
@@ -80,23 +56,7 @@ export const EntityCardContainer = styled.div`
       display: flex;
       justify-content: center;
       align-items: center;
-
-      &.reelsType {
-        background: var(--reelsType-card-bg);
-      }
-
-      &.reel {
-        background: var(--reel-card-bg);
-      }
-
-      &.shot {
-        background: var(--shot-card-bg);
-      }
-    }
-
-    &.disabled {
-      opacity: 0.7;
-      filter: contrast(75%);
+      background: var(--reel-card-bg);
     }
   }
 
@@ -105,9 +65,11 @@ export const EntityCardContainer = styled.div`
     max-height: 60px;
     font-size: var(--fs-small2);
     color: var(--text-high);
-    display: flex;
+    display: grid;
+    grid-template-rows: auto 1fr auto;
     flex-direction: column;
     justify-content: space-between;
+    margin: 1px 3px 0 0;
 
     opacity: 0.8;
 
@@ -146,13 +108,23 @@ export const EntityCardContainer = styled.div`
     }
   }
 
-  &:hover .info,
-  &.selected .info {
-    color: var(--text-high2);
-    opacity: 1;
+  &.selected {
+    border: 2px solid var(--reel-card-selected-border);
+    box-shadow: 1px 2px 4px #00000030;
   }
 
-  .selected .footer {
+  &:hover .main,
+  &.selected .main {
+    opacity: 1;
+    filter: contrast(110%);
+    background: var(--reel-card-bg-selected);
+    box-shadow: inset 0 10px 20px var(--reel-card-selected-glow);
+  }
+
+  &:hover .info,
+  &:hover .footer,
+  &.selected .info {
+    color: var(--text-high);
     opacity: 1;
   }
 

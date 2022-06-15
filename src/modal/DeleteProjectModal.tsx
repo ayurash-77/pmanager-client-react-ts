@@ -18,7 +18,6 @@ export const DeleteProjectModal: FC<IDeleteProjectModal> = ({ ...props }) => {
   const { text } = useTranslate()
 
   const [deleteProject, { isError, error }] = useDeleteProjectMutation()
-  const errorJsx = ErrorList(error && 'data' in error ? error.data.message : [])
 
   const onSubmitHandler = e => {
     e.preventDefault()
@@ -58,7 +57,7 @@ export const DeleteProjectModal: FC<IDeleteProjectModal> = ({ ...props }) => {
         <Grid cols="auto" gap={5}>
           <>
             {details}
-            {isError && errorJsx}
+            {isError && <ErrorList error={error} />}
           </>
         </Grid>
       </ModalWrapper>

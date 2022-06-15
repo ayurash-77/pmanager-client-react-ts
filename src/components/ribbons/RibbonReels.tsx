@@ -21,10 +21,9 @@ import { setActiveMenu } from '../../store/reducers/ui.reducer'
 export const RibbonReels = ({ entities, project }: { entities: IReel[]; project: IProject }) => {
   const { text } = useTranslate()
   const dispatch = useAppDispatch()
-  const count = entities?.length
+  const count: number = entities?.length || 0
 
   const [deleteReel, { error, isSuccess, reset }] = useDeleteReelMutation()
-  const errorJsx = ErrorList(error && 'data' in error ? error.data.message : [])
 
   const { activeReelsIds } = useAppSelector(state => state.entities)
 
@@ -72,7 +71,7 @@ export const RibbonReels = ({ entities, project }: { entities: IReel[]; project:
         closeAction={onCancelHandler}
         deleteItem={activeReel}
         deleteAction={onDeleteHandler}
-        errorJsx={errorJsx}
+        error={error}
         detailsJsx={detailsJsx}
         title={`${text.actions.deleteReel} ${activeReel?.code}?`}
       />

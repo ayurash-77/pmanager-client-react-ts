@@ -68,7 +68,7 @@ export const ShotsBlock: FC<IShotsBlock> = props => {
     canDeleteItem,
     cancelDeleteShotHandler,
     deleteShotHandler,
-    errorJsx,
+    error,
     title,
   } = useDeleteShot(project, activeShot)
 
@@ -95,7 +95,7 @@ export const ShotsBlock: FC<IShotsBlock> = props => {
         closeAction={cancelDeleteShotHandler}
         deleteItem={activeShot}
         deleteAction={deleteShotHandler}
-        errorJsx={errorJsx}
+        error={error}
         detailsJsx={activeShot && <InfoShotBlock {...activeShot} />}
         title={title}
       />

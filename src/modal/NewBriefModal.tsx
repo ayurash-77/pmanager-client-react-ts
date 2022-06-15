@@ -62,8 +62,6 @@ export const NewBriefModal: FC<INewBriefModal> = ({ closeAction, ...props }) => 
 
   const [createBrief, { isError, error, reset, isSuccess, status }] = useCreateBriefMutation()
 
-  const errorJsx = ErrorList(error && 'data' in error ? error.data.message : [])
-
   const { data: briefCategories } = useGetBriefCategoriesQuery()
   const { refetch: refetchProjects } = useGetProjectsQuery()
   const options = briefCategories?.map(item => ({ label: item.name, value: item.id }))
@@ -182,7 +180,7 @@ export const NewBriefModal: FC<INewBriefModal> = ({ closeAction, ...props }) => 
         <Grid cols="auto" gap={5}>
           <div>
             <FlexColumn vAlign="center" padding={5}>
-              <>{isError && errorJsx}</>
+              {isError && <ErrorList error={error} />}
             </FlexColumn>
           </div>
 

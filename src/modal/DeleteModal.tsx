@@ -4,6 +4,9 @@ import { Grid } from '../components/ui'
 import { IReel } from '../interfaces/IReel'
 import { IReelsType } from '../interfaces/IReelsType'
 import { IShot } from '../interfaces/IShot'
+import { SerializedError } from '@reduxjs/toolkit'
+import { CustomError } from '../store/api/auth.api'
+import { ErrorList } from '../components/errors/ErrorList'
 
 export interface IDeleteModal {
   isOpen: boolean
@@ -11,12 +14,12 @@ export interface IDeleteModal {
   deleteItem: IShot | IReel | IReelsType
   deleteAction: (e) => void
   detailsJsx?: JSX.Element
-  errorJsx?: unknown
+  error?: SerializedError | CustomError
   title?: string
 }
 
 export const DeleteBriefModal: FC<IDeleteModal> = ({ ...props }) => {
-  const { deleteAction, closeAction, errorJsx, detailsJsx, title } = props
+  const { deleteAction, closeAction, error, detailsJsx, title } = props
 
   return (
     <>
@@ -32,7 +35,7 @@ export const DeleteBriefModal: FC<IDeleteModal> = ({ ...props }) => {
         <Grid cols="auto" gap={5}>
           <>
             {detailsJsx}
-            {errorJsx}
+            <ErrorList error={error} />
           </>
         </Grid>
       </ModalWrapper>

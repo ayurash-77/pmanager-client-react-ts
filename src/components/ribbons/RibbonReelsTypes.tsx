@@ -12,16 +12,14 @@ import {
   setActiveShotId,
 } from '../../store/reducers/entities.reducer'
 import { useDeleteReelsTypeMutation } from '../../store/api/reelsTypes.api'
-import { ErrorList } from '../errors/ErrorList'
 import DeleteModal from '../../modal/DeleteModal'
 import { InfoReelsTypeBlock } from '../info-elements/InfoReelsTypeBlock'
 
 export const RibbonReelsTypes = ({ entities, project }: { entities: IReelsType[]; project: IProject }) => {
   const { text } = useTranslate()
-  const count = entities?.length
+  const count: number = entities?.length || 0
 
   const [deleteReelsType, { error, isSuccess, reset }] = useDeleteReelsTypeMutation()
-  const errorJsx = ErrorList(error && 'data' in error ? error.data.message : [])
 
   const { activeReelsTypeId } = useAppSelector(state => state.entities)
   const dispatch = useAppDispatch()
@@ -67,7 +65,7 @@ export const RibbonReelsTypes = ({ entities, project }: { entities: IReelsType[]
         closeAction={onCancelHandler}
         deleteItem={activeReelsType}
         deleteAction={onDeleteHandler}
-        errorJsx={errorJsx}
+        error={error}
         detailsJsx={detailsJsx}
         title={`${text.actions.deleteReel} ${activeReelsType?.code}?`}
       />

@@ -48,7 +48,6 @@ export const NewShotModal: FC<INewShotModal> = ({ closeAction, project, shots, .
   const [reelId, setReelId] = useState(0)
 
   const [createShot, { isError, error, isSuccess, status, data: newItem, reset }] = useCreateShotMutation()
-  const errorJsx = ErrorList(error && 'data' in error ? error.data.message : [])
 
   const { data: reels, refetch: refetchReels } = useGetReelsQuery(project?.id ?? skipToken)
   const { data: posts, refetch: refetchPosts } = useGetPostsQuery(project?.id ?? skipToken)
@@ -138,7 +137,7 @@ export const NewShotModal: FC<INewShotModal> = ({ closeAction, project, shots, .
         <Grid cols="auto" gap={5}>
           <div>
             <FlexColumn vAlign="center" padding={5}>
-              <>{isError && errorJsx}</>
+              {isError && <ErrorList error={error} />}
             </FlexColumn>
           </div>
           <Grid cols="auto" gap={5}>

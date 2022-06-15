@@ -31,7 +31,6 @@ export const ProjectsPage: FC = () => {
   const navigate = useNavigate()
 
   const { data: projects = [], isLoading: isLoadingProjects, error: errorProjects } = useGetProjectsQuery()
-  const errorJsx = ErrorList(errorProjects && 'data' in errorProjects ? errorProjects.data.message : [])
 
   const onProjectClickHandler = (project: IProject) => {
     dispatch(setActiveProjectId(activeProjectId === project.id ? null : project.id))
@@ -84,7 +83,7 @@ export const ProjectsPage: FC = () => {
         <BodyContainer>
           <>
             {isLoadingProjects && <Loader size={64} border={8} />}
-            {errorJsx}
+            <ErrorList error={errorProjects} />
             {projectsViewMode === 'grid' && (
               <ProjectsGrid projects={projectsFiltered} onProjectClickHandler={onClickHandler} />
             )}

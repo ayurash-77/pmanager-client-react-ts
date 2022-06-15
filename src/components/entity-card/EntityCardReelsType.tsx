@@ -1,33 +1,36 @@
 import { IReelsType } from '../../interfaces/IReelsType'
 import { EntityIcon } from './EntityIcon'
-import { EntityCardWrapper } from './EntityCardWrapper'
-import { DetailedHTMLProps, HTMLAttributes } from 'react'
+import { DetailedHTMLProps, FC, HTMLAttributes } from 'react'
 import cn from 'classnames'
+import { EntityCardReelsTypeContainer, EntityCardReelsTypeContainer1 } from './EntityCardReelsType.styles'
 
 interface IEntityCardReelsType extends DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLDivElement> {
   entity: IReelsType
   isSelected: boolean
 }
 
-export const EntityCardReelsType = ({ entity, isSelected, onClick }: IEntityCardReelsType) => {
+export const EntityCardReelsType: FC<IEntityCardReelsType> = props => {
+  const { entity, isSelected, onClick } = props
+
   const shotsCountArr = entity.reels?.length ? entity.reels.map(reel => reel.shots?.length) : null
   const shotsCount = shotsCountArr?.length ? shotsCountArr.reduce((acc, cur) => acc + cur) : 0
 
   return (
-    <EntityCardWrapper entity={entity} variant={'reelsType'} isSelected={isSelected} onClick={onClick}>
+    <EntityCardReelsTypeContainer onClick={onClick} className={cn({ selected: isSelected })}>
+      <div className={cn('main', { selected: isSelected })}>
+        <div className={cn('code', { selected: isSelected })}>{entity?.code}</div>
+        <div className={cn('name', { selected: isSelected })}>{entity?.name}</div>
+      </div>
       <div className={cn('info', { selected: isSelected })}>
-        <div className={'infoTitle'}>{entity?.name}</div>
-        <div>
-          <div className={'infoReel'}>
-            <EntityIcon variant={'reel'} />
-            {entity.reels?.length}
-          </div>
-          <div className={'infoShot'}>
-            <EntityIcon variant={'shot'} />
-            {shotsCount}
-          </div>
+        <div className={'infoRow'}>
+          <EntityIcon variant={'reel'} />
+          {entity.reels?.length}
+        </div>
+        <div className={'infoRow'}>
+          <EntityIcon variant={'shot'} />
+          {shotsCount}
         </div>
       </div>
-    </EntityCardWrapper>
+    </EntityCardReelsTypeContainer>
   )
 }

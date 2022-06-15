@@ -19,7 +19,6 @@ export const DeleteBriefModal: FC<IDeleteBriefModal> = ({ ...props }) => {
 
   const [deleteBrief, { isError, error }] = useDeleteBriefMutation()
   const { refetch: refetchProjects } = useGetProjectsQuery()
-  const errorJsx = ErrorList(error && 'data' in error ? error.data.message : [])
 
   const onSubmitHandler = e => {
     e.preventDefault()
@@ -51,7 +50,7 @@ export const DeleteBriefModal: FC<IDeleteBriefModal> = ({ ...props }) => {
         <Grid cols="auto" gap={5}>
           <>
             {details}
-            {isError && errorJsx}
+            {isError && <ErrorList error={error} />}
           </>
         </Grid>
       </ModalWrapper>

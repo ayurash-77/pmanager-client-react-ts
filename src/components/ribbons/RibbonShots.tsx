@@ -40,7 +40,7 @@ export const RibbonShots = ({ entities, project }: { entities: IShot[]; project:
     canDeleteItem,
     cancelDeleteShotHandler,
     deleteShotHandler,
-    errorJsx,
+    error,
     title,
   } = useDeleteShot(project, activeShot)
 
@@ -59,7 +59,7 @@ export const RibbonShots = ({ entities, project }: { entities: IShot[]; project:
         closeAction={cancelDeleteShotHandler}
         deleteItem={activeShot}
         deleteAction={deleteShotHandler}
-        errorJsx={errorJsx}
+        error={error}
         detailsJsx={activeShot && <InfoShotBlock {...activeShot} />}
         title={title}
       />

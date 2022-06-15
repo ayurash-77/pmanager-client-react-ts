@@ -8,6 +8,8 @@ import { useTranslate } from './useTranslate'
 import { IProject } from '../interfaces/IProject'
 import { useGetReelsQuery } from '../store/api/reels.api'
 import { skipToken } from '@reduxjs/toolkit/query'
+import { SerializedError } from '@reduxjs/toolkit'
+import { CustomError } from '../store/api/auth.api'
 
 interface IUseDeleteShot {
   isDeleteModalShow: boolean
@@ -15,7 +17,7 @@ interface IUseDeleteShot {
   canDeleteItem: boolean
   cancelDeleteShotHandler: () => void
   deleteShotHandler: (e) => void
-  errorJsx: unknown
+  error: SerializedError | CustomError
   title: string
 }
 
@@ -25,7 +27,6 @@ export const useDeleteShot = (project: IProject, activeShot: IShot | null): IUse
   const [deleteShot, { error, isSuccess, reset }] = useDeleteShotMutation()
 
   const { refetch: refetchReels } = useGetReelsQuery(project?.id ?? skipToken)
-  const errorJsx = ErrorList(error && 'data' in error ? error.data.message : [])
 
   const [isDeleteModalShow, setDeleteModalShow] = useState<boolean>(false)
   const { activeShotId } = useAppSelector(state => state.entities)
@@ -63,7 +64,7 @@ export const useDeleteShot = (project: IProject, activeShot: IShot | null): IUse
     canDeleteItem,
     cancelDeleteShotHandler,
     deleteShotHandler,
-    errorJsx,
+    error,
     title,
   }
 }

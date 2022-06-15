@@ -54,15 +54,17 @@ body[darkMode='true'] {
   --entity-card-icon-bg: #222228BB;
   --reelsType-card-bg: #037503;
   --reelsType-card-bg-selected: #4c785550;
+  --reelsType-card-fg: #95e39a;
+  --reelsType-card-fg-selected: #e2ffe5;
   --reelsType-card-icon-fg: #12a23b;
-  --reelsType-card-selected-border: #09900899;
+  --reelsType-card-selected-border: #167415;
   --reelsType-card-selected-glow: #00d12a50;
   --reel-card-bg: #2350b7;
   --reel-card-bg-selected: #5c74a650;
   --reel-card-icon-fg: #2370ff;
   --reel-card-title-fg: #23a3ff;
   --reel-card-icon-bg: #2350b7;
-  --reel-card-selected-border: #225fd080;
+  --reel-card-selected-border: #0450cc;
   --reel-card-selected-glow: #2080ff50;
   --shot-card-bg: #1b1b23;
   --shot-card-bg-selected: #9090a050;
@@ -165,7 +167,7 @@ body[darkMode='true'] {
   --timeline-row-border: #32344280;
   --timeline-row-shadow-inner: #00000040;
   --timeline-border: #545b7180;
-  --timeline-border-active: #0055e0;
+  --timeline-border-active: #0450cc;
 
   //----- Text
   --text-low: #646574;

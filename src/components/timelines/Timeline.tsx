@@ -35,7 +35,7 @@ export const Timeline: FC<ITimelineWrapper> = ({ reelInit }) => {
   const { data: reel = { ...reelInit } } = useGetReelQuery(reelInit.id ?? skipToken)
   const [updateReel, { isSuccess: isSuccessUpdateReel }] = useUpdateReelMutation()
 
-  const shotInReel = reel.shotsIds.includes(activeShotId)
+  const shotInReel = reel?.shotsIds.includes(activeShotId)
 
   const onTitleClickHandler = id => {
     dispatch(setActiveReelsIds(activeReelsIds.length === 1 && activeReelsIds[0] === id ? [] : [id]))
@@ -100,8 +100,6 @@ export const Timeline: FC<ITimelineWrapper> = ({ reelInit }) => {
           <div className={'shotsCount'}>
             - {reel.shots.length} shot{reel.shots.length !== 1 && 's'}
           </div>
-          {/* <EntityIcon variant={'shot'} /> */}
-          {/* {reel.shots?.length} */}
         </div>
 
         <div className={'timelineRow'}>

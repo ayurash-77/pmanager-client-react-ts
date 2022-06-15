@@ -40,7 +40,6 @@ export const NewReelModal: FC<INewReelModal> = ({ closeAction, project, ...props
   const [data, setData] = useState<IReelCreateDto>(dataInit)
 
   const [createReel, { isError, error, isSuccess, data: newItem }] = useCreateReelMutation()
-  const errorJsx = ErrorList(error && 'data' in error ? error.data.message : [])
 
   const { data: reelsTypes, refetch: refetchReelsTypes } = useGetReelsQuery(+id ?? skipToken)
 
@@ -111,7 +110,7 @@ export const NewReelModal: FC<INewReelModal> = ({ closeAction, project, ...props
         <Grid cols="auto" gap={5}>
           <div>
             <FlexColumn vAlign="center" padding={5}>
-              <>{isError && errorJsx}</>
+              {isError && <ErrorList error={error} />}
             </FlexColumn>
           </div>
           <Grid cols="auto" gap={5}>

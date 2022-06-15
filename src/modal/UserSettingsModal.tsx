@@ -41,7 +41,6 @@ export const UserSettingsModal: FC<IUserSettingsModal> = ({ closeAction, ...prop
 
   const token = useAppSelector(state => state.auth.authUser.token)
   const [updateUser, { isError, error, isSuccess, reset, data: updatedUser }] = useUpdateUserMutation()
-  const errorJsx = ErrorList(error && 'data' in error ? error.data.message : [])
 
   const controller = new AbortController()
   const formData = new FormData()
@@ -164,7 +163,7 @@ export const UserSettingsModal: FC<IUserSettingsModal> = ({ closeAction, ...prop
 
           <div>
             <FlexColumn vAlign="center" padding={5}>
-              <>{isError && errorJsx}</>
+              {isError && <ErrorList error={error} />}
             </FlexColumn>
           </div>
           <Grid cols="auto" gap={5}>

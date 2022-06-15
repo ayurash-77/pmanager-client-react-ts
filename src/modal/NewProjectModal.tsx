@@ -61,7 +61,6 @@ export const NewProjectModal: FC<INewProjectModal> = ({ ...props }) => {
   const [details, setDetails] = useState('')
 
   const [createProject, { isSuccess, data: createdProject, isError, error }] = useCreateProjectMutation()
-  const errorJsx = ErrorList(error && 'data' in error ? error.data.message : [])
 
   const deleteFile = async () => {
     try {
@@ -197,7 +196,7 @@ export const NewProjectModal: FC<INewProjectModal> = ({ ...props }) => {
             <UploadingProgress uploading={uploading} progress={progress} withValue={true} />
             <div className="error">{message}</div>
 
-            {isError && errorJsx}
+            {isError && <ErrorList error={error} />}
 
             <Grid cols="max-content auto " marginTop={5} align={'right'}>
               <Input
