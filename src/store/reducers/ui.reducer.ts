@@ -19,6 +19,10 @@ export interface IReelsBlock {
   expanded: boolean
 }
 
+export interface IRibbonReelsTypes {
+  expanded: boolean
+}
+
 export interface IRibbonReels {
   expanded: boolean
 }
@@ -49,6 +53,7 @@ export interface IInitialState {
   sidebar: ISidebar
   reelsBlock: IReelsBlock
   ribbonReels: IRibbonReels
+  ribbonReelsTypes: IRibbonReelsTypes
   searchProjectsFilter?: string
 }
 
@@ -59,6 +64,7 @@ const menubarInLocalStorage = localStorage.getItem('menubar')
 const sidebarInLocalStorage = localStorage.getItem('sidebar')
 const reelsBlockInLocalStorage = localStorage.getItem('reelsBlock')
 const ribbonReelsInLocalStorage = localStorage.getItem('ribbonReels')
+const ribbonReelsTypesInLocalStorage = localStorage.getItem('ribbonReelsTypes')
 
 const filterBarInit = {
   show: false,
@@ -92,6 +98,7 @@ const menubarInit: IMenubar = { expanded: true, activeMenu: 'projects' }
 const sidebarInit: ISidebar = { show: true }
 const reelsBlockInit: IReelsBlock = { expanded: false }
 const ribbonReelsInit: IRibbonReels = { expanded: false }
+const ribbonReelsTypesInit: IRibbonReelsTypes = { expanded: false }
 
 const initialState: IInitialState = {
   theme: { darkMode: themeInLocalStorage ? JSON.parse(themeInLocalStorage) : true },
@@ -101,6 +108,9 @@ const initialState: IInitialState = {
   menubar: menubarInLocalStorage ? JSON.parse(menubarInLocalStorage) : menubarInit,
   reelsBlock: reelsBlockInLocalStorage ? JSON.parse(reelsBlockInLocalStorage) : reelsBlockInit,
   ribbonReels: ribbonReelsInLocalStorage ? JSON.parse(ribbonReelsInLocalStorage) : ribbonReelsInit,
+  ribbonReelsTypes: ribbonReelsTypesInLocalStorage
+    ? JSON.parse(ribbonReelsTypesInLocalStorage)
+    : ribbonReelsTypesInit,
   searchProjectsFilter: null,
 }
 
@@ -141,6 +151,10 @@ export const uiSlice = createSlice({
       state.ribbonReels.expanded = action.payload
       localStorage.setItem('ribbonReels', JSON.stringify(state.ribbonReels))
     },
+    setRibbonReelsTypesExpanded(state, action: PayloadAction<boolean>) {
+      state.ribbonReelsTypes.expanded = action.payload
+      localStorage.setItem('ribbonReelsTypes', JSON.stringify(state.ribbonReelsTypes))
+    },
     setActiveMenu(state, action: PayloadAction<activeMenuType>) {
       state.menubar.activeMenu = action.payload
       localStorage.setItem('menubar', JSON.stringify(state.menubar))
@@ -162,5 +176,6 @@ export const {
   setSearchProjectsFilter,
   setReelsBlockExpanded,
   setRibbonReelsExpanded,
+  setRibbonReelsTypesExpanded,
 } = uiSlice.actions
 export default uiSlice.reducer

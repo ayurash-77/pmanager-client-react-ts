@@ -16,6 +16,7 @@ import { useGetProjectQuery, useGetProjectsQuery } from '../../store/api/project
 import { skipToken } from '@reduxjs/toolkit/query'
 import { useGetReelsQuery } from '../../store/api/reels.api'
 import { useGetShotsQuery } from '../../store/api/shots.api'
+import { useGetReelsTypesQuery } from '../../store/api/reelsTypes.api'
 
 export const ProjectMenu: FC<Partial<IMenuItem>> = () => {
   const { text } = useTranslate()
@@ -25,17 +26,21 @@ export const ProjectMenu: FC<Partial<IMenuItem>> = () => {
   const { activeProjectId } = useAppSelector(state => state.entities)
   const { data: project, isLoading: isLoadingProject } = useGetProjectQuery(activeProjectId ?? skipToken)
   const { data: reels, isLoading: isLoadingReels } = useGetReelsQuery(activeProjectId ?? skipToken)
+  const { data: reelsTypes, isLoading: isLoadingReelsTypes } = useGetReelsTypesQuery(
+    activeProjectId ?? skipToken
+  )
   const { data: shots, isLoading: isLoadingShots } = useGetShotsQuery(activeProjectId ?? skipToken)
 
   const projectsCount = isLoadingProjects ? <Loader size={16} translateX={4} /> : projects.length
   const reelsCount = isLoadingReels ? <Loader size={16} translateX={4} /> : reels?.length
+  const reelsTypesCount = isLoadingReelsTypes ? <Loader size={16} translateX={4} /> : reelsTypes?.length
   const shotsCount = isLoadingShots ? <Loader size={16} translateX={4} /> : shots?.length
 
   const mainMenuButtons: IMenuItem[] = [
-    { icon: <SideIcons.Home />, name: text.menu.allProjects, count: projectsCount, link: 'projects' },
-    { icon: <SideIcons.Project />, name: text.menu.overview, link: `overview` },
-    // { icon: <SideIcons.Reels />, name: text.menu.reelsTypes, count: 2, link: 'reelsTypes' },
+    { icon: <SideIcons.Projects />, name: text.menu.allProjects, count: projectsCount, link: 'projects' },
+    // { icon: <SideIcons.Project />, name: text.menu.overview, link: `overview` },
     { icon: <SideIcons.Sequence />, name: text.menu.reels, count: reelsCount, link: 'reels' },
+    { icon: <SideIcons.Reels />, name: text.menu.reelsTypes, count: reelsTypesCount, link: 'reelsTypes' },
     { icon: <SideIcons.Shot />, name: text.menu.shots, count: shotsCount, link: 'shots' },
     { icon: <SideIcons.Check />, name: text.menu.tasks, count: 20, link: 'tasks' },
     { icon: <SideIcons.Graph />, name: text.menu.graph, link: 'graph' },
@@ -50,7 +55,6 @@ export const ProjectMenu: FC<Partial<IMenuItem>> = () => {
   const handleMenuItemClick = link => {
     dispatch(setActiveMenu(link))
     dispatch(setActiveReelsTypeId(null))
-    // dispatch(setActiveReelId(null))
     dispatch(setActiveReelsIds([]))
     dispatch(setActiveShotId(null))
 

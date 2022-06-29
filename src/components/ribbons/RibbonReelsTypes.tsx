@@ -6,11 +6,7 @@ import { useEffect, useState } from 'react'
 import NewReelsTypeModal from '../../modal/NewReelsTypeModal'
 import { IProject } from '../../interfaces/IProject'
 import { useAppDispatch, useAppSelector } from '../../hooks/redux'
-import {
-  setActiveReelsIds,
-  setActiveReelsTypeId,
-  setActiveShotId,
-} from '../../store/reducers/entities.reducer'
+import { setActiveReelsTypeId } from '../../store/reducers/entities.reducer'
 import { useDeleteReelsTypeMutation } from '../../store/api/reelsTypes.api'
 import DeleteModal from '../../modal/DeleteModal'
 import { InfoReelsTypeBlock } from '../info-elements/InfoReelsTypeBlock'
@@ -31,12 +27,6 @@ export const RibbonReelsTypes = ({ entities, project }: { entities: IReelsType[]
 
   const [isNewReelsTypeModalShow, setNewReelsTypeModalShow] = useState(false)
   const [isDeleteModalShow, setDeleteModalShow] = useState(false)
-
-  const onClickItemHandler = id => {
-    dispatch(setActiveReelsTypeId(activeReelsTypeId === id ? null : id))
-    dispatch(setActiveReelsIds([]))
-    dispatch(setActiveShotId(null))
-  }
 
   const activeReelsType = entities?.find(entity => entity.id === activeReelsTypeId) || null
   const detailsJsx = activeReelsType && <InfoReelsTypeBlock {...activeReelsType} />

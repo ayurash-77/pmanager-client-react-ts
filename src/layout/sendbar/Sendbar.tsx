@@ -29,7 +29,6 @@ export const Sendbar: FC<IPostData> = ({ projectId }) => {
   const user = useAppSelector(state => state.auth.authUser)
   const { activeReelsIds, activeShotId, activeProjectId } = useAppSelector(state => state.entities)
   const { data: shots } = useGetShotsQuery(activeProjectId)
-  // const { data: shot, refetch: refetchShot } = useGetShot
   const [createPost] = useCreatePostMutation()
 
   const reelsIds =

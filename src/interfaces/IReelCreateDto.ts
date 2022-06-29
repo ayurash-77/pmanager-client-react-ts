@@ -5,4 +5,5 @@ export interface IReelCreateDto {
   projectId: number
   reelsTypeId: number
   createdBy: IUser
+  highPriority: boolean
 }

@@ -77,12 +77,6 @@ interface IExpandedBlock {
 export const ExpandedBlock: FC<IExpandedBlock> = props => {
   const { children, title, expanded, setExpanded, headerIcons, variant = 'shot' } = props
 
-  const dispatch = useAppDispatch()
-
-  const onTitleClickHandler = () => {
-    dispatch(setReelsBlockExpanded(!expanded))
-  }
-
   return (
     <ExpandedBlockContainer>
       <RibbonHeader className={cn(variant)}>
@@ -98,7 +92,6 @@ export const ExpandedBlock: FC<IExpandedBlock> = props => {
       <AnimatePresence initial={false}>
         {expanded && (
           <motion.div
-            // transition={{ type: 'spring' }}
             initial={{ height: 0, opacity: 0 }}
             exit={{ height: 0, opacity: 0 }}
             animate={{ height: 'auto', opacity: 1, overflow: 'hidden' }}

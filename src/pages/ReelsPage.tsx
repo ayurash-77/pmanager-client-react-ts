@@ -19,7 +19,6 @@ import { useGetPostsQuery } from '../store/api/posts.api'
 import { useGetReelsQuery } from '../store/api/reels.api'
 import { useGetReelsTypesQuery } from '../store/api/reelsTypes.api'
 
-////////////////////////////////////////////////////////////////////////
 // ReelsPage
 ////////////////////////////////////////////////////////////////////////
 
@@ -30,12 +29,13 @@ export const ReelsPage = () => {
   const bottomDivRef = useRef(null)
 
   const { id } = useParams()
+  const projectId = +id
   const { reelsBlock } = useAppSelector(state => state.ui)
-  const { activeShotId, activeReelsIds, activeProjectId } = useAppSelector(state => state.entities)
-  const { data: project, isLoading: isLoadingProject } = useGetProjectQuery(activeProjectId ?? skipToken)
-  const { data: posts } = useGetPostsQuery(activeProjectId ?? skipToken)
-  const { data: reelsTypes, refetch: refetchReelsTypes } = useGetReelsTypesQuery(activeProjectId ?? skipToken)
-  const { data: reels, refetch: refetchReels } = useGetReelsQuery(activeProjectId ?? skipToken)
+  const { activeShotId, activeReelsIds } = useAppSelector(state => state.entities)
+  const { data: project, isLoading: isLoadingProject } = useGetProjectQuery(projectId ?? skipToken)
+  const { data: posts } = useGetPostsQuery(projectId ?? skipToken)
+  const { data: reelsTypes } = useGetReelsTypesQuery(projectId ?? skipToken)
+  const { data: reels } = useGetReelsQuery(projectId ?? skipToken)
 
   const postsByReel =
     activeReelsIds.length === 1
@@ -46,22 +46,12 @@ export const ReelsPage = () => {
     ? postsByReel?.filter(post => post.shots.find(shot => shot.id === activeShotId))
     : postsByReel
 
-  const removeShotHandler = e => {
-    e.preventDefault()
-    // if (dropReel) {
-    //   const updatedShots: IShot[] = dropReel?.shots?.filter(shot => shot.id !== dragShot.id)
-    //   const updatedReel: IReel = { ...dropReel, shots: updatedShots }
-    //   updateReel(updatedReel)
-    //   dispatch(setActiveReelsIds([dropReel.id]))
-    // }
-  }
-  // const reelsIds = shots?.find(shot => shot.id === activeShotId)?.reels?.map(reel => reel.id) || []
-
   useEffect(() => {
     // bottomDivRef.current?.scrollIntoView({ behavior: 'smooth' })
     bottomDivRef.current?.scrollIntoView()
   }, [reels, posts, activeReelsIds])
 
+  // RENDER
   ////////////////////////////////////////////////////////////////////////
 
   return (
@@ -76,16 +66,7 @@ export const ReelsPage = () => {
           expanded={reelsBlock.expanded}
           setExpanded={() => dispatch(setReelsBlockExpanded(!reelsBlock.expanded))}
         >
-          {project &&
-            reels?.map(reel => (
-              <div
-                key={reel.id} //
-                // onDrop={e => onDropHandler(e, reel)}
-                // onDragOver={e => e.preventDefault()}
-              >
-                <Timeline reelInit={reel} />
-              </div>
-            ))}
+          {project && reels?.map(reel => <Timeline key={reel.id} reelInit={reel} />)}
         </ExpandedBlock>
 
         <BodyContainer>
@@ -95,7 +76,7 @@ export const ReelsPage = () => {
           <div ref={bottomDivRef} />
         </BodyContainer>
 
-        <Sendbar projectId={activeProjectId} />
+        <Sendbar projectId={projectId} />
       </MainbarContainer>
       <Sidebar project={project} isLoadingProject={isLoadingProject} />
     </>

@@ -33,11 +33,12 @@ const GridStyled = styled.div<IGridStyled>`
   text-align: ${align};
   justify-content: ${align};
   width: ${width};  
-  align-items: baseline;
+  align-items: center;
   display: grid;  
   grid-gap: ${gap}px;
   grid-column-gap: ${gapCol}px;
   grid-row-gap: ${gapRow}px;  
+  //grid-template-columns: auto auto auto;
   grid-template-columns: ${cols};
   grid-template-rows: ${rows};
 

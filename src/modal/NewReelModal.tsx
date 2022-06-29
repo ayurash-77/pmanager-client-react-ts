@@ -1,17 +1,19 @@
 import { ModalWrapper } from './ModalWrapper'
-import { FC, useCallback, useEffect, useMemo, useState } from 'react'
+import { FC, useEffect, useState } from 'react'
 import { useTranslate } from '../hooks/useTranslate'
-import { Grid } from '../components/ui'
 import { useAppDispatch, useAppSelector } from '../hooks/redux'
 import { ErrorList } from '../components/errors/ErrorList'
-import { FlexColumn, Input, Select } from '../components/ui'
+import { FlexColumn, FlexRow, Grid, Input, IOption, Select } from '../components/ui'
 import { IProject } from '../interfaces/IProject'
-import { useCreateReelMutation, useGetReelsQuery } from '../store/api/reels.api'
 import { IReelCreateDto } from '../interfaces/IReelCreateDto'
 import { useParams } from 'react-router'
 import { setActiveReelsIds } from '../store/reducers/entities.reducer'
 import { skipToken } from '@reduxjs/toolkit/query'
 import { useGetReelsTypesQuery } from '../store/api/reelsTypes.api'
+import { useCreateReelMutation } from '../store/api/reels.api'
+import NewReelsTypeModal from './NewReelsTypeModal'
+import { Switcher } from '../components/ui/Switcher'
+import { bool } from 'prop-types'
 
 interface INewReelModal {
   isOpen: boolean
@@ -19,9 +21,8 @@ interface INewReelModal {
   closeAction: () => void
 }
 
-//
 // NewReelModal
-//
+////////////////////////////////////////////////////////////////////////////////////////////
 
 export const NewReelModal: FC<INewReelModal> = props => {
   const { closeAction, project, ...rest } = props
@@ -35,19 +36,33 @@ export const NewReelModal: FC<INewReelModal> = props => {
     projectId: +id,
     reelsTypeId: 0,
     createdBy: user,
+    highPriority: false,
   }
 
-  const [data, setData] = useState<IReelCreateDto>(dataInit)
+  const [data, setData] = useState(dataInit)
 
-  const [createReel, { isError, error, isSuccess, reset, isLoading, data: newItem }] = useCreateReelMutation()
-  const { data: reelsTypes } = useGetReelsTypesQuery(+id ?? skipToken)
+  const [createReel, { isError, error, isSuccess, reset, data: newItem }] = useCreateReelMutation()
+  const { data: reelsTypes = [], currentData: currentDataReelsTypes } = useGetReelsTypesQuery(
+    +id ?? skipToken
+  )
 
-  const options = reelsTypes?.map(item => ({ label: `${item.code} | ${item.name}`, value: item.id }))
+  const addItemOption = { label: 'Add new ReelType', value: 1 }
+  const reelsTypeOptions = reelsTypes?.map(item => ({ label: `${item.code}`, value: item.id }))
+  const options: IOption[] = [addItemOption, ...reelsTypeOptions]
 
   const [reelsTypeId, setReelsTypeId] = useState(0)
+  const [customError, setCustomError] = useState(null)
+  const [isNewReelsTypeModalShow, setNewReelsTypeModalShow] = useState(false)
+
+  const [highPriority, setHighPriority] = useState(false)
 
   const onChangeInputHandler = (key, value) => {
     setData({ ...data, [key]: value })
+  }
+
+  const onChangePriority = val => {
+    setHighPriority(!val)
+    onChangeInputHandler('highPriority', !val)
   }
 
   const onCancelHandler = async e => {
@@ -55,31 +70,48 @@ export const NewReelModal: FC<INewReelModal> = props => {
     reset()
     setReelsTypeId(0)
     closeAction()
+    setCustomError(null)
+    setHighPriority(false)
   }
 
   const onSubmitHandler = async e => {
     e.preventDefault()
-    if (reelsTypeId === 0 || !data.duration) return
+    if (reelsTypeId === 0) {
+      setCustomError('Не выбран тип ролика')
+      return
+    }
+    if (!data.duration) {
+      setCustomError('Хронометраж ролика должен быть в секундах')
+      return
+    }
     await createReel(data)
   }
 
   const onChangeReelsTypeHandler = e => {
     const newReelsTypeId = e.target.value
+    if (newReelsTypeId == 1) {
+      setNewReelsTypeModalShow(true)
+    }
     setReelsTypeId(newReelsTypeId)
     setData({ ...data, reelsTypeId: +newReelsTypeId })
   }
 
   useEffect(() => {
+    if (isNewReelsTypeModalShow) setReelsTypeId(0)
+  }, [isNewReelsTypeModalShow])
+
+  useEffect(() => {
     if (isSuccess) {
       dispatch(setActiveReelsIds([newItem.id]))
+      reset()
       closeAction()
       setReelsTypeId(0)
-      reset()
+      setHighPriority(false)
+      setCustomError(null)
     }
   }, [closeAction, dispatch, isSuccess, newItem, reset])
 
-  ////////////////////////////////////////////////////////////////////////////////////////////
-
+  // RENDER
   ////////////////////////////////////////////////////////////////////////////////////////////
 
   return (
@@ -93,29 +125,46 @@ export const NewReelModal: FC<INewReelModal> = props => {
         onSubmitHandler={onSubmitHandler}
         onCancelHandler={onCancelHandler}
       >
-        <Grid cols="auto" gap={5}>
+        <FlexColumn gap={5}>
           <div>
             <FlexColumn vAlign="center" padding={5}>
               {isError && <ErrorList error={error} />}
+              {customError && <div className={'error'}>{customError}</div>}
             </FlexColumn>
           </div>
-          <Grid cols="auto" gap={5}>
-            <Grid cols="max-content auto " marginTop={5} align={'right'}>
-              <Select
-                label={text.project.reelType}
-                options={options}
-                value={reelsTypeId}
-                onChange={e => onChangeReelsTypeHandler(e)}
-              />
-              <Input
-                label={text.reels.duration}
-                onChange={e => onChangeInputHandler('duration', +e.target.value)}
-                autoFocus={true}
-              />
-            </Grid>
+
+          <Grid cols="max-content auto auto auto" marginTop={5} align={'right'}>
+            <Select
+              label={text.project.reelType}
+              placeholder={'Select...'}
+              options={options}
+              value={reelsTypeId}
+              onChange={e => onChangeReelsTypeHandler(e)}
+              width={'auto'}
+            />
+
+            <Input
+              size={4}
+              type={'number'}
+              width={36}
+              maxLength={4}
+              onChange={e => onChangeInputHandler('duration', +e.target.value)}
+            />
+
+            <div>sec</div>
+            <Switcher
+              label={text.common.highPriority}
+              checked={highPriority}
+              onChange={() => onChangePriority(highPriority)}
+            />
           </Grid>
-        </Grid>
+        </FlexColumn>
       </ModalWrapper>
+      <NewReelsTypeModal
+        isOpen={isNewReelsTypeModalShow}
+        closeAction={() => setNewReelsTypeModalShow(false)}
+        project={project}
+      />
     </>
   )
 }

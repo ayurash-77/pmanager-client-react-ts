@@ -1,5 +1,5 @@
 .content-base {
-  transition: transform 300ms ease-out;
+  transition: transform 400ms;
   position: relative;
   outline: none;
   margin: 20px auto;
@@ -26,7 +26,7 @@
 .content-before-close-type2 { transform: translateY(-120px) scale(0.8) rotate3d(1,0,0,60deg); }
 
 .overlay-base {
-  transition: opacity 300ms ease-out;
+  transition: opacity 400ms;
   position: fixed;
   top: 0; left: 0; right: 0; bottom: 0;
   padding: 30px;

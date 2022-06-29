@@ -7,6 +7,8 @@ import { IconButton } from '../ui'
 import { IReelsType } from '../../interfaces/IReelsType'
 import { useAppDispatch, useAppSelector } from '../../hooks/redux'
 import { ExpandedBlock } from '../expanded-block/ExpandedBlock'
+import { setRibbonReelsExpanded, setRibbonReelsTypesExpanded } from '../../store/reducers/ui.reducer'
+import { IVariant } from '../ui/IVariant'
 
 const RibbonContainer = styled.div`
   background: var(--expanded-block-reels-bg);
@@ -49,10 +51,23 @@ interface IRibbonWrapper {
 
 export const RibbonWrapper: FC<IRibbonWrapper> = props => {
   const { variant, title, count, onClickPlus, onClickMinus, children, activeItemsIds = [] } = props
+  const dispatch = useAppDispatch()
+
   const { authUser } = useAppSelector(state => state.auth)
+  const { ribbonReels, ribbonReelsTypes } = useAppSelector(state => state.ui)
+
   const [expanded, setExpanded] = useState(true)
   const canDeleteItemRoles = ['Producer', 'Art director', 'Manager']
   const canDeleteItem = authUser.isAdmin || canDeleteItemRoles.includes(authUser.role.name)
+
+  const setExpandedHandler = (variant: entityVariantType) => {
+    if (variant === 'reel') dispatch(setRibbonReelsExpanded(!ribbonReels.expanded))
+    if (variant === 'reelsType') dispatch(setRibbonReelsTypesExpanded(!ribbonReelsTypes.expanded))
+  }
+  const isExpandedHandler = (variant: entityVariantType) => {
+    if (variant === 'reel') return ribbonReels.expanded
+    if (variant === 'reelsType') return ribbonReelsTypes.expanded
+  }
 
   const headerIconsJsx = (
     <>
@@ -73,11 +88,11 @@ export const RibbonWrapper: FC<IRibbonWrapper> = props => {
       <ExpandedBlock
         title={`${title}: ${count}`}
         variant={variant}
-        expanded={expanded}
-        setExpanded={() => setExpanded(!expanded)}
+        expanded={isExpandedHandler(variant)}
+        setExpanded={() => setExpandedHandler(variant)}
         headerIcons={headerIconsJsx}
       >
-        <RibbonRow className={cn({ collapse: expanded !== true })}>
+        <RibbonRow className={cn({ collapse: isExpandedHandler(variant) !== true })}>
           <RibbonEntities>{children}</RibbonEntities>
         </RibbonRow>
       </ExpandedBlock>
