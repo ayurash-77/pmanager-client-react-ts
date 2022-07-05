@@ -158,6 +158,7 @@ export const UserSettingsModal: FC<IUserSettingsModal> = ({ closeAction, ...prop
               isBrowse={!uploading}
             />
           </Box>
+
           <UploadingProgress uploading={uploading} progress={progress} withValue={true} />
           <div style={{ textAlign: 'center' }}>{message}</div>
 

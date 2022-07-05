@@ -12,7 +12,7 @@ import { skipToken } from '@reduxjs/toolkit/query'
 import { useGetReelsTypesQuery } from '../store/api/reelsTypes.api'
 import { useCreateReelMutation } from '../store/api/reels.api'
 import NewReelsTypeModal from './NewReelsTypeModal'
-import { Switcher } from '../components/ui/Switcher'
+import { Switcher } from '../components/ui'
 import { bool } from 'prop-types'
 
 interface INewReelModal {

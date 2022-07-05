@@ -37,8 +37,7 @@ const GridStyled = styled.div<IGridStyled>`
   display: grid;  
   grid-gap: ${gap}px;
   grid-column-gap: ${gapCol}px;
-  grid-row-gap: ${gapRow}px;  
-  //grid-template-columns: auto auto auto;
+  grid-row-gap: ${gapRow}px;
   grid-template-columns: ${cols};
   grid-template-rows: ${rows};
 

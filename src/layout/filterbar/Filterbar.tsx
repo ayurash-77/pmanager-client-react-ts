@@ -1,7 +1,7 @@
 import { IFilterbar, setFilterbarFilters } from '../../store/reducers/ui.reducer'
 import styled from 'styled-components'
 import cn from 'classnames'
-import { Switcher } from '../../components/ui/Switcher'
+import { Switcher } from '../../components/ui'
 import { useAppDispatch, useAppSelector } from '../../hooks/redux'
 import { useTranslate } from '../../hooks/useTranslate'
 

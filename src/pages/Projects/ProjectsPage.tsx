@@ -1,22 +1,22 @@
 import { FC, useEffect } from 'react'
-import Loader from '../components/ui/Loader'
-import { toQuarterStr } from '../utils/date-time-format'
-import { useAppDispatch, useAppSelector } from '../hooks/redux'
-import { setQuarterData } from '../store/reducers/projects.reducer'
-import { setActiveProjectId } from '../store/reducers/entities.reducer'
+import Loader from '../../components/ui/Loader'
+import { toQuarterStr } from '../../utils/date-time-format'
+import { useAppDispatch, useAppSelector } from '../../hooks/redux'
+import { setQuarterData } from '../../store/reducers/projects.reducer'
+import { setActiveProjectId } from '../../store/reducers/entities.reducer'
 import { useNavigate } from 'react-router-dom'
-import { IProject } from '../interfaces/IProject'
-import { MainbarContainer } from '../layout/MainbarContainer'
-import { Filterbar } from '../layout/filterbar/Filterbar'
-import { Sidebar } from '../layout/sidebar/Sidebar'
-import HeaderProjects from '../layout/HeaderProjects'
-import Statusbar from '../layout/statusbar/Statusbar'
-import { BodyContainer } from '../layout/BodyContainer'
-import { setActiveMenu } from '../store/reducers/ui.reducer'
-import { ProjectsList } from '../components/projects-list/ProjectsList'
-import { ProjectsGrid } from '../components/projects-grid/ProjectsGrid'
-import { useGetProjectsQuery } from '../store/api/projects.api'
-import { ErrorList } from '../components/errors/ErrorList'
+import { IProject } from '../../interfaces/IProject'
+import { MainbarContainer } from '../../layout/MainbarContainer'
+import { Filterbar } from '../../layout/filterbar/Filterbar'
+import { Sidebar } from '../../layout/sidebar/Sidebar'
+import HeaderProjects from '../../layout/HeaderProjects'
+import Statusbar from '../../layout/statusbar/Statusbar'
+import { BodyContainer } from '../../layout/BodyContainer'
+import { setActiveMenu } from '../../store/reducers/ui.reducer'
+import { ProjectsList } from '../../components/projects-list/ProjectsList'
+import { ProjectsGrid } from '../../components/projects-grid/ProjectsGrid'
+import { useGetProjectsQuery } from '../../store/api/projects.api'
+import { ErrorList } from '../../components/errors/ErrorList'
 
 ////////////////////////////////////////////////////////////////////////
 // ProjectsPage
@@ -34,13 +34,11 @@ export const ProjectsPage: FC = () => {
 
   const onProjectClickHandler = (project: IProject) => {
     dispatch(setActiveProjectId(activeProjectId === project.id ? null : project.id))
-    // console.log('CLICK')
   }
   const onProjectDoubleClickHandler = (project: IProject) => {
     dispatch(setActiveProjectId(project.id))
     dispatch(setActiveMenu('reels'))
     navigate(`/projects/${project.id}/reels`, { state: 1 })
-    // console.log('DOUBLE CLICK')
   }
 
   // const onClickHandler = useSingleAndDoubleClick(onProjectClickHandler, onProjectDoubleClickHandler)

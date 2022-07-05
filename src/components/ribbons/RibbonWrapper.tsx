@@ -56,7 +56,6 @@ export const RibbonWrapper: FC<IRibbonWrapper> = props => {
   const { authUser } = useAppSelector(state => state.auth)
   const { ribbonReels, ribbonReelsTypes } = useAppSelector(state => state.ui)
 
-  const [expanded, setExpanded] = useState(true)
   const canDeleteItemRoles = ['Producer', 'Art director', 'Manager']
   const canDeleteItem = authUser.isAdmin || canDeleteItemRoles.includes(authUser.role.name)
 
@@ -71,6 +70,7 @@ export const RibbonWrapper: FC<IRibbonWrapper> = props => {
 
   const headerIconsJsx = (
     <>
+      <IconButton icon={<CommonIcons.Plus />} onClick={onClickPlus} />
       {canDeleteItem && (
         <IconButton
           icon={<CommonIcons.Trash />}
@@ -79,7 +79,6 @@ export const RibbonWrapper: FC<IRibbonWrapper> = props => {
           onClick={activeItemsIds?.length === 1 ? onClickMinus : null}
         />
       )}
-      <IconButton icon={<CommonIcons.Plus />} onClick={onClickPlus} />
     </>
   )
 

@@ -1,0 +1,11 @@
+//@mixin box($width, $bgColor) {
+//  width: $width;
+//  background: $bgColor;
+//}
+//.container-with-mixin { @include box(50px, #003399) }
+
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

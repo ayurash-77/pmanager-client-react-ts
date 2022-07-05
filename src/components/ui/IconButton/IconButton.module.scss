@@ -1,0 +1,31 @@
+.container {
+  transition: opacity 100ms;
+  display: flex;
+  align-items: center;
+  opacity: 0.8;
+
+  &.primary {
+    color: var(--button-bg-primary);
+  }
+
+  &.secondary {
+    color: var(--text-low);
+    opacity: 0.6;
+  }
+
+  &.accent {
+    color: var(--accent);
+  }
+
+  &.warning {
+    color: var(--warning);
+  }
+
+  &:hover {
+    opacity: 1;
+  }
+
+  &.disabled {
+    opacity: 0.3;
+  }
+}
