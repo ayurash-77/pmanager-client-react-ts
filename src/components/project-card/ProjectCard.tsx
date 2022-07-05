@@ -2,7 +2,7 @@ import { IProject } from '../../interfaces/IProject'
 import { IProjectViewFilter } from '../../interfaces/IProjectViewFilter'
 import { DetailedHTMLProps, FC, HTMLAttributes } from 'react'
 import { Clapper } from '../../assets/thumbnails/thumbnails'
-import Image from '../ui/Image'
+import { Image } from '../ui'
 import {
   InfoAgency,
   InfoBrand,

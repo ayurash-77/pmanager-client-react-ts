@@ -1,6 +1,6 @@
 import { FC, useEffect, useState } from 'react'
 import imageExists from 'image-exists'
-import Loader from './Loader'
+import Loader from '../Loader'
 
 interface IImage {
   src: string
@@ -10,13 +10,8 @@ interface IImage {
   width?: number
 }
 
-export const Image: FC<IImage> = ({
-  src,
-  alt,
-  width = 160,
-  fallback = null,
-  loader = <Loader size={48} />,
-}) => {
+export const Image: FC<IImage> = props => {
+  const { src, alt, width = 160, fallback = null, loader = <Loader size={48} /> } = props
   const [image, setImage] = useState(fallback)
   const [loading, setLoading] = useState(true)
 
@@ -35,4 +30,4 @@ export const Image: FC<IImage> = ({
 
   return loading ? loader : image
 }
-export default Image
+// export default Image

@@ -17,7 +17,7 @@ import {
   InfoStartAt,
   InfoStatus,
 } from '../components/info-elements'
-import Image from '../components/ui/Image'
+import { Image } from '../components/ui'
 import { Clapper } from '../assets/thumbnails/thumbnails'
 import { apiBaseUrl } from '../constants/env'
 import { Grid } from '../components/ui'
