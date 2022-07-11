@@ -1,7 +1,7 @@
 import React, { FC } from 'react'
 import styled from 'styled-components'
-import Loader from './Loader'
-import { IBriefData } from '../../modal/NewBriefModal'
+import { Loader } from '../Loader/Loader'
+import { IBriefData } from '../../../modal/NewBriefModal'
 
 const BriefPicContainer = styled.div`
   display: flex;

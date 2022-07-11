@@ -1,6 +1,6 @@
 import { FC, useEffect, useState } from 'react'
 import imageExists from 'image-exists'
-import Loader from '../Loader'
+import { Loader } from '../Loader/Loader'
 
 interface IImage {
   src: string

@@ -1,5 +1,5 @@
 import { DetailedHTMLProps, FC, InputHTMLAttributes } from 'react'
-import { IVariant } from './IVariant'
+import { IVariant } from '../ui.types'
 
 export interface ITextarea
   extends DetailedHTMLProps<InputHTMLAttributes<HTMLInputElement>, HTMLInputElement> {

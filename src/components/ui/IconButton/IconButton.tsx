@@ -1,5 +1,5 @@
 import cn from 'classnames'
-import { IVariant } from '../IVariant'
+import { IVariant } from '../ui.types'
 import { DetailedHTMLProps, FC, HTMLAttributes } from 'react'
 import s from './IconButton.module.scss'
 

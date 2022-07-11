@@ -1,7 +1,7 @@
 import React, { FC } from 'react'
 
 import styled from 'styled-components'
-import Loader from './Loader'
+import { Loader } from '../Loader/Loader'
 
 interface Prop {
   size: number
@@ -19,10 +19,8 @@ const Wrap = styled.div`
   background: none;
 `
 
-const Waiting: FC<IWaiting> = ({ ...props }) => (
+export const Waiting: FC<IWaiting> = () => (
   <Wrap>
     <Loader size={64} />
   </Wrap>
 )
-
-export default Waiting

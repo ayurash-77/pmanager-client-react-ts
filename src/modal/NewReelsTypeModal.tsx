@@ -1,5 +1,5 @@
 import { ModalWrapper } from './ModalWrapper'
-import { FC, useEffect, useMemo, useState } from 'react'
+import { FC, useEffect, useState } from 'react'
 import { useTranslate } from '../hooks/useTranslate'
 import { Grid } from '../components/ui'
 import { useAppDispatch, useAppSelector } from '../hooks/redux'
@@ -10,7 +10,7 @@ import { useParams } from 'react-router'
 import { IReelsTypeCreateDto } from '../interfaces/IReelsTypeCreateDto'
 import { setActiveReelsTypeId } from '../store/reducers/entities.reducer'
 import { useCreateReelsTypesMutation } from '../store/api/reelsTypes.api'
-import Loader from '../components/ui/Loader'
+import { Loader } from '../components/ui'
 
 interface INewReelsTypeModal {
   isOpen: boolean

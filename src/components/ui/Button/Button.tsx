@@ -1,5 +1,5 @@
-import { ButtonHTMLAttributes, DetailedHTMLProps, ReactNode } from 'react'
-import { IVariant } from '../IVariant'
+import { ButtonHTMLAttributes, DetailedHTMLProps, FC, ReactNode } from 'react'
+import { IVariant } from '../ui.types'
 
 interface IButton extends DetailedHTMLProps<ButtonHTMLAttributes<HTMLButtonElement>, HTMLButtonElement> {
   children: ReactNode
@@ -7,9 +7,10 @@ interface IButton extends DetailedHTMLProps<ButtonHTMLAttributes<HTMLButtonEleme
   width?: string
 }
 
-export const Button = ({ children, variant, width, ...props }: IButton): JSX.Element => {
+export const Button: FC<IButton> = props => {
+  const { children, variant, width, ...rest } = props
   return (
-    <button className={variant} style={{ width: width }} {...props}>
+    <button className={variant} style={{ width: width }} {...rest}>
       {children}
     </button>
   )

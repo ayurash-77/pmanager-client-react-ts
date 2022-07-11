@@ -1,4 +1,4 @@
-import { IVariant } from './IVariant'
+import { IVariant } from '../ui.types'
 import styled from 'styled-components'
 import cn from 'classnames'
 

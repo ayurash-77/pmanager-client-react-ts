@@ -3,7 +3,7 @@ import { IProject } from '../../interfaces/IProject'
 import { useTranslate } from '../../hooks/useTranslate'
 import { InfoLabel } from './InfoLabel'
 import statuses from '../../constants/statuses'
-import { Progressbar } from '../ui/Progressbar'
+import { Progressbar } from '../ui'
 
 interface IInfoProgress extends Partial<IProject> {
   withValue?: boolean | null

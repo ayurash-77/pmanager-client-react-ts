@@ -1,7 +1,7 @@
 import styled from 'styled-components'
 import React, { FC } from 'react'
-import Loader from './Loader'
-import { Image } from '../ui'
+import { Loader } from '../Loader/Loader'
+import { Image } from '../index'
 
 interface IInputImageStyled {
   width: string

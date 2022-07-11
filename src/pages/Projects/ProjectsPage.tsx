@@ -1,5 +1,5 @@
 import { FC, useEffect } from 'react'
-import Loader from '../../components/ui/Loader'
+import { Loader } from '../../components/ui'
 import { toQuarterStr } from '../../utils/date-time-format'
 import { useAppDispatch, useAppSelector } from '../../hooks/redux'
 import { setQuarterData } from '../../store/reducers/projects.reducer'

@@ -54,12 +54,10 @@ const SpinnerDiv = styled.div<ILoader>`
   }
 `
 
-const Loader: FC<ILoader> = ({ size = 32, border = 4, translateX = 0 }) => (
+export const Loader: FC<ILoader> = ({ size = 32, border = 4, translateX = 0 }) => (
   <Wrap size={size} translateX={translateX}>
     <Spinner className="spinner">
       <SpinnerDiv size={size} border={border} />
     </Spinner>
   </Wrap>
 )
-
-export default Loader

@@ -1,6 +1,6 @@
 import React, { DetailedHTMLProps, FC, SelectHTMLAttributes } from 'react'
-import { IVariant } from './IVariant'
-import { useTranslate } from '../../hooks/useTranslate'
+import { IVariant } from '../ui.types'
+import { useTranslate } from '../../../hooks/useTranslate'
 
 export interface IOption {
   label: string

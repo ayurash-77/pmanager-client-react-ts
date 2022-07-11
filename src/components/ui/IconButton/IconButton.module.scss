@@ -1,4 +1,5 @@
 .container {
+
   transition: opacity 100ms;
   display: flex;
   align-items: center;
@@ -28,4 +29,5 @@
   &.disabled {
     opacity: 0.3;
   }
+
 }

@@ -10,7 +10,7 @@ import DeleteBriefModal from '../../modal/DeleteBriefModal'
 import { IconButton, Table } from '../../components/ui'
 import { apiBaseUrl } from '../../constants/env'
 import { IBrief } from '../../interfaces/IBrief'
-import Loader from '../../components/ui/Loader'
+import { Loader } from '../../components/ui'
 
 interface ISidebarBriefs {
   project: IProject | null

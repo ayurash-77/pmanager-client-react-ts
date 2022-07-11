@@ -21,7 +21,7 @@ import { Image } from '../components/ui'
 import { Clapper } from '../assets/thumbnails/thumbnails'
 import { apiBaseUrl } from '../constants/env'
 import { Grid } from '../components/ui'
-import Loader from '../components/ui/Loader'
+import { Loader } from '../components/ui'
 import { IProject } from '../interfaces/IProject'
 import { useGetUserByIdQuery } from '../store/api/users.api'
 

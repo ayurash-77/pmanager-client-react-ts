@@ -1,5 +1,5 @@
 import { FC } from 'react'
-import { Progressbar } from '../ui/Progressbar'
+import { Progressbar } from '../ui'
 
 interface IUploadingProgress {
   uploading: boolean
