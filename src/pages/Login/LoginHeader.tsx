@@ -12,6 +12,7 @@ interface ILoginHeader {
 
 export const LoginHeader: FC<ILoginHeader> = props => {
   const { darkMode } = props
+
   const { language, setLanguage } = useTranslate()
   const dispatch = useAppDispatch()
 

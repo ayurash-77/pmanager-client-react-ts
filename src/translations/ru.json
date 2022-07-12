@@ -58,6 +58,10 @@
     "highPriority": "Высокий приоритет",
     "usedIn": "Используется в"
   },
+  "error": {
+    "isRequired": "обязательно к заполнению",
+    "fieldRequired": "поле обязательно к заполнению"
+},
   "menu": {
     "favorites": "Избранное",
     "lastActivity": "Посл. активные",

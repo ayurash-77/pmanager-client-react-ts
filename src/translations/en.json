@@ -58,6 +58,10 @@
     "highPriority": "High priority",
     "usedIn": "Used in"
   },
+  "error": {
+    "isRequired": "is required",
+    "fieldRequired": "field is required"
+  },
   "menu": {
     "favorites": "Favorites",
     "lastActivity": "Last Activity",

@@ -11,19 +11,37 @@ button {
   padding: 0 8px;
   outline: none;
   box-shadow: 0 1px 3px var(--button-shadow);
-  &:hover {
-    color: var(--button-fg-hover);
-    //border: 1px solid var(--button-border-hover);
-  }
-  &:active {
-    color: var(--button-fg-pressed);
-    background: var(--button-bg-pressed);
-  }
+
   &:focus {
     color: var(--text-high);
     border: 1px solid var(--border-focus);
     box-shadow: 0 0 8px var(--border-focus);
   }
+
+  &:hover {
+    color: var(--button-fg-hover);
+    //border: 1px solid var(--button-border-hover);
+  }
+
+  &:active {
+    color: var(--button-fg-pressed);
+    background: var(--button-bg-pressed);
+  }
+
+  &:disabled, &:hover:disabled, &:active:disabled {
+    opacity: 0.5;
+    color: var(--button-fg);
+    background: var(--button-bg);
+  }
+
+
+
+
+
+
+
+
+
 
   &.accent {
     color: var(--button-fg-accent);
