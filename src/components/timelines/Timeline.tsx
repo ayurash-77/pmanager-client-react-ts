@@ -5,7 +5,6 @@ import { FC, ReactNode, useEffect, useState } from 'react'
 import * as CommonIcons from '../../assets/icons/common-icons'
 import { useAppDispatch, useAppSelector } from '../../hooks/redux'
 import { useOnShotClickHandler } from '../../hooks/useOnClickHandlers'
-import { useTranslate } from '../../hooks/useTranslate'
 import { IReel } from '../../interfaces/IReel'
 import { AddShotToReelModal } from '../../modal/AddShotToReelModal'
 import { useGetReelQuery, useGetReelsQuery, useUpdateReelMutation } from '../../store/api/reels.api'
@@ -28,7 +27,6 @@ interface ITimelineWrapper {
 ////////////////////////////////////////////////////////////////////////////////////////////
 
 export const Timeline: FC<ITimelineWrapper> = ({ reelInit }) => {
-  const { text } = useTranslate()
   const dispatch = useAppDispatch()
   const { onShotClickHandler } = useOnShotClickHandler()
 
@@ -36,7 +34,7 @@ export const Timeline: FC<ITimelineWrapper> = ({ reelInit }) => {
 
   const { refetch: refetchReels } = useGetReelsQuery(activeProjectId ?? skipToken)
   const { data: reel = { ...reelInit } } = useGetReelQuery(reelInit.id ?? skipToken)
-  const [updateReel, { isSuccess: isSuccessUpdateReel }] = useUpdateReelMutation()
+  const [updateReel] = useUpdateReelMutation()
 
   const shotInReel = reel?.shotsIds.includes(activeShotId)
 
@@ -60,6 +58,7 @@ export const Timeline: FC<ITimelineWrapper> = ({ reelInit }) => {
   }
   const onDragStartHandler = shotId => {
     dispatch(setDragShotId(shotId))
+    dispatch(setActiveShotId(shotId))
   }
 
   const removeShotFromReelHandler = async () => {
@@ -119,7 +118,7 @@ export const Timeline: FC<ITimelineWrapper> = ({ reelInit }) => {
                   <Reorder.Item
                     key={shotId}
                     value={shotId}
-                    whileDrag={{ scale: 0.9, boxShadow: '0 4px 8px #00000060' }}
+                    whileDrag={{ scale: 0.9, cursor: 'grabbing', boxShadow: '0 4px 8px #00000060' }}
                     onDragEnd={onDragEndHandler}
                     onDragStart={() => onDragStartHandler(shotId)}
                     onClick={() => onShotClickHandler(shotId)}
