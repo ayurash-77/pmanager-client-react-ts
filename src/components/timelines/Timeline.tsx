@@ -1,23 +1,23 @@
+import { skipToken } from '@reduxjs/toolkit/query'
+import cn from 'classnames'
+import { Reorder } from 'framer-motion'
 import { FC, ReactNode, useEffect, useState } from 'react'
+import * as CommonIcons from '../../assets/icons/common-icons'
 import { useAppDispatch, useAppSelector } from '../../hooks/redux'
+import { useOnShotClickHandler } from '../../hooks/useOnClickHandlers'
+import { useTranslate } from '../../hooks/useTranslate'
 import { IReel } from '../../interfaces/IReel'
+import { AddShotToReelModal } from '../../modal/AddShotToReelModal'
+import { useGetReelQuery, useGetReelsQuery, useUpdateReelMutation } from '../../store/api/reels.api'
 import {
   setActiveReelsIds,
   setActiveReelsTypeId,
   setActiveShotId,
   setDragShotId,
 } from '../../store/reducers/entities.reducer'
-import { TimelineContainer } from './Timeline.styles'
-import cn from 'classnames'
-import { Reorder } from 'framer-motion'
 import { EntityCardShot } from '../entity-card/EntityCardShot'
-import { useOnShotClickHandler } from '../../hooks/useOnClickHandlers'
-import * as CommonIcons from '../../assets/icons/common-icons'
 import { IconButton } from '../ui'
-import { AddShotToReelModal } from '../../modal/AddShotToReelModal'
-import { useTranslate } from '../../hooks/useTranslate'
-import { useGetReelQuery, useGetReelsQuery, useUpdateReelMutation } from '../../store/api/reels.api'
-import { skipToken } from '@reduxjs/toolkit/query'
+import { TimelineContainer } from './Timeline.styles'
 
 interface ITimelineWrapper {
   reelInit: IReel

@@ -1,19 +1,19 @@
-import { useTranslate } from '../../hooks/useTranslate'
-import { RibbonWrapper } from './RibbonWrapper'
-import { IReel } from '../../interfaces/IReel'
-import { EntityCardReel } from '../entity-card/EntityCardReel'
 import { useEffect, useState } from 'react'
-import { IProject } from '../../interfaces/IProject'
-import NewReelModal from '../../modal/NewReelModal'
 import { useAppDispatch, useAppSelector } from '../../hooks/redux'
+import { useTranslate } from '../../hooks/useTranslate'
+import { IProject } from '../../interfaces/IProject'
+import { IReel } from '../../interfaces/IReel'
+import DeleteModal from '../../modal/DeleteModal'
+import NewReelModal from '../../modal/NewReelModal'
+import { useDeleteReelMutation } from '../../store/api/reels.api'
 import {
   setActiveReelsIds,
   setActiveReelsTypeId,
   setActiveShotId,
 } from '../../store/reducers/entities.reducer'
-import { useDeleteReelMutation } from '../../store/api/reels.api'
-import DeleteModal from '../../modal/DeleteModal'
+import { EntityCardReel } from '../entity-card/EntityCardReel'
 import { InfoReelBlock } from '../info-elements/InfoReelBlock'
+import { RibbonWrapper } from './RibbonWrapper'
 
 export const RibbonReels = ({ entities, project }: { entities: IReel[]; project: IProject }) => {
   const { text } = useTranslate()

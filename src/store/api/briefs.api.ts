@@ -1,8 +1,8 @@
 import { IBrief } from '../../interfaces/IBrief'
-import { IBriefData } from '../../modal/NewBriefModal'
 import { IBriefCategory } from '../../interfaces/IBriefCategory'
-import { baseApi } from './base.api'
+import { IBriefData } from '../../modal/NewBriefModal'
 import { providesList } from '../../utils/provides-list'
+import { baseApi } from './base.api'
 
 export const briefsApi = baseApi.injectEndpoints({
   endpoints: build => ({

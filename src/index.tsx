@@ -1,11 +1,10 @@
+import { setupListeners } from '@reduxjs/toolkit/query'
 import React from 'react'
-import { createRoot } from 'react-dom/client'
 import ReactDOM from 'react-dom'
 import { Provider } from 'react-redux'
 import App from './app/App'
 import { setupStore } from './store/store'
 import './translations/i18n'
-import { setupListeners } from '@reduxjs/toolkit/query'
 
 const store = setupStore()
 

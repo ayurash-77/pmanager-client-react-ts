@@ -1,5 +1,5 @@
-import styled from 'styled-components'
 import cn from 'classnames'
+import styled from 'styled-components'
 
 interface IToolButtonStyled {
   ml?: number
@@ -28,13 +28,16 @@ const ToolButtonStyled = styled.div<IToolButtonStyled>`
   align-items: center;
   color: var(--button-fg);
   background: var(--button-bg);
+
   &:hover {
     opacity: 1;
   }
+
   &.selected {
     color: var(--button-fg-selected);
     background: var(--button-bg-selected);
   }
+
   &.disabled {
     opacity: 0.25;
   }

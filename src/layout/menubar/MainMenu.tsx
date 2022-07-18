@@ -1,14 +1,12 @@
 import { FC, useState } from 'react'
-import { IMenuItem, MenuItem } from './MenuItem'
-
 import * as SideIcons from '../../assets/icons/menubar-icons'
-
-import { useTranslate } from '../../hooks/useTranslate'
 import { Loader } from '../../components/ui'
-import { QuartersMenu } from './QuartersMenu'
-import { setQuarterFilter } from '../../store/reducers/projects.reducer'
 import { useAppDispatch, useAppSelector } from '../../hooks/redux'
+import { useTranslate } from '../../hooks/useTranslate'
 import { useGetProjectsQuery } from '../../store/api/projects.api'
+import { setQuarterFilter } from '../../store/reducers/projects.reducer'
+import { IMenuItem, MenuItem } from './MenuItem'
+import { QuartersMenu } from './QuartersMenu'
 
 export const MainMenu: FC<Partial<IMenuItem>> = () => {
   const { text } = useTranslate()

@@ -1,7 +1,7 @@
 import { IPost } from '../../interfaces/IPost'
-import { baseApi } from './base.api'
-import { providesList } from '../../utils/provides-list'
 import { IPostData } from '../../layout/sendbar/Sendbar'
+import { providesList } from '../../utils/provides-list'
+import { baseApi } from './base.api'
 
 export const postsApi = baseApi.injectEndpoints({
   endpoints: build => ({

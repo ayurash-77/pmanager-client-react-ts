@@ -1,7 +1,7 @@
-import styled from 'styled-components'
-import { entityVariantType } from '../../types/entityVariantType'
 import cn from 'classnames'
+import styled from 'styled-components'
 import * as ToolbarIcons from '../../assets/icons/toolbar-icons'
+import { entityVariantType } from '../../types/entityVariantType'
 
 const EntityIconContainer = styled.div`
   .icon {

@@ -1,21 +1,20 @@
-import styled from 'styled-components'
-import { SidebarBlockTitle } from '../../layout/sidebar/Sidebar.styles'
-import { FlexRow, IconButton } from '../ui'
-import * as CommonIcons from '../../assets/icons/common-icons'
-import { EntityCardShot } from '../entity-card/EntityCardShot'
-import { IShot } from '../../interfaces/IShot'
+import { skipToken } from '@reduxjs/toolkit/query'
 import { FC, useState } from 'react'
-import NewShotModal from '../../modal/NewShotModal'
-import { IProject } from '../../interfaces/IProject'
+import styled from 'styled-components'
+import * as CommonIcons from '../../assets/icons/common-icons'
 import { useAppSelector } from '../../hooks/redux'
-import DeleteModal from '../../modal/DeleteModal'
 import { useDeleteShot } from '../../hooks/useDeleteShot'
-import { InfoShotBlock } from '../info-elements/InfoShotBlock'
-import { Loader } from '../ui'
 import { useOnShotClickHandler } from '../../hooks/useOnClickHandlers'
 import { useTranslate } from '../../hooks/useTranslate'
+import { IProject } from '../../interfaces/IProject'
+import { IShot } from '../../interfaces/IShot'
+import { SidebarBlockTitle } from '../../layout/sidebar/Sidebar.styles'
+import DeleteModal from '../../modal/DeleteModal'
+import NewShotModal from '../../modal/NewShotModal'
 import { useGetReelsQuery } from '../../store/api/reels.api'
-import { skipToken } from '@reduxjs/toolkit/query'
+import { EntityCardShot } from '../entity-card/EntityCardShot'
+import { InfoShotBlock } from '../info-elements/InfoShotBlock'
+import { FlexRow, IconButton, Loader } from '../ui'
 
 const Container = styled.div`
   display: flex;
@@ -32,6 +31,7 @@ const ShotsContainer = styled.div`
   background: var(--group-bg);
   border-radius: 5px;
   padding: 10px;
+
   .draggable {
     cursor: grab;
   }

@@ -1,12 +1,12 @@
-import { ModalWrapper } from './ModalWrapper'
 import { FC } from 'react'
-import { useTranslate } from '../hooks/useTranslate'
-import { Grid } from '../components/ui'
 import { ErrorList } from '../components/errors/ErrorList'
+import { InfoBriefBlock } from '../components/info-elements'
+import { Grid } from '../components/ui'
+import { useTranslate } from '../hooks/useTranslate'
 import { IBrief } from '../interfaces/IBrief'
 import { useDeleteBriefMutation } from '../store/api/briefs.api'
-import { InfoBriefBlock } from '../components/info-elements'
 import { useGetProjectsQuery } from '../store/api/projects.api'
+import { ModalWrapper } from './ModalWrapper'
 
 export interface IDeleteBriefModal {
   isOpen: boolean

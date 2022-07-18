@@ -1,6 +1,6 @@
-import { IShot } from '../../interfaces/IShot'
-import { DetailedHTMLProps, FC, HTMLAttributes } from 'react'
 import cn from 'classnames'
+import { DetailedHTMLProps, FC, HTMLAttributes } from 'react'
+import { IShot } from '../../interfaces/IShot'
 import { InfoProgress } from '../info-elements'
 import { EntityCardShotContainer } from './EntityCardShot.styles'
 

@@ -7,23 +7,29 @@
   border: none;
   width: 300px;
   overflow: hidden;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
 }
 
 .sm { width: 300px; }
+
 .md { width: 400px; }
+
 .lg { width: 560px; }
+
 .xl { width: 80%; }
 
-.type1 { transform: translateY(-10px) scale(0.9) ;}
-.type2 { transform: translateY(-120px) scale(0.8) rotate3d(1,0,0,60deg);}
+.type1 { transform: translateY(-10px) scale(0.9);}
+
+.type2 { transform: translateY(-120px) scale(0.8) rotate3d(1, 0, 0, 60deg);}
 
 
-.content-after-open-type1{ transform: scale(1) translateY(0); }
-.content-before-close-type1{ transform: translateY(-10px) scale(0.95); }
+.content-after-open-type1 { transform: scale(1) translateY(0); }
 
-.content-after-open-type2{ transform: rotate3d(0,0,0,0) scale(1) translateY(0); }
-.content-before-close-type2 { transform: translateY(-120px) scale(0.8) rotate3d(1,0,0,60deg); }
+.content-before-close-type1 { transform: translateY(-10px) scale(0.95); }
+
+.content-after-open-type2 { transform: rotate3d(0, 0, 0, 0) scale(1) translateY(0); }
+
+.content-before-close-type2 { transform: translateY(-120px) scale(0.8) rotate3d(1, 0, 0, 60deg); }
 
 .overlay-base {
   transition: opacity 400ms;
@@ -38,8 +44,11 @@
 }
 
 .zIndex1000 { z-index: 1000; }
+
 .zIndex1100 { z-index: 1100; }
+
 .zIndex1200 { z-index: 1200; }
 
 .overlay-after-open { opacity: 1; }
+
 .overlay-before-close { opacity: 0; }

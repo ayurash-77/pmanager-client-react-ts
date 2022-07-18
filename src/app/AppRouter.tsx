@@ -1,11 +1,11 @@
-import { Route, Routes, Navigate } from 'react-router-dom'
 import React, { FC } from 'react'
+import { Navigate, Route, Routes } from 'react-router-dom'
 import { useAppSelector } from '../hooks/redux'
-import { LoginPage } from '../pages/Login/LoginPage'
-import { ProjectsPage } from '../pages/Projects/ProjectsPage'
 import { Layout } from '../layout/Layout'
-import { GraphPage } from '../pages/Graph/GraphPage'
-import { ReelsPage } from '../pages/Reels/ReelsPage'
+import { GraphPage } from '../pages/GraphPage/GraphPage'
+import { LoginPage } from '../pages/LoginPage/LoginPage'
+import { ProjectsPage } from '../pages/ProjectsPage/ProjectsPage'
+import { ReelsPage } from '../pages/ReelsPage/ReelsPage'
 
 export const AppRouter: FC = () => {
   const authUser = useAppSelector(state => state.auth.authUser)

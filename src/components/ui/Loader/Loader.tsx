@@ -1,5 +1,4 @@
 import React, { FC } from 'react'
-
 import styled from 'styled-components'
 
 const size = props => props.size

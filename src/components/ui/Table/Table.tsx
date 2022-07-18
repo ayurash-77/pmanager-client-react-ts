@@ -1,5 +1,5 @@
-import styled from 'styled-components'
 import { FC, ReactNode } from 'react'
+import styled from 'styled-components'
 
 export const TableContainer = styled.div`
   margin-bottom: 10px;
@@ -35,6 +35,7 @@ const TableStyled = styled.table`
       overflow: hidden;
       background: var(--table-bg-row-hover);
     }
+
     &.selected {
       color: var(--text-high2);
       background: var(--table-bg-row-selected);
@@ -58,6 +59,7 @@ const TableStyled = styled.table`
     font-weight: 500;
     user-select: none;
   }
+
   td {
     transition: color 150ms;
     padding: 0 5px;
@@ -70,17 +72,22 @@ const TableStyled = styled.table`
     &.date {
       color: var(--date1);
     }
+
     &.info {
       color: var(--text-mid);
     }
+
     &.owner {
       color: var(--user-email);
     }
+
     &.deadline {
       color: var(--accent);
     }
+
     &.link {
       opacity: 0.8;
+
       :hover {
         opacity: 1;
         cursor: pointer;

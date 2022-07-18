@@ -1,15 +1,13 @@
 import { FC, useState } from 'react'
-import { IMenuItem, MenuItem } from './MenuItem'
-
-import * as SideIcons from '../../assets/icons/menubar-icons'
-
-import { useTranslate } from '../../hooks/useTranslate'
-import { useAppDispatch, useAppSelector } from '../../hooks/redux'
-import { logout } from '../../store/reducers/user.reducer'
-import { setQuarterFilter } from '../../store/reducers/projects.reducer'
-import { setActiveProjectId } from '../../store/reducers/entities.reducer'
 import styled from 'styled-components'
+import * as SideIcons from '../../assets/icons/menubar-icons'
+import { useAppDispatch, useAppSelector } from '../../hooks/redux'
+import { useTranslate } from '../../hooks/useTranslate'
 import UserSettingsModal from '../../modal/UserSettingsModal'
+import { setActiveProjectId } from '../../store/reducers/entities.reducer'
+import { setQuarterFilter } from '../../store/reducers/projects.reducer'
+import { logout } from '../../store/reducers/user.reducer'
+import { IMenuItem, MenuItem } from './MenuItem'
 
 const Container = styled.div`
   display: flex;

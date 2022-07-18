@@ -1,22 +1,21 @@
+import { skipToken } from '@reduxjs/toolkit/query'
 import { FC } from 'react'
-import { IMenuItem, MenuItem } from './MenuItem'
+import { useNavigate } from 'react-router-dom'
 import * as SideIcons from '../../assets/icons/menubar-icons'
-import { useTranslate } from '../../hooks/useTranslate'
 import { Loader } from '../../components/ui'
 import { useAppDispatch, useAppSelector } from '../../hooks/redux'
-import { useNavigate } from 'react-router-dom'
-import { setActiveMenu } from '../../store/reducers/ui.reducer'
+import { useTranslate } from '../../hooks/useTranslate'
+import { useGetProjectQuery, useGetProjectsQuery } from '../../store/api/projects.api'
+import { useGetReelsQuery } from '../../store/api/reels.api'
+import { useGetReelsTypesQuery } from '../../store/api/reelsTypes.api'
+import { useGetShotsQuery } from '../../store/api/shots.api'
 import {
-  // setActiveReelId,
   setActiveReelsIds,
   setActiveReelsTypeId,
   setActiveShotId,
 } from '../../store/reducers/entities.reducer'
-import { useGetProjectQuery, useGetProjectsQuery } from '../../store/api/projects.api'
-import { skipToken } from '@reduxjs/toolkit/query'
-import { useGetReelsQuery } from '../../store/api/reels.api'
-import { useGetShotsQuery } from '../../store/api/shots.api'
-import { useGetReelsTypesQuery } from '../../store/api/reelsTypes.api'
+import { setActiveMenu } from '../../store/reducers/ui.reducer'
+import { IMenuItem, MenuItem } from './MenuItem'
 
 export const ProjectMenu: FC<Partial<IMenuItem>> = () => {
   const { text } = useTranslate()

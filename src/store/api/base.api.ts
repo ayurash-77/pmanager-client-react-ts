@@ -1,5 +1,5 @@
-import { createApi } from '@reduxjs/toolkit/query/react'
 import { BaseQueryFn, FetchArgs, fetchBaseQuery } from '@reduxjs/toolkit/dist/query/react'
+import { createApi } from '@reduxjs/toolkit/query/react'
 import { apiBaseUrl } from '../../constants/env'
 import { RootState } from '../store'
 

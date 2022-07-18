@@ -1,24 +1,23 @@
+import { skipToken } from '@reduxjs/toolkit/query'
 import { DetailedHTMLProps, FC, HTMLAttributes, useState } from 'react'
-import { useTranslate } from '../hooks/useTranslate'
-import * as ToolbarIcons from '../assets/icons/toolbar-icons'
-import * as CommonIcons from '../assets/icons/common-icons'
-import { Loader } from '../components/ui'
 import styled from 'styled-components'
+import * as CommonIcons from '../assets/icons/common-icons'
+import * as ToolbarIcons from '../assets/icons/toolbar-icons'
+import DeleteProjectModal from '../components/features/projects/DeleteProjectModal'
+import NewProjectModal from '../components/features/projects/NewProjectModal'
+import { FlexRow, IconButton, Input, Loader, ToolButton, ToolButtonGroup } from '../components/ui'
 import { useAppDispatch, useAppSelector } from '../hooks/redux'
-import { IQuarterItem } from '../utils/quarter-filter'
-import NewProjectModal from '../modal/NewProjectModal'
-import DeleteProjectModal from '../modal/DeleteProjectModal'
+import { useTranslate } from '../hooks/useTranslate'
+import { IProject } from '../interfaces/IProject'
+import { useGetProjectQuery, useGetProjectsQuery } from '../store/api/projects.api'
 import {
   setFilterbarShow,
   setProjectsViewMode,
+  setSearchProjectsFilter,
   setSidebarShow,
   setThemeMode,
 } from '../store/reducers/ui.reducer'
-import { IconButton, ToolButton, ToolButtonGroup, FlexRow, Input } from '../components/ui'
-import { setSearchProjectsFilter } from '../store/reducers/ui.reducer'
-import { IProject } from '../interfaces/IProject'
-import { useGetProjectQuery, useGetProjectsQuery } from '../store/api/projects.api'
-import { skipToken } from '@reduxjs/toolkit/query'
+import { IQuarterItem } from '../utils/quarter-filter'
 
 interface IHeader extends DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLDivElement> {
   activeProject?: IProject

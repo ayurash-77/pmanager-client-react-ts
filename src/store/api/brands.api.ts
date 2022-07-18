@@ -1,6 +1,6 @@
 import { IBrand } from '../../interfaces/IBrand'
-import { baseApi } from './base.api'
 import { providesList } from '../../utils/provides-list'
+import { baseApi } from './base.api'
 
 export const brandsApi = baseApi.injectEndpoints({
   endpoints: build => ({

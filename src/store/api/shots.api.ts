@@ -1,7 +1,7 @@
 import { IShot } from '../../interfaces/IShot'
 import { IShotCreateDto } from '../../interfaces/IShotCreateDto'
-import { baseApi } from './base.api'
 import { providesList } from '../../utils/provides-list'
+import { baseApi } from './base.api'
 
 export const shotsApi = baseApi.injectEndpoints({
   endpoints: build => ({

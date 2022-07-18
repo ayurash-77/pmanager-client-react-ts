@@ -1,10 +1,10 @@
 import { CombinedState, combineReducers, configureStore } from '@reduxjs/toolkit'
 import { authApi } from './api/auth.api'
-import { userSlice } from './reducers/user.reducer'
-import { projectsSlice } from './reducers/projects.reducer'
-import { uiSlice } from './reducers/ui.reducer'
 import { baseApi } from './api/base.api'
 import { entitiesSlice } from './reducers/entities.reducer'
+import { projectsSlice } from './reducers/projects.reducer'
+import { uiSlice } from './reducers/ui.reducer'
+import { userSlice } from './reducers/user.reducer'
 
 const rootReducer = combineReducers({
   ui: uiSlice.reducer,

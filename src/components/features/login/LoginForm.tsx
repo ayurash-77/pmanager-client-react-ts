@@ -1,12 +1,12 @@
-import { Button, FlexColumn, Grid, Loader, Spacer } from '../../components/ui'
+import { IUserAuth } from 'interfaces/IUserAuth'
 import { FC, useEffect } from 'react'
-import { useTranslate } from '../../hooks/useTranslate'
-import { ErrorList } from '../../components/errors/ErrorList'
-import { useLoginMutation } from '../../store/api/auth.api'
-import { useAppDispatch } from '../../hooks/redux'
-import { setAuthUser } from '../../store/reducers/user.reducer'
 import { useForm } from 'react-hook-form'
-import { IUserAuth } from '../../interfaces/IUserAuth'
+import { useLoginMutation } from 'store/api/auth.api'
+import { setAuthUser } from 'store/reducers/user.reducer'
+import { useAppDispatch } from 'hooks/redux'
+import { useTranslate } from 'hooks/useTranslate'
+import { ErrorList } from 'components/errors/ErrorList'
+import { Button, FlexColumn, Grid, Loader, Spacer } from 'components/ui'
 
 export const LoginForm: FC = () => {
   const {
@@ -16,9 +16,7 @@ export const LoginForm: FC = () => {
   } = useForm<IUserAuth>({ mode: 'onChange' })
 
   const { text } = useTranslate()
-
   const [login, { data: user, isLoading, isError, error }] = useLoginMutation()
-
   const dispatch = useAppDispatch()
 
   const onSubmit = async (data: IUserAuth) => {

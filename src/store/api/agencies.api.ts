@@ -1,6 +1,6 @@
 import { IAgency } from '../../interfaces/IAgency'
-import { baseApi } from './base.api'
 import { providesList } from '../../utils/provides-list'
+import { baseApi } from './base.api'
 
 export const agenciesApi = baseApi.injectEndpoints({
   endpoints: build => ({

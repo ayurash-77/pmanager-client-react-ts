@@ -1,6 +1,6 @@
 import cn from 'classnames'
-import { IVariant } from '../ui.types'
 import { DetailedHTMLProps, FC, HTMLAttributes } from 'react'
+import { IVariant } from '../ui.types'
 import s from './IconButton.module.scss'
 
 interface IIconButton extends DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLDivElement> {

@@ -1,13 +1,15 @@
+import styled from 'styled-components'
 import { toDateStr, toTimeStr } from '../../utils/date-time-format'
 import { InfoLabel } from './InfoLabel'
-import styled from 'styled-components'
 
 const DateTimeContainer = styled.div`
   display: flex;
   gap: 4px;
+
   .date {
     color: var(--date1);
   }
+
   .time {
     color: var(--time1);
   }

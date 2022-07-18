@@ -1,8 +1,8 @@
-import { DetailedHTMLProps, Dispatch, FC, HTMLAttributes, ReactNode } from 'react'
+import { FC, ReactNode } from 'react'
 import styled from 'styled-components'
-import { BottomMenu } from './BottomMenu'
 import { useAppDispatch, useAppSelector } from '../../hooks/redux'
 import { setMenubarExpanded } from '../../store/reducers/ui.reducer'
+import { BottomMenu } from './BottomMenu'
 
 interface Props {
   menubarExpanded: boolean

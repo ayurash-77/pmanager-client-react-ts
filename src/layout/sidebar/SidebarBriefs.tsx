@@ -1,22 +1,22 @@
-import { SidebarBlockTitle, SidebarBlockContainer } from './Sidebar.styles'
-import { useTranslate } from '../../hooks/useTranslate'
-import { IProject } from '../../interfaces/IProject'
+import axios from 'axios'
 import { FC, useState } from 'react'
 import * as CommonIcons from '../../assets/icons/common-icons'
-import { toDateStr } from '../../utils/date-time-format'
-import axios from 'axios'
-import NewBriefModal from '../../modal/NewBriefModal'
-import DeleteBriefModal from '../../modal/DeleteBriefModal'
-import { IconButton, Table } from '../../components/ui'
+import { IconButton, Loader, Table } from '../../components/ui'
 import { apiBaseUrl } from '../../constants/env'
+import { useTranslate } from '../../hooks/useTranslate'
 import { IBrief } from '../../interfaces/IBrief'
-import { Loader } from '../../components/ui'
+import { IProject } from '../../interfaces/IProject'
+import DeleteBriefModal from '../../modal/DeleteBriefModal'
+import NewBriefModal from '../../modal/NewBriefModal'
+import { toDateStr } from '../../utils/date-time-format'
+import { SidebarBlockContainer, SidebarBlockTitle } from './Sidebar.styles'
 
 interface ISidebarBriefs {
   project: IProject | null
   briefs: IBrief[]
   isLoadingBriefs?: boolean
 }
+
 export const SidebarBriefs: FC<ISidebarBriefs> = ({ project, briefs, isLoadingBriefs }) => {
   const { text } = useTranslate()
   const [isNewBriefModalShow, setNewBriefModalShow] = useState(false)

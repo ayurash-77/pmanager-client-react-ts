@@ -1,6 +1,6 @@
+import cn from 'classnames'
 import { FC } from 'react'
 import c from './Switcher.module.scss'
-import cn from 'classnames'
 
 interface ISwitcher {
   label?: string

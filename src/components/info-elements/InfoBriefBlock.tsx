@@ -1,10 +1,10 @@
 import { FC } from 'react'
-import { IBrief } from '../../interfaces/IBrief'
 import { useTranslate } from '../../hooks/useTranslate'
-import { InfoLabel } from './InfoLabel'
-import { InfoValue } from './InfoValue'
+import { IBrief } from '../../interfaces/IBrief'
 import { toDateStr } from '../../utils/date-time-format'
+import { InfoLabel } from './InfoLabel'
 import { InfoProjectTitleContainer } from './InfoProjectTitle'
+import { InfoValue } from './InfoValue'
 
 export const InfoBriefBlock: FC<Partial<IBrief>> = brief => {
   const { text } = useTranslate()

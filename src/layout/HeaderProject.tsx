@@ -1,11 +1,7 @@
 import { DetailedHTMLProps, FC, HTMLAttributes } from 'react'
-import { useTranslate } from '../hooks/useTranslate'
-import * as ToolbarIcons from '../assets/icons/toolbar-icons'
 import styled from 'styled-components'
-import { useAppDispatch, useAppSelector } from '../hooks/redux'
-import { setSidebarShow, setThemeMode } from '../store/reducers/ui.reducer'
-import { ToolButton, ToolButtonGroup, FlexRow } from '../components/ui'
-import { setSearchProjectsFilter } from '../store/reducers/ui.reducer'
+import * as ToolbarIcons from '../assets/icons/toolbar-icons'
+import { Clapper } from '../assets/thumbnails/thumbnails'
 import {
   InfoAgency,
   InfoBrand,
@@ -17,13 +13,13 @@ import {
   InfoStartAt,
   InfoStatus,
 } from '../components/info-elements'
-import { Image } from '../components/ui'
-import { Clapper } from '../assets/thumbnails/thumbnails'
+import { FlexRow, Grid, Image, Loader, ToolButton, ToolButtonGroup } from '../components/ui'
 import { apiBaseUrl } from '../constants/env'
-import { Grid } from '../components/ui'
-import { Loader } from '../components/ui'
+import { useAppDispatch, useAppSelector } from '../hooks/redux'
+import { useTranslate } from '../hooks/useTranslate'
 import { IProject } from '../interfaces/IProject'
 import { useGetUserByIdQuery } from '../store/api/users.api'
+import { setSearchProjectsFilter, setSidebarShow, setThemeMode } from '../store/reducers/ui.reducer'
 
 interface IHeaderProject extends DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLDivElement> {
   project: IProject

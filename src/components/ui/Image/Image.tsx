@@ -1,5 +1,5 @@
-import { FC, useEffect, useState } from 'react'
 import imageExists from 'image-exists'
+import { FC, useEffect, useState } from 'react'
 import { Loader } from '../Loader/Loader'
 
 interface IImage {

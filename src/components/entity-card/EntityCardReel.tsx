@@ -1,9 +1,9 @@
-import { EntityIcon } from './EntityIcon'
-import { IReel } from '../../interfaces/IReel'
-import { DetailedHTMLProps, FC, HTMLAttributes } from 'react'
 import cn from 'classnames'
+import { DetailedHTMLProps, FC, HTMLAttributes } from 'react'
+import { IReel } from '../../interfaces/IReel'
 import { InfoProgress } from '../info-elements'
 import { EntityCardReelContainer } from './EntityCardReel.styles'
+import { EntityIcon } from './EntityIcon'
 
 interface IEntityCardReel extends DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLDivElement> {
   reel: IReel

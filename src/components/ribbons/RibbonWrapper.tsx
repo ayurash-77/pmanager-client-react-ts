@@ -1,13 +1,13 @@
-import styled from 'styled-components'
 import cn from 'classnames'
-import { entityVariantType } from '../../types/entityVariantType'
 import { FC, ReactNode } from 'react'
+import styled from 'styled-components'
 import * as CommonIcons from '../../assets/icons/common-icons'
-import { IconButton } from '../ui'
-import { IReelsType } from '../../interfaces/IReelsType'
 import { useAppDispatch, useAppSelector } from '../../hooks/redux'
-import { ExpandedBlock } from '../expanded-block/ExpandedBlock'
+import { IReelsType } from '../../interfaces/IReelsType'
 import { setRibbonReelsExpanded, setRibbonReelsTypesExpanded } from '../../store/reducers/ui.reducer'
+import { entityVariantType } from '../../types/entityVariantType'
+import { ExpandedBlock } from '../expanded-block/ExpandedBlock'
+import { IconButton } from '../ui'
 
 const RibbonContainer = styled.div`
   background: var(--expanded-block-reels-bg);

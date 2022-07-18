@@ -1,7 +1,7 @@
-import { IProject } from '../../interfaces/IProject'
 import { FC } from 'react'
-import statuses from '../../constants/statuses'
 import styled from 'styled-components'
+import statuses from '../../constants/statuses'
+import { IProject } from '../../interfaces/IProject'
 
 interface ITitleStyled {
   align?: 'left' | 'right' | 'center'

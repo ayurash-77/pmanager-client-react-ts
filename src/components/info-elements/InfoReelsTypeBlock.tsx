@@ -1,11 +1,11 @@
 import { FC } from 'react'
-import { useTranslate } from '../../hooks/useTranslate'
-import { InfoLabel } from './InfoLabel'
-import { InfoValue } from './InfoValue'
-import { InfoProjectTitleContainer } from './InfoProjectTitle'
-import { InfoProgress } from './InfoProgress'
 import styled from 'styled-components'
+import { useTranslate } from '../../hooks/useTranslate'
 import { IReelsType } from '../../interfaces/IReelsType'
+import { InfoLabel } from './InfoLabel'
+import { InfoProgress } from './InfoProgress'
+import { InfoProjectTitleContainer } from './InfoProjectTitle'
+import { InfoValue } from './InfoValue'
 
 interface IInfoReelsTypeBlock extends Partial<IReelsType> {}
 
@@ -16,40 +16,49 @@ const InfoContainer = styled.div`
   gap: 8px;
   justify-content: center;
   align-items: center;
+
   .reel {
     //color: var(--reel-card-icon-fg);
     color: var(--ribbon-reelsType-fg);
+
     &:after {
       color: var(--text-low);
       content: ', ';
     }
+
     .shot {
       color: var(--text-mid);
+
       &:after {
         color: var(--text-low);
         content: ', ';
       }
+
       &:first-child {
         &:before {
           content: ' (';
         }
       }
+
       &:last-child {
         &:after {
           content: ')';
         }
       }
     }
+
     &:last-child {
       &:after {
         content: '';
       }
     }
   }
+
   .warning {
     color: var(--accent);
     text-transform: uppercase;
   }
+
   .image {
     background: var(--entity-card-bg);
     overflow: hidden;

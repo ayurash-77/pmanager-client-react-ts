@@ -1,11 +1,11 @@
-import { FC } from 'react'
-import { IProject } from '../../interfaces/IProject'
-import { useTranslate } from '../../hooks/useTranslate'
-import { Table } from '../ui'
 import cn from 'classnames'
-import { InfoProgress, InfoProjectTitle } from '../info-elements'
-import { toDateStr } from '../../utils/date-time-format'
-import { useAppSelector } from '../../hooks/redux'
+import { FC } from 'react'
+import { useAppSelector } from '../../../../hooks/redux'
+import { useTranslate } from '../../../../hooks/useTranslate'
+import { IProject } from '../../../../interfaces/IProject'
+import { toDateStr } from '../../../../utils/date-time-format'
+import { InfoProgress, InfoProjectTitle } from '../../../info-elements'
+import { Table } from '../../../ui'
 
 interface IProjectsList {
   projects: IProject[]

@@ -1,8 +1,8 @@
-import styled from 'styled-components'
 import { FC } from 'react'
-import { QuartersItem } from './QiartersIem'
+import styled from 'styled-components'
 import { useAppDispatch, useAppSelector } from '../../hooks/redux'
 import { setQuarterFilter } from '../../store/reducers/projects.reducer'
+import { QuartersItem } from './QiartersIem'
 
 interface IQuartersItem {
   menubarExpanded: boolean

@@ -1,12 +1,12 @@
-import { ModalWrapper } from './ModalWrapper'
+import { SerializedError } from '@reduxjs/toolkit'
 import { FC } from 'react'
+import { ErrorList } from '../components/errors/ErrorList'
 import { Grid } from '../components/ui'
 import { IReel } from '../interfaces/IReel'
 import { IReelsType } from '../interfaces/IReelsType'
 import { IShot } from '../interfaces/IShot'
-import { SerializedError } from '@reduxjs/toolkit'
 import { CustomError } from '../store/api/auth.api'
-import { ErrorList } from '../components/errors/ErrorList'
+import { ModalWrapper } from './ModalWrapper'
 
 export interface IDeleteModal {
   isOpen: boolean

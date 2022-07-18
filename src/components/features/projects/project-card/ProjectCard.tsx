@@ -1,8 +1,10 @@
-import { IProject } from '../../interfaces/IProject'
-import { IProjectViewFilter } from '../../interfaces/IProjectViewFilter'
+import cn from 'classnames'
 import { DetailedHTMLProps, FC, HTMLAttributes } from 'react'
-import { Clapper } from '../../assets/thumbnails/thumbnails'
-import { Image } from '../ui'
+import { Clapper } from '../../../../assets/thumbnails/thumbnails'
+import { apiBaseUrl } from '../../../../constants/env'
+import { useAppSelector } from '../../../../hooks/redux'
+import { IProject } from '../../../../interfaces/IProject'
+import { IProjectViewFilter } from '../../../../interfaces/IProjectViewFilter'
 import {
   InfoAgency,
   InfoBrand,
@@ -14,11 +16,9 @@ import {
   InfoProjectTitle,
   InfoStartAt,
   InfoStatus,
-} from '../info-elements'
-import { apiBaseUrl } from '../../constants/env'
+} from '../../../info-elements'
+import { Image } from '../../../ui'
 import { ProjectCardContainer } from './ProjectCard.styles'
-import cn from 'classnames'
-import { useAppSelector } from '../../hooks/redux'
 
 export interface IProjectCard extends DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLDivElement> {
   isSelected: boolean

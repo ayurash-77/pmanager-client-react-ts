@@ -1,7 +1,7 @@
 import { IReel } from '../../interfaces/IReel'
 import { IReelCreateDto } from '../../interfaces/IReelCreateDto'
-import { baseApi } from './base.api'
 import { providesList } from '../../utils/provides-list'
+import { baseApi } from './base.api'
 
 export const reelsApi = baseApi.injectEndpoints({
   endpoints: build => ({

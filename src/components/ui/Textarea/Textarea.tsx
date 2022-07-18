@@ -1,6 +1,6 @@
-import { IVariant } from '../ui.types'
-import styled from 'styled-components'
 import cn from 'classnames'
+import styled from 'styled-components'
+import { IVariant } from '../ui.types'
 
 interface ITextAreaStyled {
   width?: string

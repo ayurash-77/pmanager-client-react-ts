@@ -1,5 +1,5 @@
-import s from './Box.module.scss'
 import { DetailedHTMLProps, FC, HTMLAttributes, ReactNode } from 'react'
+import s from './Box.module.scss'
 
 interface IBox extends DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLDivElement> {
   width?: number | string

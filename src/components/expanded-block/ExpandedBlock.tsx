@@ -1,12 +1,10 @@
-import { FC, ReactNode, useState } from 'react'
-import styled from 'styled-components'
 import cn from 'classnames'
-import { FlexRow, IconButton } from '../ui'
+import { AnimatePresence, motion } from 'framer-motion'
+import { FC, ReactNode } from 'react'
+import styled from 'styled-components'
 import * as CommonIcons from '../../assets/icons/common-icons'
-import { motion, AnimatePresence } from 'framer-motion'
-import { useAppDispatch } from '../../hooks/redux'
-import { setReelsBlockExpanded } from '../../store/reducers/ui.reducer'
 import { entityVariantType } from '../../types/entityVariantType'
+import { FlexRow, IconButton } from '../ui'
 
 const ExpandedBlockContainer = styled.div`
   background: var(--expanded-block-reels-bg);
@@ -60,6 +58,7 @@ const Arrow = styled.div`
   justify-content: center;
   width: 10px;
   transform: rotate(0);
+
   &.collapse {
     transform: rotate(-90deg);
   }

@@ -1,7 +1,7 @@
 import React, { FC } from 'react'
 import styled from 'styled-components'
-import { Loader } from '../Loader/Loader'
 import { IBriefData } from '../../../modal/NewBriefModal'
+import { Loader } from '../Loader/Loader'
 
 const BriefPicContainer = styled.div`
   display: flex;
@@ -38,6 +38,7 @@ const BriefPicContainer = styled.div`
     height: 20px;
     text-transform: capitalize;
     opacity: 0.6;
+
     :hover {
       opacity: 0.8;
     }

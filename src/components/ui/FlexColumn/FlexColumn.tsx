@@ -1,5 +1,5 @@
-import styled from 'styled-components'
 import { ReactNode } from 'react'
+import styled from 'styled-components'
 
 const height = p => p.height || '100%'
 const width = p => p.height || '100%'
@@ -15,6 +15,7 @@ interface IFlexColumn {
   gap?: number
   children?: ReactNode
 }
+
 export const FlexColumn = styled.div<IFlexColumn>`
   height: ${height};
   width: ${width};

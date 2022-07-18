@@ -1,5 +1,5 @@
-import styled from 'styled-components'
 import { FC } from 'react'
+import styled from 'styled-components'
 
 export interface IMenuItem {
   icon: JSX.Element

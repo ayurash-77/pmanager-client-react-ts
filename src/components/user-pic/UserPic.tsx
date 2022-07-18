@@ -1,9 +1,9 @@
-import styled from 'styled-components'
-import { Image } from '../ui'
-import { UserThumbnail } from '../../assets/thumbnails/thumbnails'
-import { IUser } from '../../interfaces/IUser'
-import { apiBaseUrl } from '../../constants/env'
 import { FC } from 'react'
+import styled from 'styled-components'
+import { UserThumbnail } from '../../assets/thumbnails/thumbnails'
+import { apiBaseUrl } from '../../constants/env'
+import { IUser } from '../../interfaces/IUser'
+import { Image } from '../ui'
 
 const Container = styled.div`
   display: flex;

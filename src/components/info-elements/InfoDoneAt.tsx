@@ -1,9 +1,9 @@
 import { FC } from 'react'
-import { IProject } from '../../interfaces/IProject'
 import { useTranslate } from '../../hooks/useTranslate'
+import { IProject } from '../../interfaces/IProject'
+import { toDateStr } from '../../utils/date-time-format'
 import { InfoLabel } from './InfoLabel'
 import { InfoValue } from './InfoValue'
-import { toDateStr } from '../../utils/date-time-format'
 
 export const InfoDoneAt: FC<Partial<IProject>> = ({ doneAt }) => {
   const { text } = useTranslate()

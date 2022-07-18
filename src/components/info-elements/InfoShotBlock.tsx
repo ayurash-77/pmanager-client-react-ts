@@ -1,13 +1,13 @@
 import { FC } from 'react'
-import { useTranslate } from '../../hooks/useTranslate'
-import { InfoLabel } from './InfoLabel'
-import { InfoValue } from './InfoValue'
-import { IShot } from '../../interfaces/IShot'
-import { InfoProjectTitleContainer } from './InfoProjectTitle'
-import { InfoProgress } from './InfoProgress'
-import { Clapper } from '../../assets/thumbnails/thumbnails'
-import { Image } from '../ui'
 import styled from 'styled-components'
+import { Clapper } from '../../assets/thumbnails/thumbnails'
+import { useTranslate } from '../../hooks/useTranslate'
+import { IShot } from '../../interfaces/IShot'
+import { Image } from '../ui'
+import { InfoLabel } from './InfoLabel'
+import { InfoProgress } from './InfoProgress'
+import { InfoProjectTitleContainer } from './InfoProjectTitle'
+import { InfoValue } from './InfoValue'
 
 interface IInfoShotBlock extends Partial<IShot> {}
 
@@ -17,18 +17,22 @@ const InfoContainer = styled.div`
   gap: 8px;
   flex-wrap: wrap;
   justify-content: space-evenly;
+
   .reel {
     color: var(--reel-card-icon-fg);
+
     &:after {
       color: var(--text-low);
       content: ', ';
     }
+
     &:last-child {
       &:after {
         content: '';
       }
     }
   }
+
   .image {
     background: var(--entity-card-bg);
     overflow: hidden;

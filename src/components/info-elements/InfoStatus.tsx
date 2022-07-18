@@ -1,9 +1,9 @@
 import { FC } from 'react'
-import { IProject } from '../../interfaces/IProject'
+import statuses from '../../constants/statuses'
 import { useTranslate } from '../../hooks/useTranslate'
+import { IProject } from '../../interfaces/IProject'
 import { InfoLabel } from './InfoLabel'
 import { InfoValue } from './InfoValue'
-import statuses from '../../constants/statuses'
 
 export const InfoStatus: FC<Partial<IProject>> = ({ status }) => {
   const { text } = useTranslate()

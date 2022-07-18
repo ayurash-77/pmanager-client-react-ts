@@ -1,16 +1,14 @@
-import { ModalWrapper } from './ModalWrapper'
 import { FC, useEffect, useState } from 'react'
-import { useTranslate } from '../hooks/useTranslate'
-import { Grid } from '../components/ui'
-import { useAppDispatch, useAppSelector } from '../hooks/redux'
-import { ErrorList } from '../components/errors/ErrorList'
-import { FlexColumn, Input } from '../components/ui'
-import { IProject } from '../interfaces/IProject'
 import { useParams } from 'react-router'
+import { ErrorList } from '../components/errors/ErrorList'
+import { FlexColumn, Grid, Input, Loader } from '../components/ui'
+import { useAppDispatch, useAppSelector } from '../hooks/redux'
+import { useTranslate } from '../hooks/useTranslate'
+import { IProject } from '../interfaces/IProject'
 import { IReelsTypeCreateDto } from '../interfaces/IReelsTypeCreateDto'
-import { setActiveReelsTypeId } from '../store/reducers/entities.reducer'
 import { useCreateReelsTypesMutation } from '../store/api/reelsTypes.api'
-import { Loader } from '../components/ui'
+import { setActiveReelsTypeId } from '../store/reducers/entities.reducer'
+import { ModalWrapper } from './ModalWrapper'
 
 interface INewReelsTypeModal {
   isOpen: boolean

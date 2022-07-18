@@ -1,9 +1,9 @@
-import { IFilterbar, setFilterbarFilters } from '../../store/reducers/ui.reducer'
-import styled from 'styled-components'
 import cn from 'classnames'
+import styled from 'styled-components'
 import { Switcher } from '../../components/ui'
 import { useAppDispatch, useAppSelector } from '../../hooks/redux'
 import { useTranslate } from '../../hooks/useTranslate'
+import { IFilterbar, setFilterbarFilters } from '../../store/reducers/ui.reducer'
 
 const FilterbarStyled = styled.div`
   transition: margin 200ms;
@@ -23,6 +23,7 @@ const FilterbarStyled = styled.div`
   box-shadow: 0 1px 8px var(--button-shadow);
   z-index: 2;
   padding: 2px;
+
   &.show {
     margin-top: 0;
     margin-bottom: 0;

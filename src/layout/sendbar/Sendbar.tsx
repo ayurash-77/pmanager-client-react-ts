@@ -1,11 +1,10 @@
-import styled from 'styled-components'
-import { IconButton } from '../../components/ui'
-import { IPost } from '../../interfaces/IPost'
-import { useAppSelector } from '../../hooks/redux'
 import { FC, useState } from 'react'
-import * as CommonIcons from '../../assets/icons/common-icons'
-
 import TextareaAutosize from 'react-textarea-autosize'
+import styled from 'styled-components'
+import * as CommonIcons from '../../assets/icons/common-icons'
+import { IconButton } from '../../components/ui'
+import { useAppSelector } from '../../hooks/redux'
+import { IPost } from '../../interfaces/IPost'
 import { useCreatePostMutation } from '../../store/api/posts.api'
 import { useGetShotsQuery } from '../../store/api/shots.api'
 

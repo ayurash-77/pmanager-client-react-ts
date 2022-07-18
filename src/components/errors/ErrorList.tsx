@@ -1,6 +1,6 @@
 import { SerializedError } from '@reduxjs/toolkit'
-import { CustomError } from '../../store/api/auth.api'
 import { FC } from 'react'
+import { CustomError } from '../../store/api/auth.api'
 
 interface IErrorList {
   error: SerializedError | CustomError

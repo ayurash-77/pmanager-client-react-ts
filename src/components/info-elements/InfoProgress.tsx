@@ -1,9 +1,9 @@
 import { FC } from 'react'
-import { IProject } from '../../interfaces/IProject'
-import { useTranslate } from '../../hooks/useTranslate'
-import { InfoLabel } from './InfoLabel'
 import statuses from '../../constants/statuses'
+import { useTranslate } from '../../hooks/useTranslate'
+import { IProject } from '../../interfaces/IProject'
 import { Progressbar } from '../ui'
+import { InfoLabel } from './InfoLabel'
 
 interface IInfoProgress extends Partial<IProject> {
   withValue?: boolean | null

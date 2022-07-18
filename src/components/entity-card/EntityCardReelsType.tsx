@@ -1,8 +1,8 @@
-import { IReelsType } from '../../interfaces/IReelsType'
-import { EntityIcon } from './EntityIcon'
-import { DetailedHTMLProps, FC, HTMLAttributes } from 'react'
 import cn from 'classnames'
-import { EntityCardReelsTypeContainer, EntityCardReelsTypeContainer1 } from './EntityCardReelsType.styles'
+import { DetailedHTMLProps, FC, HTMLAttributes } from 'react'
+import { IReelsType } from '../../interfaces/IReelsType'
+import { EntityCardReelsTypeContainer } from './EntityCardReelsType.styles'
+import { EntityIcon } from './EntityIcon'
 
 interface IEntityCardReelsType extends DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLDivElement> {
   entity: IReelsType

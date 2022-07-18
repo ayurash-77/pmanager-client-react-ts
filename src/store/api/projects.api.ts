@@ -1,6 +1,6 @@
 import { IProject } from '../../interfaces/IProject'
-import { baseApi } from './base.api'
 import { providesList } from '../../utils/provides-list'
+import { baseApi } from './base.api'
 
 export const projectsApi = baseApi.injectEndpoints({
   endpoints: build => ({

@@ -1,8 +1,8 @@
 import { FC } from 'react'
-import ProjectCard from '../project-card/ProjectCard'
 import styled from 'styled-components'
-import { IProject } from '../../interfaces/IProject'
-import { useAppSelector } from '../../hooks/redux'
+import { useAppSelector } from '../../../../hooks/redux'
+import { IProject } from '../../../../interfaces/IProject'
+import ProjectCard from '../project-card/ProjectCard'
 
 const ContainerGrid = styled.div`
   display: flex;

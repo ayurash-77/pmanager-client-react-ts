@@ -1,5 +1,5 @@
-import styled from 'styled-components'
 import React, { FC } from 'react'
+import styled from 'styled-components'
 import { Loader } from '../Loader/Loader'
 import { Image } from '../index'
 
@@ -49,6 +49,7 @@ const InputImageStyled = styled.div<IInputImageStyled>`
     height: 20px;
     text-transform: capitalize;
     opacity: 0.6;
+
     :hover {
       opacity: 0.8;
     }

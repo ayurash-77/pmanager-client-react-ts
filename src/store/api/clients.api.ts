@@ -1,6 +1,6 @@
 import { IClient } from '../../interfaces/IClient'
-import { baseApi } from './base.api'
 import { providesList } from '../../utils/provides-list'
+import { baseApi } from './base.api'
 
 export const clientsApi = baseApi.injectEndpoints({
   endpoints: build => ({

@@ -1,13 +1,13 @@
-import { Menubar } from './menubar/Menubar'
-import { MainMenu } from './menubar/MainMenu'
 import { FC, useEffect } from 'react'
+import { Outlet, useParams } from 'react-router'
+import { useLocation } from 'react-router-dom'
 import styled from 'styled-components'
 import { useAppDispatch, useAppSelector } from '../hooks/redux'
-import { Outlet, useParams } from 'react-router'
-import { ProjectMenu } from './menubar/ProjectMenu'
 import { setActiveProjectId } from '../store/reducers/entities.reducer'
-import { useLocation } from 'react-router-dom'
 import { setActiveMenu } from '../store/reducers/ui.reducer'
+import { MainMenu } from './menubar/MainMenu'
+import { Menubar } from './menubar/Menubar'
+import { ProjectMenu } from './menubar/ProjectMenu'
 
 const Container = styled.div`
   transition: color 250ms;
