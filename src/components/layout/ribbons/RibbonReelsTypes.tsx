@@ -78,7 +78,8 @@ export const RibbonReelsTypes = ({ entities, project }: { entities: IReelsType[]
             key={entity.id}
             entity={entity}
             isSelected={activeReelsTypeId === entity.id}
-            onClick={() => onReelsTypeClickHandler(entity.id)}
+            onClick={e => onReelsTypeClickHandler(e, entity.id)}
+            onContextMenu={e => onReelsTypeClickHandler(e, entity.id)}
           />
         ))}
       </RibbonWrapper>

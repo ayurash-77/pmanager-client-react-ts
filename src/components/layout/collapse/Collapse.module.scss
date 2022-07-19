@@ -10,20 +10,11 @@
   align-items: center;
   justify-content: space-between;
   gap: 5px;
-
-  &.reelsType {
-    color: var(--ribbon-reelsType-fg);
-  }
-
-  &.reel {
-    color: var(--ribbon-reel-fg);
-  }
-
-  &.shot {
-    color: var(--ribbon-shot-fg);
-  }
-
   background: var(--collapse-title-bg);
+
+  &.reelsType { color: var(--ribbon-reelsType-fg); }
+  &.reel { color: var(--ribbon-reel-fg); }
+  &.shot { color: var(--ribbon-shot-fg); }
 }
 
 .body {
@@ -43,7 +34,6 @@
   background: var(--collapse-title-bg);
   //text-transform: uppercase;
   font-weight: 500;
-  //text-shadow: 0 1px 2px var(--border);
 }
 
 .arrow {

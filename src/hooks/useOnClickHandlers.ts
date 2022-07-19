@@ -21,13 +21,23 @@ export const useOnShotClickHandler = () => {
     dispatch(setActiveReelsTypeId(null))
   }
 
-  const onReelsTypeClickHandler = reelsTypeId => {
+  const onReelsTypeClickHandler = (e, reelsTypeId) => {
+    e.preventDefault()
     const isSameItem = reelsTypeId === activeReelsTypeId
     const reelsIds = reels?.filter(reel => reel.reelsTypeId === reelsTypeId).map(reel => reel.id)
 
-    dispatch(setActiveReelsIds(isSameItem ? [] : reelsIds))
-    dispatch(setActiveReelsTypeId(isSameItem ? null : reelsTypeId))
     dispatch(setActiveShotId(null))
+    switch (e.type) {
+      case 'click':
+        dispatch(setActiveReelsIds(isSameItem ? [] : reelsIds))
+        dispatch(setActiveReelsTypeId(isSameItem ? null : reelsTypeId))
+        break
+      case 'contextmenu':
+        dispatch(setActiveReelsIds(reelsIds))
+        dispatch(setActiveReelsTypeId(reelsTypeId))
+        console.log('x:', e.pageX, 'y:', e.pageY)
+        break
+    }
   }
 
   return { onShotClickHandler, onReelsTypeClickHandler }
