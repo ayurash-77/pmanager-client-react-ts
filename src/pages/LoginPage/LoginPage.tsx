@@ -1,4 +1,3 @@
-import { Center, Flex, Spacer } from '@chakra-ui/react'
 import { FC, useEffect } from 'react'
 import * as ToolbarIcons from 'assets/icons/toolbar-icons'
 import { setThemeMode } from 'store/reducers/ui.reducer'
@@ -19,43 +18,41 @@ export const LoginPage: FC = () => {
   }, [darkMode])
 
   return (
-    <Center h={'80%'}>
+    <div className={css.loginPageContainer}>
       <div className={css.loginBoxContainer}>
-        <Flex alignItems="center">
+        <div className={'flex justify-center'}>
           <div className={css.headerTitle}>PManager</div>
-          <Spacer />
-          <Flex gap={2}>
-            <ToolButtonGroup>
-              <ToolButton
-                icon={<ToolbarIcons.LangEn />}
-                selected={language === 'en'}
-                onClick={() => setLanguage('en')}
-              />
-              <ToolButton
-                icon={<ToolbarIcons.LangRu />}
-                selected={language === 'ru'}
-                onClick={() => setLanguage('ru')}
-              />
-            </ToolButtonGroup>
-            <ToolButtonGroup>
-              <ToolButton
-                icon={<ToolbarIcons.Moon />}
-                selected={darkMode}
-                onClick={() => dispatch(setThemeMode(true))}
-              />
-              <ToolButton
-                icon={<ToolbarIcons.Sun />}
-                selected={!darkMode}
-                onClick={() => dispatch(setThemeMode(false))}
-              />
-            </ToolButtonGroup>
-          </Flex>
-        </Flex>
+          <ToolButtonGroup>
+            <ToolButton
+              icon={<ToolbarIcons.LangEn />}
+              selected={language === 'en'}
+              onClick={() => setLanguage('en')}
+            />
+            <ToolButton
+              icon={<ToolbarIcons.LangRu />}
+              selected={language === 'ru'}
+              onClick={() => setLanguage('ru')}
+            />
+          </ToolButtonGroup>
+          <div className={'w-2'} />
+          <ToolButtonGroup>
+            <ToolButton
+              icon={<ToolbarIcons.Moon />}
+              selected={darkMode}
+              onClick={() => dispatch(setThemeMode(true))}
+            />
+            <ToolButton
+              icon={<ToolbarIcons.Sun />}
+              selected={!darkMode}
+              onClick={() => dispatch(setThemeMode(false))}
+            />
+          </ToolButtonGroup>
+        </div>
 
-        <Center className={css.formTitle}>{text.app.login}</Center>
+        <div className={css.formTitle}>{text.app.login}</div>
 
         <LoginForm />
       </div>
-    </Center>
+    </div>
   )
 }

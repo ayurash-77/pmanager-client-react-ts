@@ -1,6 +1,6 @@
+import { IBriefData } from '../../components/modal/NewBriefModal'
 import { IBrief } from '../../interfaces/IBrief'
 import { IBriefCategory } from '../../interfaces/IBriefCategory'
-import { IBriefData } from '../../modal/NewBriefModal'
 import { providesList } from '../../utils/provides-list'
 import { baseApi } from './base.api'
 

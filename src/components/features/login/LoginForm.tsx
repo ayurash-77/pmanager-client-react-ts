@@ -6,7 +6,7 @@ import { setAuthUser } from 'store/reducers/user.reducer'
 import { useAppDispatch } from 'hooks/redux'
 import { useTranslate } from 'hooks/useTranslate'
 import { ErrorList } from 'components/errors/ErrorList'
-import { Button, FlexColumn, Grid, Loader, Spacer } from 'components/ui'
+import { Button, FlexColumn, Loader } from 'components/ui'
 
 export const LoginForm: FC = () => {
   const {
@@ -31,41 +31,37 @@ export const LoginForm: FC = () => {
 
   return (
     <>
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <Grid cols={'auto'}>
-          <FlexColumn gap={5}>
+      <form onSubmit={handleSubmit(onSubmit)} className={'flex justify-center'}>
+        <div className={'flex flex-col gap-1.5'}>
+          <div>
             <input
               placeholder={text.user.username}
               autoComplete={'false'}
-              {...register('username', { required: text.error.isRequired })}
               autoFocus={true}
+              {...register('username', { required: text.error.isRequired })}
             />
+            {errors?.username && <div className={'errorField'}>{text.error.fieldRequired}</div>}
+          </div>
+
+          <div>
             <input
               placeholder={text.user.password}
-              {...register('password', { required: text.error.isRequired })}
               type={'password'}
+              {...register('password', { required: text.error.isRequired })}
             />
-          </FlexColumn>
-          <Spacer height={30} />
-          <Button variant={'normal'} width={'100%'} type="submit" disabled={!isValid}>
+            {errors?.password && <div className={'errorField'}>{text.error.fieldRequired}</div>}
+          </div>
+
+          <div style={{ height: 30, width: 10 }} />
+          <Button width={'100%'} type="submit" disabled={!isValid}>
             {text.actions.enter}
           </Button>
-        </Grid>
+        </div>
       </form>
 
       <FlexColumn>
         {isLoading && <Loader size={32} />}
         {isError && <ErrorList error={error} />}
-        {errors?.username && (
-          <div className={'error'}>
-            {text.user.username}: {text.error.isRequired}
-          </div>
-        )}
-        {errors?.password && (
-          <div className={'error'}>
-            {text.user.password}: {text.error.isRequired}
-          </div>
-        )}
       </FlexColumn>
     </>
   )

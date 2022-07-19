@@ -1,18 +1,18 @@
 import { skipToken } from '@reduxjs/toolkit/query'
 import { useEffect, useRef } from 'react'
 import { useParams } from 'react-router'
-import { ExpandedBlock } from '../../components/expanded-block/ExpandedBlock'
 import { Post } from '../../components/features/post/Post'
-import { RibbonReels } from '../../components/ribbons/RibbonReels'
-import { RibbonReelsTypes } from '../../components/ribbons/RibbonReelsTypes'
-import { Timeline } from '../../components/timelines/Timeline'
+import { BodyContainer } from '../../components/layout/BodyContainer'
+import { HeaderProject } from '../../components/layout/HeaderProject'
+import { MainbarContainer } from '../../components/layout/MainbarContainer'
+import { Collapse } from '../../components/layout/collapse/Collapse'
+import { RibbonReels } from '../../components/layout/ribbons/RibbonReels'
+import { RibbonReelsTypes } from '../../components/layout/ribbons/RibbonReelsTypes'
+import { Sendbar } from '../../components/layout/sendbar/Sendbar'
+import { Sidebar } from '../../components/layout/sidebar/Sidebar'
+import { Timeline } from '../../components/layout/timelines/Timeline'
 import { useAppDispatch, useAppSelector } from '../../hooks/redux'
 import { useTranslate } from '../../hooks/useTranslate'
-import { BodyContainer } from '../../layout/BodyContainer'
-import { HeaderProject } from '../../layout/HeaderProject'
-import { MainbarContainer } from '../../layout/MainbarContainer'
-import { Sendbar } from '../../layout/sendbar/Sendbar'
-import { Sidebar } from '../../layout/sidebar/Sidebar'
 import { useGetPostsQuery } from '../../store/api/posts.api'
 import { useGetProjectQuery } from '../../store/api/projects.api'
 import { useGetReelsQuery } from '../../store/api/reels.api'
@@ -61,13 +61,13 @@ export const ReelsPage = () => {
 
         <RibbonReelsTypes entities={reelsTypes} project={project} />
         <RibbonReels entities={reels} project={project} />
-        <ExpandedBlock
+        <Collapse
           title={text.common.details}
           expanded={reelsBlock.expanded}
           setExpanded={() => dispatch(setReelsBlockExpanded(!reelsBlock.expanded))}
         >
           {project && reels?.map(reel => <Timeline key={reel.id} reelInit={reel} />)}
-        </ExpandedBlock>
+        </Collapse>
 
         <BodyContainer>
           {postsByShot?.map(post => (

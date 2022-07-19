@@ -1,5 +1,5 @@
+import { IPostData } from '../../components/layout/sendbar/Sendbar'
 import { IPost } from '../../interfaces/IPost'
-import { IPostData } from '../../layout/sendbar/Sendbar'
 import { providesList } from '../../utils/provides-list'
 import { baseApi } from './base.api'
 

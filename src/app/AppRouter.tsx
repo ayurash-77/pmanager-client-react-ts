@@ -1,7 +1,7 @@
 import React, { FC } from 'react'
 import { Navigate, Route, Routes } from 'react-router-dom'
+import { Layout } from '../components/layout/Layout'
 import { useAppSelector } from '../hooks/redux'
-import { Layout } from '../layout/Layout'
 import { GraphPage } from '../pages/GraphPage/GraphPage'
 import { LoginPage } from '../pages/LoginPage/LoginPage'
 import { ProjectsPage } from '../pages/ProjectsPage/ProjectsPage'

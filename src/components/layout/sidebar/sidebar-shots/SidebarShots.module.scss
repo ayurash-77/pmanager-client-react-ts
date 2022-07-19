@@ -1,0 +1,13 @@
+.container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 9px;
+  border: solid 1px var(--group-border);
+  background: var(--group-bg);
+  border-radius: 5px;
+  padding: 10px;
+
+  .draggable {
+    cursor: grab;
+  }
+}

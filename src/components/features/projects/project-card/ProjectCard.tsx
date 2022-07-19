@@ -45,7 +45,8 @@ export const ProjectCard: FC<IProjectCard> = props => {
             highPriority={project.highPriority}
             status={project.status}
           />
-          <div className={'grid info'}>
+
+          <div className={'grid grid-cols-2'}>
             {viewFilter.brand && <InfoBrand brand={project.brand} />}
             {viewFilter.client && <InfoClient client={project.client} />}
             {viewFilter.agency && <InfoAgency agency={project.agency} />}

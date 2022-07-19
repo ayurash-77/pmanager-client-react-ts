@@ -2,15 +2,15 @@ import { skipToken } from '@reduxjs/toolkit/query'
 import { useParams } from 'react-router'
 import styled from 'styled-components'
 import { EntityCardShot } from '../../components/entity-card/EntityCardShot'
-import { ShotsBlock } from '../../components/shots-block/ShotsBlock'
-import { Timeline } from '../../components/timelines/Timeline'
+import { BodyContainer } from '../../components/layout/BodyContainer'
+import { HeaderProject } from '../../components/layout/HeaderProject'
+import { MainbarContainer } from '../../components/layout/MainbarContainer'
+import { Sidebar } from '../../components/layout/sidebar/Sidebar'
+import { SidebarShots } from '../../components/layout/sidebar/sidebar-shots/SidebarShots'
+import { Timeline } from '../../components/layout/timelines/Timeline'
 import { useAppDispatch, useAppSelector } from '../../hooks/redux'
 import { IReel } from '../../interfaces/IReel'
 import { IShot } from '../../interfaces/IShot'
-import { BodyContainer } from '../../layout/BodyContainer'
-import { HeaderProject } from '../../layout/HeaderProject'
-import { MainbarContainer } from '../../layout/MainbarContainer'
-import { Sidebar } from '../../layout/sidebar/Sidebar'
 import { useGetProjectQuery } from '../../store/api/projects.api'
 import { useGetReelsQuery } from '../../store/api/reels.api'
 import { useGetShotsQuery } from '../../store/api/shots.api'
@@ -73,7 +73,7 @@ export const GraphPage = () => {
             </div>
           ))}
           <div>
-            <ShotsBlock shots={shots} project={project} />
+            <SidebarShots shots={shots} project={project} />
           </div>
         </BodyContainer>
       </MainbarContainer>

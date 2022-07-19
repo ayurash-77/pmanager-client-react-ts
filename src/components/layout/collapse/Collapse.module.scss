@@ -1,0 +1,61 @@
+.container {
+  background: var(--collapse-reels-bg);
+  box-shadow: 0 1px 3px var(--button-shadow);
+  z-index: 1;
+}
+
+.header {
+  padding: 0 8px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 5px;
+
+  &.reelsType {
+    color: var(--ribbon-reelsType-fg);
+  }
+
+  &.reel {
+    color: var(--ribbon-reel-fg);
+  }
+
+  &.shot {
+    color: var(--ribbon-shot-fg);
+  }
+
+  background: var(--collapse-title-bg);
+}
+
+.body {
+  display: flex;
+  padding: 5px 10px;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.title {
+  user-select: none;
+  cursor: default;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  height: 26px;
+  background: var(--collapse-title-bg);
+  //text-transform: uppercase;
+  font-weight: 500;
+  //text-shadow: 0 1px 2px var(--border);
+}
+
+.arrow {
+  transition: transform 250ms;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 10px;
+  transform: rotate(0);
+
+  &.collapse {
+    transform: rotate(-90deg);
+  }
+}
+

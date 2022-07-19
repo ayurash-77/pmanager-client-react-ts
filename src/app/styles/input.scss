@@ -1,45 +1,44 @@
 textarea {
   resize: none;
   width: 100%;
-
 }
 
 input, select, textarea, {
   transition: box-shadow 150ms;
-  height: 22px;
-  font-family: var(--ff-main);
-  font-size: var(--fs-normal);
-  color: var(--text-mid);
   background: var(--input-bg);
-
   border: 1px solid var(--border);
   border-radius: var(--rad);
-  padding: 0 4px;
-  outline: none;
   box-shadow: 0 1px 3px var(--input-shadow);
+  color: var(--text-mid);
+  font-family: var(--ff-main);
+  font-size: var(--fs-normal);
+  height: 22px;
+  outline: none;
+  padding: 0 4px;
+  &::placeholder {
+    color: var(--text-low);
+  }
 
   &:focus {
-    color: var(--text-high);
-    border: 1px solid var(--border-focus);
     background: var(--input-bg-focus);
+    border: 1px solid var(--border-focus);
     box-shadow: 0 0 6px var(--border-focus);
+    color: var(--text-high);
   }
 
   &:-webkit-autofill,
   &:-webkit-autofill:hover,
   &:-webkit-autofill:focus,
   &:-webkit-autofill:active {
-
-    //border: 1px solid var(--border-focus);
-    -webkit-text-fill-color: var(--text-mid);
     box-shadow: 0 0 0 100px var(--input-bg) inset;
+    -webkit-text-fill-color: var(--text-mid);
     transition: background-color 5000s ease-in-out 0s;
   }
 
 
   &[type='date'] {
-    text-transform: uppercase;
     padding-right: 3px;
+    text-transform: uppercase;
 
     &::-webkit-calendar-picker-indicator {
       font-size: var(--font-size-small1);
@@ -49,66 +48,65 @@ input, select, textarea, {
   }
 
   &[type='number'] {
+    margin: 0;
+    //appearance: none;
     &::-webkit-outer-spin-button,
     &::-webkit-inner-spin-button {
-      display: none;
       appearance: none;
+      display: none;
       margin: 0;
     }
-    //appearance: none;
-    margin: 0;
   }
 
 
   &[type='file'] {
-    padding: 0;
-    display: flex;
-    text-align: center;
-    justify-content: center;
     align-items: center;
+    background: var(--input-shadow);
+    border: none;
+    display: flex;
+    justify-content: center;
 
     //background: var(--input-bg);
-    border: none;
-    background: var(--input-shadow);
+    padding: 0;
+    text-align: center;
 
     &:focus {
-      color: var(--text-mid);
-      box-shadow: none;
-      border: none;
       background: var(--input-shadow);
+      border: none;
+      box-shadow: none;
+      color: var(--text-mid);
     }
 
     &::-webkit-file-upload-button {
       //visibility: hidden;
-      padding: 0 4px;
-      color: var(--button-fg);
       background: var(--button-bg);
       border: 1px solid var(--button-bg);
+      color: var(--button-fg);
       height: 22px;
+      padding: 0 4px;
     }
 
     &:hover { color: var(--text-high); }
   }
 
 
-
   &.accent {
-    color: var(--accent-fg);
     border: 1px solid var(--accent);
+    color: var(--accent-fg);
     &:focus {
-      color: var(--text-high);
       border: 1px solid var(--accent);
       box-shadow: 0 0 6px var(--accent-glow);
+      color: var(--text-high);
     }
   }
 
   &.warning {
-    color: var(--warning-fg);
     border: 1px solid var(--warning);
+    color: var(--warning-fg);
     &:focus {
-      color: var(--text-high);
       border: 1px solid var(--warning);
       box-shadow: 0 0 6px var(--warning-glow);
+      color: var(--text-high);
     }
   }
 }

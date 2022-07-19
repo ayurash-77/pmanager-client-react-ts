@@ -1,6 +1,6 @@
 import React, { FC } from 'react'
 import styled from 'styled-components'
-import { IBriefData } from '../../../modal/NewBriefModal'
+import { IBriefData } from '../../modal/NewBriefModal'
 import { Loader } from '../Loader/Loader'
 
 const BriefPicContainer = styled.div`

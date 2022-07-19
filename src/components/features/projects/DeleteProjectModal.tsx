@@ -1,10 +1,10 @@
 import { FC } from 'react'
 import { useTranslate } from '../../../hooks/useTranslate'
 import { IProject } from '../../../interfaces/IProject'
-import { ModalWrapper } from '../../../modal/ModalWrapper'
 import { useDeleteProjectMutation } from '../../../store/api/projects.api'
 import { ErrorList } from '../../errors/ErrorList'
 import { InfoProjectBlock, InfoProjectTitle } from '../../info-elements'
+import { ModalWrapper } from '../../modal/ModalWrapper'
 import { Grid } from '../../ui'
 
 export interface IDeleteProjectModal {

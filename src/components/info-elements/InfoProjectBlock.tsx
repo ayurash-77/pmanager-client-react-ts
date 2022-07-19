@@ -13,13 +13,13 @@ export const InfoProjectBlock: FC<Partial<IProject>> = project => {
   return (
     <>
       <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap', justifyContent: 'space-evenly' }}>
-        <div className={'grid info'}>
+        <div className={'grid grid-cols-2'}>
           <InfoBrand brand={project.brand} />
           <InfoClient client={project.client} />
           <InfoAgency agency={project.agency} />
           <InfoOwner owner={project.owner} />
         </div>
-        <div className={'grid info'}>
+        <div className={'grid grid-cols-2'}>
           <InfoStartAt startAt={project.startAt} />
           <InfoDeadline deadline={project.deadline} />
           <InfoStatus status={project.status} />

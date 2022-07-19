@@ -1,5 +1,8 @@
 @import-normalize;
 
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
 @font-face {
   font-family: 'DIN_REG';
@@ -9,18 +12,13 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500&display=swap');
 
 :root {
-  --sidebar-width-max: 180px;
-  --sidebar-width-min: 55px;
+  --rad: 4px;
   --topbar-height: 42px;
+  --sidebar-width-min: 55px;
+  --sidebar-width-max: 180px;
+  --modal-overlay: #0d0d11AA;
 
   /* Typography */
-  --ff-main: Roboto, DIN_REG, 'Segoe UI', sans-serif, 'Ubuntu';
-  --ff-entity-card: Arial,'Segoe UI', Roboto, DIN_REG, sans-serif, 'Ubuntu';
-  --ff-button: 'Roboto', 'Segoe UI', sans-serif, 'Ubuntu';
-  --ff-icon: DIN_REG, 'Roboto', sans-serif, 'Ubuntu';
-  --fs-small3: 9px;
-  --fs-small2: 10px;
-  --fs-small1: 11px;
   --fs-1: 8px;
   --fs-2: 9px;
   --fs-3: 10px;
@@ -28,21 +26,30 @@
   --fs-5: 12px;
   --fs-6: 13px;
   --fs-7: 15px;
-  --fs-8: 17px;
-  --fs-normal: 12px;
-  --fs-big1: 15px;
-  --fs-big2: 17px;
+  --fs-8: 16px;
+  --fs-9: 18px;
+
+  --fs-small1: var(--fs-4);
+  --fs-small2: var(--fs-3);
+  --fs-small3: var(--fs-2);
+
+  --fs-normal: var(--fs-5);
+
+  --fs-big1: var(--fs-7);
+  --fs-big2: var(--fs-9);
 
   --fw-light: 300;
   --fw-normal: 500;
   --fw-bold: 700;
 
-  --rad: 4px;
+  --ff-button: 'Roboto', 'Segoe UI', sans-serif, 'Ubuntu';
+  --ff-entity-card: Arial,'Segoe UI', Roboto, DIN_REG, sans-serif, 'Ubuntu';
+  --ff-icon: DIN_REG, 'Roboto', sans-serif, 'Ubuntu';
+  --ff-main: Roboto, DIN_REG, 'Segoe UI', sans-serif, 'Ubuntu';
 
-  --modal-overlay: #0d0d11AA;
 }
 
-::-webkit-scrollbar { width: 7px; height: 7px;  }
+::-webkit-scrollbar { height: 7px; width: 7px;  }
 ::-webkit-scrollbar-corner { background-color: transparent; }
 ::-webkit-scrollbar-track { background: var(--scrollbar-bg); border-radius: 4px; }
 ::-webkit-scrollbar-thumb { background: var(--scrollbar-fg); border-radius: 4px; }
@@ -50,40 +57,36 @@
 * { box-sizing: border-box }
 
 h1, h2, h3, h4, h5, h6 {
-  margin: 0; font-weight: var(--fw-normal);
+  font-weight: var(--fw-normal); margin: 0;
 }
 
 body {
-  margin: 0;
   font-family: var(--ff-main);
   font-size: var(--fs-normal);
   -webkit-font-smoothing: antialiased;
+  margin: 0;
   -moz-osx-font-smoothing: grayscale;
 }
 
 ul, li {
   list-style: none;
-  padding: 0;
   margin: 0;
+  padding: 0;
 }
 
 @import "app.colors.dark";
 @import "app.colors.light";
 
-@import "button";
 @import "input";
 @import "label";
-@import "form";
 @import "common";
-@import "grid";
 
 #root {
-  color: var(--main-fg);
   background: var(--main-bg);
-  //display: flex;
+  color: var(--main-fg);
   height: 100vh;
-  width: 100vw;
   overflow: hidden;
+  width: 100vw;
 }
 
 

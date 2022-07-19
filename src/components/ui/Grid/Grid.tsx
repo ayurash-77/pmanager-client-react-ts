@@ -1,5 +1,5 @@
 import { DetailedHTMLProps, FC, HTMLAttributes, ReactNode } from 'react'
-import s from './Grid.module.scss'
+import css from './Grid.module.scss'
 
 interface IGrid extends DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLDivElement> {
   cols?: string
@@ -30,7 +30,7 @@ export const Grid: FC<IGrid> = props => {
   } = props
   return (
     <div
-      className={s.container}
+      className={css.container}
       style={{
         // label: { textAlign: align },
         textAlign: align,

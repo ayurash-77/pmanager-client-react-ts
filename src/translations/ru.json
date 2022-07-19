@@ -60,7 +60,7 @@
   },
   "error": {
     "isRequired": "обязательно к заполнению",
-    "fieldRequired": "поле обязательно к заполнению"
+    "fieldRequired": "обязательное поле"
 },
   "menu": {
     "favorites": "Избранное",
