@@ -35,8 +35,6 @@ export const useOnShotClickHandler = () => {
       case 'contextmenu':
         dispatch(setActiveReelsIds(reelsIds))
         dispatch(setActiveReelsTypeId(reelsTypeId))
-        console.log('x:', e.pageX, 'y:', e.pageY)
-        break
     }
   }
 

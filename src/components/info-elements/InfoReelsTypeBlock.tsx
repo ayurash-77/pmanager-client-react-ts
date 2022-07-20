@@ -1,115 +1,52 @@
-import { FC } from 'react'
-import styled from 'styled-components'
+import { FC, Fragment } from 'react'
 import { useTranslate } from '../../hooks/useTranslate'
 import { IReelsType } from '../../interfaces/IReelsType'
 import { InfoLabel } from './InfoLabel'
 import { InfoProgress } from './InfoProgress'
 import { InfoProjectTitleContainer } from './InfoProjectTitle'
+import css from './InfoReelsTypeBlock.module.scss'
 import { InfoValue } from './InfoValue'
 
 interface IInfoReelsTypeBlock extends Partial<IReelsType> {}
 
-const InfoContainer = styled.div`
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  justify-content: center;
-  align-items: center;
-
-  .reel {
-    //color: var(--reel-card-icon-fg);
-    color: var(--ribbon-reelsType-fg);
-
-    &:after {
-      color: var(--text-low);
-      content: ', ';
-    }
-
-    .shot {
-      color: var(--text-mid);
-
-      &:after {
-        color: var(--text-low);
-        content: ', ';
-      }
-
-      &:first-child {
-        &:before {
-          content: ' (';
-        }
-      }
-
-      &:last-child {
-        &:after {
-          content: ')';
-        }
-      }
-    }
-
-    &:last-child {
-      &:after {
-        content: '';
-      }
-    }
-  }
-
-  .warning {
-    color: var(--accent);
-    text-transform: uppercase;
-  }
-
-  .image {
-    background: var(--entity-card-bg);
-    overflow: hidden;
-    border-radius: 6px;
-    width: 320px;
-    height: 180px;
-  }
-`
-
-export const InfoReelsTypeBlock: FC<IInfoReelsTypeBlock> = ({
-  code,
-  name,
-  status,
-  progress,
-  reels,
-  shots,
-}) => {
+export const InfoReelsTypeBlock: FC<IInfoReelsTypeBlock> = ({ code, name, status, progress, reels }) => {
   const { text } = useTranslate()
   const title = name ? `${code} (${name})` : code
-  const reelsJsx = reels?.length > 0 && (
-    <>
-      <h4 className={'warning'}>{'These reels will also be deleted:'}</h4>
-      <InfoValue>
-        {reels?.map(reel => (
-          <span key={reel.id} className={'reel'}>
-            {reel.code}
-            {reel.shots?.map(shot => (
-              <span key={shot.id} className={'shot'}>
-                {shot.code}
-              </span>
-            ))}
-          </span>
-        ))}
-      </InfoValue>
-    </>
-  )
+
   return (
     <>
-      <InfoContainer>
+      <div className={css.container}>
         <InfoProjectTitleContainer>{title}</InfoProjectTitleContainer>
 
-        <div className={'grid info'}>
+        <div className={css.status}>
           <InfoLabel>{text.common.status}</InfoLabel>
           <InfoValue>{status?.name || '---'}</InfoValue>
-          {/* <InfoLabel>{text.project.reels}</InfoLabel> */}
-          {/* <InfoValue>{reelsJsx}</InfoValue> */}
           <InfoProgress progress={progress} status={status} withLabel withValue />
         </div>
 
-        {reelsJsx}
-      </InfoContainer>
+        {reels?.length > 0 && (
+          <div>
+            <h4 className={css.warning}>{'These reels will also be deleted:'}</h4>
+
+            <div className={css.content}>
+              {reels?.map(reel => (
+                <Fragment key={reel.id}>
+                  <div key={reel.id} className={css.reel}>
+                    {reel.code}
+                  </div>
+                  <div className={css.shots}>
+                    {reel.shots?.map(shot => (
+                      <div key={shot.id} className={css.shot}>
+                        {shot.code}
+                      </div>
+                    ))}
+                  </div>
+                </Fragment>
+              ))}
+            </div>
+          </div>
+        )}
+      </div>
     </>
   )
 }

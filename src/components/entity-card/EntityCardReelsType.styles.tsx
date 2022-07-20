@@ -9,6 +9,7 @@ export const EntityCardReelsTypeContainer = styled.div`
   border-radius: 6px;
   padding: 2px;
   user-select: none;
+  position: relative;
 
   &.selected {
     border: 2px solid var(--reelsType-card-selected-border);
@@ -77,129 +78,26 @@ export const EntityCardReelsTypeContainer = styled.div`
   }
 
   &:hover .main,
-  &:hover .info,
   &.selected .main {
-    color: var(--text-high);
+    color: var(--reelsType-card-fg-selected);
     opacity: 1;
-  }
-`
-
-export const EntityCardReelsTypeContainer1 = styled.div`
-  transition: 150ms;
-  max-width: 160px;
-  display: flex;
-  gap: 4px;
-
-  .main {
-    transition: 150ms;
-    min-width: 80px;
-    height: 60px;
-
-    display: flex;
-    flex-direction: column;
-
-    font-family: var(--ff-entity-card);
-    font-size: var(--fs-small2);
-
-    border-radius: var(--rad);
-    overflow: hidden;
-    box-sizing: content-box;
-
-    &.selected {
-      opacity: 1;
-      filter: contrast(110%);
-      background: var(--reelsType-card-bg-selected);
-      box-shadow: 0 2px 5px #00000060, inset 0 10px 20px var(--reelsType-card-selected-glow);
-    }
-
-    .thumbnail {
-      display: flex;
-      align-items: center;
-      height: 100%;
-      overflow: hidden;
-      background: var(--entity-card-bg);
-
-      .image {
-        transition: opacity 200ms;
-        width: 80px;
-        opacity: 0.6;
-      }
-    }
-
-    .footer {
-      transition: opacity 100ms;
-      opacity: 0.8;
-      height: 20px;
-      color: var(--entity-footer-fg);
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      background: var(--reelsType-card-bg);
-    }
-
-    &.disabled {
-      opacity: 0.7;
-      filter: contrast(75%);
-    }
-  }
-
-  .info {
-    transition: all 200ms;
-    max-height: 60px;
-    font-size: var(--fs-small2);
-    color: var(--text-high);
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-
-    opacity: 0.8;
-
-    .infoTitle {
-      text-overflow: ellipsis;
-      max-height: 28px;
-      min-width: 40px;
-      overflow-x: hidden;
-      overflow-y: auto;
-    }
-
-    .infoReel {
-      display: flex;
-      gap: 4px;
-      align-items: flex-end;
-      color: var(--reel-card-icon-fg);
-    }
-
-    .infoReelTitle {
-      display: flex;
-      gap: 4px;
-      white-space: nowrap;
-      color: var(--reel-card-title-fg);
-    }
-
-    .infoShot {
-      display: flex;
-      gap: 4px;
-      align-items: flex-end;
-      color: var(--shot-card-icon-fg);
-    }
-
-    &.selected {
-      opacity: 1;
-      color: var(--text-high2);
-    }
   }
 
   &:hover .info,
   &.selected .info {
-    color: var(--text-high2);
+    color: var(--text-high);
     opacity: 1;
   }
 
-  .selected .footer {
-    opacity: 1;
-  }
-
-  &:hover .thumbnail > .image {
-    opacity: 0.8;
+  z-index: 5;
+  .boundary {
+    position: absolute;
+    top: 0;
+    left: 0;
+    background: transparent;
+    display: flex;
+    width: 100%;
+    height: 100%;
+    z-index: 100;
   }
 `

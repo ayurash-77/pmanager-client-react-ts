@@ -122,9 +122,14 @@ export const EntityCardReelContainer = styled.div`
   }
 
   &:hover .info,
-  &:hover .footer,
   &.selected .info {
-    color: var(--text-high);
+    color: var(--text-high2);
+    opacity: 1;
+  }
+
+  &:hover .footer,
+  &.selected .footer {
+    color: var(--white-90);
     opacity: 1;
   }
 

@@ -34,6 +34,7 @@
     "addShotToReel": "Add shot to the reel",
     "deleteShot": "Delete shot",
     "deleteReel": "Delete reel",
+    "deleteReelsType": "Delete reels type",
     "select": "Select..."
   },
   "common": {

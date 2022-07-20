@@ -34,6 +34,7 @@
     "addShotToReel": "Добавить шот в ролик",
     "deleteShot": "Удалить шот",
     "deleteReel": "Удалить ролик",
+    "deleteReelsType": "Удалить тип ролика",
     "select": "Выбрать..."
   },
   "common": {

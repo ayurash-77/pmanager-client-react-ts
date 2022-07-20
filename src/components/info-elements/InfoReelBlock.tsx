@@ -75,7 +75,7 @@ export const InfoReelBlock: FC<IInfoReelBlock> = ({ code, name, duration, progre
       <InfoContainer>
         <InfoProjectTitleContainer>{title}</InfoProjectTitleContainer>
 
-        <div className={'grid info'}>
+        <div className={'grid grid-cols-2'}>
           <InfoLabel>{text.common.duration}</InfoLabel>
           <InfoValue>{durationStr}</InfoValue>
           <InfoLabel>{text.common.status}</InfoLabel>

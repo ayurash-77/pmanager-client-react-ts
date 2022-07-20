@@ -1,0 +1,58 @@
+.container {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  justify-content: center;
+  align-items: center;
+}
+
+.reel {
+  color: var(--reel-card-icon-fg);
+  //color: var(--ribbon-reelsType-fg);
+}
+
+.status {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  width: 140px;
+}
+
+.content {
+  display: grid;
+  grid-template-columns: auto auto;
+  gap: 8px;
+}
+
+.shots {
+  display: flex;
+  color: var(--text-mid);
+  gap: 4px;
+}
+
+.shot {
+  &:after { content: ',' }
+
+  &:first-child {
+    &:before { content: '(' }
+  }
+
+  &:last-child {
+    &:after { content: ')' }
+  }
+}
+
+.warning {
+  color: var(--accent);
+  text-transform: uppercase;
+  text-align: center;
+  padding: 6px;
+}
+
+.image {
+  background: var(--entity-card-bg);
+  overflow: hidden;
+  border-radius: 6px;
+  width: 320px;
+  height: 180px;
+}

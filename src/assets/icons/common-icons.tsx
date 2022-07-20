@@ -32,7 +32,7 @@ export const Minus: FC = () => (
 )
 
 export const Trash: FC = () => (
-  <svg width="12" height="14" viewBox="0 0 12 14" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+  <svg width="100%" height="100%" viewBox="0 0 12 14" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
     <path d="M4 0C3.44772 0 3 0.447715 3 1H1C0.447715 1 0 1.44772 0 2C0 2.55228 0.447715 3 1 3H11C11.5523 3 12 2.55228 12 2C12 1.44772 11.5523 1 11 1H9C9 0.447715 8.55228 0 8 0H4Z" />
     <path
       fillRule="evenodd"

@@ -1,7 +1,7 @@
 import cn from 'classnames'
 import styled from 'styled-components'
 import * as ToolbarIcons from '../../assets/icons/toolbar-icons'
-import { entityVariantType } from '../../types/entityVariantType'
+import { IEntityType } from '../../interfaces/IEntityType'
 
 const EntityIconContainer = styled.div`
   .icon {
@@ -24,7 +24,7 @@ const EntityIconContainer = styled.div`
 `
 
 interface IEntityIcon {
-  variant: entityVariantType
+  variant: IEntityType
 }
 
 export const EntityIcon = ({ variant }: IEntityIcon) => {

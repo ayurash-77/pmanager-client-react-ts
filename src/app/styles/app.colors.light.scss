@@ -32,10 +32,13 @@ body[darkMode='false'] {
 
 
   //---------- CONTEXT MENU ----------//
-  --contextMenu-bg: #ffffff20;
+  --contextMenu-bg: rgba(218, 226, 232, 0.5);
   --contextMenu-border: #ffffff66;
   --contextMenu-item-hover: #ffffff77;
+  --contextMenu-shadow: #00000060;
+  --contextMenu-item-glow: #FFFFFF;
 
+  --reel-card-fg-selected: #d9dee3;
 
   //---------- CARDS ----------//
 
@@ -71,6 +74,8 @@ body[darkMode='false'] {
   --shot-card-icon-fg: #4e4e67;
   --shot-card-selected-border: #dddddd99;
   --shot-card-selected-glow: #ffffff;
+
+  --reel-card-selected: #ededed;
 
 
   //----- ExpandedBlock
@@ -170,7 +175,7 @@ body[darkMode='false'] {
   --timeline-border-active: #1b8dff;
 
   //----- Text
-  --text-low: #72747e;
+  --text-low: rgba(107, 110, 121, 0.8);
   --text-low-selected: #97bfdb;
   --text-mid: #50525d;
   --text-mid-selected: #bdccde;
@@ -182,4 +187,9 @@ body[darkMode='false'] {
   //----- UserPic
   --user-pic-bg: #82848B50;
   --user-pic-fg: #50506050;
+
+
+  //----- PALETTE -----------------------------------
+
+  --white-90: #FFFFFFD0
 }

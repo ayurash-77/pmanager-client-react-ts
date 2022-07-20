@@ -98,6 +98,7 @@ export const HeaderProjects: FC<IHeader> = () => {
             icon={<CommonIcons.Trash />}
             disabled={!activeProjectId}
             variant={'accent'}
+            size={14}
             onClick={activeProjectId ? deleteProjectHandler : null}
           />
         )}
@@ -162,5 +163,3 @@ export const HeaderProjects: FC<IHeader> = () => {
     </Container>
   )
 }
-
-export default HeaderProjects

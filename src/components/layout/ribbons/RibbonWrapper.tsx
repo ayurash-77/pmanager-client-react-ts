@@ -3,9 +3,9 @@ import { FC, ReactNode } from 'react'
 import styled from 'styled-components'
 import * as CommonIcons from '../../../assets/icons/common-icons'
 import { useAppDispatch, useAppSelector } from '../../../hooks/redux'
+import { IEntityType } from '../../../interfaces/IEntityType'
 import { IReelsType } from '../../../interfaces/IReelsType'
 import { setRibbonReelsExpanded, setRibbonReelsTypesExpanded } from '../../../store/reducers/ui.reducer'
-import { entityVariantType } from '../../../types/entityVariantType'
 import { IconButton } from '../../ui'
 import { Collapse } from '../collapse/Collapse'
 
@@ -39,7 +39,7 @@ const RibbonEntities = styled.div`
 
 interface IRibbonWrapper {
   children?: ReactNode
-  variant: entityVariantType
+  variant: IEntityType
   reels?: IReelsType[]
   title: string
   count: number
@@ -58,11 +58,11 @@ export const RibbonWrapper: FC<IRibbonWrapper> = props => {
   const canDeleteItemRoles = ['Producer', 'Art director', 'Manager']
   const canDeleteItem = authUser.isAdmin || canDeleteItemRoles.includes(authUser.role.name)
 
-  const setExpandedHandler = (variant: entityVariantType) => {
+  const setExpandedHandler = (variant: IEntityType) => {
     if (variant === 'reel') dispatch(setRibbonReelsExpanded(!ribbonReels.expanded))
     if (variant === 'reelsType') dispatch(setRibbonReelsTypesExpanded(!ribbonReelsTypes.expanded))
   }
-  const isExpandedHandler = (variant: entityVariantType) => {
+  const isExpandedHandler = (variant: IEntityType) => {
     if (variant === 'reel') return ribbonReels.expanded
     if (variant === 'reelsType') return ribbonReelsTypes.expanded
   }
@@ -75,6 +75,7 @@ export const RibbonWrapper: FC<IRibbonWrapper> = props => {
           icon={<CommonIcons.Trash />}
           disabled={activeItemsIds?.length !== 1}
           variant={'accent'}
+          size={14}
           onClick={activeItemsIds?.length === 1 ? onClickMinus : null}
         />
       )}

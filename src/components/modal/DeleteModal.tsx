@@ -5,7 +5,6 @@ import { IReelsType } from '../../interfaces/IReelsType'
 import { IShot } from '../../interfaces/IShot'
 import { CustomError } from '../../store/api/auth.api'
 import { ErrorList } from '../errors/ErrorList'
-import { Grid } from '../ui'
 import { ModalWrapper } from './ModalWrapper'
 
 export interface IDeleteModal {
@@ -32,12 +31,10 @@ export const DeleteBriefModal: FC<IDeleteModal> = ({ ...props }) => {
         onSubmitHandler={deleteAction}
         onCancelHandler={closeAction}
       >
-        <Grid cols="auto" gap={5}>
-          <>
-            {detailsJsx}
-            <ErrorList error={error} />
-          </>
-        </Grid>
+        <div className={'flex'}>
+          {detailsJsx}
+          <ErrorList error={error} />
+        </div>
       </ModalWrapper>
     </>
   )

@@ -2,7 +2,7 @@ import cn from 'classnames'
 import { AnimatePresence, motion } from 'framer-motion'
 import { FC, ReactNode } from 'react'
 import * as CommonIcons from '../../../assets/icons/common-icons'
-import { entityVariantType } from '../../../types/entityVariantType'
+import { IEntityType } from '../../../interfaces/IEntityType'
 import { FlexRow, IconButton } from '../../ui'
 import css from './Collapse.module.scss'
 
@@ -10,7 +10,7 @@ interface ICollapse {
   title?: string
   expanded?: boolean
   setExpanded?: (e) => void
-  variant?: entityVariantType
+  variant?: IEntityType
   headerIcons?: JSX.Element
   children?: ReactNode
 }
