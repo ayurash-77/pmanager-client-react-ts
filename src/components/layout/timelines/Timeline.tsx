@@ -19,7 +19,7 @@ import { AddShotToReelModal } from '../../modal/AddShotToReelModal'
 import { IconButton } from '../../ui'
 import { ContextMenu } from '../../ui/ContextMenu/ContextMenu'
 import { ContextMenuItem, IContextMenuItem } from '../../ui/ContextMenu/ContextMenuItem'
-import { TimelineContainer } from './Timeline.styles'
+import css from './Timeline.module.scss'
 
 interface ITimelineWrapper {
   reelInit: IReel
@@ -135,22 +135,22 @@ export const Timeline: FC<ITimelineWrapper> = ({ reelInit }) => {
         ))}
       </ContextMenu>
 
-      <TimelineContainer>
+      <div className={css.container}>
         <div
-          className={cn('code', { active: activeReelsIds.includes(reel.id) })}
+          className={cn(css.code, activeReelsIds.includes(reel.id) && css.active)}
           onClick={() => onTitleClickHandler(reel.id)}
         >
           {reel.highPriority && <span className="highPriority" />}
           {reel.code}
-          {reel.name?.length > 0 && <div className={'name'}> - {reel.name}</div>}
-          <div className={'shotsCount'}>
+          {reel.name?.length > 0 && <div className={css.name}> - {reel.name}</div>}
+          <div className={css.shotsCount}>
             - {reel.shots.length} shot{reel.shots.length !== 1 && 's'}
           </div>
         </div>
 
-        <div className={'timelineRow'}>
-          <div className={'timelineItemsRow'}>
-            <div className={cn('timelineItems', { active: activeReelsIds.includes(reel.id) })}>
+        <div className={css.timelineRow}>
+          <div className={css.timelineItemsRow}>
+            <div className={cn(css.timelineItems, activeReelsIds.includes(reel.id) && css.active)}>
               <Reorder.Group
                 as={'div'}
                 axis={'x'}
@@ -178,7 +178,7 @@ export const Timeline: FC<ITimelineWrapper> = ({ reelInit }) => {
               </Reorder.Group>
             </div>
           </div>
-          <div className={'timelineItemsButtons'}>
+          <div className={css.timelineItemsButtons}>
             <IconButton size={13} icon={<CommonIcons.Plus />} onClick={addShotToReelHandler} />
             <IconButton
               size={13}
@@ -189,7 +189,7 @@ export const Timeline: FC<ITimelineWrapper> = ({ reelInit }) => {
             />
           </div>
         </div>
-      </TimelineContainer>
+      </div>
     </>
   )
 }
