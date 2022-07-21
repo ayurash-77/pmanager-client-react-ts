@@ -8,10 +8,11 @@ export const useOnShotClick = () => {
   const dispatch = useAppDispatch()
   const { activeShotId, activeProjectId, dragShotId } = useAppSelector(state => state.entities)
   const { data: reels } = useGetReelsQuery(activeProjectId ?? skipToken)
-  const { position, isMenuShow, showContextMenu } = useContextMenu()
+  const { position, isMenuShow, showContextMenu, hideContextMenu } = useContextMenu()
 
   const onShotClickHandler = (e, shotId) => {
     e.preventDefault()
+    e.type === 'mousedown' && hideContextMenu()
 
     const isDragShot = shotId === dragShotId
     const isSameShot = shotId === activeShotId

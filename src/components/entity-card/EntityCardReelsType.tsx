@@ -10,7 +10,7 @@ interface IEntityCardReelsType extends DetailedHTMLProps<HTMLAttributes<HTMLDivE
 }
 
 export const EntityCardReelsType: FC<IEntityCardReelsType> = props => {
-  const { entity, isSelected, onClick, onContextMenu } = props
+  const { entity, isSelected, onClick, onContextMenu, onMouseDown } = props
 
   const shotsCountArr = entity.reels?.length ? entity.reels.map(reel => reel.shots?.length) : null
   const shotsCount = shotsCountArr?.length ? shotsCountArr.reduce((acc, cur) => acc + cur) : 0
@@ -19,6 +19,7 @@ export const EntityCardReelsType: FC<IEntityCardReelsType> = props => {
     <EntityCardReelsTypeContainer
       onClick={onClick}
       onContextMenu={onContextMenu}
+      onMouseDown={onMouseDown}
       className={cn({ selected: isSelected })}
     >
       <div className={cn('main', { selected: isSelected })}>

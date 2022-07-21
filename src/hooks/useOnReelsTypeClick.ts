@@ -9,10 +9,12 @@ export const useOnReelsTypeClick = () => {
   const { activeReelsTypeId, activeProjectId } = useAppSelector(state => state.entities)
   const { data: reels } = useGetReelsQuery(activeProjectId ?? skipToken)
 
-  const { position, isMenuShow, showContextMenu } = useContextMenu()
+  const { position, isMenuShow, showContextMenu, hideContextMenu } = useContextMenu()
 
   const onReelsTypeClickHandler = (e, reelsTypeId) => {
     e.preventDefault()
+    e.type === 'mousedown' && hideContextMenu()
+
     const isSameItem = reelsTypeId === activeReelsTypeId
     const reelsIds = reels?.filter(reel => reel.reelsTypeId === reelsTypeId).map(reel => reel.id)
 
@@ -27,6 +29,7 @@ export const useOnReelsTypeClick = () => {
         dispatch(setActiveReelsIds(reelsIds))
         dispatch(setActiveReelsTypeId(reelsTypeId))
         showContextMenu(e)
+        break
     }
   }
 

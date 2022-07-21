@@ -1,28 +1,30 @@
 .container {
-  transition: opacity 300ms, z-index 300ms;
+  transition: opacity 300ms;
+  display: flex;
+  flex-direction: column;
   position: absolute;
-  z-index: 10;
   border: 1px solid var(--contextMenu-border);
   background: var(--contextMenu-bg);
   height: max-content;
   width: max-content;
-  padding: 4px;
+  padding: 2px;
   border-radius: 6px;
   box-shadow: 0 10px 20px var(--contextMenu-shadow);
   backdrop-filter: blur(12px);
   user-select: none;
+  z-index: 10;
 
-  &.hide { opacity: 0; z-index: 0; }
+  &.hide { opacity: 0; z-index: 0; transition: 300ms, z-index 600ms; }
 }
 
+.itemContainer { margin: 2px }
+
 .item {
-  transition: color 300ms;
   display: flex;
   align-items: center;
-  height: 22px;
+  height: 24px;
   gap: 5px;
-  font-family: var(--ff-button);
-  //font-size: var(--fs-small1);
+  font-family: var(--ff-entity-card);
   white-space: nowrap;
   color: var(--text-mid);
   border-radius: 3px;
@@ -30,14 +32,13 @@
   &.accent { color: var(--accent-fg); }
 
   .icon {
-    transition: color 300ms;
-    width: 13px;
-    height: 13px;
-    margin-left: 5px;
+    transition: color 250ms;
+    width: 12px;
+    height: 12px;
+    margin-left: 6px;
     display: flex;
     justify-content: center;
     align-items: center;
-    filter: drop-shadow(0 0 5px var(--contextMenu-item-glow));
 
     &.reelsType { color: var(--ribbon-reelsType-fg); }
     &.reel { color: var(--ribbon-reel-fg); }
@@ -47,14 +48,16 @@
   }
 
   .title {
+    transition: color 250ms;
     margin: 2px;
     flex: 1;
+    font-size: var(--fs-small1);
   }
 
   .shortcut {
-    transition: color 300ms;
+    transition: color 250ms;
     opacity: 0.5;
-    margin-right: 5px;
+    margin-right: 6px;
     text-align: right;
     justify-content: right;
     font-size: var(--fs-small2);
@@ -62,12 +65,17 @@
     &.accent { color: var(--accent); }
   }
 
-  &:hover {
+}
+
+.itemContainer:hover {
+  &.itemContainer .item {
     color: var(--text-high2);
     background: var(--contextMenu-item-hover);
 
-    &.accent { background: var(--accent); }
-    &.accent, &.accent .shortcut, &.accent .icon { color: var(--white-90); opacity: 1 }
-  }
+    &.accent,
+    &.accent .title,
+    &.accent .shortcut,
+    &.accent .icon { color: var(--white-90); background: var(--accent); opacity: 1 }
 
+  }
 }

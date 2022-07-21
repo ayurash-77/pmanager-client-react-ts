@@ -6,10 +6,11 @@ export const useOnReelClick = () => {
   const dispatch = useAppDispatch()
   const { activeReelsIds } = useAppSelector(state => state.entities)
 
-  const { position, isMenuShow, showContextMenu } = useContextMenu()
+  const { position, isMenuShow, showContextMenu, hideContextMenu } = useContextMenu()
 
   const onReelClickHandler = (e, reelId) => {
     e.preventDefault()
+    e.type === 'mousedown' && hideContextMenu()
 
     switch (e.type) {
       case 'click':

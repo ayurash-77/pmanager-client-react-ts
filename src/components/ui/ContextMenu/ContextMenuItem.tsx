@@ -16,10 +16,12 @@ export interface IContextMenuItem extends DetailedHTMLProps<HTMLAttributes<HTMLD
 export const ContextMenuItem: FC<IContextMenuItem> = props => {
   const { icon, title, shortcut, entityType = 'shot', variant = 'normal', action } = props
   return (
-    <div className={cn(css.item, css[variant])} onClick={action}>
-      <div className={cn(css.icon, css[entityType], css[variant])}>{icon}</div>
-      <div className={css.title}>{title}</div>
-      <div className={css.shortcut}>{shortcut}</div>
+    <div className={css.itemContainer} onClick={action}>
+      <div className={cn(css.item, css[variant])}>
+        <div className={cn(css.icon, css[entityType], css[variant])}>{icon}</div>
+        <div className={css.title}>{title}</div>
+        <div className={css.shortcut}>{shortcut}</div>
+      </div>
     </div>
   )
 }
