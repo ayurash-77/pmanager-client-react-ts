@@ -2,7 +2,7 @@ import { FC, useState } from 'react'
 import * as CommonIcons from '../../../../assets/icons/common-icons'
 import { useAppSelector } from '../../../../hooks/redux'
 import { useDeleteShot } from '../../../../hooks/useDeleteShot'
-import { useOnShotClickHandler } from '../../../../hooks/useOnClickHandlers'
+import { useOnShotClick } from '../../../../hooks/useOnShotClick'
 import { useTranslate } from '../../../../hooks/useTranslate'
 import { IProject } from '../../../../interfaces/IProject'
 import { IShot } from '../../../../interfaces/IShot'
@@ -27,7 +27,7 @@ interface IShotsBlock {
 export const SidebarShots: FC<IShotsBlock> = props => {
   const { project, shots, isLoadingShots } = props
   const { text } = useTranslate()
-  const { onShotClickHandler } = useOnShotClickHandler()
+  const { onShotClickHandler } = useOnShotClick()
 
   const [isNewShotModalShow, setNewShotModalShow] = useState(false)
 
@@ -88,7 +88,7 @@ export const SidebarShots: FC<IShotsBlock> = props => {
               entity={shot}
               isSelected={activeShotId === shot.id}
               disabled={shot.reels?.length === 0}
-              onClick={() => onShotClickHandler(shot.id)}
+              onClick={e => onShotClickHandler(e, shot.id)}
             />
           ))}
         </div>

@@ -11,7 +11,7 @@ interface IEntityCardShot extends DetailedHTMLProps<HTMLAttributes<HTMLDivElemen
 }
 
 export const EntityCardShot: FC<IEntityCardShot> = props => {
-  const { entity, isSelected, disabled, onClick, onDoubleClick } = props
+  const { entity, isSelected, disabled, onClick, onContextMenu, onDoubleClick } = props
   const status = {
     id: 1,
     name: 'Active',
@@ -20,7 +20,7 @@ export const EntityCardShot: FC<IEntityCardShot> = props => {
   }
   return (
     <>
-      <EntityCardShotContainer onClick={onClick} onDoubleClick={onDoubleClick}>
+      <EntityCardShotContainer onClick={onClick} onContextMenu={onContextMenu} onDoubleClick={onDoubleClick}>
         <div className={cn('main', { selected: isSelected }, { disabled: disabled })}>
           <div className={'thumbnail'}>
             <div className={'image'}>

@@ -6,6 +6,7 @@ export const EntityCardShotContainer = styled.div`
   display: flex;
   gap: 4px;
   user-select: none;
+  position: relative;
 
   .main {
     transition: 150ms;
@@ -62,7 +63,7 @@ export const EntityCardShotContainer = styled.div`
       background: var(--shot-card-bg);
 
       &.selected {
-        color: var(--text-high2);
+        color: var(--white-90);
         opacity: 1;
       }
     }
@@ -74,7 +75,7 @@ export const EntityCardShotContainer = styled.div`
   }
 
   &:hover .footer {
-    color: var(--text-high);
+    color: var(--white-90);
     opacity: 1;
   }
 

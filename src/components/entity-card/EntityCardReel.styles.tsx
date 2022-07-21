@@ -10,6 +10,7 @@ export const EntityCardReelContainer = styled.div`
   padding: 2px;
   margin-right: 2px;
   user-select: none;
+  position: relative;
 
   .main {
     transition: 150ms;

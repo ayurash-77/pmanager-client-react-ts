@@ -42,8 +42,6 @@ export const EntityCardReelsTypeContainer = styled.div`
       display: flex;
       justify-content: center;
       align-items: center;
-
-      //color: var(--entity-footer-fg);
     }
     .name {
       opacity: 0.7;
@@ -87,17 +85,5 @@ export const EntityCardReelsTypeContainer = styled.div`
   &.selected .info {
     color: var(--text-high);
     opacity: 1;
-  }
-
-  z-index: 5;
-  .boundary {
-    position: absolute;
-    top: 0;
-    left: 0;
-    background: transparent;
-    display: flex;
-    width: 100%;
-    height: 100%;
-    z-index: 100;
   }
 `

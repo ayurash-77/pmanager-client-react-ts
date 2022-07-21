@@ -59,16 +59,18 @@ export const ReelsPage = () => {
       <MainbarContainer>
         <HeaderProject project={project} />
 
-        <RibbonReelsTypes entities={reelsTypes} project={project} />
-        <RibbonReels entities={reels} project={project} />
-        <Collapse
-          title={text.common.details}
-          expanded={reelsBlock.expanded}
-          setExpanded={() => dispatch(setReelsBlockExpanded(!reelsBlock.expanded))}
-        >
-          {project && reels?.map(reel => <Timeline key={reel.id} reelInit={reel} />)}
-        </Collapse>
+        <div className={'collapses'}>
+          <RibbonReelsTypes entities={reelsTypes} project={project} />
+          <RibbonReels entities={reels} project={project} />
 
+          <Collapse
+            title={text.common.details}
+            expanded={reelsBlock.expanded}
+            setExpanded={() => dispatch(setReelsBlockExpanded(!reelsBlock.expanded))}
+          >
+            {project && reels?.map(reel => <Timeline key={reel.id} reelInit={reel} />)}
+          </Collapse>
+        </div>
         <BodyContainer>
           {postsByShot?.map(post => (
             <Post key={post.id} {...post} />

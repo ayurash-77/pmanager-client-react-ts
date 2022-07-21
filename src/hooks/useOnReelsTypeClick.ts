@@ -2,24 +2,14 @@ import { skipToken } from '@reduxjs/toolkit/query'
 import { useGetReelsQuery } from '../store/api/reels.api'
 import { setActiveReelsIds, setActiveReelsTypeId, setActiveShotId } from '../store/reducers/entities.reducer'
 import { useAppDispatch, useAppSelector } from './redux'
+import { useContextMenu } from './useContextMenu'
 
-export const useOnShotClickHandler = () => {
+export const useOnReelsTypeClick = () => {
   const dispatch = useAppDispatch()
-  const { activeShotId, activeReelsTypeId, activeProjectId, dragShotId } = useAppSelector(
-    state => state.entities
-  )
+  const { activeReelsTypeId, activeProjectId } = useAppSelector(state => state.entities)
   const { data: reels } = useGetReelsQuery(activeProjectId ?? skipToken)
 
-  const onShotClickHandler = shotId => {
-    const isDragShot = shotId === dragShotId
-    const isSameShot = shotId === activeShotId
-    const selectedShotId = !isDragShot && isSameShot ? null : shotId
-    const reelsIds = reels?.filter(reel => reel.shotsIds?.includes(selectedShotId)).map(reel => reel.id)
-
-    dispatch(setActiveShotId(selectedShotId))
-    dispatch(setActiveReelsIds(reelsIds))
-    dispatch(setActiveReelsTypeId(null))
-  }
+  const { position, isMenuShow, showContextMenu } = useContextMenu()
 
   const onReelsTypeClickHandler = (e, reelsTypeId) => {
     e.preventDefault()
@@ -27,6 +17,7 @@ export const useOnShotClickHandler = () => {
     const reelsIds = reels?.filter(reel => reel.reelsTypeId === reelsTypeId).map(reel => reel.id)
 
     dispatch(setActiveShotId(null))
+
     switch (e.type) {
       case 'click':
         dispatch(setActiveReelsIds(isSameItem ? [] : reelsIds))
@@ -35,8 +26,9 @@ export const useOnShotClickHandler = () => {
       case 'contextmenu':
         dispatch(setActiveReelsIds(reelsIds))
         dispatch(setActiveReelsTypeId(reelsTypeId))
+        showContextMenu(e)
     }
   }
 
-  return { onShotClickHandler, onReelsTypeClickHandler }
+  return { onReelsTypeClickHandler, position, isMenuShow }
 }

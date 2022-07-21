@@ -10,12 +10,13 @@ export interface IContextMenuItem extends DetailedHTMLProps<HTMLAttributes<HTMLD
   shortcut?: string
   entityType?: IEntityType
   variant?: IVariant
+  action: () => void
 }
 
 export const ContextMenuItem: FC<IContextMenuItem> = props => {
-  const { icon, title, shortcut, entityType = 'shot', variant = 'normal', onClick } = props
+  const { icon, title, shortcut, entityType = 'shot', variant = 'normal', action } = props
   return (
-    <div className={cn(css.item, css[variant])} onClick={onClick}>
+    <div className={cn(css.item, css[variant])} onClick={action}>
       <div className={cn(css.icon, css[entityType], css[variant])}>{icon}</div>
       <div className={css.title}>{title}</div>
       <div className={css.shortcut}>{shortcut}</div>

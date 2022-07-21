@@ -35,7 +35,6 @@ export const EntityCardReelsType: FC<IEntityCardReelsType> = props => {
           {shotsCount}
         </div>
       </div>
-      {/* <div className={'boundary'}></div> */}
     </EntityCardReelsTypeContainer>
   )
 }

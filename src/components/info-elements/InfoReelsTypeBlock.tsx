@@ -9,7 +9,9 @@ import { InfoValue } from './InfoValue'
 
 interface IInfoReelsTypeBlock extends Partial<IReelsType> {}
 
-export const InfoReelsTypeBlock: FC<IInfoReelsTypeBlock> = ({ code, name, status, progress, reels }) => {
+export const InfoReelsTypeBlock: FC<IInfoReelsTypeBlock> = props => {
+  const { code, name, status, progress, reels } = props
+
   const { text } = useTranslate()
   const title = name ? `${code} (${name})` : code
 

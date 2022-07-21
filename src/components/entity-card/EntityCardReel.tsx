@@ -11,7 +11,7 @@ interface IEntityCardReel extends DetailedHTMLProps<HTMLAttributes<HTMLDivElemen
 }
 
 export const EntityCardReel: FC<IEntityCardReel> = props => {
-  const { reel, isSelected, onClick, onDoubleClick } = props
+  const { reel, isSelected, onClick, onContextMenu, onDoubleClick } = props
 
   const status = {
     id: 1,
@@ -22,6 +22,7 @@ export const EntityCardReel: FC<IEntityCardReel> = props => {
   return (
     <EntityCardReelContainer
       onClick={onClick}
+      onContextMenu={onContextMenu}
       onDoubleClick={onDoubleClick}
       className={cn({ selected: isSelected })}
     >

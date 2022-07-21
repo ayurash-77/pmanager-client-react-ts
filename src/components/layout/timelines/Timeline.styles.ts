@@ -61,7 +61,7 @@ export const TimelineContainer = styled.div`
       overflow: auto;
 
       .timelineItems {
-        transition: 200ms;
+        //transition: 200ms;
         min-width: 20px;
         min-height: 66px;
         display: flex;

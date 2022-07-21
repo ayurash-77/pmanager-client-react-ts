@@ -4,7 +4,11 @@ export const useContextMenu = () => {
   const [position, setPosition] = useState([0, 0])
   const [isMenuShow, setMenuShow] = useState(false)
 
-  const handleRightClick = e => {
+  const rightClickHandler = e => {
+    e.preventDefault()
+  }
+
+  const showContextMenu = e => {
     e.preventDefault()
     setPosition([e.pageX, e.pageY])
     setMenuShow(true)
@@ -16,14 +20,14 @@ export const useContextMenu = () => {
 
   useEffect(() => {
     document.addEventListener('click', () => setMenuShow(false))
-    document.addEventListener('contextmenu', handleRightClick)
+    document.addEventListener('contextmenu', rightClickHandler)
     document.addEventListener('keydown', escapeKeyHandler)
     return () => {
       document.removeEventListener('click', () => setMenuShow(false))
-      document.removeEventListener('contextmenu', handleRightClick)
+      document.removeEventListener('contextmenu', rightClickHandler)
       document.removeEventListener('keydown', escapeKeyHandler)
     }
   }, [])
 
-  return { position, isMenuShow }
+  return { position, isMenuShow, showContextMenu }
 }

@@ -1,10 +1,11 @@
 import { skipToken } from '@reduxjs/toolkit/query'
 import cn from 'classnames'
 import { Reorder } from 'framer-motion'
-import { FC, ReactNode, useEffect, useState } from 'react'
+import { FC, ReactNode, useEffect, useMemo, useState } from 'react'
 import * as CommonIcons from '../../../assets/icons/common-icons'
+import * as ToolbarIcons from '../../../assets/icons/toolbar-icons'
 import { useAppDispatch, useAppSelector } from '../../../hooks/redux'
-import { useOnShotClickHandler } from '../../../hooks/useOnClickHandlers'
+import { useOnShotClick } from '../../../hooks/useOnShotClick'
 import { IReel } from '../../../interfaces/IReel'
 import { useGetReelQuery, useGetReelsQuery, useUpdateReelMutation } from '../../../store/api/reels.api'
 import {
@@ -16,6 +17,8 @@ import {
 import { EntityCardShot } from '../../entity-card/EntityCardShot'
 import { AddShotToReelModal } from '../../modal/AddShotToReelModal'
 import { IconButton } from '../../ui'
+import { ContextMenu } from '../../ui/ContextMenu/ContextMenu'
+import { ContextMenuItem, IContextMenuItem } from '../../ui/ContextMenu/ContextMenuItem'
 import { TimelineContainer } from './Timeline.styles'
 
 interface ITimelineWrapper {
@@ -28,7 +31,6 @@ interface ITimelineWrapper {
 
 export const Timeline: FC<ITimelineWrapper> = ({ reelInit }) => {
   const dispatch = useAppDispatch()
-  const { onShotClickHandler } = useOnShotClickHandler()
 
   const { activeReelsIds, activeShotId, activeProjectId } = useAppSelector(state => state.entities)
 
@@ -46,6 +48,34 @@ export const Timeline: FC<ITimelineWrapper> = ({ reelInit }) => {
 
   const [shotsIds, setShotsIds] = useState(reel?.shotsIds)
   const [isAddShotModalShow, setAddShotModalShow] = useState(false)
+
+  const { onShotClickHandler, position, isMenuShow } = useOnShotClick()
+
+  const shotContextMenuData: IContextMenuItem[] = useMemo(
+    () => [
+      {
+        title: 'New Shot',
+        icon: <CommonIcons.Plus />,
+        entityType: 'reel',
+        shortcut: 'Ctrl+N',
+        action: () => alert('New Shot'),
+      },
+      {
+        title: 'Edit Shot',
+        icon: <ToolbarIcons.Gear />,
+        shortcut: 'Ctrl+E',
+        action: () => alert('Edit Shot'),
+      },
+      {
+        title: 'Delete Shot',
+        icon: <CommonIcons.Trash />,
+        variant: 'accent',
+        shortcut: 'Ctrl+Del',
+        action: () => alert('Delete Shot'),
+      },
+    ],
+    []
+  )
 
   const onReorderHandler = ids => {
     dispatch(setActiveReelsIds([reel.id]))
@@ -91,6 +121,20 @@ export const Timeline: FC<ITimelineWrapper> = ({ reelInit }) => {
         reel={reel}
         closeAction={() => setAddShotModalShow(false)}
       />
+      <ContextMenu show={isMenuShow} position={position}>
+        {shotContextMenuData.map(item => (
+          <ContextMenuItem
+            key={item.title}
+            title={item.title}
+            icon={item.icon}
+            entityType={item.entityType}
+            variant={item.variant}
+            shortcut={item.shortcut}
+            action={item.action}
+          />
+        ))}
+      </ContextMenu>
+
       <TimelineContainer>
         <div
           className={cn('code', { active: activeReelsIds.includes(reel.id) })}
@@ -121,7 +165,8 @@ export const Timeline: FC<ITimelineWrapper> = ({ reelInit }) => {
                     whileDrag={{ scale: 0.9, cursor: 'grabbing', boxShadow: '0 4px 8px #00000060' }}
                     onDragEnd={onDragEndHandler}
                     onDragStart={() => onDragStartHandler(shotId)}
-                    onClick={() => onShotClickHandler(shotId)}
+                    onClick={e => onShotClickHandler(e, shotId)}
+                    onContextMenu={e => onShotClickHandler(e, shotId)}
                   >
                     <EntityCardShot
                       entity={reel.shots.find(shot => shot.id === shotId)}
