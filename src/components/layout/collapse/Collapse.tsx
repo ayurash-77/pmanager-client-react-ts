@@ -1,8 +1,8 @@
 import cn from 'classnames'
 import { AnimatePresence, motion } from 'framer-motion'
 import { FC, ReactNode } from 'react'
+import { IEntityType } from 'components/ui/ui.types'
 import * as CommonIcons from '../../../assets/icons/common-icons'
-import { IEntityType } from '../../../interfaces/IEntityType'
 import { FlexRow, IconButton } from '../../ui'
 import css from './Collapse.module.scss'
 

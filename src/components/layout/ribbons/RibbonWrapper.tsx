@@ -1,52 +1,13 @@
 import cn from 'classnames'
-import { IReelsType } from 'entities/reelsTypes/reelsTypes.interfaces'
-import { FC, ReactNode } from 'react'
-import styled from 'styled-components'
+import { FC } from 'react'
+import { IEntityType } from 'components/ui/ui.types'
 import * as CommonIcons from '../../../assets/icons/common-icons'
 import { useAppDispatch, useAppSelector } from '../../../hooks/redux'
-import { IEntityType } from '../../../interfaces/IEntityType'
 import { setRibbonReelsExpanded, setRibbonReelsTypesExpanded } from '../../../store/reducers/ui.reducer'
 import { IconButton } from '../../ui'
 import { Collapse } from '../collapse/Collapse'
-
-const RibbonContainer = styled.div`
-  background: var(--collapse-reels-bg);
-  box-shadow: 0 1px 3px var(--button-shadow);
-  margin-bottom: 1px;
-  z-index: 1;
-`
-
-const RibbonRow = styled.div`
-  transition: height 250ms, opacity 150ms;
-  display: flex;
-
-  &.collapse {
-    height: 0;
-    opacity: 0;
-  }
-`
-
-const RibbonEntities = styled.div`
-  padding-bottom: 8px;
-  min-width: 0;
-  display: flex;
-  gap: 20px;
-  align-items: center;
-  overflow-y: hidden;
-  overflow-x: auto;
-  opacity: 1;
-`
-
-interface IRibbonWrapper {
-  children?: ReactNode
-  variant: IEntityType
-  reels?: IReelsType[]
-  title: string
-  count: number
-  onClickPlus: () => void
-  onClickMinus: () => void
-  activeItemsIds: number[]
-}
+import css from './RibbonWrapper.module.scss'
+import { IRibbonWrapper } from './ribbonWrapper.interfaces'
 
 export const RibbonWrapper: FC<IRibbonWrapper> = props => {
   const { variant, title, count, onClickPlus, onClickMinus, children, activeItemsIds = [] } = props
@@ -83,7 +44,7 @@ export const RibbonWrapper: FC<IRibbonWrapper> = props => {
   )
 
   return (
-    <RibbonContainer>
+    <div className={css.container}>
       <Collapse
         title={`${title}: ${count}`}
         variant={variant}
@@ -91,10 +52,10 @@ export const RibbonWrapper: FC<IRibbonWrapper> = props => {
         setExpanded={() => setExpandedHandler(variant)}
         headerIcons={headerIconsJsx}
       >
-        <RibbonRow className={cn({ collapse: isExpandedHandler(variant) !== true })}>
-          <RibbonEntities>{children}</RibbonEntities>
-        </RibbonRow>
+        <div className={cn(css.row, !isExpandedHandler(variant) && css.collapse)}>
+          <div className={css.entities}>{children}</div>
+        </div>
       </Collapse>
-    </RibbonContainer>
+    </div>
   )
 }

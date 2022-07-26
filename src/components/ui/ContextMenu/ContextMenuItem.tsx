@@ -1,6 +1,6 @@
 import cn from 'classnames'
 import { DetailedHTMLProps, FC, HTMLAttributes } from 'react'
-import { IEntityType } from '../../../interfaces/IEntityType'
+import { IEntityType } from 'components/ui/ui.types'
 import { IVariant } from '../ui.types'
 import css from './ContextMenu.module.scss'
 

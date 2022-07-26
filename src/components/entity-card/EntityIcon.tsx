@@ -1,7 +1,7 @@
 import cn from 'classnames'
 import styled from 'styled-components'
-import * as ToolbarIcons from '../../assets/icons/toolbar-icons'
-import { IEntityType } from '../../interfaces/IEntityType'
+import * as ToolbarIcons from 'assets/icons/toolbar-icons'
+import { IEntityType } from 'components/ui/ui.types'
 
 const EntityIconContainer = styled.div`
   .icon {
