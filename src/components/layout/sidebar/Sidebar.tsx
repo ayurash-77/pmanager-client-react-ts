@@ -1,10 +1,10 @@
 import cn from 'classnames'
 import { FC, useState } from 'react'
 import * as ToolbarIcons from '../../../assets/icons/toolbar-icons'
-import { useAppDispatch, useAppSelector } from '../../../hooks/redux'
-import { IProject } from '../../../interfaces/IProject'
-import { useGetBriefsQuery } from '../../../store/api/briefs.api'
-import { useGetShotsQuery } from '../../../store/api/shots.api'
+import { useGetBriefsQuery } from '../../../entities/briefs/briefs.api'
+import { IProject } from '../../../entities/projects/projects.interfaces'
+import { useGetShotsQuery } from '../../../entities/shots/shots.api'
+import { useAppSelector } from '../../../hooks/redux'
 import { InfoProjectTitle } from '../../info-elements'
 import { ToolButton, ToolButtonGroup } from '../../ui'
 import css from './Sidebar.module.scss'
@@ -23,7 +23,6 @@ interface ISidebar {
 
 export const Sidebar: FC<ISidebar> = props => {
   const { project, isLoadingProject } = props
-  const dispatch = useAppDispatch()
   const { show: sidebarShow } = useAppSelector(state => state.ui.sidebar)
 
   const [showSidebarInfo, setShowSidebarInfo] = useState(true)

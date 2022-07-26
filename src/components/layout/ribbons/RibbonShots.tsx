@@ -1,18 +1,18 @@
 import { useState } from 'react'
+import { IProject } from '../../../entities/projects/projects.interfaces'
+import NewShotModal from '../../../entities/shots/NewShotModal'
+import { ShotCard } from '../../../entities/shots/ShotCard'
+import { IShot } from '../../../entities/shots/shots.interfaces'
 import { useAppDispatch, useAppSelector } from '../../../hooks/redux'
 import { useDeleteShot } from '../../../hooks/useDeleteShot'
 import { useTranslate } from '../../../hooks/useTranslate'
-import { IProject } from '../../../interfaces/IProject'
-import { IShot } from '../../../interfaces/IShot'
 import {
   setActiveReelsIds,
   setActiveReelsTypeId,
   setActiveShotId,
 } from '../../../store/reducers/entities.reducer'
-import { EntityCardShot } from '../../entity-card/EntityCardShot'
 import { InfoShotBlock } from '../../info-elements/InfoShotBlock'
 import DeleteModal from '../../modal/DeleteModal'
-import NewShotModal from '../../modal/NewShotModal'
 import { RibbonWrapper } from './RibbonWrapper'
 
 export const RibbonShots = ({ entities, project }: { entities: IShot[]; project: IProject }) => {
@@ -70,7 +70,7 @@ export const RibbonShots = ({ entities, project }: { entities: IShot[]; project:
         activeItemsIds={[activeShotId]}
       >
         {entities?.map(entity => (
-          <EntityCardShot
+          <ShotCard
             key={entity.id}
             entity={entity}
             isSelected={activeShotId === entity.id}

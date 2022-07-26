@@ -1,9 +1,9 @@
+import { LoginForm } from 'entities/users/auth/LoginForm'
 import { FC, useEffect } from 'react'
 import * as ToolbarIcons from 'assets/icons/toolbar-icons'
 import { setThemeMode } from 'store/reducers/ui.reducer'
 import { useAppDispatch, useAppSelector } from 'hooks/redux'
 import { useTranslate } from 'hooks/useTranslate'
-import { LoginForm } from 'components/features/login/LoginForm'
 import { ToolButton, ToolButtonGroup } from 'components/ui'
 import css from './LoginPage.module.scss'
 

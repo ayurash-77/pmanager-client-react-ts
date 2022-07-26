@@ -1,7 +1,7 @@
 import { FC, useState } from 'react'
 import * as ToolbarIcons from '../../../../assets/icons/toolbar-icons'
+import { IProject } from '../../../../entities/projects/projects.interfaces'
 import { useTranslate } from '../../../../hooks/useTranslate'
-import { IProject } from '../../../../interfaces/IProject'
 import { InfoProjectBlock } from '../../../info-elements'
 import { IconButton, Loader } from '../../../ui'
 import css from '../Sidebar.module.scss'

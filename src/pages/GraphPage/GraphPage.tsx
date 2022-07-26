@@ -1,20 +1,20 @@
 import { skipToken } from '@reduxjs/toolkit/query'
+import { useGetProjectQuery } from 'entities/projects/projects.api'
+import { useGetReelsQuery } from 'entities/reels/reels.api'
+import { IReel } from 'entities/reels/reels.interfaces'
+import { ShotCard } from 'entities/shots/ShotCard'
+import { useGetShotsQuery } from 'entities/shots/shots.api'
+import { IShot } from 'entities/shots/shots.interfaces'
 import { useParams } from 'react-router'
 import styled from 'styled-components'
-import { EntityCardShot } from '../../components/entity-card/EntityCardShot'
-import { BodyContainer } from '../../components/layout/BodyContainer'
-import { HeaderProject } from '../../components/layout/HeaderProject'
-import { MainbarContainer } from '../../components/layout/MainbarContainer'
-import { Sidebar } from '../../components/layout/sidebar/Sidebar'
-import { SidebarShots } from '../../components/layout/sidebar/sidebar-shots/SidebarShots'
-import { Timeline } from '../../components/layout/timelines/Timeline'
-import { useAppDispatch, useAppSelector } from '../../hooks/redux'
-import { IReel } from '../../interfaces/IReel'
-import { IShot } from '../../interfaces/IShot'
-import { useGetProjectQuery } from '../../store/api/projects.api'
-import { useGetReelsQuery } from '../../store/api/reels.api'
-import { useGetShotsQuery } from '../../store/api/shots.api'
-import { setActiveShotId, setDragShotId, setDropReelId } from '../../store/reducers/entities.reducer'
+import { setActiveShotId, setDragShotId, setDropReelId } from 'store/reducers/entities.reducer'
+import { useAppDispatch, useAppSelector } from 'hooks/redux'
+import { BodyContainer } from 'components/layout/BodyContainer'
+import { HeaderProject } from 'components/layout/HeaderProject'
+import { MainbarContainer } from 'components/layout/MainbarContainer'
+import { Sidebar } from 'components/layout/sidebar/Sidebar'
+import { SidebarShots } from 'components/layout/sidebar/sidebar-shots/SidebarShots'
+import { Timeline } from 'components/layout/timelines/Timeline'
 
 export const DraggableItem = styled.div`
   cursor: grab;
@@ -66,7 +66,7 @@ export const GraphPage = () => {
                     onDragEnd={e => onDragEndHandler(e)}
                     onDragOver={e => e.preventDefault()}
                   >
-                    <EntityCardShot entity={shot} isSelected={activeShotId === shot.id} />
+                    <ShotCard entity={shot} isSelected={activeShotId === shot.id} />
                   </div>
                 ))}
               </Timeline>

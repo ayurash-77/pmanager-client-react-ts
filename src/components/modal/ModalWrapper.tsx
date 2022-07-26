@@ -1,14 +1,13 @@
 import cn from 'classnames'
-import { FC, ReactNode } from 'react'
+import { FC, PropsWithChildren } from 'react'
 import ReactModal from 'react-modal'
 import { useTranslate } from '../../hooks/useTranslate'
 import { Button } from '../ui'
 import './ModalWrapper.css'
-import { Body, Footer, Header } from './ModalWrapper.styled'
+import css from './ModalWrapper.module.scss'
 
 export interface IModalWrapper {
   waiting?: boolean
-  children: ReactNode
   warning?: boolean
   isOpen: boolean
   type: 'type1' | 'type2'
@@ -17,9 +16,10 @@ export interface IModalWrapper {
   onSubmitHandler: (e) => void
   onCancelHandler: (e) => void
   zIndex?: 1000 | 1100 | 1200
+  isValid?: boolean
 }
 
-export const ModalWrapper: FC<IModalWrapper> = props => {
+export const ModalWrapper: FC<PropsWithChildren<IModalWrapper>> = props => {
   const {
     children,
     zIndex = 1000,
@@ -28,28 +28,11 @@ export const ModalWrapper: FC<IModalWrapper> = props => {
     title,
     onSubmitHandler,
     onCancelHandler,
+    isValid = true,
     ...rest
   } = props
 
   const { text } = useTranslate()
-
-  const buttons = (
-    <>
-      <Button
-        disabled={waiting}
-        type="submit"
-        onClick={onSubmitHandler}
-        variant={warning ? 'accent' : 'normal'}
-        // autoFocus={!rest.warning}
-      >
-        {text.actions.ok}
-      </Button>
-      <span style={{ marginRight: 10 }} />
-      <Button disabled={waiting} type="button" onClick={onCancelHandler} autoFocus={warning}>
-        {text.actions.cancel}
-      </Button>
-    </>
-  )
 
   return (
     <ReactModal
@@ -71,11 +54,21 @@ export const ModalWrapper: FC<IModalWrapper> = props => {
       }}
       onRequestClose={onCancelHandler}
     >
-      <form onSubmit={onSubmitHandler}>
-        <Header className={cn({ warning })}>{title}</Header>
-        <Body>{children}</Body>
-        <Footer>{buttons}</Footer>
-      </form>
+      <div className={'flex flex-col'}>
+        <div className={cn(css.header, warning && css.warning)}>{title}</div>
+        <form onSubmit={onSubmitHandler} className={'flex flex-col'}>
+          <div className={css.body}>{children}</div>
+          <div className={css.footer}>
+            <Button disabled={!isValid} type="submit">
+              {text.actions.ok}
+            </Button>
+            <span style={{ marginRight: 10 }} />
+            <Button type="button" onClick={onCancelHandler}>
+              {text.actions.cancel}
+            </Button>
+          </div>
+        </form>
+      </div>
     </ReactModal>
   )
 }

@@ -1,26 +1,12 @@
 import { FC, useEffect } from 'react'
 import { Outlet, useParams } from 'react-router'
 import { useLocation } from 'react-router-dom'
-import styled from 'styled-components'
 import { useAppDispatch, useAppSelector } from '../../hooks/redux'
 import { setActiveProjectId } from '../../store/reducers/entities.reducer'
 import { setActiveMenu } from '../../store/reducers/ui.reducer'
-import { MainMenu } from './menubar/MainMenu'
 import { Menubar } from './menubar/Menubar'
-import { ProjectMenu } from './menubar/ProjectMenu'
-
-const Container = styled.div`
-  transition: color 250ms;
-  display: flex;
-  height: 100vh;
-
-  .mainbar {
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-    min-width: 0;
-  }
-`
+import { MainMenu } from './menubar/mainMenu/MainMenu'
+import { ProjectMenu } from './menubar/projectMenu/ProjectMenu'
 
 export const Layout: FC = () => {
   const { activeProjectId } = useAppSelector(state => state.entities)
@@ -41,10 +27,9 @@ export const Layout: FC = () => {
   }, [activeProjectId, darkMode, dispatch, id, pathname])
 
   return (
-    <Container>
+    <div className={'flex h-full'}>
       <Menubar>{activeMenu === 'projects' ? <MainMenu /> : <ProjectMenu />}</Menubar>
-
       <Outlet />
-    </Container>
+    </div>
   )
 }

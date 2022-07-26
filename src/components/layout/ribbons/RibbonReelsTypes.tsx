@@ -1,19 +1,19 @@
 import { skipToken } from '@reduxjs/toolkit/query'
+import { IReelsType } from 'entities/reelsTypes/reelsTypes.interfaces'
 import { useEffect, useMemo, useState } from 'react'
 import * as CommonIcons from '../../../assets/icons/common-icons'
 import * as ToolbarIcons from '../../../assets/icons/toolbar-icons'
+import { IProject } from '../../../entities/projects/projects.interfaces'
+import { useGetReelsQuery } from '../../../entities/reels/reels.api'
+import NewReelsTypeModal from '../../../entities/reelsTypes/NewReelsTypeModal'
+import { ReelsTypeCard } from '../../../entities/reelsTypes/ReelsTypeCard'
+import { useDeleteReelsTypeMutation } from '../../../entities/reelsTypes/reelsTypes.api'
 import { useAppDispatch, useAppSelector } from '../../../hooks/redux'
 import { useOnReelsTypeClick } from '../../../hooks/useOnReelsTypeClick'
 import { useTranslate } from '../../../hooks/useTranslate'
-import { IProject } from '../../../interfaces/IProject'
-import { IReelsType } from '../../../interfaces/IReelsType'
-import { useGetReelsQuery } from '../../../store/api/reels.api'
-import { useDeleteReelsTypeMutation } from '../../../store/api/reelsTypes.api'
 import { setActiveReelsTypeId } from '../../../store/reducers/entities.reducer'
-import { EntityCardReelsType } from '../../entity-card/EntityCardReelsType'
 import { InfoReelsTypeBlock } from '../../info-elements/InfoReelsTypeBlock'
 import DeleteModal from '../../modal/DeleteModal'
-import NewReelsTypeModal from '../../modal/NewReelsTypeModal'
 import { ContextMenu } from '../../ui/ContextMenu/ContextMenu'
 import { ContextMenuItem, IContextMenuItem } from '../../ui/ContextMenu/ContextMenuItem'
 import { RibbonWrapper } from './RibbonWrapper'
@@ -125,7 +125,7 @@ export const RibbonReelsTypes = ({ entities, project }: { entities: IReelsType[]
         activeItemsIds={activeReelsTypeId && [activeReelsTypeId]}
       >
         {entities?.map(entity => (
-          <EntityCardReelsType
+          <ReelsTypeCard
             key={entity.id}
             entity={entity}
             isSelected={activeReelsTypeId === entity.id}

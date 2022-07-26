@@ -1,0 +1,19 @@
+.container {
+  transition: 150ms;
+  border: solid 1px var(--table-border);
+  border-radius: 4px;
+  background: var(--menubar-submenu-bg1);
+  margin-top: 1px;
+  display: flex;
+  flex-direction: column;
+  opacity: 1;
+  height: auto;
+  transform: scaleY(1) translateY(0);
+  z-index: 1;
+
+  &.hide {
+    opacity: 0;
+    height: 0;
+    transform: scaleY(0.8) translateY(-10px)
+  }
+}

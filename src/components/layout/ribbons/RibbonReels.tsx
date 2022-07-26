@@ -1,19 +1,19 @@
+import { IProject } from 'entities/projects/projects.interfaces'
+import NewReelModal from 'entities/reels/NewReelModal'
+import { ReelCard } from 'entities/reels/ReelCard'
+import { useDeleteReelMutation } from 'entities/reels/reels.api'
+import { IReel } from 'entities/reels/reels.interfaces'
 import { useEffect, useMemo, useState } from 'react'
-import * as CommonIcons from '../../../assets/icons/common-icons'
-import * as ToolbarIcons from '../../../assets/icons/toolbar-icons'
-import { useAppDispatch, useAppSelector } from '../../../hooks/redux'
-import { useOnReelClick } from '../../../hooks/useOnReelClick'
-import { useTranslate } from '../../../hooks/useTranslate'
-import { IProject } from '../../../interfaces/IProject'
-import { IReel } from '../../../interfaces/IReel'
-import { useDeleteReelMutation } from '../../../store/api/reels.api'
-import { setActiveReelsIds } from '../../../store/reducers/entities.reducer'
-import { EntityCardReel } from '../../entity-card/EntityCardReel'
-import { InfoReelBlock } from '../../info-elements/InfoReelBlock'
-import DeleteModal from '../../modal/DeleteModal'
-import NewReelModal from '../../modal/NewReelModal'
-import { ContextMenu } from '../../ui/ContextMenu/ContextMenu'
-import { ContextMenuItem, IContextMenuItem } from '../../ui/ContextMenu/ContextMenuItem'
+import * as CommonIcons from 'assets/icons/common-icons'
+import * as ToolbarIcons from 'assets/icons/toolbar-icons'
+import { setActiveReelsIds } from 'store/reducers/entities.reducer'
+import { useAppDispatch, useAppSelector } from 'hooks/redux'
+import { useOnReelClick } from 'hooks/useOnReelClick'
+import { useTranslate } from 'hooks/useTranslate'
+import { InfoReelBlock } from 'components/info-elements/InfoReelBlock'
+import DeleteModal from 'components/modal/DeleteModal'
+import { ContextMenu } from 'components/ui/ContextMenu/ContextMenu'
+import { ContextMenuItem, IContextMenuItem } from 'components/ui/ContextMenu/ContextMenuItem'
 import { RibbonWrapper } from './RibbonWrapper'
 
 export const RibbonReels = ({ entities, project }: { entities: IReel[]; project: IProject }) => {
@@ -120,7 +120,7 @@ export const RibbonReels = ({ entities, project }: { entities: IReel[]; project:
           ))}
         </ContextMenu>
         {entities?.map(entity => (
-          <EntityCardReel
+          <ReelCard
             key={entity.id}
             reel={entity}
             isSelected={activeReelsIds.includes(entity.id)}

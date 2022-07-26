@@ -1,6 +1,6 @@
 import { FC } from 'react'
 import styled from 'styled-components'
-import { IProject } from '../../../interfaces/IProject'
+import { IProject } from '../../../entities/projects/projects.interfaces'
 import { InfoDeadline, InfoProgress, InfoProjectTitle, InfoStartAt, InfoStatus } from '../../info-elements'
 import { InfoDoneAt } from '../../info-elements/InfoDoneAt'
 

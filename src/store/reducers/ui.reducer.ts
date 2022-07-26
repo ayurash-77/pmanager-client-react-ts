@@ -1,19 +1,7 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit'
-import { IProjectViewFilter } from '../../interfaces/IProjectViewFilter'
-
-interface IFilterbarFilters {
-  grid: IProjectViewFilter
-  list: IProjectViewFilter
-}
-
-export interface IFilterbar {
-  show: boolean
-  filters: IFilterbarFilters
-}
-
-export interface ISidebar {
-  show: boolean
-}
+import { IFilterbar, IFilterbarFilters } from '../../components/layout/filterbar/filterbar.interfaces'
+import { IMenubar, activeMenuType } from '../../components/layout/menubar/menubar.interfaces'
+import { ISidebar } from '../../components/layout/sidebar/sidebar.interfaces'
 
 export interface IReelsBlock {
   expanded: boolean
@@ -25,22 +13,6 @@ export interface IRibbonReelsTypes {
 
 export interface IRibbonReels {
   expanded: boolean
-}
-
-type activeMenuType =
-  | 'projects'
-  | 'overview'
-  | 'reelsTypes'
-  | 'reels'
-  | 'shots'
-  | 'tasks'
-  | 'graph'
-  | 'stuff'
-  | 'team'
-
-export interface IMenubar {
-  expanded: boolean
-  activeMenu: activeMenuType
 }
 
 export type IProjectsViewMode = 'grid' | 'list'

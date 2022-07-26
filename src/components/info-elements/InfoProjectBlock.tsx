@@ -1,5 +1,5 @@
 import { FC } from 'react'
-import { IProject } from '../../interfaces/IProject'
+import { IProject } from '../../entities/projects/projects.interfaces'
 import { InfoAgency } from './InfoAgency'
 import { InfoBrand } from './InfoBrand'
 import { InfoClient } from './InfoClient'

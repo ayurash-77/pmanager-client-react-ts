@@ -1,5 +1,5 @@
 import { skipToken } from '@reduxjs/toolkit/query'
-import { useGetReelsQuery } from '../store/api/reels.api'
+import { useGetReelsQuery } from '../entities/reels/reels.api'
 import { setActiveReelsIds, setActiveReelsTypeId, setActiveShotId } from '../store/reducers/entities.reducer'
 import { useAppDispatch, useAppSelector } from './redux'
 import { useContextMenu } from './useContextMenu'

@@ -2,10 +2,10 @@ import { FC, useState } from 'react'
 import TextareaAutosize from 'react-textarea-autosize'
 import styled from 'styled-components'
 import * as CommonIcons from '../../../assets/icons/common-icons'
+import { useCreatePostMutation } from '../../../entities/posts/posts.api'
+import { IPost } from '../../../entities/posts/posts.interfaces'
+import { useGetShotsQuery } from '../../../entities/shots/shots.api'
 import { useAppSelector } from '../../../hooks/redux'
-import { IPost } from '../../../interfaces/IPost'
-import { useCreatePostMutation } from '../../../store/api/posts.api'
-import { useGetShotsQuery } from '../../../store/api/shots.api'
 import { IconButton } from '../../ui'
 
 const SendbarContainer = styled.div`

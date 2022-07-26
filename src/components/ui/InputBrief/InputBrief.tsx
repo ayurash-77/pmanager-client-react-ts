@@ -1,6 +1,6 @@
 import React, { FC } from 'react'
 import styled from 'styled-components'
-import { IBriefData } from '../../modal/NewBriefModal'
+import { IBriefData } from '../../../entities/briefs/NewBriefModal'
 import { Loader } from '../Loader/Loader'
 
 const BriefPicContainer = styled.div`
@@ -59,7 +59,8 @@ interface IInputBrief {
   briefData?: IBriefData
 }
 
-export const InputBrief: FC<IInputBrief> = ({ uploading, uploaded, briefData, ...props }) => {
+export const InputBrief: FC<IInputBrief> = props => {
+  const { uploading } = props
   /////////////////////////////////////////////////////////////////////////////////////////
 
   /////////////////////////////////////////////////////////////////////////////////////////

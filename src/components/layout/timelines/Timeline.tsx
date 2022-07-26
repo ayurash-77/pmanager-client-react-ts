@@ -1,24 +1,24 @@
 import { skipToken } from '@reduxjs/toolkit/query'
 import cn from 'classnames'
+import { useGetReelQuery, useGetReelsQuery, useUpdateReelMutation } from 'entities/reels/reels.api'
+import { IReel } from 'entities/reels/reels.interfaces'
+import { AddShotToReelModal } from 'entities/shots/AddShotToReelModal'
+import { ShotCard } from 'entities/shots/ShotCard'
 import { Reorder } from 'framer-motion'
 import { FC, ReactNode, useEffect, useMemo, useState } from 'react'
-import * as CommonIcons from '../../../assets/icons/common-icons'
-import * as ToolbarIcons from '../../../assets/icons/toolbar-icons'
-import { useAppDispatch, useAppSelector } from '../../../hooks/redux'
-import { useOnShotClick } from '../../../hooks/useOnShotClick'
-import { IReel } from '../../../interfaces/IReel'
-import { useGetReelQuery, useGetReelsQuery, useUpdateReelMutation } from '../../../store/api/reels.api'
+import * as CommonIcons from 'assets/icons/common-icons'
+import * as ToolbarIcons from 'assets/icons/toolbar-icons'
 import {
   setActiveReelsIds,
   setActiveReelsTypeId,
   setActiveShotId,
   setDragShotId,
-} from '../../../store/reducers/entities.reducer'
-import { EntityCardShot } from '../../entity-card/EntityCardShot'
-import { AddShotToReelModal } from '../../modal/AddShotToReelModal'
-import { IconButton } from '../../ui'
-import { ContextMenu } from '../../ui/ContextMenu/ContextMenu'
-import { ContextMenuItem, IContextMenuItem } from '../../ui/ContextMenu/ContextMenuItem'
+} from 'store/reducers/entities.reducer'
+import { useAppDispatch, useAppSelector } from 'hooks/redux'
+import { useOnShotClick } from 'hooks/useOnShotClick'
+import { IconButton } from 'components/ui'
+import { ContextMenu } from 'components/ui/ContextMenu/ContextMenu'
+import { ContextMenuItem, IContextMenuItem } from 'components/ui/ContextMenu/ContextMenuItem'
 import css from './Timeline.module.scss'
 
 interface ITimelineWrapper {
@@ -168,7 +168,7 @@ export const Timeline: FC<ITimelineWrapper> = ({ reelInit }) => {
                     onClick={e => onShotClickHandler(e, shotId)}
                     onContextMenu={e => onShotClickHandler(e, shotId)}
                   >
-                    <EntityCardShot
+                    <ShotCard
                       entity={reel.shots.find(shot => shot.id === shotId)}
                       isSelected={activeShotId === shotId}
                       draggable={true}

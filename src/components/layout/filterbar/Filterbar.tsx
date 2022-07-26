@@ -2,8 +2,9 @@ import cn from 'classnames'
 import styled from 'styled-components'
 import { useAppDispatch, useAppSelector } from '../../../hooks/redux'
 import { useTranslate } from '../../../hooks/useTranslate'
-import { IFilterbar, setFilterbarFilters } from '../../../store/reducers/ui.reducer'
+import { setFilterbarFilters } from '../../../store/reducers/ui.reducer'
 import { Switcher } from '../../ui'
+import { IFilterbar } from './filterbar.interfaces'
 
 const FilterbarStyled = styled.div`
   transition: margin 200ms;
@@ -17,8 +18,6 @@ const FilterbarStyled = styled.div`
   margin-bottom: 2px;
   height: 40px;
   min-height: 40px;
-  //font-size: var(--fs-1);
-  //overflow: hidden;
   background-color: var(--filterbar-bg);
   box-shadow: 0 1px 8px var(--button-shadow);
   z-index: 2;

@@ -1,7 +1,7 @@
 import { FC } from 'react'
 import statuses from '../../constants/statuses'
+import { IProject } from '../../entities/projects/projects.interfaces'
 import { useTranslate } from '../../hooks/useTranslate'
-import { IProject } from '../../interfaces/IProject'
 import { Progressbar } from '../ui'
 import { InfoLabel } from './InfoLabel'
 

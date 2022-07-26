@@ -1,6 +1,6 @@
 import { CombinedState, combineReducers, configureStore } from '@reduxjs/toolkit'
-import { authApi } from './api/auth.api'
-import { baseApi } from './api/base.api'
+import { authApi } from '../entities/users/auth/auth.api'
+import { baseApi } from './base.api'
 import { entitiesSlice } from './reducers/entities.reducer'
 import { projectsSlice } from './reducers/projects.reducer'
 import { uiSlice } from './reducers/ui.reducer'

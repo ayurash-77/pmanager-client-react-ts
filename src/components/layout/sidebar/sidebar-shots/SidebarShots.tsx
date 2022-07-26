@@ -1,15 +1,15 @@
 import { FC, useState } from 'react'
 import * as CommonIcons from '../../../../assets/icons/common-icons'
+import { IProject } from '../../../../entities/projects/projects.interfaces'
+import NewShotModal from '../../../../entities/shots/NewShotModal'
+import { ShotCard } from '../../../../entities/shots/ShotCard'
+import { IShot } from '../../../../entities/shots/shots.interfaces'
 import { useAppSelector } from '../../../../hooks/redux'
 import { useDeleteShot } from '../../../../hooks/useDeleteShot'
 import { useOnShotClick } from '../../../../hooks/useOnShotClick'
 import { useTranslate } from '../../../../hooks/useTranslate'
-import { IProject } from '../../../../interfaces/IProject'
-import { IShot } from '../../../../interfaces/IShot'
-import { EntityCardShot } from '../../../entity-card/EntityCardShot'
 import { InfoShotBlock } from '../../../info-elements/InfoShotBlock'
 import DeleteModal from '../../../modal/DeleteModal'
-import NewShotModal from '../../../modal/NewShotModal'
 import { IconButton, Loader } from '../../../ui'
 import { SidebarBlockHeader } from '../sidebar-block-header/SidebarBlockHeader'
 import css from './SidebarShots.module.scss'
@@ -31,7 +31,7 @@ export const SidebarShots: FC<IShotsBlock> = props => {
 
   const [isNewShotModalShow, setNewShotModalShow] = useState(false)
 
-  const { activeShotId, activeProjectId } = useAppSelector(state => state.entities)
+  const { activeShotId } = useAppSelector(state => state.entities)
   // const { data: reels } = useGetReelsQuery(activeProjectId ?? skipToken)
 
   const activeShot = shots?.find(shot => shot.id === activeShotId) || null
@@ -83,7 +83,7 @@ export const SidebarShots: FC<IShotsBlock> = props => {
         <div className={css.container}>
           {isLoadingShots && <Loader size={32} />}
           {shots?.map(shot => (
-            <EntityCardShot
+            <ShotCard
               key={shot.id}
               entity={shot}
               isSelected={activeShotId === shot.id}

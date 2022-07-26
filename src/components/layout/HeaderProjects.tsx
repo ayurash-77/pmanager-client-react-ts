@@ -3,10 +3,12 @@ import { DetailedHTMLProps, FC, HTMLAttributes, useState } from 'react'
 import styled from 'styled-components'
 import * as CommonIcons from '../../assets/icons/common-icons'
 import * as ToolbarIcons from '../../assets/icons/toolbar-icons'
+import DeleteProjectModal from '../../entities/projects/DeleteProjectModal'
+import NewProjectModal from '../../entities/projects/NewProjectModal'
+import { useGetProjectQuery, useGetProjectsQuery } from '../../entities/projects/projects.api'
+import { IProject } from '../../entities/projects/projects.interfaces'
 import { useAppDispatch, useAppSelector } from '../../hooks/redux'
 import { useTranslate } from '../../hooks/useTranslate'
-import { IProject } from '../../interfaces/IProject'
-import { useGetProjectQuery, useGetProjectsQuery } from '../../store/api/projects.api'
 import {
   setFilterbarShow,
   setProjectsViewMode,
@@ -15,8 +17,6 @@ import {
   setThemeMode,
 } from '../../store/reducers/ui.reducer'
 import { IQuarterItem } from '../../utils/quarter-filter'
-import DeleteProjectModal from '../features/projects/DeleteProjectModal'
-import NewProjectModal from '../features/projects/NewProjectModal'
 import { FlexRow, IconButton, Input, Loader, ToolButton, ToolButtonGroup } from '../ui'
 
 interface IHeader extends DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLDivElement> {

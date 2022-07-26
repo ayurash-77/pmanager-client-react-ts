@@ -3,10 +3,10 @@ import styled from 'styled-components'
 import * as ToolbarIcons from '../../assets/icons/toolbar-icons'
 import { Clapper } from '../../assets/thumbnails/thumbnails'
 import { apiBaseUrl } from '../../constants/env'
+import { IProject } from '../../entities/projects/projects.interfaces'
+import { useGetUserByIdQuery } from '../../entities/users/users.api'
 import { useAppDispatch, useAppSelector } from '../../hooks/redux'
 import { useTranslate } from '../../hooks/useTranslate'
-import { IProject } from '../../interfaces/IProject'
-import { useGetUserByIdQuery } from '../../store/api/users.api'
 import { setSearchProjectsFilter, setSidebarShow, setThemeMode } from '../../store/reducers/ui.reducer'
 import {
   InfoAgency,

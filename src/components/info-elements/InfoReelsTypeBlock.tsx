@@ -1,6 +1,6 @@
+import { IReelsType } from 'entities/reelsTypes/reelsTypes.interfaces'
 import { FC, Fragment } from 'react'
 import { useTranslate } from '../../hooks/useTranslate'
-import { IReelsType } from '../../interfaces/IReelsType'
 import { InfoLabel } from './InfoLabel'
 import { InfoProgress } from './InfoProgress'
 import { InfoProjectTitleContainer } from './InfoProjectTitle'

@@ -1,6 +1,6 @@
 import { FC } from 'react'
+import { IBrief } from '../../entities/briefs/briefs.interfaces'
 import { useTranslate } from '../../hooks/useTranslate'
-import { IBrief } from '../../interfaces/IBrief'
 import { toDateStr } from '../../utils/date-time-format'
 import { InfoLabel } from './InfoLabel'
 import { InfoProjectTitleContainer } from './InfoProjectTitle'

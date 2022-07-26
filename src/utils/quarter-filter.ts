@@ -1,4 +1,4 @@
-import { IProject } from '../interfaces/IProject'
+import { IProject } from '../entities/projects/projects.interfaces'
 import { toQuarterStr } from './date-time-format'
 
 export interface IQuarterItem {
