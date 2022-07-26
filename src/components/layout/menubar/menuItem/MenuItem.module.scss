@@ -1,12 +1,14 @@
 .container {
-  transition: color 200ms;
+  transition: max-width 250ms;
   height: 32px;
   min-height: 32px;
+  max-width: var(--sidebar-width-min);
   display: flex;
   align-items: center;
   border-radius: 4px;
   padding: 0 6px;
   color: var(--main-fg);
+  overflow: hidden;
 
   &.selected {
     color: var(--menubar-fg-selected);
@@ -26,6 +28,10 @@
   cursor: default;
   user-select: none;
   z-index: 2;
+
+  &.expanded {
+    max-width: var(--sidebar-width-max);
+  }
 }
 
 .icon {
@@ -34,28 +40,30 @@
 }
 
 .text {
-  transition: opacity 250ms, margin-left 250ms;
+  transition: opacity 200ms;
   font-weight: 500;
-  margin-left: 0;
-  position: absolute;
-  left: 42px;
-  opacity: 0;
+  white-space: nowrap;
+  width: auto;
+  margin-left: 6px;
+  opacity: 1;
   z-index: 0;
 
-  &.expanded {
-    margin-left: 6px;
-    opacity: 1;
+  &.hide {
+    margin-left: 0;
+    width: 0;
+    opacity: 0;
   }
 }
 
 .count {
-  transition: opacity 250ms;
   font-weight: 500;
   margin-left: auto;
-  opacity: 0;
-  width: 0;
-  &.expanded {
-    width: auto;
-    opacity: 1;
+  width: auto;
+  opacity: 1;
+
+  &.hide {
+    margin-left: 0;
+    width: 0;
+    opacity: 0;
   }
 }

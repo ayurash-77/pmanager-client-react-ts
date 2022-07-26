@@ -1,6 +1,6 @@
 import cn from 'classnames'
 import { AnimatePresence, motion } from 'framer-motion'
-import { FC, ReactNode } from 'react'
+import { FC, PropsWithChildren } from 'react'
 import { IEntityType } from 'components/ui/ui.types'
 import * as CommonIcons from '../../../assets/icons/common-icons'
 import { FlexRow, IconButton } from '../../ui'
@@ -12,10 +12,9 @@ interface ICollapse {
   setExpanded?: (e) => void
   variant?: IEntityType
   headerIcons?: JSX.Element
-  children?: ReactNode
 }
 
-export const Collapse: FC<ICollapse> = props => {
+export const Collapse: FC<PropsWithChildren<ICollapse>> = props => {
   const { children, title, expanded, setExpanded, headerIcons, variant = 'shot' } = props
 
   return (

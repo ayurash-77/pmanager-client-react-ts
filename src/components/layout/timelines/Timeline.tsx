@@ -1,11 +1,10 @@
 import { skipToken } from '@reduxjs/toolkit/query'
 import cn from 'classnames'
 import { useGetReelQuery, useGetReelsQuery, useUpdateReelMutation } from 'entities/reels/reels.api'
-import { IReel } from 'entities/reels/reels.interfaces'
 import { AddShotToReelModal } from 'entities/shots/AddShotToReelModal'
 import { ShotCard } from 'entities/shots/ShotCard'
 import { Reorder } from 'framer-motion'
-import { FC, ReactNode, useEffect, useMemo, useState } from 'react'
+import { FC, useEffect, useMemo, useState } from 'react'
 import * as CommonIcons from 'assets/icons/common-icons'
 import * as ToolbarIcons from 'assets/icons/toolbar-icons'
 import {
@@ -20,16 +19,12 @@ import { IconButton } from 'components/ui'
 import { ContextMenu } from 'components/ui/ContextMenu/ContextMenu'
 import { ContextMenuItem, IContextMenuItem } from 'components/ui/ContextMenu/ContextMenuItem'
 import css from './Timeline.module.scss'
-
-interface ITimelineWrapper {
-  reelInit: IReel
-  children?: ReactNode
-}
+import { ITimeline } from './timeline.interfaces'
 
 // Timeline
 ////////////////////////////////////////////////////////////////////////////////////////////
 
-export const Timeline: FC<ITimelineWrapper> = ({ reelInit }) => {
+export const Timeline: FC<ITimeline> = ({ reelInit }) => {
   const dispatch = useAppDispatch()
 
   const { activeReelsIds, activeShotId, activeProjectId } = useAppSelector(state => state.entities)

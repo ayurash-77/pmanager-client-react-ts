@@ -8,8 +8,8 @@ export const MenuItem: FC<IMenuItem> = props => {
   return (
     <div className={cn(css.container, isSelected && css.selected, menubarExpanded && css.expanded)} {...rest}>
       <div className={css.icon}>{icon}</div>
-      <div className={cn(css.text, menubarExpanded && css.expanded)}>{name}</div>
-      <div className={cn(css.count, menubarExpanded && css.expanded)}>{count}</div>
+      <div className={cn(css.text, !menubarExpanded && css.hide)}>{name}</div>
+      <div className={cn(css.count, !menubarExpanded && css.hide)}>{count}</div>
     </div>
   )
 }

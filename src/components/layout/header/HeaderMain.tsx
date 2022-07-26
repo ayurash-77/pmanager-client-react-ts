@@ -1,49 +1,26 @@
 import { skipToken } from '@reduxjs/toolkit/query'
-import { DetailedHTMLProps, FC, HTMLAttributes, useState } from 'react'
-import styled from 'styled-components'
-import * as CommonIcons from '../../assets/icons/common-icons'
-import * as ToolbarIcons from '../../assets/icons/toolbar-icons'
-import DeleteProjectModal from '../../entities/projects/DeleteProjectModal'
-import NewProjectModal from '../../entities/projects/NewProjectModal'
-import { useGetProjectQuery, useGetProjectsQuery } from '../../entities/projects/projects.api'
-import { IProject } from '../../entities/projects/projects.interfaces'
-import { useAppDispatch, useAppSelector } from '../../hooks/redux'
-import { useTranslate } from '../../hooks/useTranslate'
+import { FC, useState } from 'react'
+import * as CommonIcons from '../../../assets/icons/common-icons'
+import * as ToolbarIcons from '../../../assets/icons/toolbar-icons'
+import DeleteProjectModal from '../../../entities/projects/DeleteProjectModal'
+import NewProjectModal from '../../../entities/projects/NewProjectModal'
+import { useGetProjectQuery, useGetProjectsQuery } from '../../../entities/projects/projects.api'
+import { useAppDispatch, useAppSelector } from '../../../hooks/redux'
+import { useTranslate } from '../../../hooks/useTranslate'
 import {
   setFilterbarShow,
   setProjectsViewMode,
   setSearchProjectsFilter,
   setSidebarShow,
   setThemeMode,
-} from '../../store/reducers/ui.reducer'
-import { IQuarterItem } from '../../utils/quarter-filter'
-import { FlexRow, IconButton, Input, Loader, ToolButton, ToolButtonGroup } from '../ui'
+} from '../../../store/reducers/ui.reducer'
+import { IQuarterItem } from '../../../utils/quarter-filter'
+import { FlexRow, IconButton, Input, Loader, ToolButton, ToolButtonGroup } from '../../ui'
+import css from './HeaderMain.module.scss'
 
-interface IHeader extends DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLDivElement> {
-  activeProject?: IProject
-}
+// HeaderMain
 
-const Container = styled.div`
-  padding: 8px 10px;
-  z-index: 3;
-  box-shadow: 0 0 4px var(--button-shadow);
-
-  width: 100%;
-  display: flex;
-  justify-content: space-between;
-  background-color: var(--header-bg);
-`
-const TitleContainer = styled.div`
-  font-size: var(--font-size-normal);
-  text-transform: capitalize;
-  white-space: nowrap;
-  font-weight: 500;
-  display: flex;
-  align-items: center;
-  text-wrap: none;
-`
-
-export const HeaderProjects: FC<IHeader> = () => {
+export const HeaderMain: FC = () => {
   const { darkMode } = useAppSelector(state => state.ui.theme)
   const { show: sidebarShow } = useAppSelector(state => state.ui.sidebar)
 
@@ -83,14 +60,14 @@ export const HeaderProjects: FC<IHeader> = () => {
   }
 
   return (
-    <Container>
+    <div className={css.container}>
       <NewProjectModal isOpen={isNewProjectModalShow} closeAction={() => setNewProjectModalShow(false)} />
       <DeleteProjectModal
         isOpen={isDeleteProjectModalShow}
         closeAction={() => setDeleteProjectModalShow(false)}
         project={activeProject}
       />
-      <TitleContainer>
+      <div className={css.title}>
         {text.project.projects}: {isLoadingProjects ? <Loader size={16} /> : projectsCount}
         <IconButton icon={<CommonIcons.Plus />} ml={10} mr={5} onClick={newProjectModalShowHandler} />
         {canDeleteProject && (
@@ -102,7 +79,7 @@ export const HeaderProjects: FC<IHeader> = () => {
             onClick={activeProjectId ? deleteProjectHandler : null}
           />
         )}
-      </TitleContainer>
+      </div>
 
       <FlexRow align={'right'}>
         <Input
@@ -160,6 +137,6 @@ export const HeaderProjects: FC<IHeader> = () => {
           />
         </ToolButtonGroup>
       </FlexRow>
-    </Container>
+    </div>
   )
 }

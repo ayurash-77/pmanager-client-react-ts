@@ -1,6 +1,12 @@
-import styled from 'styled-components'
-
-export const MainbarContainer = styled.div`
+.body {
+  display: flex;
+  flex-direction: column;
+  padding: 10px;
+  gap: 10px;
+  height: 100%;
+  overflow: auto;
+}
+.mainbar {
   display: flex;
   flex-direction: column;
   width: 100%;
@@ -11,11 +17,10 @@ export const MainbarContainer = styled.div`
     &:after {
       content: '';
       background: var(--post-message-bg);
-
       display: flex;
       height: 1px;
     }
     box-shadow: 0 1px 5px var(--contextMenu-shadow);
     z-index: 1;
   }
-`
+}

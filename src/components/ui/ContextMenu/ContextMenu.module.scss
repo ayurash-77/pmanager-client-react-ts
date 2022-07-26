@@ -14,10 +14,10 @@
   user-select: none;
   z-index: 10;
 
-  &.hide { opacity: 0; z-index: 0; transition: 300ms, z-index 600ms; }
+  &.hide { opacity: 0; z-index: -1; transition: 300ms, z-index 600ms;  }
 }
 
-.itemContainer { margin: 2px }
+.itemContainer { margin: 2px; }
 
 .item {
   display: flex;
@@ -31,6 +31,7 @@
 
   &.accent { color: var(--accent-fg); }
 
+
   .icon {
     transition: color 250ms;
     width: 12px;
@@ -43,8 +44,8 @@
     &.reelsType { color: var(--ribbon-reelsType-fg); }
     &.reel { color: var(--ribbon-reel-fg); }
     &.shot { color: var(--ribbon-shot-fg); }
-
     &.accent { color: var(--accent); }
+    &.disabled { color: var(--text-mid); background: transparent; opacity: 0.6 }
   }
 
   .title {
@@ -63,7 +64,9 @@
     font-size: var(--fs-small2);
     font-weight: 500;
     &.accent { color: var(--accent); }
+    &.disabled { color: var(--text-mid); background: transparent; opacity: 0.3; }
   }
+
 
 }
 
@@ -71,11 +74,28 @@
   &.itemContainer .item {
     color: var(--text-high2);
     background: var(--contextMenu-item-hover);
+    &.disabled {
+      color: var(--accent);
+      background: transparent;
+      opacity: 0.6 }
 
     &.accent,
-    &.accent .title,
-    &.accent .shortcut,
-    &.accent .icon { color: var(--white-90); background: var(--accent); opacity: 1 }
-
+    &.accent .icon {
+      color: var(--white-90);
+      background: var(--accent);
+      opacity: 1;
+      &.disabled { color: var(--text-mid); background: transparent; opacity: 0.6; }
+    }
+    &.accent .shortcut {
+      opacity: 1;
+      &.disabled { color: var(--text-mid); background: transparent; opacity: 0.3; }
+    }
   }
 }
+
+.disabled  { color: var(--text-mid); background: transparent; opacity: 0.6; }
+
+
+
+
+

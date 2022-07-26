@@ -16,3 +16,11 @@ export interface IPost {
   team?: IUser[]
   tags?: ITag[]
 }
+
+export interface IPostData extends Partial<IPost> {
+  projectId: number
+  reelId?: number
+  reelsIds?: number[]
+  shotId?: number
+  shotsIds?: number[]
+}

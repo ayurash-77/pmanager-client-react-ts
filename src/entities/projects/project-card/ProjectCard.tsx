@@ -32,30 +32,24 @@ export const ProjectCard: FC<IProjectCard> = props => {
   const viewFilter: IProjectViewFilter = filterBar.filters[projectsViewMode]
 
   return (
-    <div {...rest}>
-      <div className={cn(css.container, isSelected && css.selected)}>
-        <div className={cn(css.imageContainer, isSelected && css.selected)}>
-          <Image src={imageSrc} alt={project.title} fallback={<Clapper />} />
-        </div>
-        <InfoProgress progress={project.progress} status={project.status} height={3} withValue={false} />
+    <div className={cn(css.container, isSelected && css.selected)} {...rest}>
+      <div className={cn(css.imageContainer, isSelected && css.selected)}>
+        <Image src={imageSrc} alt={project.title} fallback={<Clapper />} />
+      </div>
+      <InfoProgress progress={project.progress} status={project.status} height={3} withValue={false} />
 
-        <div className={cn(css.infoContainer, isSelected && css.selected)}>
-          <InfoProjectTitle
-            title={project.title}
-            highPriority={project.highPriority}
-            status={project.status}
-          />
+      <div className={cn(css.infoContainer, isSelected && css.selected)}>
+        <InfoProjectTitle title={project.title} highPriority={project.highPriority} status={project.status} />
 
-          <div className={'grid grid-cols-2'}>
-            {viewFilter.brand && <InfoBrand brand={project.brand} />}
-            {viewFilter.client && <InfoClient client={project.client} />}
-            {viewFilter.agency && <InfoAgency agency={project.agency} />}
-            {viewFilter.createdAt && <InfoCreatedAt createdAt={project.createdAt} />}
-            {viewFilter.startAt && <InfoStartAt startAt={project.startAt} />}
-            {viewFilter.deadline && <InfoDeadline deadline={project.deadline} />}
-            {viewFilter.status && <InfoStatus status={project.status} />}
-            {viewFilter.owner && <InfoOwner owner={project.owner} />}
-          </div>
+        <div className={'grid grid-cols-2'}>
+          {viewFilter.brand && <InfoBrand brand={project.brand} />}
+          {viewFilter.client && <InfoClient client={project.client} />}
+          {viewFilter.agency && <InfoAgency agency={project.agency} />}
+          {viewFilter.createdAt && <InfoCreatedAt createdAt={project.createdAt} />}
+          {viewFilter.startAt && <InfoStartAt startAt={project.startAt} />}
+          {viewFilter.deadline && <InfoDeadline deadline={project.deadline} />}
+          {viewFilter.status && <InfoStatus status={project.status} />}
+          {viewFilter.owner && <InfoOwner owner={project.owner} />}
         </div>
       </div>
     </div>

@@ -1,0 +1,24 @@
+.container {
+  padding: 0 6px;
+  min-height: 30px;
+  display: flex;
+  align-items: center;
+  background-color: var(--header-bg);
+  box-shadow: 0 0 3px var(--button-shadow);
+}
+
+.main {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: var(--header-bg);
+  gap: 20px;
+}
+
+.item {
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: center;
+  color: var(--text-low);
+  width: 100%;
+}

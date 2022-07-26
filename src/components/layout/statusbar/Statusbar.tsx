@@ -1,32 +1,8 @@
 import { FC } from 'react'
-import styled from 'styled-components'
 import { IProject } from '../../../entities/projects/projects.interfaces'
 import { InfoDeadline, InfoProgress, InfoProjectTitle, InfoStartAt, InfoStatus } from '../../info-elements'
 import { InfoDoneAt } from '../../info-elements/InfoDoneAt'
-
-const Container = styled.div`
-  padding: 0 6px;
-  min-height: 30px;
-  display: flex;
-  align-items: center;
-  background-color: var(--header-bg);
-  box-shadow: 0 0 3px var(--button-shadow);
-`
-const InfoContainer = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  background-color: var(--header-bg);
-  gap: 20px;
-`
-
-const InfoElement = styled.div`
-  display: flex;
-  flex-wrap: nowrap;
-  align-items: center;
-  color: var(--text-low);
-  width: 100%;
-`
+import css from './Statusbar.module.scss'
 
 interface IStatusbar {
   project: IProject
@@ -34,31 +10,31 @@ interface IStatusbar {
 
 export const Statusbar: FC<IStatusbar> = ({ project }) => {
   const projectInfo = project && (
-    <InfoContainer>
-      <InfoElement>
+    <div className={css.main}>
+      <div className={css.item}>
         <InfoProjectTitle title={project.title} highPriority={project.highPriority} status={project.status} />
-      </InfoElement>
-      <InfoElement>
+      </div>
+      <div className={css.item}>
         <InfoStartAt startAt={project.startAt} />
-      </InfoElement>
-      <InfoElement>
+      </div>
+      <div className={css.item}>
         <InfoDeadline deadline={project.deadline} />
-      </InfoElement>
-      <InfoElement>
+      </div>
+      <div className={css.item}>
         <InfoStatus status={project.status} />
-      </InfoElement>
+      </div>
       {project.status?.code === 5 && (
-        <InfoElement>
+        <div className={css.item}>
           <InfoDoneAt doneAt={project.doneAt} />
-        </InfoElement>
+        </div>
       )}
-      <InfoElement>
+      <div className={css.item}>
         <InfoProgress progress={project.progress} status={project.status} width={80} withValue />
-      </InfoElement>
-    </InfoContainer>
+      </div>
+    </div>
   )
 
-  return <Container>{projectInfo}</Container>
+  return <div className={css.container}>{projectInfo}</div>
 }
 
 export default Statusbar

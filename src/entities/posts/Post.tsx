@@ -1,35 +1,34 @@
 import cn from 'classnames'
-import { FC, useState } from 'react'
+import { FC } from 'react'
+import * as CommonIcons from '../../assets/icons/common-icons'
+import * as ToolbarIcons from '../../assets/icons/toolbar-icons'
 import { InfoDateTime } from '../../components/info-elements'
-import { FlexRow } from '../../components/ui'
+import { ContextMenu } from '../../components/ui/ContextMenu/ContextMenu'
+import { ContextMenuItem, IContextMenuItem } from '../../components/ui/ContextMenu/ContextMenuItem'
 import { useAppDispatch, useAppSelector } from '../../hooks/redux'
+import { useContextMenu } from '../../hooks/useContextMenu'
 import { setActiveReelsIds, setActiveShotId } from '../../store/reducers/entities.reducer'
 import { setActiveMenu } from '../../store/reducers/ui.reducer'
 import { UserPic } from '../users/user-pic/UserPic'
-import { Container, PostBlock, PostHeader, PostMenu, PostMessage, Tags, Username } from './Post.styles'
+import css from './Post.module.scss'
 import { useDeletePostMutation } from './posts.api'
 import { IPost } from './posts.interfaces'
 
 export const Post: FC<IPost> = props => {
   const { id, createdBy, createdAt, reels = [], shots = [], message } = props
-  // const { activeProjectId } = useAppSelector(state => state.entities)
 
   const [deletePost] = useDeletePostMutation()
   const { authUser } = useAppSelector(state => state.auth)
-  // const { data: user } = useGetUserByIdQuery(createdBy.id)
-  // const [fullName, setFullName] = useState(`${createdBy.name} ${createdBy.surname}`)
 
   const currentUser = authUser.id === createdBy?.id ? authUser : createdBy
 
   const fullName = `${currentUser?.name} ${currentUser?.surname}`
   const printName = fullName.trim().length > 0 ? fullName : currentUser?.username
   const dispatch = useAppDispatch()
-  // const navigate = useNavigate()
 
   const onReelClickHandler = reelId => {
     dispatch(setActiveMenu('reels'))
     dispatch(setActiveReelsIds([reelId]))
-    // navigate(`/project/${activeProjectId}/reels/${reelId}`)
   }
 
   const onShotClickHandler = shotId => {
@@ -40,58 +39,78 @@ export const Post: FC<IPost> = props => {
 
   const userCanEdit = authUser.isAdmin || authUser.id === createdBy?.id
 
-  const onClickPlus = () => {
-    //
-  }
   const deletePostHandler = () => {
-    if (menuVisible && userCanEdit) deletePost(id)
-  }
-  const editPostHandler = () => {
-    if (menuVisible && userCanEdit) console.log('editPostHandler clicked')
+    return userCanEdit && deletePost(id)
   }
 
-  const [menuVisible, setMenuVisible] = useState(false)
+  const editPostHandler = () => {
+    userCanEdit && console.log('Edit Post clicked')
+  }
+
+  const { showContextMenu, position, isMenuShow } = useContextMenu()
+
+  const postContextMenuData: IContextMenuItem[] = [
+    {
+      title: 'Edit Post',
+      icon: <ToolbarIcons.Gear />,
+      shortcut: 'Ctrl+E',
+      action: editPostHandler,
+      disabled: !userCanEdit,
+    },
+    {
+      title: 'Delete Post',
+      icon: <CommonIcons.Trash />,
+      variant: 'accent',
+      shortcut: 'Ctrl+Del',
+      action: deletePostHandler,
+      disabled: !userCanEdit,
+    },
+  ]
 
   return (
-    <Container>
+    <div className={'flex gap-2'}>
       <UserPic user={currentUser} />
-      <PostBlock>
-        <PostHeader>
-          <Username>{printName}</Username>
+      <div className={'flex flex-col w-full'} onClick={showContextMenu} onContextMenu={showContextMenu}>
+        <div className={css.header}>
+          <div className={css.username}>{printName}</div>
           <InfoDateTime dateTime={createdAt} />
 
-          <PostMenu>
-            {userCanEdit && <div className={'menuOpen'} onClick={() => setMenuVisible(!menuVisible)} />}
+          <ContextMenu show={isMenuShow} position={position}>
+            {postContextMenuData.map(item => (
+              <ContextMenuItem
+                key={item.title}
+                title={item.title}
+                icon={item.icon}
+                entityType={item.entityType}
+                variant={item.variant}
+                disabled={item.disabled}
+                shortcut={item.shortcut}
+                action={item.action}
+              />
+            ))}
+          </ContextMenu>
+        </div>
+        <div className={css.messageContainer}>
+          <div className={'whitespace-pre-wrap'}>{message}</div>
 
-            <div className={cn('menu', { hide: !menuVisible })}>
-              <div className={'item'} onClick={editPostHandler}>
-                Edit post
+          <div className={css.tags}>
+            {reels?.map(reel => (
+              <div key={reel.id} className={css.tag} onClick={() => onReelClickHandler(reel.id)}>
+                {reel.code}
               </div>
-              <div className={'item accent'} onClick={deletePostHandler}>
-                Delete post
+            ))}
+            {shots?.map(shot => (
+              <div
+                key={shot.id}
+                className={cn(css.tag, css.shot)}
+                onClick={() => onReelClickHandler(shot.id)}
+              >
+                {shot.code}
               </div>
-              {/* <div className={'item'}>Еще что то</div> */}
-            </div>
-          </PostMenu>
-        </PostHeader>
-        <PostMessage>
-          <div className={'message'}>{message}</div>
-          <FlexRow align={'space-between'}>
-            <Tags>
-              {reels?.map(reel => (
-                <div key={reel.id} className={'tag'} onClick={() => onReelClickHandler(reel.id)}>
-                  {reel.code}
-                </div>
-              ))}
-              {shots?.map(shot => (
-                <div key={shot.id} className={cn('tag', 'shot')} onClick={() => onReelClickHandler(shot.id)}>
-                  {shot.code}
-                </div>
-              ))}
-            </Tags>
-          </FlexRow>
-        </PostMessage>
-      </PostBlock>
-    </Container>
+            ))}
+          </div>
+        </div>
+      </div>
+    </div>
   )
 }

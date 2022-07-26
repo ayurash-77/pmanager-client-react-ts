@@ -1,10 +1,9 @@
 import { skipToken } from '@reduxjs/toolkit/query'
 import { useEffect, useRef } from 'react'
 import { useParams } from 'react-router'
-import { BodyContainer } from '../../components/layout/BodyContainer'
-import { HeaderProject } from '../../components/layout/HeaderProject'
-import { MainbarContainer } from '../../components/layout/MainbarContainer'
+import css from 'components/layout/Layout.module.scss'
 import { Collapse } from '../../components/layout/collapse/Collapse'
+import { HeaderProject } from '../../components/layout/header/HeaderProject'
 import { RibbonReels } from '../../components/layout/ribbons/RibbonReels'
 import { RibbonReelsTypes } from '../../components/layout/ribbons/RibbonReelsTypes'
 import { Sendbar } from '../../components/layout/sendbar/Sendbar'
@@ -56,8 +55,8 @@ export const ReelsPage = () => {
 
   return (
     <>
-      <MainbarContainer>
-        <HeaderProject project={project} />
+      <div className={css.mainbar}>
+        <HeaderProject />
 
         <div className={'collapses'}>
           <RibbonReelsTypes entities={reelsTypes} project={project} />
@@ -71,15 +70,15 @@ export const ReelsPage = () => {
             {project && reels?.map(reel => <Timeline key={reel.id} reelInit={reel} />)}
           </Collapse>
         </div>
-        <BodyContainer>
+        <div className={css.body}>
           {postsByShot?.map(post => (
             <Post key={post.id} {...post} />
           ))}
           <div ref={bottomDivRef} />
-        </BodyContainer>
+        </div>
 
         <Sendbar projectId={projectId} />
-      </MainbarContainer>
+      </div>
       <Sidebar project={project} isLoadingProject={isLoadingProject} />
     </>
   )

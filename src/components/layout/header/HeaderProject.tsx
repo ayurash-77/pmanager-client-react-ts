@@ -1,13 +1,13 @@
-import { DetailedHTMLProps, FC, HTMLAttributes } from 'react'
-import styled from 'styled-components'
-import * as ToolbarIcons from '../../assets/icons/toolbar-icons'
-import { Clapper } from '../../assets/thumbnails/thumbnails'
-import { apiBaseUrl } from '../../constants/env'
-import { IProject } from '../../entities/projects/projects.interfaces'
-import { useGetUserByIdQuery } from '../../entities/users/users.api'
-import { useAppDispatch, useAppSelector } from '../../hooks/redux'
-import { useTranslate } from '../../hooks/useTranslate'
-import { setSearchProjectsFilter, setSidebarShow, setThemeMode } from '../../store/reducers/ui.reducer'
+import { skipToken } from '@reduxjs/toolkit/query'
+import { FC } from 'react'
+import * as ToolbarIcons from '../../../assets/icons/toolbar-icons'
+import { Clapper } from '../../../assets/thumbnails/thumbnails'
+import { apiBaseUrl } from '../../../constants/env'
+import { useGetProjectQuery } from '../../../entities/projects/projects.api'
+import { useGetUserByIdQuery } from '../../../entities/users/users.api'
+import { useAppDispatch, useAppSelector } from '../../../hooks/redux'
+import { useTranslate } from '../../../hooks/useTranslate'
+import { setSearchProjectsFilter, setSidebarShow, setThemeMode } from '../../../store/reducers/ui.reducer'
 import {
   InfoAgency,
   InfoBrand,
@@ -18,72 +18,13 @@ import {
   InfoProjectTitle,
   InfoStartAt,
   InfoStatus,
-} from '../info-elements'
-import { FlexRow, Grid, Image, Loader, ToolButton, ToolButtonGroup } from '../ui'
+} from '../../info-elements'
+import { FlexRow, Grid, Image, Loader, ToolButton, ToolButtonGroup } from '../../ui'
+import css from './HeaderProject.module.scss'
 
-interface IHeaderProject extends DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLDivElement> {
-  project: IProject
-}
-
-const Container = styled.div`
-  padding: 8px 10px;
-  z-index: 3;
-  box-shadow: 0 0 4px var(--button-shadow);
-
-  width: 100%;
-  display: flex;
-  background-color: var(--header-bg);
-
-  .imageContainer {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 160px;
-    min-width: 160px;
-    height: 100px;
-    border-radius: 4px;
-    color: var(--pc-dummy-fg);
-    background: var(--pc-dummy-bg);
-    box-shadow: 0 1px 3px #00000040;
-    overflow: hidden;
-  }
-
-  .content {
-    margin-left: 10px;
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-  }
-
-  .topRow {
-    display: grid;
-    grid-template-columns: auto max-content;
-    justify-content: space-between;
-  }
-
-  .bottomRow {
-    display: flex;
-    align-items: flex-end;
-    width: 100%;
-    height: 100%;
-  }
-
-  .titleContainer {
-    font-size: var(--fs-big1);
-    text-transform: capitalize;
-    text-overflow: ellipsis;
-    //white-space: nowrap;
-    overflow: hidden;
-
-    font-weight: 500;
-    display: flex;
-    justify-content: flex-start;
-
-    text-wrap: none;
-  }
-`
-
-export const HeaderProject: FC<IHeaderProject> = ({ project }) => {
+export const HeaderProject: FC = () => {
+  const { activeProjectId } = useAppSelector(state => state.entities)
+  const { data: project } = useGetProjectQuery(activeProjectId ?? skipToken)
   const { darkMode } = useAppSelector(state => state.ui.theme)
   const { show: sidebarShow } = useAppSelector(state => state.ui.sidebar)
   const { language, setLanguage } = useTranslate()
@@ -99,8 +40,8 @@ export const HeaderProject: FC<IHeaderProject> = ({ project }) => {
   const imageSrc = `${apiBaseUrl}/root/${project?.homeDir}/.pmdata/projectThumbnail.jpg`
 
   return (
-    <Container>
-      <div className={'imageContainer'}>
+    <div className={css.container}>
+      <div className={css.imageContainer}>
         {project ? (
           <Image src={imageSrc} alt={project?.title} fallback={<Clapper />} width={240} />
         ) : (
@@ -108,9 +49,9 @@ export const HeaderProject: FC<IHeaderProject> = ({ project }) => {
         )}
       </div>
 
-      <div className={'content'}>
-        <div className={'topRow'}>
-          <div className={'titleContainer'}>
+      <div className={css.content}>
+        <div className={css.topRow}>
+          <div className={css.titleContainer}>
             <InfoProjectTitle
               title={project?.title}
               highPriority={project?.highPriority}
@@ -158,7 +99,7 @@ export const HeaderProject: FC<IHeaderProject> = ({ project }) => {
             </ToolButtonGroup>
           </FlexRow>
         </div>
-        <div className={'bottomRow'}>
+        <div className={css.bottomRow}>
           <Grid cols={'auto 1fr'} width={'100%'} align={'left'}>
             <div className={'grid grid-cols-2'}>
               <InfoBrand brand={project?.brand} />
@@ -175,6 +116,6 @@ export const HeaderProject: FC<IHeaderProject> = ({ project }) => {
           </Grid>
         </div>
       </div>
-    </Container>
+    </div>
   )
 }

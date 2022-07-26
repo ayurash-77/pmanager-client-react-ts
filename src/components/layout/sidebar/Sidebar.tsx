@@ -2,7 +2,6 @@ import cn from 'classnames'
 import { FC, useState } from 'react'
 import * as ToolbarIcons from '../../../assets/icons/toolbar-icons'
 import { useGetBriefsQuery } from '../../../entities/briefs/briefs.api'
-import { IProject } from '../../../entities/projects/projects.interfaces'
 import { useGetShotsQuery } from '../../../entities/shots/shots.api'
 import { useAppSelector } from '../../../hooks/redux'
 import { InfoProjectTitle } from '../../info-elements'
@@ -11,11 +10,7 @@ import css from './Sidebar.module.scss'
 import SidebarBriefs from './sidebar-briefs/SidebarBriefs'
 import SidebarInfo from './sidebar-info/SidebarInfo'
 import { SidebarShots } from './sidebar-shots/SidebarShots'
-
-interface ISidebar {
-  project: IProject
-  isLoadingProject?: boolean
-}
+import { ISidebar } from './sidebar.interfaces'
 
 ////////////////////////////////////////////////////////////////////////
 // Sidebar

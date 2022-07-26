@@ -6,19 +6,13 @@ import { ShotCard } from 'entities/shots/ShotCard'
 import { useGetShotsQuery } from 'entities/shots/shots.api'
 import { IShot } from 'entities/shots/shots.interfaces'
 import { useParams } from 'react-router'
-import styled from 'styled-components'
 import { setActiveShotId, setDragShotId, setDropReelId } from 'store/reducers/entities.reducer'
 import { useAppDispatch, useAppSelector } from 'hooks/redux'
-import { BodyContainer } from 'components/layout/BodyContainer'
-import { HeaderProject } from 'components/layout/HeaderProject'
-import { MainbarContainer } from 'components/layout/MainbarContainer'
+import css from 'components/layout/Layout.module.scss'
+import { HeaderProject } from 'components/layout/header/HeaderProject'
 import { Sidebar } from 'components/layout/sidebar/Sidebar'
 import { SidebarShots } from 'components/layout/sidebar/sidebar-shots/SidebarShots'
 import { Timeline } from 'components/layout/timelines/Timeline'
-
-export const DraggableItem = styled.div`
-  cursor: grab;
-`
 
 ////////////////////////////////////////////////////////////////////////
 // GraphPage
@@ -49,10 +43,10 @@ export const GraphPage = () => {
 
   return (
     <>
-      <MainbarContainer>
-        <HeaderProject project={project} />
+      <div className={css.mainbar}>
+        <HeaderProject />
 
-        <BodyContainer>
+        <div className={css.body}>
           {reels?.map(reel => (
             <div key={reel.id}>
               <Timeline reelInit={reel}>
@@ -75,8 +69,8 @@ export const GraphPage = () => {
           <div>
             <SidebarShots shots={shots} project={project} />
           </div>
-        </BodyContainer>
-      </MainbarContainer>
+        </div>
+      </div>
       <Sidebar project={project} isLoadingProject={isLoadingProject} />
     </>
   )

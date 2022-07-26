@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 
 export const useContextMenu = () => {
   const [position, setPosition] = useState([0, 0])
@@ -9,9 +9,9 @@ export const useContextMenu = () => {
     setMenuShow(true)
   }
 
-  const hideContextMenu = useCallback(() => {
+  const hideContextMenu = () => {
     setMenuShow(false)
-  }, [])
+  }
 
   useEffect(() => {
     document.addEventListener('keydown', e => e.key === 'Escape' && setMenuShow(false))

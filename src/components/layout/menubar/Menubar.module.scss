@@ -1,6 +1,7 @@
 .container {
   transition: 250ms;
   width: var(--sidebar-width-min);
+  //max-width: var(--sidebar-width-min);
   min-width: var(--sidebar-width-min);
   padding: 10px;
   display: grid;
@@ -12,6 +13,7 @@
 
   &.expanded {
     width: var(--sidebar-width-max);
+    //max-width: var(--sidebar-width-max);
     min-width: var(--sidebar-width-max);
   }
 }
@@ -47,6 +49,7 @@
     cursor: pointer;
     opacity: 0.5;
   }
+
   &.expanded {
     &:after { width: 70px; }
   }

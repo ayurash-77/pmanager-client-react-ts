@@ -3,7 +3,7 @@ import NewReelModal from 'entities/reels/NewReelModal'
 import { ReelCard } from 'entities/reels/ReelCard'
 import { useDeleteReelMutation } from 'entities/reels/reels.api'
 import { IReel } from 'entities/reels/reels.interfaces'
-import { useEffect, useMemo, useState } from 'react'
+import { useEffect, useState } from 'react'
 import * as CommonIcons from 'assets/icons/common-icons'
 import * as ToolbarIcons from 'assets/icons/toolbar-icons'
 import { setActiveReelsIds } from 'store/reducers/entities.reducer'
@@ -32,38 +32,34 @@ export const RibbonReels = ({ entities, project }: { entities: IReel[]; project:
   const detailsJsx = activeReel && <InfoReelBlock {...activeReel} />
 
   const { onReelClickHandler, position, isMenuShow } = useOnReelClick()
-
-  const reelContextMenuData: IContextMenuItem[] = useMemo(
-    () => [
-      {
-        title: 'New Reels',
-        icon: <CommonIcons.Plus />,
-        entityType: 'reel',
-        shortcut: 'Ctrl+N',
-        action: () => setNewReelModalShow(true),
-      },
-      {
-        title: 'Add existing Shot',
-        icon: <CommonIcons.Plus />,
-        shortcut: 'Ctrl+Alt+S',
-        action: () => alert('Add existing Shot'),
-      },
-      {
-        title: 'Edit Reel',
-        icon: <ToolbarIcons.Gear />,
-        shortcut: 'Ctrl+E',
-        action: () => alert('Edit Reel'),
-      },
-      {
-        title: 'Delete Reel',
-        icon: <CommonIcons.Trash />,
-        variant: 'accent',
-        shortcut: 'Ctrl+Del',
-        action: () => setDeleteModalShow(true),
-      },
-    ],
-    []
-  )
+  const reelContextMenuData: IContextMenuItem[] = [
+    {
+      title: 'New Reels',
+      icon: <CommonIcons.Plus />,
+      entityType: 'reel',
+      shortcut: 'Ctrl+N',
+      action: () => setNewReelModalShow(true),
+    },
+    {
+      title: 'Add existing Shot',
+      icon: <CommonIcons.Plus />,
+      shortcut: 'Ctrl+Alt+S',
+      action: () => alert('Add existing Shot'),
+    },
+    {
+      title: 'Edit Reel',
+      icon: <ToolbarIcons.Gear />,
+      shortcut: 'Ctrl+E',
+      action: () => alert('Edit Reel'),
+    },
+    {
+      title: 'Delete Reel',
+      icon: <CommonIcons.Trash />,
+      variant: 'accent',
+      shortcut: 'Ctrl+Del',
+      action: () => setDeleteModalShow(true),
+    },
+  ]
 
   const onDeleteHandler = e => {
     e.preventDefault()

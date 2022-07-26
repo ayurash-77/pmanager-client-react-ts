@@ -1,38 +1,29 @@
-import { FC } from 'react'
-import styled from 'styled-components'
+import { DetailedHTMLProps, FC, HTMLAttributes } from 'react'
 import { useAppSelector } from '../../../hooks/redux'
 import ProjectCard from '../project-card/ProjectCard'
 import { IProject } from '../projects.interfaces'
+import css from './ProjectsGrid.module.scss'
 
-const ContainerGrid = styled.div`
-  display: flex;
-  flex-wrap: wrap;
-  grid-gap: 5px;
-  grid-template-columns: repeat(auto-fill, 160px);
-  justify-content: space-evenly;
-`
-
-interface IProjectsGrid {
+interface IProjectsGrid extends DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLDivElement> {
   projects: IProject[]
-  onProjectClickHandler: (e, item) => void
-  // onProjectDoubleClickHandler: (e) => void
+  onClickHandler: (e, id) => void
 }
 
 export const ProjectsGrid: FC<IProjectsGrid> = props => {
-  const { projects, onProjectClickHandler } = props
+  const { projects, onClickHandler } = props
   const { activeProjectId } = useAppSelector(state => state.entities)
   const ProjectGridContent = (
-    <ContainerGrid>
+    <div className={css.container}>
       {projects.map(item => (
         <ProjectCard
           key={item.id}
+          onClick={e => onClickHandler(e, item.id)}
+          onContextMenu={e => onClickHandler(e, item.id)}
           isSelected={item.id === activeProjectId}
           project={item}
-          onClick={e => onProjectClickHandler(e, item)}
-          // onDoubleClick={() => onProjectDoubleClickHandler(item)}
         />
       ))}
-    </ContainerGrid>
+    </div>
   )
   return <>{ProjectGridContent}</>
 }

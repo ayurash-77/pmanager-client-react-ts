@@ -1,28 +1,12 @@
 import { FC, useState } from 'react'
 import TextareaAutosize from 'react-textarea-autosize'
-import styled from 'styled-components'
 import * as CommonIcons from '../../../assets/icons/common-icons'
 import { useCreatePostMutation } from '../../../entities/posts/posts.api'
-import { IPost } from '../../../entities/posts/posts.interfaces'
+import { IPostData } from '../../../entities/posts/posts.interfaces'
 import { useGetShotsQuery } from '../../../entities/shots/shots.api'
 import { useAppSelector } from '../../../hooks/redux'
 import { IconButton } from '../../ui'
-
-const SendbarContainer = styled.div`
-  display: flex;
-  gap: 10px;
-  align-items: center;
-  padding: 10px 8px;
-  background-color: var(--sendbar-bg);
-`
-
-export interface IPostData extends Partial<IPost> {
-  projectId: number
-  reelId?: number
-  reelsIds?: number[]
-  shotId?: number
-  shotsIds?: number[]
-}
+import css from './Sendbar.module.scss'
 
 export const Sendbar: FC<IPostData> = ({ projectId }) => {
   const user = useAppSelector(state => state.auth.authUser)
@@ -59,7 +43,7 @@ export const Sendbar: FC<IPostData> = ({ projectId }) => {
   }
 
   return (
-    <SendbarContainer>
+    <div className={css.container}>
       <IconButton
         icon={<CommonIcons.Clip />}
         size={22}
@@ -72,6 +56,6 @@ export const Sendbar: FC<IPostData> = ({ projectId }) => {
         onChange={e => onChangeHandler('message', e.target)}
       />
       <IconButton icon={<CommonIcons.Send />} size={22} variant={'primary'} onClick={onSubmitHandler} />
-    </SendbarContainer>
+    </div>
   )
 }
