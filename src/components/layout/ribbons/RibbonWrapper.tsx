@@ -10,7 +10,16 @@ import css from './RibbonWrapper.module.scss'
 import { IRibbonWrapper } from './ribbonWrapper.interfaces'
 
 export const RibbonWrapper: FC<IRibbonWrapper> = props => {
-  const { variant, title, count, onClickPlus, onClickMinus, children, activeItemsIds = [] } = props
+  const {
+    variant,
+    title,
+    count,
+    onClickPlus,
+    onClickMinus,
+    children,
+    activeItemsIds = [],
+    showContextMenu,
+  } = props
   const dispatch = useAppDispatch()
 
   const { authUser } = useAppSelector(state => state.auth)
@@ -44,7 +53,7 @@ export const RibbonWrapper: FC<IRibbonWrapper> = props => {
   )
 
   return (
-    <div className={css.container}>
+    <div className={css.container} onContextMenu={showContextMenu}>
       <Collapse
         title={`${title}: ${count}`}
         variant={variant}

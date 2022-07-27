@@ -1,12 +1,11 @@
-import { skipToken } from '@reduxjs/toolkit/query'
-import { FC, useState } from 'react'
+import { FC } from 'react'
 import * as CommonIcons from '../../../assets/icons/common-icons'
 import * as ToolbarIcons from '../../../assets/icons/toolbar-icons'
-import DeleteProjectModal from '../../../entities/projects/DeleteProjectModal'
-import NewProjectModal from '../../../entities/projects/NewProjectModal'
-import { useGetProjectQuery, useGetProjectsQuery } from '../../../entities/projects/projects.api'
+import { useGetProjectsQuery } from '../../../entities/projects/projects.api'
 import { useAppDispatch, useAppSelector } from '../../../hooks/redux'
+import { usePermissions } from '../../../hooks/usePermissions'
 import { useTranslate } from '../../../hooks/useTranslate'
+import { setDeleteProjectModalShow, setNewProjectModalShow } from '../../../store/reducers/modals.reducer'
 import {
   setFilterbarShow,
   setProjectsViewMode,
@@ -31,52 +30,37 @@ export const HeaderMain: FC = () => {
   const { quarterFilter, quarterData } = useAppSelector(state => state.projects)
   const { activeProjectId } = useAppSelector(state => state.entities)
   const { filterBar, projectsViewMode } = useAppSelector(state => state.ui)
-  const { authUser } = useAppSelector(state => state.auth)
 
-  const { data: activeProject } = useGetProjectQuery(activeProjectId ?? skipToken)
-
-  const canDeleteProjectRoles = ['Producer', 'Art director', 'Manager']
-
-  const canDeleteProject = authUser.isAdmin || canDeleteProjectRoles.includes(authUser.role.name)
+  const { canCreateProject, canDeleteProject } = usePermissions()
 
   const dispatch = useAppDispatch()
 
   const item: IQuarterItem = quarterData.find(project => project.quarter === quarterFilter.quarter)
   const projectsCount = quarterFilter.isActive ? item.count : projects.length
 
-  const [isNewProjectModalShow, setNewProjectModalShow] = useState(false)
-  const [isDeleteProjectModalShow, setDeleteProjectModalShow] = useState(false)
-
   const onSearchHandler = (value: string) => {
     dispatch(setSearchProjectsFilter(value))
   }
 
-  const deleteProjectHandler = () => {
-    setDeleteProjectModalShow(true)
-  }
-
-  const newProjectModalShowHandler = () => {
-    setNewProjectModalShow(true)
-  }
-
   return (
     <div className={css.container}>
-      <NewProjectModal isOpen={isNewProjectModalShow} closeAction={() => setNewProjectModalShow(false)} />
-      <DeleteProjectModal
-        isOpen={isDeleteProjectModalShow}
-        closeAction={() => setDeleteProjectModalShow(false)}
-        project={activeProject}
-      />
       <div className={css.title}>
         {text.project.projects}: {isLoadingProjects ? <Loader size={16} /> : projectsCount}
-        <IconButton icon={<CommonIcons.Plus />} ml={10} mr={5} onClick={newProjectModalShowHandler} />
+        {canCreateProject && (
+          <IconButton
+            icon={<CommonIcons.Plus />}
+            ml={10}
+            mr={5}
+            onClick={() => canCreateProject && dispatch(setNewProjectModalShow(true))}
+          />
+        )}
         {canDeleteProject && (
           <IconButton
             icon={<CommonIcons.Trash />}
             disabled={!activeProjectId}
             variant={'accent'}
             size={14}
-            onClick={activeProjectId ? deleteProjectHandler : null}
+            onClick={() => activeProjectId && canDeleteProject && dispatch(setDeleteProjectModalShow(true))}
           />
         )}
       </div>

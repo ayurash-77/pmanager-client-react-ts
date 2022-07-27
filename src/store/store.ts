@@ -2,6 +2,7 @@ import { CombinedState, combineReducers, configureStore } from '@reduxjs/toolkit
 import { authApi } from '../entities/users/auth/auth.api'
 import { baseApi } from './base.api'
 import { entitiesSlice } from './reducers/entities.reducer'
+import { modalsSlice } from './reducers/modals.reducer'
 import { projectsSlice } from './reducers/projects.reducer'
 import { uiSlice } from './reducers/ui.reducer'
 import { userSlice } from './reducers/user.reducer'
@@ -11,6 +12,7 @@ const rootReducer = combineReducers({
   auth: userSlice.reducer,
   projects: projectsSlice.reducer,
   entities: entitiesSlice.reducer,
+  modals: modalsSlice.reducer,
 
   [baseApi.reducerPath]: baseApi.reducer,
   [authApi.reducerPath]: authApi.reducer,

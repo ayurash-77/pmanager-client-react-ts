@@ -1,6 +1,6 @@
 import { skipToken } from '@reduxjs/toolkit/query'
 import { IReelsType } from 'entities/reelsTypes/reelsTypes.interfaces'
-import { useEffect, useMemo, useState } from 'react'
+import { useEffect, useState } from 'react'
 import * as CommonIcons from '../../../assets/icons/common-icons'
 import * as ToolbarIcons from '../../../assets/icons/toolbar-icons'
 import { IProject } from '../../../entities/projects/projects.interfaces'
@@ -9,9 +9,12 @@ import NewReelsTypeModal from '../../../entities/reelsTypes/NewReelsTypeModal'
 import { ReelsTypeCard } from '../../../entities/reelsTypes/ReelsTypeCard'
 import { useDeleteReelsTypeMutation } from '../../../entities/reelsTypes/reelsTypes.api'
 import { useAppDispatch, useAppSelector } from '../../../hooks/redux'
+import { useContextMenu } from '../../../hooks/useContextMenu'
 import { useOnReelsTypeClick } from '../../../hooks/useOnReelsTypeClick'
+import { usePermissions } from '../../../hooks/usePermissions'
 import { useTranslate } from '../../../hooks/useTranslate'
 import { setActiveReelsTypeId } from '../../../store/reducers/entities.reducer'
+import { setNewReelsTypeModalShow } from '../../../store/reducers/modals.reducer'
 import { InfoReelsTypeBlock } from '../../info-elements/InfoReelsTypeBlock'
 import DeleteModal from '../../modal/DeleteModal'
 import { ContextMenu } from '../../ui/ContextMenu/ContextMenu'
@@ -28,45 +31,55 @@ export const RibbonReelsTypes = ({ entities, project }: { entities: IReelsType[]
   const { activeReelsTypeId } = useAppSelector(state => state.entities)
   const dispatch = useAppDispatch()
 
-  const { onReelsTypeClickHandler, position, isMenuShow } = useOnReelsTypeClick()
+  const { newReelsTypeModalShow } = useAppSelector(state => state.modals)
+  const { canCreateProject, canEditProject, canDeleteProject } = usePermissions()
+  const { position, isMenuShow: isMainMenuShow, showContextMenu } = useContextMenu()
+  const { onReelsTypeClickHandler, isMenuShow } = useOnReelsTypeClick()
 
-  const [isNewReelsTypeModalShow, setNewReelsTypeModalShow] = useState(false)
   const [isDeleteModalShow, setDeleteModalShow] = useState(false)
 
   const activeReelsType = entities?.find(entity => entity.id === activeReelsTypeId) || null
   const detailsJsx = activeReelsType && <InfoReelsTypeBlock {...activeReelsType} />
 
-  const reelsTypeContextMenuData: IContextMenuItem[] = useMemo(
-    () => [
-      {
-        title: 'New Reels Type',
-        icon: <CommonIcons.Plus />,
-        entityType: 'reelsType',
-        shortcut: 'Ctrl+N',
-        action: () => setNewReelsTypeModalShow(true),
-      },
-      {
-        title: 'Add existing Reel',
-        icon: <CommonIcons.Plus />,
-        shortcut: 'Ctrl+Alt+R',
-        action: () => alert('Add Reel'),
-      },
-      {
-        title: 'Edit Reels Type',
-        icon: <ToolbarIcons.Gear />,
-        shortcut: 'Ctrl+E',
-        action: () => alert('Edit Reels Type'),
-      },
-      {
-        title: 'Delete Reels Type',
-        icon: <CommonIcons.Trash />,
-        variant: 'accent',
-        shortcut: 'Ctrl+Del',
-        action: () => setDeleteModalShow(true),
-      },
-    ],
-    []
-  )
+  const reelsContextMenuData: IContextMenuItem[] = [
+    {
+      title: 'New Reels Type',
+      icon: <CommonIcons.Plus />,
+      entityType: 'reelsType',
+      shortcut: 'Ctrl+N',
+      action: () => dispatch(setNewReelsTypeModalShow(true)),
+      disabled: !canCreateProject,
+    },
+  ]
+
+  const reelTypeContextMenuData: IContextMenuItem[] = [
+    {
+      title: 'New Reels Type',
+      icon: <CommonIcons.Plus />,
+      entityType: 'reelsType',
+      shortcut: 'Ctrl+N',
+      action: () => dispatch(setNewReelsTypeModalShow(true)),
+    },
+    {
+      title: 'Add existing Reel',
+      icon: <CommonIcons.Plus />,
+      shortcut: 'Ctrl+Alt+R',
+      action: () => alert('Add Reel'),
+    },
+    {
+      title: 'Edit Reels Type',
+      icon: <ToolbarIcons.Gear />,
+      shortcut: 'Ctrl+E',
+      action: () => alert('Edit Reels Type'),
+    },
+    {
+      title: 'Delete Reels Type',
+      icon: <CommonIcons.Trash />,
+      variant: 'accent',
+      shortcut: 'Ctrl+Del',
+      action: () => setDeleteModalShow(true),
+    },
+  ]
 
   const onDeleteHandler = async e => {
     e.preventDefault()
@@ -89,8 +102,8 @@ export const RibbonReelsTypes = ({ entities, project }: { entities: IReelsType[]
   return (
     <>
       <NewReelsTypeModal
-        isOpen={isNewReelsTypeModalShow}
-        closeAction={() => setNewReelsTypeModalShow(false)}
+        isOpen={newReelsTypeModalShow}
+        closeAction={() => dispatch(setNewReelsTypeModalShow(false))}
         project={project}
       />
       <DeleteModal
@@ -102,8 +115,24 @@ export const RibbonReelsTypes = ({ entities, project }: { entities: IReelsType[]
         detailsJsx={detailsJsx}
         title={`${text.actions.deleteReelsType} ${activeReelsType?.code}?`}
       />
+
+      <ContextMenu show={isMainMenuShow} position={position}>
+        {reelsContextMenuData.map(item => (
+          <ContextMenuItem
+            key={item.title}
+            title={item.title}
+            icon={item.icon}
+            entityType={item.entityType}
+            variant={item.variant}
+            shortcut={item.shortcut}
+            action={item.action}
+            disabled={item.disabled}
+          />
+        ))}
+      </ContextMenu>
+
       <ContextMenu show={isMenuShow} position={position}>
-        {reelsTypeContextMenuData.map(item => (
+        {reelTypeContextMenuData.map(item => (
           <ContextMenuItem
             key={item.title}
             title={item.title}
@@ -123,6 +152,7 @@ export const RibbonReelsTypes = ({ entities, project }: { entities: IReelsType[]
         onClickPlus={() => setNewReelsTypeModalShow(true)}
         onClickMinus={() => setDeleteModalShow(true)}
         activeItemsIds={activeReelsTypeId && [activeReelsTypeId]}
+        showContextMenu={showContextMenu}
       >
         {entities?.map(entity => (
           <ReelsTypeCard
@@ -131,7 +161,6 @@ export const RibbonReelsTypes = ({ entities, project }: { entities: IReelsType[]
             isSelected={activeReelsTypeId === entity.id}
             onClick={e => onReelsTypeClickHandler(e, entity.id)}
             onContextMenu={e => onReelsTypeClickHandler(e, entity.id)}
-            onMouseDown={e => onReelsTypeClickHandler(e, entity.id)}
           />
         ))}
       </RibbonWrapper>

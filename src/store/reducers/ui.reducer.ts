@@ -67,7 +67,7 @@ const filterBarInit = {
 }
 
 const menubarInit: IMenubar = { expanded: true, activeMenu: 'projects' }
-const sidebarInit: ISidebar = { show: true }
+const sidebarInit: Pick<ISidebar, 'show'> = { show: true }
 const reelsBlockInit: IReelsBlock = { expanded: false }
 const ribbonReelsInit: IRibbonReels = { expanded: true }
 const ribbonReelsTypesInit: IRibbonReelsTypes = { expanded: false }

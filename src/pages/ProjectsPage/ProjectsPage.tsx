@@ -10,11 +10,16 @@ import Statusbar from '../../components/layout/statusbar/Statusbar'
 import { Loader } from '../../components/ui'
 import { ContextMenu } from '../../components/ui/ContextMenu/ContextMenu'
 import { ContextMenuItem, IContextMenuItem } from '../../components/ui/ContextMenu/ContextMenuItem'
+import DeleteProjectModal from '../../entities/projects/DeleteProjectModal'
+import NewProjectModal from '../../entities/projects/NewProjectModal'
 import { ProjectsGrid } from '../../entities/projects/projects-grid/ProjectsGrid'
 import { ProjectsList } from '../../entities/projects/projects-list/ProjectsList'
 import { useGetProjectsQuery } from '../../entities/projects/projects.api'
 import { useAppDispatch, useAppSelector } from '../../hooks/redux'
+import { useContextMenu } from '../../hooks/useContextMenu'
 import { useOnProjectClick } from '../../hooks/useOnProjectClick'
+import { usePermissions } from '../../hooks/usePermissions'
+import { setDeleteProjectModalShow, setNewProjectModalShow } from '../../store/reducers/modals.reducer'
 import { setQuarterData } from '../../store/reducers/projects.reducer'
 import { toQuarterStr } from '../../utils/date-time-format'
 
@@ -26,6 +31,7 @@ export const ProjectsPage: FC = () => {
   const { quarterFilter } = useAppSelector(state => state.projects)
   const { searchProjectsFilter } = useAppSelector(state => state.ui)
   const { activeProjectId } = useAppSelector(state => state.entities)
+  const { newProjectModalShow, deleteProjectModalShow } = useAppSelector(state => state.modals)
 
   const dispatch = useAppDispatch()
 
@@ -43,27 +49,42 @@ export const ProjectsPage: FC = () => {
   const projectsFiltered = quarterFilter.isActive ? projectsFilteredByQuarter : searchProjects
   const activeProject = projectsFiltered?.find(project => project.id === activeProjectId)
 
-  const { onProjectClickHandler, position, isMenuShow } = useOnProjectClick()
+  const { canCreateProject, canEditProject, canDeleteProject } = usePermissions()
+  const { position, isMenuShow: isMainMenuShow, showContextMenu } = useContextMenu()
+  const { onProjectClickHandler, isMenuShow } = useOnProjectClick()
 
-  const projectsContextMenuData: IContextMenuItem[] = [
+  const homeContextMenuData: IContextMenuItem[] = [
     {
       title: 'New Project',
       icon: <CommonIcons.Plus />,
       shortcut: 'Ctrl+N',
-      action: () => alert('New Project'),
+      action: () => canCreateProject && dispatch(setNewProjectModalShow(true)),
+      disabled: !canCreateProject,
+    },
+  ]
+
+  const projectContextMenuData: IContextMenuItem[] = [
+    {
+      title: 'New Project',
+      icon: <CommonIcons.Plus />,
+      shortcut: 'Ctrl+N',
+      action: () => canCreateProject && dispatch(setNewProjectModalShow(true)),
+      disabled: !canCreateProject,
     },
     {
       title: 'Edit Project',
       icon: <ToolbarIcons.Gear />,
       shortcut: 'Ctrl+E',
-      action: () => alert('Edit Project'),
+      action: () => canEditProject && alert('Edit Project'),
+      disabled: !canEditProject,
     },
     {
       title: 'Delete Project',
       icon: <CommonIcons.Trash />,
       variant: 'accent',
       shortcut: 'Ctrl+Del',
-      action: () => alert('Delete Project'),
+      action: () => canDeleteProject && dispatch(setDeleteProjectModalShow(true)),
+      disabled: !canDeleteProject,
     },
   ]
 
@@ -77,27 +98,52 @@ export const ProjectsPage: FC = () => {
 
   return (
     <>
+      <NewProjectModal
+        isOpen={newProjectModalShow}
+        closeAction={() => dispatch(setNewProjectModalShow(false))}
+      />
+      <DeleteProjectModal
+        isOpen={deleteProjectModalShow}
+        closeAction={() => dispatch(setDeleteProjectModalShow(false))}
+        project={activeProject}
+      />
       <div className={css.mainbar}>
         <HeaderMain />
         <Filterbar {...filterBar} />
 
-        <div className={css.body}>
+        <ContextMenu show={isMainMenuShow} position={position}>
+          {homeContextMenuData.map(item => (
+            <ContextMenuItem
+              key={item.title}
+              title={item.title}
+              icon={item.icon}
+              entityType={item.entityType}
+              variant={item.variant}
+              shortcut={item.shortcut}
+              action={item.action}
+              disabled={item.disabled}
+            />
+          ))}
+        </ContextMenu>
+
+        <ContextMenu show={isMenuShow} position={position}>
+          {projectContextMenuData.map(item => (
+            <ContextMenuItem
+              key={item.title}
+              title={item.title}
+              icon={item.icon}
+              entityType={item.entityType}
+              variant={item.variant}
+              shortcut={item.shortcut}
+              action={item.action}
+              disabled={item.disabled}
+            />
+          ))}
+        </ContextMenu>
+
+        <div className={css.body} onContextMenu={showContextMenu}>
           {isLoadingProjects && <Loader size={64} border={8} />}
           <ErrorList error={errorProjects} />
-
-          <ContextMenu show={isMenuShow} position={position}>
-            {projectsContextMenuData.map(item => (
-              <ContextMenuItem
-                key={item.title}
-                title={item.title}
-                icon={item.icon}
-                entityType={item.entityType}
-                variant={item.variant}
-                shortcut={item.shortcut}
-                action={item.action}
-              />
-            ))}
-          </ContextMenu>
 
           {projectsViewMode === 'grid' && (
             <ProjectsGrid projects={projectsFiltered} onClickHandler={onProjectClickHandler} />

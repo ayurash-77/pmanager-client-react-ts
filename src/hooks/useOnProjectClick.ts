@@ -7,13 +7,11 @@ import { useContextMenu } from './useContextMenu'
 export const useOnProjectClick = () => {
   const dispatch = useAppDispatch()
   const { activeProjectId } = useAppSelector(state => state.entities)
-  const { position, isMenuShow, showContextMenu, hideContextMenu } = useContextMenu()
+  const { position, isMenuShow, showContextMenu } = useContextMenu()
   const navigate = useNavigate()
 
   const onProjectClickHandler = (e, projectId) => {
-    // e.preventDefault()
     dispatch(setActiveProjectId(projectId))
-    // e.type === 'mousedown' && hideContextMenu()
     e.type === 'contextmenu' && showContextMenu(e)
 
     switch (e.detail) {
@@ -29,5 +27,5 @@ export const useOnProjectClick = () => {
     }
   }
 
-  return { onProjectClickHandler, position, isMenuShow }
+  return { onProjectClickHandler, isMenuShow, position }
 }
