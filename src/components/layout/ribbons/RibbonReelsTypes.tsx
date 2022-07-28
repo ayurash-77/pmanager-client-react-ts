@@ -41,7 +41,7 @@ export const RibbonReelsTypes = ({ entities, project }: { entities: IReelsType[]
   const activeReelsType = entities?.find(entity => entity.id === activeReelsTypeId) || null
   const detailsJsx = activeReelsType && <InfoReelsTypeBlock {...activeReelsType} />
 
-  const reelsContextMenuData: IContextMenuItem[] = [
+  const reelsTypesContextMenuData: IContextMenuItem[] = [
     {
       title: 'New Reels Type',
       icon: <CommonIcons.Plus />,
@@ -52,7 +52,7 @@ export const RibbonReelsTypes = ({ entities, project }: { entities: IReelsType[]
     },
   ]
 
-  const reelTypeContextMenuData: IContextMenuItem[] = [
+  const reelsTypeContextMenuData: IContextMenuItem[] = [
     {
       title: 'New Reels Type',
       icon: <CommonIcons.Plus />,
@@ -78,6 +78,7 @@ export const RibbonReelsTypes = ({ entities, project }: { entities: IReelsType[]
       variant: 'accent',
       shortcut: 'Ctrl+Del',
       action: () => setDeleteModalShow(true),
+      disabled: !canCreateProject,
     },
   ]
 
@@ -95,17 +96,12 @@ export const RibbonReelsTypes = ({ entities, project }: { entities: IReelsType[]
     if (isSuccess) {
       setDeleteModalShow(false)
       dispatch(setActiveReelsTypeId(null))
-      refetchReels()
     }
-  }, [dispatch, isSuccess, refetchReels])
+  }, [dispatch, isSuccess])
 
   return (
     <>
-      <NewReelsTypeModal
-        isOpen={newReelsTypeModalShow}
-        closeAction={() => dispatch(setNewReelsTypeModalShow(false))}
-        project={project}
-      />
+      <NewReelsTypeModal isOpen={newReelsTypeModalShow} zIndex={1100} />
       <DeleteModal
         isOpen={isDeleteModalShow}
         closeAction={onCancelHandler}
@@ -117,7 +113,7 @@ export const RibbonReelsTypes = ({ entities, project }: { entities: IReelsType[]
       />
 
       <ContextMenu show={isMainMenuShow} position={position}>
-        {reelsContextMenuData.map(item => (
+        {reelsTypesContextMenuData.map(item => (
           <ContextMenuItem
             key={item.title}
             title={item.title}
@@ -132,7 +128,7 @@ export const RibbonReelsTypes = ({ entities, project }: { entities: IReelsType[]
       </ContextMenu>
 
       <ContextMenu show={isMenuShow} position={position}>
-        {reelTypeContextMenuData.map(item => (
+        {reelsTypeContextMenuData.map(item => (
           <ContextMenuItem
             key={item.title}
             title={item.title}
@@ -149,7 +145,7 @@ export const RibbonReelsTypes = ({ entities, project }: { entities: IReelsType[]
         variant={'reelsType'}
         title={text.project.reelsTypes}
         count={count}
-        onClickPlus={() => setNewReelsTypeModalShow(true)}
+        onClickPlus={() => dispatch(setNewReelsTypeModalShow(true))}
         onClickMinus={() => setDeleteModalShow(true)}
         activeItemsIds={activeReelsTypeId && [activeReelsTypeId]}
         showContextMenu={showContextMenu}

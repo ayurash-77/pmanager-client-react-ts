@@ -1,167 +1,143 @@
 import { skipToken } from '@reduxjs/toolkit/query'
-import { FC, useEffect, useState } from 'react'
+import React, { FC, useCallback, useEffect, useState } from 'react'
+import { SubmitHandler, useForm } from 'react-hook-form'
+import { useDispatch } from 'react-redux'
 import { useParams } from 'react-router'
+import { setActiveReelsIds } from 'store/reducers/entities.reducer'
+import { setNewReelModalShow, setNewReelsTypeModalShow } from 'store/reducers/modals.reducer'
+import { useAppSelector } from 'hooks/redux'
+import { useTranslate } from 'hooks/useTranslate'
 import { ErrorList } from '../../components/errors/ErrorList'
 import { ModalWrapper } from '../../components/modal/ModalWrapper'
-import { FlexColumn, Grid, Input, Select, Switcher } from '../../components/ui'
+import { IZIndex } from '../../components/modal/modalWrapper.interfaces'
+import { FlexColumn, Loader } from '../../components/ui'
 import { IOption } from '../../components/ui/ui.types'
-import { useAppDispatch, useAppSelector } from '../../hooks/redux'
-import { useTranslate } from '../../hooks/useTranslate'
-import { setActiveReelsIds } from '../../store/reducers/entities.reducer'
-import { IProject } from '../projects/projects.interfaces'
-import NewReelsTypeModal from '../reelsTypes/NewReelsTypeModal'
 import { useGetReelsTypesQuery } from '../reelsTypes/reelsTypes.api'
 import { useCreateReelMutation } from './reels.api'
-import { IReelCreateDto } from './reels.interfaces'
+import { IReelCreateDto, IReelInputData } from './reels.interfaces'
 
 interface INewReelModal {
   isOpen: boolean
-  project: IProject
-  closeAction: () => void
+  zIndex?: IZIndex
 }
 
 // NewReelModal
 ////////////////////////////////////////////////////////////////////////////////////////////
 
 export const NewReelModal: FC<INewReelModal> = props => {
-  const { closeAction, project, ...rest } = props
-  const dispatch = useAppDispatch()
+  const { isOpen, ...rest } = props
+
+  const {
+    reset: resetData,
+    register,
+    handleSubmit,
+    watch,
+    formState: { errors, isValid },
+  } = useForm<IReelInputData>({ mode: 'onChange' })
+
+  // const dispatch = useAppDispatch()
+  const dispatch = useDispatch()
   const { id } = useParams()
   const { text } = useTranslate()
   const user = useAppSelector(state => state.auth.authUser)
 
   const dataInit: IReelCreateDto = {
-    duration: 0,
     projectId: +id,
+    duration: 0,
     reelsTypeId: 0,
-    createdBy: user,
     highPriority: false,
+    createdBy: user,
   }
 
-  const [data, setData] = useState(dataInit)
-
-  const [createReel, { isError, error, isSuccess, reset, data: newItem }] = useCreateReelMutation()
+  const [createReel, { isError, error, isSuccess, reset, isLoading, data: newReel }] = useCreateReelMutation()
   const { data: reelsTypes = [] } = useGetReelsTypesQuery(+id ?? skipToken)
 
   const addItemOption = { label: 'Add new ReelType', value: 1 }
   const reelsTypeOptions = reelsTypes?.map(item => ({ label: `${item.code}`, value: item.id }))
   const options: IOption[] = [addItemOption, ...reelsTypeOptions]
 
-  const [reelsTypeId, setReelsTypeId] = useState(0)
-  const [customError, setCustomError] = useState(null)
-  const [isNewReelsTypeModalShow, setNewReelsTypeModalShow] = useState(false)
+  const { newReelsTypeModalShow } = useAppSelector(state => state.modals)
 
-  const [highPriority, setHighPriority] = useState(false)
+  const [selectNewReelsType, setSelectNewReelsType] = useState(false)
 
-  const onChangeInputHandler = (key, value) => {
-    setData({ ...data, [key]: value })
-  }
+  const onCancelHandler = useCallback(() => {
+    dispatch(setNewReelModalShow(false))
+    resetData()
+  }, [dispatch, resetData])
 
-  const onChangePriority = val => {
-    setHighPriority(!val)
-    onChangeInputHandler('highPriority', !val)
-  }
-
-  const onCancelHandler = async e => {
-    e.preventDefault()
-    reset()
-    setReelsTypeId(0)
-    closeAction()
-    setCustomError(null)
-    setHighPriority(false)
-  }
-
-  const onSubmitHandler = async e => {
-    e.preventDefault()
-    if (reelsTypeId === 0) {
-      setCustomError('Не выбран тип ролика')
-      return
+  const onSubmitHandler: SubmitHandler<IReelInputData> = async (formData: IReelInputData) => {
+    const newFormData = {
+      ...dataInit,
+      ...formData,
+      reelsTypeId: +formData.reelsTypeId,
+      duration: +formData.duration,
     }
-    if (!data.duration) {
-      setCustomError('Хронометраж ролика должен быть в секундах')
-      return
-    }
-    await createReel(data)
+    console.log(newFormData)
+    await createReel(newFormData)
   }
 
-  const onChangeReelsTypeHandler = e => {
-    const newReelsTypeId = e.target.value
-    if (newReelsTypeId == 1) {
-      setNewReelsTypeModalShow(true)
-    }
-    setReelsTypeId(newReelsTypeId)
-    setData({ ...data, reelsTypeId: +newReelsTypeId })
-  }
+  const optionsJsx = options?.map((item, idx) => <option key={idx} value={item.value} label={item.label} />)
+  const watchSelectReelsTypeId = +watch('reelsTypeId')
 
   useEffect(() => {
-    if (isNewReelsTypeModalShow) setReelsTypeId(0)
-  }, [isNewReelsTypeModalShow])
-
-  useEffect(() => {
-    if (isSuccess) {
-      dispatch(setActiveReelsIds([newItem.id]))
-      reset()
-      closeAction()
-      setReelsTypeId(0)
-      setHighPriority(false)
-      setCustomError(null)
+    if (watchSelectReelsTypeId === 1) {
+      dispatch(setNewReelsTypeModalShow(true))
     }
-  }, [closeAction, dispatch, isSuccess, newItem, reset])
+    if (isSuccess && newReel) {
+      dispatch(setActiveReelsIds([newReel.id]))
+      onCancelHandler()
+    }
+  }, [dispatch, isSuccess, newReel, onCancelHandler, watchSelectReelsTypeId])
 
   // RENDER
-  ////////////////////////////////////////////////////////////////////////////////////////////
+  ///////////////////////////////////////////////////////////////////////////////////////////
 
   return (
     <>
       <ModalWrapper
-        {...rest}
+        isOpen={isOpen}
         warning={false}
         type={'type2'}
         size={'sm'}
         title={text.actions.addReel}
-        onSubmitHandler={onSubmitHandler}
+        onSubmitHandler={handleSubmit(onSubmitHandler)}
         onCancelHandler={onCancelHandler}
+        isValid={isValid}
+        {...rest}
       >
-        <FlexColumn gap={5}>
-          <div>
-            <FlexColumn vAlign="center" padding={5}>
-              {isError && <ErrorList error={error} />}
-              {customError && <div className={'error'}>{customError}</div>}
-            </FlexColumn>
-          </div>
+        <div className={'flex flex-col'}>
+          <FlexColumn vAlign="center" padding={5}>
+            {isLoading && <Loader size={24} />}
+            {isError && <ErrorList error={error} />}
+            {/* {customError && <div className={'error'}>{customError}</div>} */}
+          </FlexColumn>
+        </div>
 
-          <Grid cols="max-content auto auto auto" marginTop={5} align={'right'}>
-            <Select
-              label={text.project.reelType}
-              placeholder={'Select...'}
-              options={options}
-              value={reelsTypeId}
-              onChange={e => onChangeReelsTypeHandler(e)}
-              width={'auto'}
-            />
+        <div className={'grid grid-cols-2 items-center gap-1'}>
+          <label className={'flex justify-end'}>{text.project.reelType}:</label>
+          <select placeholder={'Select...'} {...register('reelsTypeId', { required: text.error.isRequired })}>
+            <option value={0} label={text.actions.select} />
+            {optionsJsx}
+          </select>
 
-            <Input
+          <label className={'flex justify-end'}>{text.reels.duration}:</label>
+          <div className={'flex gap-1 items-center'}>
+            <input
               size={4}
-              type={'number'}
-              width={36}
+              max={9999}
+              minLength={1}
               maxLength={4}
-              onChange={e => onChangeInputHandler('duration', +e.target.value)}
+              {...register('duration', { required: text.error.isRequired })}
             />
-
-            <div>sec</div>
-            <Switcher
-              label={text.common.highPriority}
-              checked={highPriority}
-              onChange={() => onChangePriority(highPriority)}
-            />
-          </Grid>
-        </FlexColumn>
+            <span>sec</span>
+          </div>
+          {/* <Switcher */}
+          {/*   label={text.common.highPriority} */}
+          {/*   checked={highPriority} */}
+          {/*   onChange={() => onChangePriority(highPriority)} */}
+          {/* /> */}
+        </div>
       </ModalWrapper>
-      <NewReelsTypeModal
-        isOpen={isNewReelsTypeModalShow}
-        closeAction={() => setNewReelsTypeModalShow(false)}
-        project={project}
-      />
     </>
   )
 }

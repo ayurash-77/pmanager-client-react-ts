@@ -1,7 +1,7 @@
 {
   "name": "pmanager-client-react-ts",
   "version": "0.1.0",
-  "proxy": "http://pmanager:4000/api",
+  "proxy": "http://localhost:4001/api",
   "private": true,
   "dependencies": {
     "@emotion/react": "^11.9.3",

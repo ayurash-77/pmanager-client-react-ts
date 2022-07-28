@@ -5,19 +5,7 @@ import { useTranslate } from '../../hooks/useTranslate'
 import { Button } from '../ui'
 import './ModalWrapper.css'
 import css from './ModalWrapper.module.scss'
-
-export interface IModalWrapper {
-  waiting?: boolean
-  warning?: boolean
-  isOpen: boolean
-  type: 'type1' | 'type2'
-  size: string
-  title?: string
-  onSubmitHandler: (e) => void
-  onCancelHandler: (e) => void
-  zIndex?: 1000 | 1100 | 1200
-  isValid?: boolean
-}
+import { IModalWrapper } from './modalWrapper.interfaces'
 
 export const ModalWrapper: FC<PropsWithChildren<IModalWrapper>> = props => {
   const {
@@ -62,7 +50,6 @@ export const ModalWrapper: FC<PropsWithChildren<IModalWrapper>> = props => {
             <Button disabled={!isValid} type="submit">
               {text.actions.ok}
             </Button>
-            <span style={{ marginRight: 10 }} />
             <Button type="button" onClick={onCancelHandler}>
               {text.actions.cancel}
             </Button>

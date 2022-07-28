@@ -1,6 +1,5 @@
 import { FC, useState } from 'react'
 import * as SideIcons from '../../../../assets/icons/menubar-icons'
-import UserSettingsModal from '../../../../entities/users/UserSettingsModal'
 import { useAppDispatch, useAppSelector } from '../../../../hooks/redux'
 import { useTranslate } from '../../../../hooks/useTranslate'
 import { setActiveProjectId } from '../../../../store/reducers/entities.reducer'
@@ -24,18 +23,23 @@ export const BottomMenu: FC = () => {
     dispatch(setActiveProjectId(null))
   }
 
+  const userSettingsOpenHandler = () => {
+    setUserSettingsModalShow(true)
+    // alert('userSettingsOpenHandler')
+  }
+
   const bottomMenuButtons: IMenuItem[] = [
-    { icon: <SideIcons.User />, name: authUser.username, onClick: () => setUserSettingsModalShow(true) },
+    { icon: <SideIcons.User />, name: authUser.username, onClick: userSettingsOpenHandler },
     { icon: <SideIcons.Logout />, name: text.menu.logout, onClick: handleLogout },
     { icon: <SideIcons.Gear />, name: text.menu.settings },
   ]
 
   return (
     <div className={'flex flex-col justify-end'}>
-      <UserSettingsModal
-        isOpen={isUserSettingsModalShow}
-        closeAction={() => setUserSettingsModalShow(false)}
-      />
+      {/* <UserSettingsModal */}
+      {/*   isOpen={isUserSettingsModalShow} */}
+      {/*   closeAction={() => setUserSettingsModalShow(false)} */}
+      {/* /> */}
       {bottomMenuButtons.map((item, index) => (
         <MenuItem
           menubarExpanded={menubarExpanded}

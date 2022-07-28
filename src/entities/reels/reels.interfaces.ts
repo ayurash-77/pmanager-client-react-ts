@@ -30,3 +30,9 @@ export interface IReelCreateDto {
   createdBy: IUser
   highPriority: boolean
 }
+
+export interface IReelInputData {
+  duration: number
+  reelsTypeId: number
+  highPriority: boolean
+}

@@ -1,20 +1,20 @@
-import { FC, useEffect } from 'react'
+import { DetailedHTMLProps, FC, HTMLAttributes, useCallback, useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 import { useParams } from 'react-router'
+import { setActiveReelsIds, setActiveReelsTypeId } from 'store/reducers/entities.reducer'
+import { setNewReelsTypeModalShow } from 'store/reducers/modals.reducer'
+import { useTranslate } from 'hooks/useTranslate'
 import { ErrorList } from '../../components/errors/ErrorList'
 import { ModalWrapper } from '../../components/modal/ModalWrapper'
+import { IZIndex } from '../../components/modal/modalWrapper.interfaces'
 import { Loader } from '../../components/ui'
 import { useAppDispatch, useAppSelector } from '../../hooks/redux'
-import { useTranslate } from '../../hooks/useTranslate'
-import { setActiveReelsTypeId } from '../../store/reducers/entities.reducer'
-import { IProject } from '../projects/projects.interfaces'
 import { useCreateReelsTypesMutation } from './reelsTypes.api'
 import { IReelsTypeCreateDto, IReelsTypeInputData } from './reelsTypes.interfaces'
 
-interface INewReelsTypeModal {
+interface INewReelsTypeModal extends DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLDivElement> {
   isOpen: boolean
-  project: IProject
-  closeAction: () => void
+  zIndex?: IZIndex
 }
 
 //
@@ -22,7 +22,7 @@ interface INewReelsTypeModal {
 //
 
 export const NewReelsTypeModal: FC<INewReelsTypeModal> = props => {
-  const { closeAction, project, ...rest } = props
+  const { isOpen, ...rest } = props
 
   const {
     reset: resetData,
@@ -46,26 +46,24 @@ export const NewReelsTypeModal: FC<INewReelsTypeModal> = props => {
   const [createReelsType, { isError, error, isSuccess, reset, isLoading, data: newReelType }] =
     useCreateReelsTypesMutation()
 
-  const onCancelHandler = e => {
-    e.preventDefault()
-    closeAction()
+  const onCancelHandler = useCallback(() => {
+    dispatch(setNewReelsTypeModalShow(false))
     resetData()
-    reset()
-  }
+  }, [dispatch, resetData])
 
-  const onSubmitHandler = async (data: IReelsTypeInputData) => {
-    if (!data.code || !data.name) return
-    await createReelsType({ ...dataInit, ...data })
+  const onSubmitHandler = async (formData: IReelsTypeInputData) => {
+    if (!formData.code || !formData.name) return
+    const newData = { ...dataInit, ...formData, code: formData.code.toUpperCase() }
+    await createReelsType(newData)
   }
 
   useEffect(() => {
-    if (isSuccess) {
+    if (isSuccess && newReelType) {
       dispatch(setActiveReelsTypeId(newReelType.id))
-      closeAction()
-      resetData()
-      reset()
+      dispatch(setActiveReelsIds([]))
+      onCancelHandler()
     }
-  }, [closeAction, dispatch, isSuccess, newReelType, reset, resetData])
+  }, [dispatch, isSuccess, newReelType, onCancelHandler])
 
   ////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -74,14 +72,15 @@ export const NewReelsTypeModal: FC<INewReelsTypeModal> = props => {
   return (
     <>
       <ModalWrapper
-        {...rest}
         warning={false}
+        isOpen={isOpen}
         type={'type2'}
         size={'sm'}
         title={text.actions.addReelsType}
         onSubmitHandler={handleSubmit(onSubmitHandler)}
         onCancelHandler={onCancelHandler}
         isValid={isValid}
+        {...rest}
       >
         <div className={'flex flex-col'}>
           {isLoading && <Loader size={24} />}
