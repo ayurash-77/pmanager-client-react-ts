@@ -103,18 +103,18 @@ export const NewReelModal: FC<INewReelModal> = props => {
       >
         <div className={'grid grid-cols-2 items-center gap-1'}>
           <label className={'flex justify-end'}>{text.project.reelType}:</label>
-          <select {...register('reelsTypeId', { validate: value => value !== 'select' })}>
+          <select
+            {...register('reelsTypeId', {
+              validate: value => value === 'select' && text.error.selectReelsType,
+            })}
+          >
             <option value={'select'} label={text.actions.select} />
             {options?.map((item, idx) => (
               <option key={idx} value={item.value} label={item.label} />
             ))}
             <option value={'addNew'} label={text.actions.addNew} />
           </select>
-          {errors?.reelsTypeId && (
-            <div className={'errorField col-start-2'}>
-              {errors?.reelsTypeId && text.error.selectReelsType}
-            </div>
-          )}
+          {errors?.reelsTypeId && <div className={'errorField'}>{errors?.reelsTypeId.message}</div>}
 
           <label className={'flex justify-end'}>{text.common.duration}:</label>
           <div className={'flex gap-1 items-center '}>
@@ -130,7 +130,7 @@ export const NewReelModal: FC<INewReelModal> = props => {
             />
             <span>sec</span>
           </div>
-          {errors?.duration && <div className={'errorField col-start-2'}>{errors?.duration.message}</div>}
+          {errors?.duration && <div className={'errorField'}>{errors?.duration.message}</div>}
 
           <Controller
             control={control}

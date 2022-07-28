@@ -40,7 +40,7 @@ export const LoginForm: FC = () => {
               autoFocus={true}
               {...register('username', { required: text.error.isRequired })}
             />
-            {errors?.username && <div className={'errorField'}>{text.error.fieldRequired}</div>}
+            {errors?.username && <div className={'errorField col-start-1'}>{text.error.fieldRequired}</div>}
           </div>
 
           <div>
@@ -49,7 +49,7 @@ export const LoginForm: FC = () => {
               type={'password'}
               {...register('password', { required: text.error.isRequired })}
             />
-            {errors?.password && <div className={'errorField'}>{text.error.fieldRequired}</div>}
+            {errors?.password && <div className={'errorField col-start-1'}>{text.error.fieldRequired}</div>}
           </div>
 
           <div style={{ height: 30, width: 10 }} />
