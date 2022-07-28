@@ -23,16 +23,14 @@ export interface IReel {
   createdBy: IUser
 }
 
-export interface IReelCreateDto {
-  duration: number
-  projectId: number
-  reelsTypeId: number
-  createdBy: IUser
+export interface IReelInputData {
+  duration: number | null
+  reelsTypeId: string | number
   highPriority: boolean
+  highPriority2?: boolean
 }
 
-export interface IReelInputData {
-  duration: number
-  reelsTypeId: number
-  highPriority: boolean
+export interface IReelCreateDto extends IReelInputData {
+  projectId: number
+  createdBy: IUser
 }

@@ -3,11 +3,10 @@ import React from 'react'
 import { createRoot } from 'react-dom/client'
 import { Provider } from 'react-redux'
 import App from './app/App'
-import { setupStore } from './store/store'
+import { AppStore, setupStore } from './store/store'
 import './translations/i18n'
 
-const store = setupStore()
-
+const store: AppStore = setupStore()
 setupListeners(store.dispatch)
 
 const container = document.getElementById('root')

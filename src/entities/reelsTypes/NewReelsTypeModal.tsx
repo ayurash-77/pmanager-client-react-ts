@@ -1,13 +1,12 @@
-import { DetailedHTMLProps, FC, HTMLAttributes, useCallback, useEffect } from 'react'
+import React, { DetailedHTMLProps, FC, HTMLAttributes, useCallback, useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 import { useParams } from 'react-router'
 import { setActiveReelsIds, setActiveReelsTypeId } from 'store/reducers/entities.reducer'
 import { setNewReelsTypeModalShow } from 'store/reducers/modals.reducer'
 import { useTranslate } from 'hooks/useTranslate'
-import { ErrorList } from '../../components/errors/ErrorList'
+import { LoadingOrError } from '../../components/loadingOrError/LoadingOrError'
 import { ModalWrapper } from '../../components/modal/ModalWrapper'
 import { IZIndex } from '../../components/modal/modalWrapper.interfaces'
-import { Loader } from '../../components/ui'
 import { useAppDispatch, useAppSelector } from '../../hooks/redux'
 import { useCreateReelsTypesMutation } from './reelsTypes.api'
 import { IReelsTypeCreateDto, IReelsTypeInputData } from './reelsTypes.interfaces'
@@ -17,9 +16,9 @@ interface INewReelsTypeModal extends DetailedHTMLProps<HTMLAttributes<HTMLDivEle
   zIndex?: IZIndex
 }
 
-//
-// NewReelsTypeModal
-//
+////////////////////////////////////////////////////////////////////////////////////////////
+// New ReelsType Modal
+////////////////////////////////////////////////////////////////////////////////////////////
 
 export const NewReelsTypeModal: FC<INewReelsTypeModal> = props => {
   const { isOpen, ...rest } = props
@@ -43,13 +42,14 @@ export const NewReelsTypeModal: FC<INewReelsTypeModal> = props => {
     createdBy: user,
   }
 
-  const [createReelsType, { isError, error, isSuccess, reset, isLoading, data: newReelType }] =
+  const [createReelsType, { isError, error, isSuccess, isLoading, reset, data: newReelType }] =
     useCreateReelsTypesMutation()
 
   const onCancelHandler = useCallback(() => {
     dispatch(setNewReelsTypeModalShow(false))
     resetData()
-  }, [dispatch, resetData])
+    reset()
+  }, [dispatch, reset, resetData])
 
   const onSubmitHandler = async (formData: IReelsTypeInputData) => {
     if (!formData.code || !formData.name) return
@@ -82,11 +82,6 @@ export const NewReelsTypeModal: FC<INewReelsTypeModal> = props => {
         isValid={isValid}
         {...rest}
       >
-        <div className={'flex flex-col'}>
-          {isLoading && <Loader size={24} />}
-          {isError && <ErrorList error={error} />}
-        </div>
-
         <div className={'grid grid-cols-2 justify-end items-center gap-1'}>
           <label className={'flex justify-end'}>{text.reelsTypes.name}:</label>
 
@@ -107,6 +102,7 @@ export const NewReelsTypeModal: FC<INewReelsTypeModal> = props => {
           />
           {errors?.code && <div className={'errorField col-start-2'}>{text.error.fieldRequired}</div>}
         </div>
+        <LoadingOrError isLoading={isLoading} isError={isError} error={error} />
       </ModalWrapper>
     </>
   )

@@ -3,5 +3,5 @@ export type IEntityType = 'reelsType' | 'reel' | 'shot'
 
 export interface IOption {
   label: string
-  value: number | string
+  value: string | number
 }
