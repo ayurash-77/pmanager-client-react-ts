@@ -11,7 +11,7 @@ import { Loader } from '../../components/ui'
 import { ContextMenu } from '../../components/ui/ContextMenu/ContextMenu'
 import { ContextMenuItem, IContextMenuItem } from '../../components/ui/ContextMenu/ContextMenuItem'
 import DeleteProjectModal from '../../entities/projects/DeleteProjectModal'
-import NewProjectModal from '../../entities/projects/NewProjectModal'
+import ProjectModal from '../../entities/projects/ProjectModal'
 import { ProjectsGrid } from '../../entities/projects/projects-grid/ProjectsGrid'
 import { ProjectsList } from '../../entities/projects/projects-list/ProjectsList'
 import { useGetProjectsQuery } from '../../entities/projects/projects.api'
@@ -19,7 +19,7 @@ import { useAppDispatch, useAppSelector } from '../../hooks/redux'
 import { useContextMenu } from '../../hooks/useContextMenu'
 import { useOnProjectClick } from '../../hooks/useOnProjectClick'
 import { usePermissions } from '../../hooks/usePermissions'
-import { setDeleteProjectModalShow, setNewProjectModalShow } from '../../store/reducers/modals.reducer'
+import { setDeleteProjectModalShow, setProjectModal } from '../../store/reducers/modals.reducer'
 import { setQuarterData } from '../../store/reducers/projects.reducer'
 import { toQuarterStr } from '../../utils/date-time-format'
 
@@ -58,7 +58,7 @@ export const ProjectsPage: FC = () => {
       title: 'New Project',
       icon: <CommonIcons.Plus />,
       shortcut: 'Ctrl+N',
-      action: () => canCreateProject && dispatch(setNewProjectModalShow(true)),
+      action: () => canCreateProject && dispatch(setProjectModal({ isOpen: true })),
       disabled: !canCreateProject,
     },
   ]
@@ -68,7 +68,7 @@ export const ProjectsPage: FC = () => {
       title: 'New Project',
       icon: <CommonIcons.Plus />,
       shortcut: 'Ctrl+N',
-      action: () => canCreateProject && dispatch(setNewProjectModalShow(true)),
+      action: () => canCreateProject && dispatch(setProjectModal({ isOpen: true })),
       disabled: !canCreateProject,
     },
     {
@@ -98,10 +98,7 @@ export const ProjectsPage: FC = () => {
 
   return (
     <>
-      <NewProjectModal
-        isOpen={newProjectModalShow}
-        closeAction={() => dispatch(setNewProjectModalShow(false))}
-      />
+      <ProjectModal />
       <DeleteProjectModal
         isOpen={deleteProjectModalShow}
         closeAction={() => dispatch(setDeleteProjectModalShow(false))}

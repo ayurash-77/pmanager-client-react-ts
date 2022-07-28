@@ -1,20 +1,21 @@
 import { skipToken } from '@reduxjs/toolkit/query'
 import { IReelsType } from 'entities/reelsTypes/reelsTypes.interfaces'
 import { useEffect, useState } from 'react'
+import { useDispatch } from 'react-redux'
 import * as CommonIcons from '../../../assets/icons/common-icons'
 import * as ToolbarIcons from '../../../assets/icons/toolbar-icons'
 import { IProject } from '../../../entities/projects/projects.interfaces'
 import { useGetReelsQuery } from '../../../entities/reels/reels.api'
-import NewReelsTypeModal from '../../../entities/reelsTypes/NewReelsTypeModal'
 import { ReelsTypeCard } from '../../../entities/reelsTypes/ReelsTypeCard'
+import ReelsTypeModal from '../../../entities/reelsTypes/ReelsTypeModal'
 import { useDeleteReelsTypeMutation } from '../../../entities/reelsTypes/reelsTypes.api'
-import { useAppDispatch, useAppSelector } from '../../../hooks/redux'
+import { useAppSelector } from '../../../hooks/redux'
 import { useContextMenu } from '../../../hooks/useContextMenu'
 import { useOnReelsTypeClick } from '../../../hooks/useOnReelsTypeClick'
 import { usePermissions } from '../../../hooks/usePermissions'
 import { useTranslate } from '../../../hooks/useTranslate'
 import { setActiveReelsTypeId } from '../../../store/reducers/entities.reducer'
-import { setNewReelsTypeModalShow } from '../../../store/reducers/modals.reducer'
+import { setReelsTypeModal } from '../../../store/reducers/modals.reducer'
 import { InfoReelsTypeBlock } from '../../info-elements/InfoReelsTypeBlock'
 import DeleteModal from '../../modal/DeleteModal'
 import { ContextMenu } from '../../ui/ContextMenu/ContextMenu'
@@ -22,6 +23,7 @@ import { ContextMenuItem, IContextMenuItem } from '../../ui/ContextMenu/ContextM
 import { RibbonWrapper } from './RibbonWrapper'
 
 export const RibbonReelsTypes = ({ entities, project }: { entities: IReelsType[]; project: IProject }) => {
+  const dispatch = useDispatch()
   const { text } = useTranslate()
   const count: number = entities?.length || 0
 
@@ -29,10 +31,8 @@ export const RibbonReelsTypes = ({ entities, project }: { entities: IReelsType[]
   const { refetch: refetchReels } = useGetReelsQuery(project?.id ?? skipToken)
 
   const { activeReelsTypeId } = useAppSelector(state => state.entities)
-  const dispatch = useAppDispatch()
 
-  const { newReelsTypeModalShow } = useAppSelector(state => state.modals)
-  const { canCreateProject, canEditProject, canDeleteProject } = usePermissions()
+  const { canCreateProject } = usePermissions()
   const { position, isMenuShow: isMainMenuShow, showContextMenu } = useContextMenu()
   const { onReelsTypeClickHandler, isMenuShow } = useOnReelsTypeClick()
 
@@ -47,7 +47,7 @@ export const RibbonReelsTypes = ({ entities, project }: { entities: IReelsType[]
       icon: <CommonIcons.Plus />,
       entityType: 'reelsType',
       shortcut: 'Ctrl+N',
-      action: () => dispatch(setNewReelsTypeModalShow(true)),
+      action: () => dispatch(setReelsTypeModal({ isOpen: true })),
       disabled: !canCreateProject,
     },
   ]
@@ -58,7 +58,7 @@ export const RibbonReelsTypes = ({ entities, project }: { entities: IReelsType[]
       icon: <CommonIcons.Plus />,
       entityType: 'reelsType',
       shortcut: 'Ctrl+N',
-      action: () => dispatch(setNewReelsTypeModalShow(true)),
+      action: () => dispatch(setReelsTypeModal({ isOpen: true })),
     },
     {
       title: 'Add existing Reel',
@@ -101,7 +101,7 @@ export const RibbonReelsTypes = ({ entities, project }: { entities: IReelsType[]
 
   return (
     <>
-      <NewReelsTypeModal isOpen={newReelsTypeModalShow} zIndex={1100} />
+      <ReelsTypeModal />
       <DeleteModal
         isOpen={isDeleteModalShow}
         closeAction={onCancelHandler}
@@ -145,7 +145,7 @@ export const RibbonReelsTypes = ({ entities, project }: { entities: IReelsType[]
         variant={'reelsType'}
         title={text.project.reelsTypes}
         count={count}
-        onClickPlus={() => dispatch(setNewReelsTypeModalShow(true))}
+        onClickPlus={() => dispatch(setReelsTypeModal({ isOpen: true }))}
         onClickMinus={() => setDeleteModalShow(true)}
         activeItemsIds={activeReelsTypeId && [activeReelsTypeId]}
         showContextMenu={showContextMenu}

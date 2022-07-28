@@ -27,7 +27,5 @@ export const setupStore: CombinedState<any> = () => {
 }
 
 export type AppStore = ReturnType<typeof setupStore>
-
-// export type RootState = ReturnType<typeof rootReducer>
-export type RootState = ReturnType<typeof setupStore.getState>
+export type RootState = ReturnType<typeof rootReducer>
 export type AppDispatch = typeof setupStore.dispatch

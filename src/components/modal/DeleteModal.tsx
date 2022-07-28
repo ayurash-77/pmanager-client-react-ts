@@ -1,10 +1,10 @@
 import { SerializedError } from '@reduxjs/toolkit'
-import { IReel } from 'entities/reels/reels.interfaces'
-import { IReelsType } from 'entities/reelsTypes/reelsTypes.interfaces'
-import { IShot } from 'entities/shots/shots.interfaces'
-import { CustomError } from 'entities/users/auth/auth.api'
 import { FC } from 'react'
-import { ErrorList } from 'components/errors/ErrorList'
+import { IReel } from '../../entities/reels/reels.interfaces'
+import { IReelsType } from '../../entities/reelsTypes/reelsTypes.interfaces'
+import { IShot } from '../../entities/shots/shots.interfaces'
+import { CustomError } from '../../store/base.api'
+import { ErrorList } from '../errors/ErrorList'
 import { ModalWrapper } from './ModalWrapper'
 
 export interface IDeleteModal {

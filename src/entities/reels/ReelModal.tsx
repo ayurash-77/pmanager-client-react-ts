@@ -4,35 +4,28 @@ import { Controller, SubmitHandler, useForm } from 'react-hook-form'
 import { useDispatch } from 'react-redux'
 import { useParams } from 'react-router'
 import { setActiveReelsIds } from 'store/reducers/entities.reducer'
-import { setNewReelModalShow, setNewReelsTypeModalShow } from 'store/reducers/modals.reducer'
+import { setReelModal, setReelsTypeModal } from 'store/reducers/modals.reducer'
 import { useAppSelector } from 'hooks/redux'
 import { useTranslate } from 'hooks/useTranslate'
 import { LoadingOrError } from '../../components/loadingOrError/LoadingOrError'
 import { ModalWrapper } from '../../components/modal/ModalWrapper'
-import { IZIndex } from '../../components/modal/modalWrapper.interfaces'
 import { Switcher } from '../../components/ui'
 import { IOption } from '../../components/ui/ui.types'
 import { useGetReelsTypesQuery } from '../reelsTypes/reelsTypes.api'
 import { useCreateReelMutation } from './reels.api'
 import { IReelCreateDto, IReelInputData } from './reels.interfaces'
 
-interface INewReelModal {
-  isOpen: boolean
-  zIndex?: IZIndex
-}
-
 ////////////////////////////////////////////////////////////////////////////////////////////
-// New Reel Modal
+// Reel Modal
 ////////////////////////////////////////////////////////////////////////////////////////////
 
-export const NewReelModal: FC<INewReelModal> = props => {
-  const { isOpen, ...rest } = props
-
-  // const dispatch = useAppDispatch()
+export const ReelModal: FC = () => {
   const dispatch = useDispatch()
   const { id } = useParams()
   const { text } = useTranslate()
   const user = useAppSelector(state => state.auth.authUser)
+
+  const { reelModal } = useAppSelector(state => state.modals)
 
   const [createReel, { isError, error, isSuccess, isLoading, reset, data: newReel }] = useCreateReelMutation()
   const { data: reelsTypes = [] } = useGetReelsTypesQuery(+id ?? skipToken)
@@ -57,7 +50,7 @@ export const NewReelModal: FC<INewReelModal> = props => {
   })
 
   const onCancelHandler = useCallback(() => {
-    dispatch(setNewReelModalShow(false))
+    dispatch(setReelModal({ isOpen: false }))
     resetData()
     reset()
   }, [dispatch, reset, resetData])
@@ -77,7 +70,7 @@ export const NewReelModal: FC<INewReelModal> = props => {
 
   useEffect(() => {
     if (watchSelectReelsTypeId === 'addNew') {
-      dispatch(setNewReelsTypeModalShow(true))
+      dispatch(setReelsTypeModal({ isOpen: true, zIndex: 1100 }))
     }
     if (isSuccess && newReel) {
       dispatch(setActiveReelsIds([newReel.id]))
@@ -91,7 +84,6 @@ export const NewReelModal: FC<INewReelModal> = props => {
   return (
     <>
       <ModalWrapper
-        isOpen={isOpen}
         warning={false}
         type={'type2'}
         size={'sm'}
@@ -99,13 +91,13 @@ export const NewReelModal: FC<INewReelModal> = props => {
         onSubmitHandler={handleSubmit(onSubmitHandler)}
         onCancelHandler={onCancelHandler}
         isValid={isValid}
-        {...rest}
+        {...reelModal}
       >
         <div className={'grid grid-cols-2 items-center gap-1'}>
           <label className={'flex justify-end'}>{text.project.reelType}:</label>
           <select
             {...register('reelsTypeId', {
-              validate: value => value === 'select' && text.error.selectReelsType,
+              validate: value => (value !== 'select' ? true : text.error.selectReelsType),
             })}
           >
             <option value={'select'} label={text.actions.select} />
@@ -146,5 +138,3 @@ export const NewReelModal: FC<INewReelModal> = props => {
     </>
   )
 }
-
-export default NewReelModal

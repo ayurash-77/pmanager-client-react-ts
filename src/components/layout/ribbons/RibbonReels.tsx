@@ -1,5 +1,4 @@
 import { IProject } from 'entities/projects/projects.interfaces'
-import NewReelModal from 'entities/reels/NewReelModal'
 import { ReelCard } from 'entities/reels/ReelCard'
 import { useDeleteReelMutation } from 'entities/reels/reels.api'
 import { IReel } from 'entities/reels/reels.interfaces'
@@ -15,16 +14,16 @@ import { InfoReelBlock } from 'components/info-elements/InfoReelBlock'
 import DeleteModal from 'components/modal/DeleteModal'
 import { ContextMenu } from 'components/ui/ContextMenu/ContextMenu'
 import { ContextMenuItem, IContextMenuItem } from 'components/ui/ContextMenu/ContextMenuItem'
+import { ReelModal } from '../../../entities/reels/ReelModal'
 import { useContextMenu } from '../../../hooks/useContextMenu'
 import { usePermissions } from '../../../hooks/usePermissions'
-import { setNewReelModalShow } from '../../../store/reducers/modals.reducer'
+import { setReelModal } from '../../../store/reducers/modals.reducer'
 import { RibbonWrapper } from './RibbonWrapper'
 
 export const RibbonReels = ({ entities, project }: { entities: IReel[]; project: IProject }) => {
+  const dispatch = useDispatch()
   const { text } = useTranslate()
 
-  // const dispatch = useAppDispatch()
-  const dispatch = useDispatch()
   const count: number = entities?.length || 0
 
   const [deleteReel, { error, isSuccess, reset }] = useDeleteReelMutation()
@@ -36,8 +35,7 @@ export const RibbonReels = ({ entities, project }: { entities: IReel[]; project:
   const activeReel = entities?.find(entity => activeReelsIds.includes(entity.id)) || null
   const detailsJsx = activeReel && <InfoReelBlock {...activeReel} />
 
-  const { newReelModalShow } = useAppSelector(state => state.modals)
-  const { canCreateProject, canEditProject, canDeleteProject } = usePermissions()
+  const { canCreateProject } = usePermissions()
   const { position, isMenuShow: isMainMenuShow, showContextMenu } = useContextMenu()
   const { onReelClickHandler, isMenuShow } = useOnReelClick()
 
@@ -47,7 +45,7 @@ export const RibbonReels = ({ entities, project }: { entities: IReel[]; project:
       icon: <CommonIcons.Plus />,
       entityType: 'reel',
       shortcut: 'Ctrl+N',
-      action: () => dispatch(setNewReelModalShow(true)),
+      action: () => dispatch(setReelModal({ isOpen: true })),
       disabled: !canCreateProject,
     },
   ]
@@ -58,7 +56,7 @@ export const RibbonReels = ({ entities, project }: { entities: IReel[]; project:
       icon: <CommonIcons.Plus />,
       entityType: 'reel',
       shortcut: 'Ctrl+N',
-      action: () => dispatch(setNewReelModalShow(true)),
+      action: () => dispatch(setReelModal({ isOpen: true })),
     },
     {
       title: 'Add existing Shot',
@@ -101,7 +99,8 @@ export const RibbonReels = ({ entities, project }: { entities: IReel[]; project:
 
   return (
     <>
-      <NewReelModal isOpen={newReelModalShow} />
+      {/* <NewReelModal isOpen={newReelModalShow} /> */}
+      <ReelModal />
       <DeleteModal
         isOpen={isDeleteModalShow}
         closeAction={onCancelHandler}
@@ -144,7 +143,7 @@ export const RibbonReels = ({ entities, project }: { entities: IReel[]; project:
         variant={'reel'}
         title={text.project.reels}
         count={count}
-        onClickPlus={() => dispatch(setNewReelModalShow(true))}
+        onClickPlus={() => dispatch(setReelModal({ isOpen: true }))}
         onClickMinus={() => setDeleteModalShow(true)}
         activeItemsIds={activeReelsIds}
         showContextMenu={showContextMenu}

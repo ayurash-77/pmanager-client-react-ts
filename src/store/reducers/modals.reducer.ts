@@ -1,48 +1,43 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit'
+import { IModal } from '../../components/modal/modalWrapper.interfaces'
 
 interface IInitialState {
+  projectModal: IModal
+  reelsTypeModal: IModal
+  reelModal: IModal
   newProjectModalShow: boolean
   deleteProjectModalShow: boolean
-  newReelsTypeModalShow: boolean
-  newReelModalShow: boolean
-  newShotModalShow: boolean
 }
 
 const initialState: IInitialState = {
+  projectModal: { isOpen: false, mode: 'create', zIndex: 1000 },
+  reelsTypeModal: { isOpen: false, mode: 'create', zIndex: 1000 },
+  reelModal: { isOpen: false, mode: 'create', zIndex: 1000 },
   newProjectModalShow: false,
   deleteProjectModalShow: false,
-  newReelsTypeModalShow: false,
-  newReelModalShow: false,
-  newShotModalShow: false,
 }
 
 export const modalsSlice = createSlice({
   name: 'modals',
   initialState,
   reducers: {
+    setProjectModal(state, action: PayloadAction<Partial<IModal>>) {
+      state.projectModal = { ...state.projectModal, ...action.payload }
+    },
+    setReelsTypeModal(state, action: PayloadAction<Partial<IModal>>) {
+      state.reelsTypeModal = { ...state.reelsTypeModal, ...action.payload }
+    },
+    setReelModal(state, action: PayloadAction<Partial<IModal>>) {
+      state.reelModal = { ...state.reelModal, ...action.payload }
+    },
     setNewProjectModalShow(state, action: PayloadAction<boolean>) {
       state.newProjectModalShow = action.payload
     },
     setDeleteProjectModalShow(state, action: PayloadAction<boolean>) {
       state.deleteProjectModalShow = action.payload
     },
-    setNewReelsTypeModalShow(state, action: PayloadAction<boolean>) {
-      state.newReelsTypeModalShow = action.payload
-    },
-    setNewReelModalShow(state, action: PayloadAction<boolean>) {
-      state.newReelModalShow = action.payload
-    },
-    setNewShotModalShow(state, action: PayloadAction<boolean>) {
-      state.newReelModalShow = action.payload
-    },
   },
 })
 
-export const {
-  setNewProjectModalShow,
-  setDeleteProjectModalShow,
-  setNewReelsTypeModalShow,
-  setNewReelModalShow,
-  setNewShotModalShow,
-} = modalsSlice.actions
-export default modalsSlice.reducer
+export const { setProjectModal, setDeleteProjectModalShow, setReelsTypeModal, setReelModal } =
+  modalsSlice.actions

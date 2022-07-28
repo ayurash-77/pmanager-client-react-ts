@@ -1,6 +1,13 @@
 import { FormEventHandler, MouseEventHandler } from 'react'
 
 export type IZIndex = 1000 | 1100 | 1200
+export type IMode = 'create' | 'edit' | 'delete'
+
+export interface IModal {
+  isOpen: boolean
+  mode: IMode
+  zIndex: IZIndex
+}
 
 export interface IModalWrapper {
   waiting?: boolean
@@ -12,5 +19,6 @@ export interface IModalWrapper {
   onSubmitHandler: FormEventHandler<HTMLFormElement>
   onCancelHandler: MouseEventHandler<HTMLButtonElement>
   zIndex?: IZIndex
+  mode?: IMode
   isValid?: boolean
 }

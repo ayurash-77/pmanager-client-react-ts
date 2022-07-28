@@ -12,7 +12,7 @@ export const ModalWrapper: FC<PropsWithChildren<IModalWrapper>> = props => {
     children,
     zIndex = 1000,
     waiting = false,
-    warning,
+    warning = false,
     title,
     onSubmitHandler,
     onCancelHandler,

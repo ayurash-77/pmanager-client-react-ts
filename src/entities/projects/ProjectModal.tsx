@@ -1,13 +1,15 @@
 import axios from 'axios'
 import { FC, useEffect, useRef, useState } from 'react'
+import { useDispatch } from 'react-redux'
 import { ErrorList } from '../../components/errors/ErrorList'
 import { ModalWrapper } from '../../components/modal/ModalWrapper'
 import { Grid, Input, InputImage, Select, Switcher, Textarea } from '../../components/ui'
 import { UploadingProgress } from '../../components/uploading-progress/UploadingProgress'
 import { apiBaseUrl, apiUploadUrl } from '../../constants/env'
-import { useAppDispatch, useAppSelector } from '../../hooks/redux'
+import { useAppSelector } from '../../hooks/redux'
 import { useTranslate } from '../../hooks/useTranslate'
 import { setActiveProjectId } from '../../store/reducers/entities.reducer'
+import { setProjectModal } from '../../store/reducers/modals.reducer'
 import { useGetAgenciesQuery } from '../agencies/agencies.api'
 import { useGetBrandsQuery } from '../brainds/brands.api'
 import { useGetClientsQuery } from '../clients/clients.api'
@@ -27,10 +29,12 @@ export interface IProjectData extends Partial<IProject> {
 // NewProjectModal
 //
 
-export const NewProjectModal: FC<INewProjectModal> = ({ ...props }) => {
+export const ProjectModal: FC = () => {
+  const dispatch = useDispatch()
   const { text } = useTranslate()
   const token = useAppSelector(state => state.auth.authUser.token)
   const user = useAppSelector(state => state.auth.authUser)
+  const { projectModal } = useAppSelector(state => state.modals)
 
   const { data: agencies } = useGetAgenciesQuery()
   const { data: brands } = useGetBrandsQuery()
@@ -42,7 +46,6 @@ export const NewProjectModal: FC<INewProjectModal> = ({ ...props }) => {
   const agenciesOptions = agencies?.map(item => ({ label: item.name, value: item.id }))
   const [selectId, setSelectId] = useState(selectionsInit)
 
-  const dispatch = useAppDispatch()
   const fileInputRef = useRef<HTMLInputElement>(null)
 
   const projectDataInit: IProjectData = {
@@ -141,7 +144,7 @@ export const NewProjectModal: FC<INewProjectModal> = ({ ...props }) => {
     projectData.image && (await deleteFile())
     await clearData()
     controller.abort()
-    props.closeAction()
+    dispatch(setProjectModal({ isOpen: false }))
   }
 
   const onSubmitHandler = async e => {
@@ -152,7 +155,7 @@ export const NewProjectModal: FC<INewProjectModal> = ({ ...props }) => {
     }
     setMessage('please wait...')
     await createProject(projectData)
-    props.closeAction()
+    dispatch(setProjectModal({ isOpen: false }))
     await clearData()
   }
 
@@ -167,7 +170,6 @@ export const NewProjectModal: FC<INewProjectModal> = ({ ...props }) => {
   return (
     <>
       <ModalWrapper
-        {...props}
         waiting={waiting}
         warning={false}
         type={'type1'}
@@ -175,6 +177,7 @@ export const NewProjectModal: FC<INewProjectModal> = ({ ...props }) => {
         title={text.actions.createProject}
         onSubmitHandler={onSubmitHandler}
         onCancelHandler={onCancelHandler}
+        {...projectModal}
       >
         <Grid cols="auto" gap={5}>
           <>
@@ -251,4 +254,4 @@ export const NewProjectModal: FC<INewProjectModal> = ({ ...props }) => {
   )
 }
 
-export default NewProjectModal
+export default ProjectModal

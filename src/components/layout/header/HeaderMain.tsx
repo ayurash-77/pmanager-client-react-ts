@@ -5,7 +5,7 @@ import { useGetProjectsQuery } from '../../../entities/projects/projects.api'
 import { useAppDispatch, useAppSelector } from '../../../hooks/redux'
 import { usePermissions } from '../../../hooks/usePermissions'
 import { useTranslate } from '../../../hooks/useTranslate'
-import { setDeleteProjectModalShow, setNewProjectModalShow } from '../../../store/reducers/modals.reducer'
+import { setDeleteProjectModalShow, setProjectModal } from '../../../store/reducers/modals.reducer'
 import {
   setFilterbarShow,
   setProjectsViewMode,
@@ -17,7 +17,9 @@ import { IQuarterItem } from '../../../utils/quarter-filter'
 import { FlexRow, IconButton, Input, Loader, ToolButton, ToolButtonGroup } from '../../ui'
 import css from './HeaderMain.module.scss'
 
+////////////////////////////////////////////////////////////////////////////////////////////
 // HeaderMain
+////////////////////////////////////////////////////////////////////////////////////////////
 
 export const HeaderMain: FC = () => {
   const { darkMode } = useAppSelector(state => state.ui.theme)
@@ -51,7 +53,7 @@ export const HeaderMain: FC = () => {
             icon={<CommonIcons.Plus />}
             ml={10}
             mr={5}
-            onClick={() => canCreateProject && dispatch(setNewProjectModalShow(true))}
+            onClick={() => canCreateProject && dispatch(setProjectModal({ isOpen: true }))}
           />
         )}
         {canDeleteProject && (
