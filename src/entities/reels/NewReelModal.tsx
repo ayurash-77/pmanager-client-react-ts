@@ -42,7 +42,6 @@ export const NewReelModal: FC<INewReelModal> = props => {
     duration: null,
     reelsTypeId: 'select',
     highPriority: false,
-    highPriority2: false,
     createdBy: user,
   }
   const {
@@ -73,8 +72,8 @@ export const NewReelModal: FC<INewReelModal> = props => {
     await createReel(newFormData)
   }
 
-  const options: IOption[] = reelsTypes?.map(item => ({ label: `${item.code}`, value: `${item.id}` }))
-  const watchSelectReelsTypeId = watch('reelsTypeId').toString()
+  const options: IOption[] = reelsTypes?.map(item => ({ label: `${item.code}`, value: item.id }))
+  const watchSelectReelsTypeId = watch('reelsTypeId')
 
   useEffect(() => {
     if (watchSelectReelsTypeId === 'addNew') {
@@ -104,13 +103,18 @@ export const NewReelModal: FC<INewReelModal> = props => {
       >
         <div className={'grid grid-cols-2 items-center gap-1'}>
           <label className={'flex justify-end'}>{text.project.reelType}:</label>
-          <select {...register('reelsTypeId', { required: text.error.isRequired })}>
+          <select {...register('reelsTypeId', { validate: value => value !== 'select' })}>
             <option value={'select'} label={text.actions.select} />
             {options?.map((item, idx) => (
               <option key={idx} value={item.value} label={item.label} />
             ))}
             <option value={'addNew'} label={text.actions.addNew} />
           </select>
+          {errors?.reelsTypeId && (
+            <div className={'errorField col-start-2'}>
+              {errors?.reelsTypeId && text.error.selectReelsType}
+            </div>
+          )}
 
           <label className={'flex justify-end'}>{text.common.duration}:</label>
           <div className={'flex gap-1 items-center '}>
@@ -119,10 +123,15 @@ export const NewReelModal: FC<INewReelModal> = props => {
               type={'number'}
               min={1}
               max={9999}
-              {...register('duration', { required: text.error.isRequired })}
+              {...register('duration', {
+                required: text.error.isRequired,
+                max: { value: 9999, message: text.error.invalidValue },
+              })}
             />
             <span>sec</span>
           </div>
+          {errors?.duration && <div className={'errorField col-start-2'}>{errors?.duration.message}</div>}
+
           <Controller
             control={control}
             name={'highPriority'}
@@ -131,6 +140,7 @@ export const NewReelModal: FC<INewReelModal> = props => {
             )}
           />
         </div>
+
         <LoadingOrError isLoading={isLoading} isError={isError} error={error} />
       </ModalWrapper>
     </>

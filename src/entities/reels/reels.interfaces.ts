@@ -25,9 +25,8 @@ export interface IReel {
 
 export interface IReelInputData {
   duration: number | null
-  reelsTypeId: string | number
+  reelsTypeId: number | string
   highPriority: boolean
-  highPriority2?: boolean
 }
 
 export interface IReelCreateDto extends IReelInputData {

@@ -65,7 +65,9 @@
   },
   "error": {
     "isRequired": "is required",
-    "fieldRequired": "field is required"
+    "invalidValue": "invalid value",
+    "fieldRequired": "field is required",
+    "selectReelsType": "select reels type"
   },
   "menu": {
     "favorites": "Favorites",

@@ -65,7 +65,9 @@
   },
   "error": {
     "isRequired": "обязательно к заполнению",
-    "fieldRequired": "обязательное поле"
+    "invalidValue": "недопустипое значение",
+    "fieldRequired": "обязательное поле",
+    "selectReelsType": "выберите тип ролика"
 },
   "menu": {
     "favorites": "Избранное",
