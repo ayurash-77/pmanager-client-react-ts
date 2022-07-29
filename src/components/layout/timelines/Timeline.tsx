@@ -3,6 +3,7 @@ import cn from 'classnames'
 import { useGetReelQuery, useGetReelsQuery, useUpdateReelMutation } from 'entities/reels/reels.api'
 import { AddShotToReelModal } from 'entities/shots/AddShotToReelModal'
 import { ShotCard } from 'entities/shots/ShotCard'
+import { useOnShotClick } from 'entities/shots/useOnShotClick'
 import { Reorder } from 'framer-motion'
 import { FC, useEffect, useMemo, useState } from 'react'
 import { CommonIcons } from 'assets/icons/common-icons'
@@ -14,13 +15,13 @@ import {
   setDragShotId,
 } from 'store/reducers/entities.reducer'
 import { useAppDispatch, useAppSelector } from 'hooks/redux'
-import { useOnShotClick } from 'hooks/useOnShotClick'
 import { IconButton } from 'components/ui'
 import { ContextMenu } from 'components/ui/ContextMenu/ContextMenu'
 import { IContextMenuItem } from 'components/ui/ContextMenu/ContextMenuItem'
 import css from './Timeline.module.scss'
 import { ITimeline } from './timeline.interfaces'
 
+////////////////////////////////////////////////////////////////////////////////////////////
 // Timeline
 ////////////////////////////////////////////////////////////////////////////////////////////
 

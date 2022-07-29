@@ -1,8 +1,12 @@
 import { skipToken } from '@reduxjs/toolkit/query'
-import { useGetReelsQuery } from '../entities/reels/reels.api'
-import { setActiveReelsIds, setActiveReelsTypeId, setActiveShotId } from '../store/reducers/entities.reducer'
-import { useAppDispatch, useAppSelector } from './redux'
-import { useContextMenu } from './useContextMenu'
+import { useAppDispatch, useAppSelector } from '../../hooks/redux'
+import { useContextMenu } from '../../hooks/useContextMenu'
+import {
+  setActiveReelsIds,
+  setActiveReelsTypeId,
+  setActiveShotId,
+} from '../../store/reducers/entities.reducer'
+import { useGetReelsQuery } from '../reels/reels.api'
 
 export const useOnShotClick = () => {
   const dispatch = useAppDispatch()
