@@ -1,7 +1,7 @@
 import cn from 'classnames'
 import { FC } from 'react'
 import { IEntityType } from 'components/ui/ui.types'
-import * as CommonIcons from '../../../assets/icons/common-icons'
+import { CommonIcons } from '../../../assets/icons/common-icons'
 import { useAppDispatch, useAppSelector } from '../../../hooks/redux'
 import { setRibbonReelsExpanded, setRibbonReelsTypesExpanded } from '../../../store/reducers/ui.reducer'
 import { IconButton } from '../../ui'
@@ -18,7 +18,7 @@ export const RibbonWrapper: FC<IRibbonWrapper> = props => {
     onClickMinus,
     children,
     activeItemsIds = [],
-    showContextMenu,
+    onContextMenu,
   } = props
   const dispatch = useAppDispatch()
 
@@ -39,10 +39,10 @@ export const RibbonWrapper: FC<IRibbonWrapper> = props => {
 
   const headerIconsJsx = (
     <>
-      <IconButton icon={<CommonIcons.Plus />} onClick={onClickPlus} />
+      <IconButton icon={CommonIcons.plus()} onClick={onClickPlus} />
       {canDeleteItem && (
         <IconButton
-          icon={<CommonIcons.Trash />}
+          icon={CommonIcons.trash()}
           disabled={activeItemsIds?.length !== 1}
           variant={'accent'}
           size={14}
@@ -53,7 +53,7 @@ export const RibbonWrapper: FC<IRibbonWrapper> = props => {
   )
 
   return (
-    <div className={css.container} onContextMenu={showContextMenu}>
+    <div className={cn(css.container)} onContextMenu={onContextMenu}>
       <Collapse
         title={`${title}: ${count}`}
         variant={variant}

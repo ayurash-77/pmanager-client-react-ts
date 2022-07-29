@@ -1,6 +1,6 @@
 import axios from 'axios'
 import { FC, useState } from 'react'
-import * as CommonIcons from '../../../../assets/icons/common-icons'
+import { CommonIcons } from '../../../../assets/icons/common-icons'
 import { apiBaseUrl } from '../../../../constants/env'
 import DeleteBriefModal from '../../../../entities/briefs/DeleteBriefModal'
 import NewBriefModal from '../../../../entities/briefs/NewBriefModal'
@@ -61,7 +61,7 @@ export const SidebarBriefs: FC<ISidebarBriefs> = ({ project, briefs, isLoadingBr
           <tr key={brief.id} className="hover">
             <td>
               <IconButton
-                icon={<CommonIcons.Minus />}
+                icon={CommonIcons.minus()}
                 size={12}
                 ml={-5}
                 variant={'accent'}
@@ -92,7 +92,7 @@ export const SidebarBriefs: FC<ISidebarBriefs> = ({ project, briefs, isLoadingBr
         brief={selectedBrief}
       />
       <SidebarBlockHeader title={text.menu.briefs}>
-        <IconButton icon={<CommonIcons.Plus />} ml={10} onClick={() => setNewBriefModalShow(true)} />
+        <IconButton icon={CommonIcons.plus()} ml={10} onClick={() => setNewBriefModalShow(true)} />
       </SidebarBlockHeader>
       <div className={css.blockContainer}>
         {isLoadingBriefs && <Loader size={32} />}

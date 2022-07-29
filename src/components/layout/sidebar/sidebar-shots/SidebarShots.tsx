@@ -1,5 +1,5 @@
 import { FC, useState } from 'react'
-import * as CommonIcons from '../../../../assets/icons/common-icons'
+import { CommonIcons } from '../../../../assets/icons/common-icons'
 import { IProject } from '../../../../entities/projects/projects.interfaces'
 import NewShotModal from '../../../../entities/shots/NewShotModal'
 import { ShotCard } from '../../../../entities/shots/ShotCard'
@@ -70,13 +70,13 @@ export const SidebarShots: FC<IShotsBlock> = props => {
           <div className={'flex gap-1'}>
             {canDeleteItem && (
               <IconButton
-                icon={<CommonIcons.Trash />}
+                icon={CommonIcons.trash()}
                 disabled={!activeShot}
                 variant={'accent'}
                 onClick={activeShot ? () => setDeleteModalShow(true) : null}
               />
             )}
-            <IconButton icon={<CommonIcons.Plus />} onClick={() => setNewShotModalShow(true)} />
+            <IconButton icon={CommonIcons.plus()} onClick={() => setNewShotModalShow(true)} />
           </div>
         </SidebarBlockHeader>
 

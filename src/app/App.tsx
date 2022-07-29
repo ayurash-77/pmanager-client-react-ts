@@ -1,13 +1,13 @@
-import { FC, useEffect } from 'react'
+import { FC } from 'react'
 import { BrowserRouter } from 'react-router-dom'
 import { AppRouter } from './AppRouter'
 import './styles/app.styles.scss'
 
 const App: FC = () => {
-  useEffect(() => {
-    document.addEventListener('contextmenu', e => e.preventDefault())
-    return () => document.removeEventListener('contextmenu', e => e.preventDefault())
-  }, [])
+  // useEffect(() => {
+  //   document.addEventListener('contextmenu', e => e.preventDefault())
+  //   return () => document.removeEventListener('contextmenu', e => e.preventDefault())
+  // }, [])
 
   return (
     <BrowserRouter>

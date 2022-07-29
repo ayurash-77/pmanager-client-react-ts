@@ -5,7 +5,7 @@ import { AddShotToReelModal } from 'entities/shots/AddShotToReelModal'
 import { ShotCard } from 'entities/shots/ShotCard'
 import { Reorder } from 'framer-motion'
 import { FC, useEffect, useMemo, useState } from 'react'
-import * as CommonIcons from 'assets/icons/common-icons'
+import { CommonIcons } from 'assets/icons/common-icons'
 import * as ToolbarIcons from 'assets/icons/toolbar-icons'
 import {
   setActiveReelsIds,
@@ -17,7 +17,7 @@ import { useAppDispatch, useAppSelector } from 'hooks/redux'
 import { useOnShotClick } from 'hooks/useOnShotClick'
 import { IconButton } from 'components/ui'
 import { ContextMenu } from 'components/ui/ContextMenu/ContextMenu'
-import { ContextMenuItem, IContextMenuItem } from 'components/ui/ContextMenu/ContextMenuItem'
+import { IContextMenuItem } from 'components/ui/ContextMenu/ContextMenuItem'
 import css from './Timeline.module.scss'
 import { ITimeline } from './timeline.interfaces'
 
@@ -50,7 +50,7 @@ export const Timeline: FC<ITimeline> = ({ reelInit }) => {
     () => [
       {
         title: 'New Shot',
-        icon: <CommonIcons.Plus />,
+        icon: CommonIcons.plus(),
         entityType: 'reel',
         shortcut: 'Ctrl+N',
         action: () => alert('New Shot'),
@@ -63,7 +63,7 @@ export const Timeline: FC<ITimeline> = ({ reelInit }) => {
       },
       {
         title: 'Delete Shot',
-        icon: <CommonIcons.Trash />,
+        icon: CommonIcons.trash(),
         variant: 'accent',
         shortcut: 'Ctrl+Del',
         action: () => alert('Delete Shot'),
@@ -116,19 +116,7 @@ export const Timeline: FC<ITimeline> = ({ reelInit }) => {
         reel={reel}
         closeAction={() => setAddShotModalShow(false)}
       />
-      <ContextMenu show={isMenuShow} position={position}>
-        {shotContextMenuData.map(item => (
-          <ContextMenuItem
-            key={item.title}
-            title={item.title}
-            icon={item.icon}
-            entityType={item.entityType}
-            variant={item.variant}
-            shortcut={item.shortcut}
-            action={item.action}
-          />
-        ))}
-      </ContextMenu>
+      <ContextMenu show={isMenuShow} position={position} data={shotContextMenuData} />
 
       <div className={css.container}>
         <div
@@ -174,10 +162,10 @@ export const Timeline: FC<ITimeline> = ({ reelInit }) => {
             </div>
           </div>
           <div className={css.timelineItemsButtons}>
-            <IconButton size={13} icon={<CommonIcons.Plus />} onClick={addShotToReelHandler} />
+            <IconButton size={13} icon={CommonIcons.plus()} onClick={addShotToReelHandler} />
             <IconButton
               size={13}
-              icon={<CommonIcons.Minus />}
+              icon={CommonIcons.minus()}
               disabled={!shotInReel}
               variant={'accent'}
               onClick={removeShotFromReelHandler}

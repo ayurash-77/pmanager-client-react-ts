@@ -1,13 +1,13 @@
 import { useNavigate } from 'react-router-dom'
-import { setActiveProjectId } from '../store/reducers/entities.reducer'
-import { setActiveMenu } from '../store/reducers/ui.reducer'
-import { useAppDispatch, useAppSelector } from './redux'
-import { useContextMenu } from './useContextMenu'
+import { useAppDispatch, useAppSelector } from '../../hooks/redux'
+import { useContextMenu } from '../../hooks/useContextMenu'
+import { setActiveProjectId } from '../../store/reducers/entities.reducer'
+import { setActiveMenu } from '../../store/reducers/ui.reducer'
 
 export const useOnProjectClick = () => {
   const dispatch = useAppDispatch()
   const { activeProjectId } = useAppSelector(state => state.entities)
-  const { position, isMenuShow, showContextMenu } = useContextMenu()
+  const { position, isMenuShow: isProjectMenuShow, showContextMenu } = useContextMenu()
   const navigate = useNavigate()
 
   const onProjectClickHandler = (e, projectId) => {
@@ -27,5 +27,5 @@ export const useOnProjectClick = () => {
     }
   }
 
-  return { onProjectClickHandler, isMenuShow, position }
+  return { onProjectClickHandler, isProjectMenuShow, position }
 }

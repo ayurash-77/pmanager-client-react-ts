@@ -2,7 +2,7 @@ import cn from 'classnames'
 import { AnimatePresence, motion } from 'framer-motion'
 import { FC, PropsWithChildren } from 'react'
 import { IEntityType } from 'components/ui/ui.types'
-import * as CommonIcons from '../../../assets/icons/common-icons'
+import { CommonIcons } from '../../../assets/icons/common-icons'
 import { FlexRow, IconButton } from '../../ui'
 import css from './Collapse.module.scss'
 
@@ -22,7 +22,7 @@ export const Collapse: FC<PropsWithChildren<ICollapse>> = props => {
       <div className={cn(css.header, css[variant])}>
         <div className={css.title} onClick={setExpanded}>
           <div className={cn(css.arrow, !expanded && css.collapse)}>
-            <IconButton icon={<CommonIcons.ArrDown />} />
+            <IconButton icon={CommonIcons.arrDown()} />
           </div>
           {title}
         </div>

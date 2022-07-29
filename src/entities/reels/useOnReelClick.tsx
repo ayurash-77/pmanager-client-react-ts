@@ -1,17 +1,19 @@
-import { setActiveReelsIds, setActiveReelsTypeId, setActiveShotId } from '../store/reducers/entities.reducer'
-import { useAppDispatch, useAppSelector } from './redux'
-import { useContextMenu } from './useContextMenu'
+import { useAppDispatch, useAppSelector } from '../../hooks/redux'
+import { useContextMenu } from '../../hooks/useContextMenu'
+import {
+  setActiveReelsIds,
+  setActiveReelsTypeId,
+  setActiveShotId,
+} from '../../store/reducers/entities.reducer'
 
 export const useOnReelClick = () => {
   const dispatch = useAppDispatch()
   const { activeReelsIds } = useAppSelector(state => state.entities)
 
-  const { position, isMenuShow, showContextMenu, hideContextMenu } = useContextMenu()
+  const { position, isMenuShow: isItemMenuShow, showContextMenu, hideContextMenu } = useContextMenu()
 
-  const onReelClickHandler = (e, reelId) => {
-    e.preventDefault()
+  const onItemClickHandler = (e, reelId) => {
     e.type === 'mousedown' && hideContextMenu()
-
     switch (e.type) {
       case 'click':
         dispatch(
@@ -21,11 +23,11 @@ export const useOnReelClick = () => {
       case 'contextmenu':
         dispatch(setActiveReelsIds([reelId]))
         showContextMenu(e)
+        break
     }
-
     dispatch(setActiveShotId(null))
     dispatch(setActiveReelsTypeId(null))
   }
 
-  return { onReelClickHandler, position, isMenuShow }
+  return { onItemClickHandler, isItemMenuShow, position }
 }

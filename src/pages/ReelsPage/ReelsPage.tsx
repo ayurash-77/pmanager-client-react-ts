@@ -59,8 +59,8 @@ export const ReelsPage = () => {
         <HeaderProject />
 
         <div className={'collapses'}>
-          <RibbonReelsTypes entities={reelsTypes} project={project} />
-          <RibbonReels entities={reels} project={project} />
+          <RibbonReelsTypes entities={reelsTypes} />
+          <RibbonReels entities={reels} />
 
           <Collapse
             title={text.common.details}

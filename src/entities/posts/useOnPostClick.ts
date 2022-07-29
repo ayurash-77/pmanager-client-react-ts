@@ -1,7 +1,7 @@
-import { useContextMenu } from './useContextMenu'
+import { useContextMenu } from '../../hooks/useContextMenu'
 
 export const useOnPostClick = () => {
-  const { position, isMenuShow, showContextMenu, hideContextMenu } = useContextMenu({ rightClickOnly: true })
+  const { position, isMenuShow, showContextMenu, hideContextMenu } = useContextMenu()
 
   const onPostClickHandler = (e, postId) => {
     e.preventDefault()

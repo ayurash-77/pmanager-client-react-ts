@@ -1,5 +1,5 @@
 import { FC } from 'react'
-import * as CommonIcons from '../../../assets/icons/common-icons'
+import { CommonIcons } from '../../../assets/icons/common-icons'
 import * as ToolbarIcons from '../../../assets/icons/toolbar-icons'
 import { useGetProjectsQuery } from '../../../entities/projects/projects.api'
 import { useAppDispatch, useAppSelector } from '../../../hooks/redux'
@@ -50,7 +50,7 @@ export const HeaderMain: FC = () => {
         {text.project.projects}: {isLoadingProjects ? <Loader size={16} /> : projectsCount}
         {canCreateProject && (
           <IconButton
-            icon={<CommonIcons.Plus />}
+            icon={CommonIcons.plus()}
             ml={10}
             mr={5}
             onClick={() => canCreateProject && dispatch(setProjectModal({ isOpen: true }))}
@@ -58,7 +58,7 @@ export const HeaderMain: FC = () => {
         )}
         {canDeleteProject && (
           <IconButton
-            icon={<CommonIcons.Trash />}
+            icon={CommonIcons.trash()}
             disabled={!activeProjectId}
             variant={'accent'}
             size={14}

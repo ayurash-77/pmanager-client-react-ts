@@ -10,6 +10,6 @@ export interface IRibbonWrapper extends DetailedHTMLProps<HTMLAttributes<HTMLDiv
   count: number
   onClickPlus: () => void
   onClickMinus: () => void
-  showContextMenu?: (e) => void
+  // showContextMenu?: (e) => void
   activeItemsIds: number[]
 }

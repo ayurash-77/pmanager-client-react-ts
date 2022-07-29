@@ -1,18 +1,21 @@
 import { skipToken } from '@reduxjs/toolkit/query'
-import { useGetReelsQuery } from '../entities/reels/reels.api'
-import { setActiveReelsIds, setActiveReelsTypeId, setActiveShotId } from '../store/reducers/entities.reducer'
-import { useAppDispatch, useAppSelector } from './redux'
-import { useContextMenu } from './useContextMenu'
+import { useAppDispatch, useAppSelector } from '../../hooks/redux'
+import { useContextMenu } from '../../hooks/useContextMenu'
+import {
+  setActiveReelsIds,
+  setActiveReelsTypeId,
+  setActiveShotId,
+} from '../../store/reducers/entities.reducer'
+import { useGetReelsQuery } from '../reels/reels.api'
 
 export const useOnReelsTypeClick = () => {
   const dispatch = useAppDispatch()
   const { activeReelsTypeId, activeProjectId } = useAppSelector(state => state.entities)
   const { data: reels } = useGetReelsQuery(activeProjectId ?? skipToken)
 
-  const { position, isMenuShow, showContextMenu, hideContextMenu } = useContextMenu()
+  const { position, isMenuShow: isItemMenuShow, showContextMenu, hideContextMenu } = useContextMenu()
 
-  const onReelsTypeClickHandler = (e, reelsTypeId) => {
-    e.preventDefault()
+  const onItemClickHandler = (e, reelsTypeId) => {
     e.type === 'mousedown' && hideContextMenu()
 
     const isSameItem = reelsTypeId === activeReelsTypeId
@@ -33,5 +36,5 @@ export const useOnReelsTypeClick = () => {
     }
   }
 
-  return { onReelsTypeClickHandler, position, isMenuShow }
+  return { onItemClickHandler, position, isItemMenuShow }
 }

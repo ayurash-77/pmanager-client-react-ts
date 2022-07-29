@@ -17,10 +17,12 @@ export const useContextMenu = () => {
     document.addEventListener('keydown', e => e.key === 'Escape' && setMenuShow(false))
     document.addEventListener('mousedown', () => setMenuShow(false))
     document.addEventListener('click', () => setMenuShow(false))
+    document.addEventListener('contextmenu', e => e.preventDefault())
     return () => {
       document.removeEventListener('keydown', e => e.key === 'Escape' && setMenuShow(false))
       document.removeEventListener('mousedown', () => setMenuShow(false))
       document.removeEventListener('click', () => setMenuShow(false))
+      document.removeEventListener('contextmenu', e => e.preventDefault())
     }
   }, [])
 

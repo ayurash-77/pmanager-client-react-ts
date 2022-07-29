@@ -1,10 +1,10 @@
 import cn from 'classnames'
 import { FC } from 'react'
-import * as CommonIcons from '../../assets/icons/common-icons'
+import { CommonIcons } from '../../assets/icons/common-icons'
 import * as ToolbarIcons from '../../assets/icons/toolbar-icons'
 import { InfoDateTime } from '../../components/info-elements'
 import { ContextMenu } from '../../components/ui/ContextMenu/ContextMenu'
-import { ContextMenuItem, IContextMenuItem } from '../../components/ui/ContextMenu/ContextMenuItem'
+import { IContextMenuItem } from '../../components/ui/ContextMenu/ContextMenuItem'
 import { useAppDispatch, useAppSelector } from '../../hooks/redux'
 import { useContextMenu } from '../../hooks/useContextMenu'
 import { setActiveReelsIds, setActiveShotId } from '../../store/reducers/entities.reducer'
@@ -59,7 +59,7 @@ export const Post: FC<IPost> = props => {
     },
     {
       title: 'Delete Post',
-      icon: <CommonIcons.Trash />,
+      icon: CommonIcons.trash(),
       variant: 'accent',
       shortcut: 'Ctrl+Del',
       action: deletePostHandler,
@@ -75,20 +75,7 @@ export const Post: FC<IPost> = props => {
           <div className={css.username}>{printName}</div>
           <InfoDateTime dateTime={createdAt} />
 
-          <ContextMenu show={isMenuShow} position={position}>
-            {postContextMenuData.map(item => (
-              <ContextMenuItem
-                key={item.title}
-                title={item.title}
-                icon={item.icon}
-                entityType={item.entityType}
-                variant={item.variant}
-                disabled={item.disabled}
-                shortcut={item.shortcut}
-                action={item.action}
-              />
-            ))}
-          </ContextMenu>
+          <ContextMenu show={isMenuShow} position={position} data={postContextMenuData} />
         </div>
         <div className={css.messageContainer}>
           <div className={'whitespace-pre-wrap'}>{message}</div>

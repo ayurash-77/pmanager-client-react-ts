@@ -1,6 +1,6 @@
 import { FC, useState } from 'react'
 import TextareaAutosize from 'react-textarea-autosize'
-import * as CommonIcons from '../../../assets/icons/common-icons'
+import { CommonIcons } from '../../../assets/icons/common-icons'
 import { useCreatePostMutation } from '../../../entities/posts/posts.api'
 import { IPostData } from '../../../entities/posts/posts.interfaces'
 import { useGetShotsQuery } from '../../../entities/shots/shots.api'
@@ -45,7 +45,7 @@ export const Sendbar: FC<IPostData> = ({ projectId }) => {
   return (
     <div className={css.container}>
       <IconButton
-        icon={<CommonIcons.Clip />}
+        icon={CommonIcons.clip()}
         size={22}
         variant={'secondary'}
         onClick={() => console.log('CLIP CLICKED')}
@@ -55,7 +55,7 @@ export const Sendbar: FC<IPostData> = ({ projectId }) => {
         value={message}
         onChange={e => onChangeHandler('message', e.target)}
       />
-      <IconButton icon={<CommonIcons.Send />} size={22} variant={'primary'} onClick={onSubmitHandler} />
+      <IconButton icon={CommonIcons.send()} size={22} variant={'primary'} onClick={onSubmitHandler} />
     </div>
   )
 }

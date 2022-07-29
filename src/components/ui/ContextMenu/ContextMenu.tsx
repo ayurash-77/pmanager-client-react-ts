@@ -1,14 +1,15 @@
 import cn from 'classnames'
-import { DetailedHTMLProps, FC, HTMLAttributes, ReactNode, useEffect, useRef, useState } from 'react'
+import { DetailedHTMLProps, FC, HTMLAttributes, useEffect, useRef, useState } from 'react'
 import css from './ContextMenu.module.scss'
+import { ContextMenuItem, IContextMenuItem } from './ContextMenuItem'
 
 interface IContextMenu extends DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLDivElement> {
-  children: ReactNode
+  data: IContextMenuItem[]
   show: boolean
   position: number[]
 }
 export const ContextMenu: FC<IContextMenu> = props => {
-  const { children, show, position = [0, 0] } = props
+  const { data, show, position = [0, 0] } = props
   const [x, setX] = useState(0)
 
   const menuRef = useRef(null)
@@ -26,7 +27,17 @@ export const ContextMenu: FC<IContextMenu> = props => {
   return (
     <>
       <div className={cn(css.container, !show && css.hide)} style={{ top, left }} ref={menuRef}>
-        {children}
+        {data.map(item => (
+          <ContextMenuItem
+            key={item.title}
+            title={item.title}
+            icon={item.icon}
+            entityType={item.entityType}
+            variant={item.variant}
+            shortcut={item.shortcut}
+            action={item.action}
+          />
+        ))}
       </div>
     </>
   )
