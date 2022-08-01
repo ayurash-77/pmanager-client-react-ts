@@ -4,12 +4,12 @@ export const useContextMenu = () => {
   const [position, setPosition] = useState([0, 0])
   const [isMenuShow, setMenuShow] = useState(false)
 
-  const showContextMenu = e => {
+  const showMenu = e => {
     setPosition([e.pageX, e.pageY])
     setMenuShow(true)
   }
 
-  const hideContextMenu = () => {
+  const hideMenu = () => {
     setMenuShow(false)
   }
 
@@ -26,5 +26,5 @@ export const useContextMenu = () => {
     }
   }, [])
 
-  return { position, isMenuShow, showContextMenu, hideContextMenu }
+  return { position, isMenuShow, showMenu, hideMenu }
 }

@@ -1,7 +1,5 @@
 import { FC, useEffect } from 'react'
 import css from 'components/layout/Layout.module.scss'
-import { CommonIcons } from '../../assets/icons/common-icons'
-import * as ToolbarIcons from '../../assets/icons/toolbar-icons'
 import { ErrorList } from '../../components/errors/ErrorList'
 import { Filterbar } from '../../components/layout/filterbar/Filterbar'
 import { HeaderMain } from '../../components/layout/header/HeaderMain'
@@ -9,17 +7,15 @@ import { Sidebar } from '../../components/layout/sidebar/Sidebar'
 import Statusbar from '../../components/layout/statusbar/Statusbar'
 import { Loader } from '../../components/ui'
 import { ContextMenu } from '../../components/ui/ContextMenu/ContextMenu'
-import { IContextMenuItem } from '../../components/ui/ContextMenu/ContextMenuItem'
 import DeleteProjectModal from '../../entities/projects/DeleteProjectModal'
 import ProjectModal from '../../entities/projects/ProjectModal'
 import { ProjectsGrid } from '../../entities/projects/projects-grid/ProjectsGrid'
 import { ProjectsList } from '../../entities/projects/projects-list/ProjectsList'
 import { useGetProjectsQuery } from '../../entities/projects/projects.api'
 import { useOnProjectClick } from '../../entities/projects/useOnProjectClick'
+import { useOnProjectsSpaceClick } from '../../entities/projects/useOnProjectsSpaceClick'
 import { useAppDispatch, useAppSelector } from '../../hooks/redux'
-import { useContextMenu } from '../../hooks/useContextMenu'
-import { usePermissions } from '../../hooks/usePermissions'
-import { setDeleteProjectModalShow, setProjectModal } from '../../store/reducers/modals.reducer'
+import { setDeleteProjectModalShow } from '../../store/reducers/modals.reducer'
 import { setQuarterData } from '../../store/reducers/projects.reducer'
 import { toQuarterStr } from '../../utils/date-time-format'
 
@@ -49,44 +45,8 @@ export const ProjectsPage: FC = () => {
   const projectsFiltered = quarterFilter.isActive ? projectsFilteredByQuarter : searchProjects
   const activeProject = projectsFiltered?.find(project => project.id === activeProjectId)
 
-  const { canCreateProject, canEditProject, canDeleteProject } = usePermissions()
-  const { position, isMenuShow, showContextMenu } = useContextMenu()
-  const { onProjectClickHandler, isProjectMenuShow } = useOnProjectClick()
-
-  const homeContextMenuData: IContextMenuItem[] = [
-    {
-      title: 'New Project',
-      icon: CommonIcons.plus(),
-      shortcut: 'Ctrl+N',
-      action: () => canCreateProject && dispatch(setProjectModal({ isOpen: true })),
-      disabled: !canCreateProject,
-    },
-  ]
-
-  const projectContextMenuData: IContextMenuItem[] = [
-    {
-      title: 'New Project',
-      icon: CommonIcons.plus(),
-      shortcut: 'Ctrl+N',
-      action: () => canCreateProject && dispatch(setProjectModal({ isOpen: true })),
-      disabled: !canCreateProject,
-    },
-    {
-      title: 'Edit Project',
-      icon: <ToolbarIcons.Gear />,
-      shortcut: 'Ctrl+E',
-      action: () => canEditProject && alert('Edit Project'),
-      disabled: !canEditProject,
-    },
-    {
-      title: 'Delete Project',
-      icon: CommonIcons.trash(),
-      variant: 'accent',
-      shortcut: 'Ctrl+Del',
-      action: () => canDeleteProject && dispatch(setDeleteProjectModalShow(true)),
-      disabled: !canDeleteProject,
-    },
-  ]
+  const { showCommonMenu, isCommonMenuShow, commonMenuData, position } = useOnProjectsSpaceClick()
+  const { showItemMenu, isItemMenuShow, itemMenuData } = useOnProjectClick()
 
   useEffect(() => {
     if (projects.length > 0) {
@@ -108,19 +68,18 @@ export const ProjectsPage: FC = () => {
         <HeaderMain />
         <Filterbar {...filterBar} />
 
-        <ContextMenu show={isMenuShow} position={position} data={homeContextMenuData} />
+        <ContextMenu show={isItemMenuShow} data={itemMenuData} position={position} />
+        <ContextMenu show={!isItemMenuShow && isCommonMenuShow} data={commonMenuData} position={position} />
 
-        <ContextMenu show={isProjectMenuShow} position={position} data={projectContextMenuData} />
-
-        <div className={css.body} onContextMenu={showContextMenu}>
+        <div className={css.body} onContextMenu={showCommonMenu}>
           {isLoadingProjects && <Loader size={64} border={8} />}
           <ErrorList error={errorProjects} />
 
           {projectsViewMode === 'grid' && (
-            <ProjectsGrid projects={projectsFiltered} onClickHandler={onProjectClickHandler} />
+            <ProjectsGrid projects={projectsFiltered} showItemMenu={showItemMenu} />
           )}
           {projectsViewMode === 'list' && (
-            <ProjectsList projects={projectsFiltered} onClickHandler={onProjectClickHandler} />
+            <ProjectsList projects={projectsFiltered} showItemMenu={showItemMenu} />
           )}
         </div>
 

@@ -1,11 +1,16 @@
 import { skipToken } from '@reduxjs/toolkit/query'
+import { CommonIcons } from '../../assets/icons/common-icons'
+import { ToolbarIcons } from '../../assets/icons/toolbar-icons'
+import { IContextMenuItem } from '../../components/ui/ContextMenu/ContextMenuItem'
 import { useAppDispatch, useAppSelector } from '../../hooks/redux'
 import { useContextMenu } from '../../hooks/useContextMenu'
+import { usePermissions } from '../../hooks/usePermissions'
 import {
   setActiveReelsIds,
   setActiveReelsTypeId,
   setActiveShotId,
 } from '../../store/reducers/entities.reducer'
+import { setReelsTypeModal } from '../../store/reducers/modals.reducer'
 import { useGetReelsQuery } from '../reels/reels.api'
 
 export const useOnReelsTypeClick = () => {
@@ -13,10 +18,41 @@ export const useOnReelsTypeClick = () => {
   const { activeReelsTypeId, activeProjectId } = useAppSelector(state => state.entities)
   const { data: reels } = useGetReelsQuery(activeProjectId ?? skipToken)
 
-  const { position, isMenuShow: isItemMenuShow, showContextMenu, hideContextMenu } = useContextMenu()
+  const { isMenuShow: isItemMenuShow, showMenu, hideMenu, position } = useContextMenu()
 
-  const onItemClickHandler = (e, reelsTypeId) => {
-    e.type === 'mousedown' && hideContextMenu()
+  const { canCreateProject } = usePermissions()
+  const itemMenuData: IContextMenuItem[] = [
+    {
+      title: 'New Reels Type',
+      icon: CommonIcons.plus(),
+      entityType: 'reelsType',
+      shortcut: 'Ctrl+N',
+      action: () => dispatch(setReelsTypeModal({ isOpen: true })),
+    },
+    {
+      title: 'Add existing Reel',
+      icon: CommonIcons.plus(),
+      shortcut: 'Ctrl+Alt+R',
+      action: () => alert('Add Reel'),
+    },
+    {
+      title: 'Edit Reels Type',
+      icon: ToolbarIcons.gear(),
+      shortcut: 'Ctrl+E',
+      action: () => alert('Edit Reels Type'),
+    },
+    {
+      title: 'Delete Reels Type',
+      icon: CommonIcons.trash(),
+      variant: 'accent',
+      shortcut: 'Ctrl+Del',
+      action: () => alert('setDeleteModalShow(true)'),
+      disabled: !canCreateProject,
+    },
+  ]
+
+  const showItemMenu = (e, reelsTypeId) => {
+    e.type === 'mousedown' && hideMenu()
 
     const isSameItem = reelsTypeId === activeReelsTypeId
     const reelsIds = reels?.filter(reel => reel.reelsTypeId === reelsTypeId).map(reel => reel.id)
@@ -31,10 +67,15 @@ export const useOnReelsTypeClick = () => {
       case 'contextmenu':
         dispatch(setActiveReelsIds(reelsIds))
         dispatch(setActiveReelsTypeId(reelsTypeId))
-        showContextMenu(e)
+        showMenu(e)
         break
     }
   }
 
-  return { onItemClickHandler, position, isItemMenuShow }
+  return {
+    showItemMenu,
+    isItemMenuShow,
+    itemMenuData,
+    position,
+  }
 }

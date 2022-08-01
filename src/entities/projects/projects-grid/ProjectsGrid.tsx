@@ -6,19 +6,19 @@ import css from './ProjectsGrid.module.scss'
 
 interface IProjectsGrid extends DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLDivElement> {
   projects: IProject[]
-  onClickHandler: (e, id) => void
+  showItemMenu: (e, id) => void
 }
 
 export const ProjectsGrid: FC<IProjectsGrid> = props => {
-  const { projects, onClickHandler } = props
+  const { projects, showItemMenu } = props
   const { activeProjectId } = useAppSelector(state => state.entities)
   const ProjectGridContent = (
     <div className={css.container}>
       {projects.map(item => (
         <ProjectCard
           key={item.id}
-          onClick={e => onClickHandler(e, item.id)}
-          onContextMenu={e => onClickHandler(e, item.id)}
+          onClick={e => showItemMenu(e, item.id)}
+          onContextMenu={e => showItemMenu(e, item.id)}
           isSelected={item.id === activeProjectId}
           project={item}
         />

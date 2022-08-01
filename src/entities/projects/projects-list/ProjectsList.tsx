@@ -9,11 +9,11 @@ import { IProject } from '../projects.interfaces'
 
 interface IProjectsList {
   projects: IProject[]
-  onClickHandler: (e, id) => void
+  showItemMenu: (e, id) => void
 }
 
 export const ProjectsList: FC<IProjectsList> = props => {
-  const { projects = [], onClickHandler } = props
+  const { projects = [], showItemMenu } = props
   const { text } = useTranslate()
   const { activeProjectId } = useAppSelector(state => state.entities)
   const { filterBar, projectsViewMode } = useAppSelector(state => state.ui)
@@ -40,8 +40,8 @@ export const ProjectsList: FC<IProjectsList> = props => {
         {projects.map((item, idx) => (
           <tr
             key={item.id}
-            onClick={e => onClickHandler(e, item.id)}
-            onContextMenu={e => onClickHandler(e, item.id)}
+            onClick={e => showItemMenu(e, item.id)}
+            onContextMenu={e => showItemMenu(e, item.id)}
             className={cn({ selected: item.id === activeProjectId })}
           >
             <td style={{ opacity: 0.5 }}>{idx + 1}</td>

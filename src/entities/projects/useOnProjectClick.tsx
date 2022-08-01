@@ -1,30 +1,28 @@
+import { useNavigate } from 'react-router-dom'
 import { CommonIcons } from '../../assets/icons/common-icons'
 import { ToolbarIcons } from '../../assets/icons/toolbar-icons'
 import { IContextMenuItem } from '../../components/ui/ContextMenu/ContextMenuItem'
 import { useAppDispatch, useAppSelector } from '../../hooks/redux'
 import { useContextMenu } from '../../hooks/useContextMenu'
 import { usePermissions } from '../../hooks/usePermissions'
-import {
-  setActiveReelsIds,
-  setActiveReelsTypeId,
-  setActiveShotId,
-} from '../../store/reducers/entities.reducer'
-import { setReelModal } from '../../store/reducers/modals.reducer'
+import { setActiveProjectId } from '../../store/reducers/entities.reducer'
+import { setProjectModal } from '../../store/reducers/modals.reducer'
+import { setActiveMenu } from '../../store/reducers/ui.reducer'
 
-export const useOnReelClick = () => {
+export const useOnProjectClick = () => {
   const dispatch = useAppDispatch()
-  const { activeReelsIds } = useAppSelector(state => state.entities)
-
+  const { activeProjectId } = useAppSelector(state => state.entities)
   const { isMenuShow: isItemMenuShow, showMenu, hideMenu, position } = useContextMenu()
+  const navigate = useNavigate()
 
   const { canCreateProject } = usePermissions()
   const itemMenuData: IContextMenuItem[] = [
     {
-      title: 'New Reels',
+      title: 'New Project',
       icon: CommonIcons.plus(),
-      entityType: 'reel',
       shortcut: 'Ctrl+N',
-      action: () => dispatch(setReelModal({ isOpen: true })),
+      action: () => canCreateProject && dispatch(setProjectModal({ isOpen: true })),
+      disabled: !canCreateProject,
     },
     {
       title: 'Add existing Shot',
@@ -48,21 +46,23 @@ export const useOnReelClick = () => {
     },
   ]
 
-  const showItemMenu = (e, reelId: number) => {
+  const showItemMenu = (e, projectId: number) => {
+    dispatch(setActiveProjectId(projectId))
     e.detail === 0 && hideMenu()
-
-    dispatch(setActiveShotId(null))
-    dispatch(setActiveReelsTypeId(null))
 
     switch (e.detail) {
       case 0:
-        dispatch(setActiveReelsIds([reelId]))
+        dispatch(setActiveProjectId(projectId))
         showMenu(e)
         break
       case 1:
-        dispatch(
-          setActiveReelsIds(activeReelsIds.length === 1 && activeReelsIds[0] === reelId ? [] : [reelId])
-        )
+        dispatch(setActiveProjectId(activeProjectId === projectId ? null : projectId))
+        break
+
+      case 2:
+        dispatch(setActiveProjectId(projectId))
+        dispatch(setActiveMenu('reels'))
+        navigate(`/projects/${projectId}/reels`, { state: 1 })
         break
     }
   }

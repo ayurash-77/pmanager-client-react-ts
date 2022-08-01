@@ -10,6 +10,7 @@ interface IContextMenu extends DetailedHTMLProps<HTMLAttributes<HTMLDivElement>,
 }
 export const ContextMenu: FC<IContextMenu> = props => {
   const { data, show, position = [0, 0] } = props
+
   const [x, setX] = useState(0)
 
   const menuRef = useRef(null)
