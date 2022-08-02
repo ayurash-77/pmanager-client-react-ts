@@ -1,19 +1,19 @@
 import { useState } from 'react'
-import { IProject } from '../../../entities/projects/projects.interfaces'
-import NewShotModal from '../../../entities/shots/NewShotModal'
-import { ShotCard } from '../../../entities/shots/ShotCard'
-import { IShot } from '../../../entities/shots/shots.interfaces'
-import { useAppDispatch, useAppSelector } from '../../../hooks/redux'
-import { useDeleteShot } from '../../../hooks/useDeleteShot'
-import { useTranslate } from '../../../hooks/useTranslate'
+import { InfoShotBlock } from '../../components/info-elements/InfoShotBlock'
+import { RibbonWrapper } from '../../components/layout/ribbons/RibbonWrapper'
+import DeleteModal from '../../components/modal/DeleteModal'
+import { useAppDispatch, useAppSelector } from '../../hooks/redux'
+import { useDeleteShot } from '../../hooks/useDeleteShot'
+import { useTranslate } from '../../hooks/useTranslate'
 import {
   setActiveReelsIds,
   setActiveReelsTypeId,
   setActiveShotId,
-} from '../../../store/reducers/entities.reducer'
-import { InfoShotBlock } from '../../info-elements/InfoShotBlock'
-import DeleteModal from '../../modal/DeleteModal'
-import { RibbonWrapper } from './RibbonWrapper'
+} from '../../store/reducers/entities.reducer'
+import { IProject } from '../projects/projects.interfaces'
+import NewShotModal from './NewShotModal'
+import { ShotCard } from './ShotCard'
+import { IShot } from './shots.interfaces'
 
 export const RibbonShots = ({ entities, project }: { entities: IShot[]; project: IProject }) => {
   const { text } = useTranslate()

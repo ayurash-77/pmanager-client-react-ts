@@ -4,18 +4,18 @@ import { useDispatch } from 'react-redux'
 import { useParams } from 'react-router'
 import { setActiveReelsIds, setActiveReelsTypeId } from 'store/reducers/entities.reducer'
 import { useTranslate } from 'hooks/useTranslate'
-import { LoadingOrError } from '../../components/loadingOrError/LoadingOrError'
-import { ModalWrapper } from '../../components/modal/ModalWrapper'
-import { useAppSelector } from '../../hooks/redux'
-import { setReelsTypeModal } from '../../store/reducers/modals.reducer'
-import { useCreateReelsTypesMutation } from './reelsTypes.api'
-import { IReelsTypeCreateDto, IReelsTypeInputData } from './reelsTypes.interfaces'
+import { LoadingOrError } from '../../../components/loadingOrError/LoadingOrError'
+import { ModalWrapper } from '../../../components/modal/ModalWrapper'
+import { useAppSelector } from '../../../hooks/redux'
+import { setReelsTypeModal } from '../../../store/reducers/modals.reducer'
+import { useCreateReelsTypesMutation } from '../reelsTypes.api'
+import { IReelsTypeCreateDto, IReelsTypeInputData } from '../reelsTypes.interfaces'
 
 ////////////////////////////////////////////////////////////////////////////////////////////
 // New ReelsType Modal
 ////////////////////////////////////////////////////////////////////////////////////////////
 
-export const ReelsTypeModal: FC = () => {
+export const NewReelsTypeModal: FC = () => {
   const dispatch = useDispatch()
 
   const { reelsTypeModal } = useAppSelector(state => state.modals)
@@ -42,7 +42,7 @@ export const ReelsTypeModal: FC = () => {
     useCreateReelsTypesMutation()
 
   const onCancelHandler = useCallback(() => {
-    dispatch(setReelsTypeModal({ isOpen: false }))
+    dispatch(setReelsTypeModal({ isOpen: false, mode: null }))
     resetData()
     reset()
   }, [dispatch, reset, resetData])
@@ -99,4 +99,4 @@ export const ReelsTypeModal: FC = () => {
   )
 }
 
-export default ReelsTypeModal
+export default NewReelsTypeModal

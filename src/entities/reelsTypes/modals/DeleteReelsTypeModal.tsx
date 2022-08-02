@@ -1,14 +1,14 @@
 import { FC, useCallback, useEffect } from 'react'
 import { useDispatch } from 'react-redux'
-import { ErrorList } from '../../components/errors/ErrorList'
-import { InfoReelsTypeBlock } from '../../components/info-elements/InfoReelsTypeBlock'
-import ModalWrapper from '../../components/modal/ModalWrapper'
-import { useAppSelector } from '../../hooks/redux'
-import { useTranslate } from '../../hooks/useTranslate'
-import { setActiveReelsTypeId } from '../../store/reducers/entities.reducer'
-import { setReelsTypeModal } from '../../store/reducers/modals.reducer'
-import { useDeleteReelsTypeMutation } from './reelsTypes.api'
-import { IReelsType } from './reelsTypes.interfaces'
+import { ErrorList } from '../../../components/errors/ErrorList'
+import { InfoReelsTypeBlock } from '../../../components/info-elements/InfoReelsTypeBlock'
+import ModalWrapper from '../../../components/modal/ModalWrapper'
+import { useAppSelector } from '../../../hooks/redux'
+import { useTranslate } from '../../../hooks/useTranslate'
+import { setActiveReelsTypeId } from '../../../store/reducers/entities.reducer'
+import { setReelsTypeModal } from '../../../store/reducers/modals.reducer'
+import { useDeleteReelsTypeMutation } from '../reelsTypes.api'
+import { IReelsType } from '../reelsTypes.interfaces'
 
 interface IDeleteReelsTypeModal {
   item: IReelsType | null

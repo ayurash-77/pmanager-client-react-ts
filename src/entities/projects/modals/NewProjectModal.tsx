@@ -1,30 +1,30 @@
 import axios from 'axios'
 import { FC, useEffect, useRef, useState } from 'react'
 import { useDispatch } from 'react-redux'
-import { ErrorList } from '../../components/errors/ErrorList'
-import { ModalWrapper } from '../../components/modal/ModalWrapper'
-import { Grid, Input, InputImage, Select, Switcher, Textarea } from '../../components/ui'
-import { UploadingProgress } from '../../components/uploading-progress/UploadingProgress'
-import { apiBaseUrl, apiUploadUrl } from '../../constants/env'
-import { useAppSelector } from '../../hooks/redux'
-import { useTranslate } from '../../hooks/useTranslate'
-import { setActiveProjectId } from '../../store/reducers/entities.reducer'
-import { setProjectModal } from '../../store/reducers/modals.reducer'
-import { useGetAgenciesQuery } from '../agencies/agencies.api'
-import { useGetBrandsQuery } from '../brainds/brands.api'
-import { useGetClientsQuery } from '../clients/clients.api'
-import { useCreateProjectMutation } from './projects.api'
-import { IProject } from './projects.interfaces'
+import { ErrorList } from '../../../components/errors/ErrorList'
+import { ModalWrapper } from '../../../components/modal/ModalWrapper'
+import { Grid, Input, InputImage, Select, Switcher, Textarea } from '../../../components/ui'
+import { UploadingProgress } from '../../../components/uploading-progress/UploadingProgress'
+import { apiBaseUrl, apiUploadUrl } from '../../../constants/env'
+import { useAppSelector } from '../../../hooks/redux'
+import { useTranslate } from '../../../hooks/useTranslate'
+import { setActiveProjectId } from '../../../store/reducers/entities.reducer'
+import { setProjectModal } from '../../../store/reducers/modals.reducer'
+import { useGetAgenciesQuery } from '../../agencies/agencies.api'
+import { useGetBrandsQuery } from '../../brainds/brands.api'
+import { useGetClientsQuery } from '../../clients/clients.api'
+import { useCreateProjectMutation } from '../projects.api'
+import { IProject } from '../projects.interfaces'
 
 export interface IProjectData extends Partial<IProject> {
   image?: string
 }
 
-//
+///////////////////////////////
 // NewProjectModal
-//
+///////////////////////////////
 
-export const ProjectModal: FC = () => {
+export const NewProjectModal: FC = () => {
   const dispatch = useDispatch()
   const { text } = useTranslate()
   const token = useAppSelector(state => state.auth.authUser.token)
@@ -250,4 +250,4 @@ export const ProjectModal: FC = () => {
   )
 }
 
-export default ProjectModal
+export default NewProjectModal

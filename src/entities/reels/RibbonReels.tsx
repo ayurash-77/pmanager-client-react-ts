@@ -6,11 +6,11 @@ import { useDispatch } from 'react-redux'
 import { useAppSelector } from 'hooks/redux'
 import { useTranslate } from 'hooks/useTranslate'
 import { ContextMenu } from 'components/ui/ContextMenu/ContextMenu'
-import { DeleteReelModal } from '../../../entities/reels/DeleteReelModal'
-import { ReelModal } from '../../../entities/reels/ReelModal'
-import { useOnRibbonReelClick } from '../../../entities/reels/useOnRibbonReelClick'
-import { setReelModal } from '../../../store/reducers/modals.reducer'
-import { RibbonWrapper } from './RibbonWrapper'
+import { RibbonWrapper } from '../../components/layout/ribbons/RibbonWrapper'
+import { setReelModal } from '../../store/reducers/modals.reducer'
+import { DeleteReelModal } from './modals/DeleteReelModal'
+import { NewReelModal } from './modals/NewReelModal'
+import { useOnRibbonReelClick } from './useOnRibbonReelClick'
 
 export const RibbonReels: FC<{ entities: IReel[] }> = ({ entities }) => {
   const dispatch = useDispatch()
@@ -25,7 +25,7 @@ export const RibbonReels: FC<{ entities: IReel[] }> = ({ entities }) => {
 
   return (
     <>
-      <ReelModal />
+      <NewReelModal />
       <DeleteReelModal item={activeReel} />
 
       <ContextMenu show={isItemMenuShow} data={itemMenuData} position={position} />

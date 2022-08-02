@@ -7,8 +7,8 @@ import { Sidebar } from '../../components/layout/sidebar/Sidebar'
 import Statusbar from '../../components/layout/statusbar/Statusbar'
 import { Loader } from '../../components/ui'
 import { ContextMenu } from '../../components/ui/ContextMenu/ContextMenu'
-import DeleteProjectModal from '../../entities/projects/DeleteProjectModal'
-import ProjectModal from '../../entities/projects/ProjectModal'
+import DeleteProjectModal from '../../entities/projects/modals/DeleteProjectModal'
+import NewProjectModal from '../../entities/projects/modals/NewProjectModal'
 import { ProjectsGrid } from '../../entities/projects/projects-grid/ProjectsGrid'
 import { ProjectsList } from '../../entities/projects/projects-list/ProjectsList'
 import { useGetProjectsQuery } from '../../entities/projects/projects.api'
@@ -56,7 +56,7 @@ export const ProjectsPage: FC = () => {
 
   return (
     <>
-      <ProjectModal />
+      <NewProjectModal />
       <DeleteProjectModal item={activeProject} />
       <div className={css.mainbar}>
         <HeaderMain />

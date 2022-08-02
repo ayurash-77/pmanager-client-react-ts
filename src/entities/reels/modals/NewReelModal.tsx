@@ -7,19 +7,19 @@ import { setActiveReelsIds } from 'store/reducers/entities.reducer'
 import { setReelModal, setReelsTypeModal } from 'store/reducers/modals.reducer'
 import { useAppSelector } from 'hooks/redux'
 import { useTranslate } from 'hooks/useTranslate'
-import { LoadingOrError } from '../../components/loadingOrError/LoadingOrError'
-import { ModalWrapper } from '../../components/modal/ModalWrapper'
-import { Switcher } from '../../components/ui'
-import { IOption } from '../../components/ui/ui.types'
-import { useGetReelsTypesQuery } from '../reelsTypes/reelsTypes.api'
-import { useCreateReelMutation } from './reels.api'
-import { IReelCreateDto, IReelInputData } from './reels.interfaces'
+import { LoadingOrError } from '../../../components/loadingOrError/LoadingOrError'
+import { ModalWrapper } from '../../../components/modal/ModalWrapper'
+import { Switcher } from '../../../components/ui'
+import { IOption } from '../../../components/ui/ui.types'
+import { useGetReelsTypesQuery } from '../../reelsTypes/reelsTypes.api'
+import { useCreateReelMutation } from '../reels.api'
+import { IReelCreateDto, IReelInputData } from '../reels.interfaces'
 
 ////////////////////////////////////////////////////////////////////////////////////////////
 // Reel Modal
 ////////////////////////////////////////////////////////////////////////////////////////////
 
-export const ReelModal: FC = () => {
+export const NewReelModal: FC = () => {
   const dispatch = useDispatch()
   const { id } = useParams()
   const { text } = useTranslate()

@@ -1,14 +1,14 @@
 import { FC, useCallback, useEffect } from 'react'
 import { useDispatch } from 'react-redux'
-import { ErrorList } from '../../components/errors/ErrorList'
-import { InfoReelBlock } from '../../components/info-elements/InfoReelBlock'
-import ModalWrapper from '../../components/modal/ModalWrapper'
-import { useAppSelector } from '../../hooks/redux'
-import { useTranslate } from '../../hooks/useTranslate'
-import { setActiveReelsIds } from '../../store/reducers/entities.reducer'
-import { setReelModal } from '../../store/reducers/modals.reducer'
-import { useDeleteReelMutation } from './reels.api'
-import { IReel } from './reels.interfaces'
+import { ErrorList } from '../../../components/errors/ErrorList'
+import { InfoReelBlock } from '../../../components/info-elements/InfoReelBlock'
+import ModalWrapper from '../../../components/modal/ModalWrapper'
+import { useAppSelector } from '../../../hooks/redux'
+import { useTranslate } from '../../../hooks/useTranslate'
+import { setActiveReelsIds } from '../../../store/reducers/entities.reducer'
+import { setReelModal } from '../../../store/reducers/modals.reducer'
+import { useDeleteReelMutation } from '../reels.api'
+import { IReel } from '../reels.interfaces'
 
 interface IDeleteReelModal {
   item: IReel | null

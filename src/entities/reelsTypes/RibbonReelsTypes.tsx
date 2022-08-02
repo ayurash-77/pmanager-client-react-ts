@@ -1,16 +1,16 @@
 import { IReelsType } from 'entities/reelsTypes/reelsTypes.interfaces'
 import { FC } from 'react'
 import { useDispatch } from 'react-redux'
-import { ReelsTypeCard } from '../../../entities/reelsTypes/ReelsTypeCard'
-import ReelsTypeModal from '../../../entities/reelsTypes/ReelsTypeModal'
-import { DeleteReelsTypeModal } from '../../../entities/reelsTypes/deleteReelsTypeModal'
-import { useOnReelsTypeClick } from '../../../entities/reelsTypes/useOnReelsTypeClick'
-import { useOnRibbonReelsTypeClick } from '../../../entities/reelsTypes/useOnRibbonReelsTypeClick'
-import { useAppSelector } from '../../../hooks/redux'
-import { useTranslate } from '../../../hooks/useTranslate'
-import { setReelsTypeModal } from '../../../store/reducers/modals.reducer'
-import { ContextMenu } from '../../ui/ContextMenu/ContextMenu'
-import { RibbonWrapper } from './RibbonWrapper'
+import { RibbonWrapper } from '../../components/layout/ribbons/RibbonWrapper'
+import { ContextMenu } from '../../components/ui/ContextMenu/ContextMenu'
+import { useAppSelector } from '../../hooks/redux'
+import { useTranslate } from '../../hooks/useTranslate'
+import { setReelsTypeModal } from '../../store/reducers/modals.reducer'
+import { ReelsTypeCard } from './ReelsTypeCard'
+import { DeleteReelsTypeModal } from './modals/DeleteReelsTypeModal'
+import NewReelsTypeModal from './modals/NewReelsTypeModal'
+import { useOnReelsTypeClick } from './useOnReelsTypeClick'
+import { useOnRibbonReelsTypeClick } from './useOnRibbonReelsTypeClick'
 
 export const RibbonReelsTypes: FC<{ entities: IReelsType[] }> = ({ entities }) => {
   const dispatch = useDispatch()
@@ -26,7 +26,7 @@ export const RibbonReelsTypes: FC<{ entities: IReelsType[] }> = ({ entities }) =
 
   return (
     <>
-      <ReelsTypeModal />
+      <NewReelsTypeModal />
       <DeleteReelsTypeModal item={activeReelsType} />
 
       <ContextMenu show={isItemMenuShow} data={itemMenuData} position={position} />

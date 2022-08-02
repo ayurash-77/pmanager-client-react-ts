@@ -1,15 +1,14 @@
 import { FC, useCallback, useEffect } from 'react'
 import { useDispatch } from 'react-redux'
-import { ErrorList } from '../../components/errors/ErrorList'
-import { InfoProjectBlock, InfoProjectTitle } from '../../components/info-elements'
-import { ModalWrapper } from '../../components/modal/ModalWrapper'
-import { Grid } from '../../components/ui'
-import { useAppSelector } from '../../hooks/redux'
-import { useTranslate } from '../../hooks/useTranslate'
-import { setActiveProjectId } from '../../store/reducers/entities.reducer'
-import { setProjectModal } from '../../store/reducers/modals.reducer'
-import { useDeleteProjectMutation } from './projects.api'
-import { IProject } from './projects.interfaces'
+import { ErrorList } from '../../../components/errors/ErrorList'
+import { InfoProjectBlock, InfoProjectTitle } from '../../../components/info-elements'
+import { ModalWrapper } from '../../../components/modal/ModalWrapper'
+import { useAppSelector } from '../../../hooks/redux'
+import { useTranslate } from '../../../hooks/useTranslate'
+import { setActiveProjectId } from '../../../store/reducers/entities.reducer'
+import { setProjectModal } from '../../../store/reducers/modals.reducer'
+import { useDeleteProjectMutation } from '../projects.api'
+import { IProject } from '../projects.interfaces'
 
 export interface IDeleteProjectModal {
   item: IProject | null
@@ -67,12 +66,10 @@ export const DeleteProjectModal: FC<IDeleteProjectModal> = ({ item }) => {
         onCancelHandler={onCancelHandler}
         isOpen={isOpen}
       >
-        <Grid cols="auto" gap={5}>
-          <>
-            {details}
-            {isError && <ErrorList error={error} />}
-          </>
-        </Grid>
+        <div>
+          {details}
+          {isError && <ErrorList error={error} />}
+        </div>
       </ModalWrapper>
     </>
   )
