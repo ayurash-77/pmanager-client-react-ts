@@ -5,7 +5,6 @@ import { FC } from 'react'
 import { useDispatch } from 'react-redux'
 import { useAppSelector } from 'hooks/redux'
 import { useTranslate } from 'hooks/useTranslate'
-import { InfoReelBlock } from 'components/info-elements/InfoReelBlock'
 import { ContextMenu } from 'components/ui/ContextMenu/ContextMenu'
 import { DeleteReelModal } from '../../../entities/reels/DeleteReelModal'
 import { ReelModal } from '../../../entities/reels/ReelModal'
@@ -19,9 +18,6 @@ export const RibbonReels: FC<{ entities: IReel[] }> = ({ entities }) => {
 
   const count: number = entities?.length || 0
   const { activeReelsIds } = useAppSelector(state => state.entities)
-
-  const activeReel = entities?.find(entity => activeReelsIds.includes(entity.id)) || null
-  const detailsJsx = activeReel && <InfoReelBlock {...activeReel} />
 
   const { showCommonMenu, isCommonMenuShow, commonMenuData, position } = useOnRibbonReelClick()
   const { showItemMenu, isItemMenuShow, itemMenuData } = useOnReelClick()

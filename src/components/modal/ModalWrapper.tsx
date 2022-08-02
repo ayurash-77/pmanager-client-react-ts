@@ -47,10 +47,15 @@ export const ModalWrapper: FC<PropsWithChildren<IModalWrapper>> = props => {
         <form onSubmit={onSubmitHandler} className={'flex flex-col'}>
           <div className={css.body}>{children}</div>
           <div className={css.footer}>
-            <Button disabled={!isValid} type="submit">
+            <Button
+              disabled={!isValid}
+              type="submit"
+              variant={warning ? 'accent' : 'normal'}
+              autoFocus={!warning}
+            >
               {text.actions.ok}
             </Button>
-            <Button type="button" onClick={onCancelHandler}>
+            <Button type="button" onClick={onCancelHandler} autoFocus={warning}>
               {text.actions.cancel}
             </Button>
           </div>

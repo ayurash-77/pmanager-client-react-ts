@@ -44,8 +44,8 @@ export const DeleteReelModal = () => {
   return (
     <ModalWrapper
       warning={true}
-      type={'type2'}
-      size={'sm'}
+      type={'type1'}
+      size={'md'}
       title={`WARNING! ${text.actions.deleteReel} ${activeReel?.code}?`}
       onSubmitHandler={onDeleteHandler}
       onCancelHandler={onCancelHandler}

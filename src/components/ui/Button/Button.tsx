@@ -12,7 +12,7 @@ interface IButton extends DetailedHTMLProps<ButtonHTMLAttributes<HTMLButtonEleme
 export const Button: FC<IButton> = props => {
   const { children, variant = 'normal', width, ...rest } = props
   return (
-    <button className={cn(css.main, variant)} style={{ width: width }} {...rest}>
+    <button className={cn(css.main, css[variant])} style={{ width: width }} {...rest}>
       {children}
     </button>
   )
