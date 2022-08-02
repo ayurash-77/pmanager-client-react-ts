@@ -1,4 +1,4 @@
-import { ReelCard } from 'entities/reels/ReelCard'
+import { ReelCard } from 'entities/reels/reelCard/ReelCard'
 import { IReel } from 'entities/reels/reels.interfaces'
 import { useOnReelClick } from 'entities/reels/useOnReelClick'
 import { FC } from 'react'

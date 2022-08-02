@@ -1,9 +1,9 @@
 import cn from 'classnames'
 import { DetailedHTMLProps, FC, HTMLAttributes } from 'react'
-import { EntityIcon } from '../../components/entity-card/EntityIcon'
-import { InfoProgress } from '../../components/info-elements'
+import { EntityIcon } from '../../../components/entity-card/EntityIcon'
+import { InfoProgress } from '../../../components/info-elements'
+import { IReel } from '../reels.interfaces'
 import css from './ReelCard.module.scss'
-import { IReel } from './reels.interfaces'
 
 interface IEntityCardReel extends DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLDivElement> {
   reel: IReel
