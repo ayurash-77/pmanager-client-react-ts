@@ -11,8 +11,8 @@ interface IInitialState {
 
 const initialState: IInitialState = {
   projectModal: { isOpen: false, mode: 'create', zIndex: 1000 },
-  reelsTypeModal: { isOpen: false, mode: 'create', zIndex: 1000 },
-  reelModal: { isOpen: false, mode: 'create', zIndex: 1000 },
+  reelsTypeModal: { isOpen: false, mode: null, zIndex: 1000 },
+  reelModal: { isOpen: false, mode: null, zIndex: 1000 },
   newProjectModalShow: false,
   deleteProjectModalShow: false,
 }
@@ -24,10 +24,10 @@ export const modalsSlice = createSlice({
     setProjectModal(state, action: PayloadAction<Partial<IModal>>) {
       state.projectModal = { ...state.projectModal, ...action.payload }
     },
-    setReelsTypeModal(state, action: PayloadAction<Partial<IModal>>) {
+    setReelsTypeModal(state, action: PayloadAction<IModal>) {
       state.reelsTypeModal = { ...state.reelsTypeModal, ...action.payload }
     },
-    setReelModal(state, action: PayloadAction<Partial<IModal>>) {
+    setReelModal(state, action: PayloadAction<IModal>) {
       state.reelModal = { ...state.reelModal, ...action.payload }
     },
     setNewProjectModalShow(state, action: PayloadAction<boolean>) {

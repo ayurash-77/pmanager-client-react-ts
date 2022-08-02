@@ -18,6 +18,7 @@ export const RibbonReels: FC<{ entities: IReel[] }> = ({ entities }) => {
 
   const count: number = entities?.length || 0
   const { activeReelsIds } = useAppSelector(state => state.entities)
+  const activeReel = entities?.find(entity => activeReelsIds.includes(entity.id)) || null
 
   const { showCommonMenu, isCommonMenuShow, commonMenuData, position } = useOnRibbonReelClick()
   const { showItemMenu, isItemMenuShow, itemMenuData } = useOnReelClick()
@@ -25,7 +26,7 @@ export const RibbonReels: FC<{ entities: IReel[] }> = ({ entities }) => {
   return (
     <>
       <ReelModal />
-      <DeleteReelModal />
+      <DeleteReelModal item={activeReel} />
 
       <ContextMenu show={isItemMenuShow} data={itemMenuData} position={position} />
       <ContextMenu show={!isItemMenuShow && isCommonMenuShow} data={commonMenuData} position={position} />
@@ -34,7 +35,7 @@ export const RibbonReels: FC<{ entities: IReel[] }> = ({ entities }) => {
         variant={'reel'}
         title={text.project.reels}
         count={count}
-        onClickPlus={() => dispatch(setReelModal({ isOpen: true }))}
+        onClickPlus={() => dispatch(setReelModal({ isOpen: true, mode: 'create' }))}
         onClickMinus={() => dispatch(setReelModal({ isOpen: true, mode: 'delete' }))}
         activeItemsIds={activeReelsIds}
         onContextMenu={showCommonMenu}

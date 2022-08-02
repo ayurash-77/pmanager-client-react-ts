@@ -31,5 +31,9 @@ export const reelsTypesApi = baseApi.injectEndpoints({
   }),
 })
 
-export const { useGetReelsTypesQuery, useCreateReelsTypesMutation, useDeleteReelsTypeMutation } =
-  reelsTypesApi
+export const {
+  useGetReelsTypesQuery,
+  useGetReelsTypeQuery,
+  useCreateReelsTypesMutation,
+  useDeleteReelsTypeMutation,
+} = reelsTypesApi

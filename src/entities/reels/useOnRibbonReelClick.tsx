@@ -17,7 +17,7 @@ export const useOnRibbonReelClick = () => {
       icon: CommonIcons.plus(),
       entityType: 'reel',
       shortcut: 'Ctrl+N',
-      action: () => dispatch(setReelModal({ isOpen: true })),
+      action: () => dispatch(setReelModal({ isOpen: true, mode: 'create' })),
       disabled: !canCreateProject,
     },
   ]

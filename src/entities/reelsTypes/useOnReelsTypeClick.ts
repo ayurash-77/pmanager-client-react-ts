@@ -27,7 +27,7 @@ export const useOnReelsTypeClick = () => {
       icon: CommonIcons.plus(),
       entityType: 'reelsType',
       shortcut: 'Ctrl+N',
-      action: () => dispatch(setReelsTypeModal({ isOpen: true })),
+      action: () => dispatch(setReelsTypeModal({ isOpen: true, mode: 'create' })),
     },
     {
       title: 'Add existing Reel',
@@ -46,7 +46,7 @@ export const useOnReelsTypeClick = () => {
       icon: CommonIcons.trash(),
       variant: 'accent',
       shortcut: 'Ctrl+Del',
-      action: () => alert('setDeleteModalShow(true)'),
+      action: () => dispatch(setReelsTypeModal({ isOpen: true, mode: 'delete' })),
       disabled: !canCreateProject,
     },
   ]

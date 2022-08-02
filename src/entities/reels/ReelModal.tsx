@@ -51,7 +51,7 @@ export const ReelModal: FC = () => {
   })
 
   const onCancelHandler = useCallback(() => {
-    dispatch(setReelModal({ isOpen: false }))
+    dispatch(setReelModal({ isOpen: false, mode: null }))
     resetData()
     reset()
   }, [dispatch, reset, resetData])
