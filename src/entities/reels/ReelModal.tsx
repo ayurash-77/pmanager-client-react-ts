@@ -26,6 +26,7 @@ export const ReelModal: FC = () => {
   const user = useAppSelector(state => state.auth.authUser)
 
   const { reelModal } = useAppSelector(state => state.modals)
+  const isOpen = reelModal.mode === 'create' && reelModal.isOpen
 
   const [createReel, { isError, error, isSuccess, isLoading, reset, data: newReel }] = useCreateReelMutation()
   const { data: reelsTypes = [] } = useGetReelsTypesQuery(+id ?? skipToken)
@@ -82,59 +83,57 @@ export const ReelModal: FC = () => {
   ///////////////////////////////////////////////////////////////////////////////////////////
 
   return (
-    <>
-      <ModalWrapper
-        warning={false}
-        type={'type2'}
-        size={'sm'}
-        title={text.actions.addReel}
-        onSubmitHandler={handleSubmit(onSubmitHandler)}
-        onCancelHandler={onCancelHandler}
-        isValid={isValid}
-        {...reelModal}
-      >
-        <div className={'grid grid-cols-2 items-center gap-1'}>
-          <label className={'flex justify-end'}>{text.project.reelType}:</label>
-          <select
-            {...register('reelsTypeId', {
-              validate: value => (value !== 'select' ? true : text.error.selectReelsType),
+    <ModalWrapper
+      warning={false}
+      type={'type2'}
+      size={'sm'}
+      title={text.actions.addReel}
+      onSubmitHandler={handleSubmit(onSubmitHandler)}
+      onCancelHandler={onCancelHandler}
+      isValid={isValid}
+      isOpen={isOpen}
+    >
+      <div className={'grid grid-cols-2 items-center gap-1'}>
+        <label className={'flex justify-end'}>{text.project.reelType}:</label>
+        <select
+          {...register('reelsTypeId', {
+            validate: value => (value !== 'select' ? true : text.error.selectReelsType),
+          })}
+        >
+          <option value={'select'} label={text.actions.select} />
+          {options?.map((item, idx) => (
+            <option key={idx} value={item.value} label={item.label} />
+          ))}
+          <option value={'addNew'} label={text.actions.addNew} />
+        </select>
+        {errors?.reelsTypeId && <div className={'errorField'}>{errors?.reelsTypeId.message}</div>}
+
+        <label className={'flex justify-end'}>{text.common.duration}:</label>
+        <div className={'flex gap-1 items-center '}>
+          <input
+            className={'w-full'}
+            type={'number'}
+            min={1}
+            max={9999}
+            {...register('duration', {
+              required: text.error.isRequired,
+              max: { value: 9999, message: text.error.invalidValue },
             })}
-          >
-            <option value={'select'} label={text.actions.select} />
-            {options?.map((item, idx) => (
-              <option key={idx} value={item.value} label={item.label} />
-            ))}
-            <option value={'addNew'} label={text.actions.addNew} />
-          </select>
-          {errors?.reelsTypeId && <div className={'errorField'}>{errors?.reelsTypeId.message}</div>}
-
-          <label className={'flex justify-end'}>{text.common.duration}:</label>
-          <div className={'flex gap-1 items-center '}>
-            <input
-              className={'w-full'}
-              type={'number'}
-              min={1}
-              max={9999}
-              {...register('duration', {
-                required: text.error.isRequired,
-                max: { value: 9999, message: text.error.invalidValue },
-              })}
-            />
-            <span>sec</span>
-          </div>
-          {errors?.duration && <div className={'errorField'}>{errors?.duration.message}</div>}
-
-          <Controller
-            control={control}
-            name={'highPriority'}
-            render={({ field: { onChange, value } }) => (
-              <Switcher label={text.common.highPriority} checked={value} onChange={onChange} />
-            )}
           />
+          <span>sec</span>
         </div>
+        {errors?.duration && <div className={'errorField'}>{errors?.duration.message}</div>}
 
-        <LoadingOrError isLoading={isLoading} isError={isError} error={error} />
-      </ModalWrapper>
-    </>
+        <Controller
+          control={control}
+          name={'highPriority'}
+          render={({ field: { onChange, value } }) => (
+            <Switcher label={text.common.highPriority} checked={value} onChange={onChange} />
+          )}
+        />
+      </div>
+
+      <LoadingOrError isLoading={isLoading} isError={isError} error={error} />
+    </ModalWrapper>
   )
 }

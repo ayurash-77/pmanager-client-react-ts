@@ -43,7 +43,7 @@ export const useOnReelClick = () => {
       icon: CommonIcons.trash(),
       variant: 'accent',
       shortcut: 'Ctrl+Del',
-      action: () => alert('setDeleteModalShow(true)'),
+      action: () => dispatch(setReelModal({ isOpen: true, mode: 'delete' })),
       disabled: !canCreateProject,
     },
   ]

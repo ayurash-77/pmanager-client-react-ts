@@ -17,26 +17,24 @@ export interface IDeleteModal {
   title?: string
 }
 
-export const DeleteBriefModal: FC<IDeleteModal> = ({ ...props }) => {
-  const { deleteAction, closeAction, error, detailsJsx, title } = props
+export const DeleteBriefModal: FC<IDeleteModal> = props => {
+  const { deleteAction, closeAction, error, detailsJsx, title, ...rest } = props
 
   return (
-    <>
-      <ModalWrapper
-        {...props}
-        warning
-        type={'type1'}
-        size={'md'}
-        title={`WARNING! ${title}`}
-        onSubmitHandler={deleteAction}
-        onCancelHandler={closeAction}
-      >
-        <div className={'flex'}>
-          {detailsJsx}
-          <ErrorList error={error} />
-        </div>
-      </ModalWrapper>
-    </>
+    <ModalWrapper
+      {...rest}
+      warning
+      type={'type1'}
+      size={'md'}
+      title={`WARNING! ${title}`}
+      onSubmitHandler={deleteAction}
+      onCancelHandler={closeAction}
+    >
+      <div className={'flex'}>
+        {detailsJsx}
+        <ErrorList error={error} />
+      </div>
+    </ModalWrapper>
   )
 }
 
