@@ -71,7 +71,7 @@ export const ReelModal: FC = () => {
 
   useEffect(() => {
     if (watchSelectReelsTypeId === 'addNew') {
-      dispatch(setReelsTypeModal({ isOpen: true, zIndex: 1100 }))
+      dispatch(setReelsTypeModal({ isOpen: true, mode: 'create', zIndex: 1100 }))
     }
     if (isSuccess && newReel) {
       dispatch(setActiveReelsIds([newReel.id]))

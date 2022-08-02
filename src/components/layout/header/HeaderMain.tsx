@@ -5,7 +5,7 @@ import { useGetProjectsQuery } from '../../../entities/projects/projects.api'
 import { useAppDispatch, useAppSelector } from '../../../hooks/redux'
 import { usePermissions } from '../../../hooks/usePermissions'
 import { useTranslate } from '../../../hooks/useTranslate'
-import { setDeleteProjectModalShow, setProjectModal } from '../../../store/reducers/modals.reducer'
+import { setProjectModal } from '../../../store/reducers/modals.reducer'
 import {
   setFilterbarShow,
   setProjectsViewMode,
@@ -53,7 +53,7 @@ export const HeaderMain: FC = () => {
             icon={CommonIcons.plus()}
             ml={10}
             mr={5}
-            onClick={() => canCreateProject && dispatch(setProjectModal({ isOpen: true }))}
+            onClick={() => canCreateProject && dispatch(setProjectModal({ isOpen: true, mode: 'create' }))}
           />
         )}
         {canDeleteProject && (
@@ -62,7 +62,11 @@ export const HeaderMain: FC = () => {
             disabled={!activeProjectId}
             variant={'accent'}
             size={14}
-            onClick={() => activeProjectId && canDeleteProject && dispatch(setDeleteProjectModalShow(true))}
+            onClick={() =>
+              activeProjectId &&
+              canDeleteProject &&
+              dispatch(setProjectModal({ isOpen: true, mode: 'delete' }))
+            }
           />
         )}
       </div>

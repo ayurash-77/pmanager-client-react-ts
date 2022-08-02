@@ -15,7 +15,6 @@ import { useGetProjectsQuery } from '../../entities/projects/projects.api'
 import { useOnProjectClick } from '../../entities/projects/useOnProjectClick'
 import { useOnProjectsSpaceClick } from '../../entities/projects/useOnProjectsSpaceClick'
 import { useAppDispatch, useAppSelector } from '../../hooks/redux'
-import { setDeleteProjectModalShow } from '../../store/reducers/modals.reducer'
 import { setQuarterData } from '../../store/reducers/projects.reducer'
 import { toQuarterStr } from '../../utils/date-time-format'
 
@@ -27,7 +26,6 @@ export const ProjectsPage: FC = () => {
   const { quarterFilter } = useAppSelector(state => state.projects)
   const { searchProjectsFilter } = useAppSelector(state => state.ui)
   const { activeProjectId } = useAppSelector(state => state.entities)
-  const { newProjectModalShow, deleteProjectModalShow } = useAppSelector(state => state.modals)
 
   const dispatch = useAppDispatch()
 
@@ -59,11 +57,7 @@ export const ProjectsPage: FC = () => {
   return (
     <>
       <ProjectModal />
-      <DeleteProjectModal
-        isOpen={deleteProjectModalShow}
-        closeAction={() => dispatch(setDeleteProjectModalShow(false))}
-        project={activeProject}
-      />
+      <DeleteProjectModal item={activeProject} />
       <div className={css.mainbar}>
         <HeaderMain />
         <Filterbar {...filterBar} />

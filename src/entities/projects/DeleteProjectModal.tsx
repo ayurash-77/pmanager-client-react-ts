@@ -1,43 +1,57 @@
-import { FC } from 'react'
+import { FC, useCallback, useEffect } from 'react'
+import { useDispatch } from 'react-redux'
 import { ErrorList } from '../../components/errors/ErrorList'
 import { InfoProjectBlock, InfoProjectTitle } from '../../components/info-elements'
 import { ModalWrapper } from '../../components/modal/ModalWrapper'
 import { Grid } from '../../components/ui'
+import { useAppSelector } from '../../hooks/redux'
 import { useTranslate } from '../../hooks/useTranslate'
+import { setActiveProjectId } from '../../store/reducers/entities.reducer'
+import { setProjectModal } from '../../store/reducers/modals.reducer'
 import { useDeleteProjectMutation } from './projects.api'
 import { IProject } from './projects.interfaces'
 
 export interface IDeleteProjectModal {
-  isOpen: boolean
-  closeAction: () => void
-  project?: IProject | null
+  item: IProject | null
 }
 
-export const DeleteProjectModal: FC<IDeleteProjectModal> = ({ ...props }) => {
+export const DeleteProjectModal: FC<IDeleteProjectModal> = ({ item }) => {
+  const dispatch = useDispatch()
   const { text } = useTranslate()
 
-  const [deleteProject, { isError, error }] = useDeleteProjectMutation()
+  const { projectModal } = useAppSelector(state => state.modals)
+  const isOpen = projectModal.mode === 'delete' && projectModal.isOpen
 
-  const onSubmitHandler = e => {
+  const [deleteProject, { isError, error, isSuccess, reset }] = useDeleteProjectMutation()
+
+  const onDeleteHandler = e => {
     e.preventDefault()
-    deleteProject(props.project.id)
-    props.closeAction()
-  }
-  const onCancelHandler = () => {
-    props.closeAction()
+    deleteProject(item.id)
   }
 
-  const details = props.project && (
+  const onCancelHandler = useCallback(() => {
+    dispatch(setProjectModal({ isOpen: false, mode: null }))
+    reset()
+  }, [dispatch, reset])
+
+  useEffect(() => {
+    if (isSuccess) {
+      dispatch(setProjectModal({ isOpen: false, mode: null }))
+      dispatch(setActiveProjectId(null))
+    }
+  }, [dispatch, isSuccess])
+
+  const details = item && (
     <>
       <InfoProjectTitle
         margin={4}
-        title={props.project.title}
-        highPriority={props.project.highPriority}
+        title={item.title}
+        highPriority={item.highPriority}
         align={'center'}
-        status={props.project.status}
+        status={item.status}
       />
       <div style={{ display: 'flex', columnGap: 10, flexWrap: 'wrap', justifyContent: 'space-evenly' }}>
-        <InfoProjectBlock {...props.project} />
+        <InfoProjectBlock {...item} />
       </div>
     </>
   )
@@ -45,13 +59,13 @@ export const DeleteProjectModal: FC<IDeleteProjectModal> = ({ ...props }) => {
   return (
     <>
       <ModalWrapper
-        {...props}
         warning
         type={'type1'}
         size={'md'}
         title={text.actions.deleteProject}
-        onSubmitHandler={onSubmitHandler}
+        onSubmitHandler={onDeleteHandler}
         onCancelHandler={onCancelHandler}
+        isOpen={isOpen}
       >
         <Grid cols="auto" gap={5}>
           <>

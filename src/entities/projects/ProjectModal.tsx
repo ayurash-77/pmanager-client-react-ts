@@ -16,11 +16,6 @@ import { useGetClientsQuery } from '../clients/clients.api'
 import { useCreateProjectMutation } from './projects.api'
 import { IProject } from './projects.interfaces'
 
-interface INewProjectModal {
-  isOpen: boolean
-  closeAction: () => void
-}
-
 export interface IProjectData extends Partial<IProject> {
   image?: string
 }
@@ -35,6 +30,7 @@ export const ProjectModal: FC = () => {
   const token = useAppSelector(state => state.auth.authUser.token)
   const user = useAppSelector(state => state.auth.authUser)
   const { projectModal } = useAppSelector(state => state.modals)
+  const isOpen = projectModal.mode === 'create' && projectModal.isOpen
 
   const { data: agencies } = useGetAgenciesQuery()
   const { data: brands } = useGetBrandsQuery()
@@ -144,7 +140,7 @@ export const ProjectModal: FC = () => {
     projectData.image && (await deleteFile())
     await clearData()
     controller.abort()
-    dispatch(setProjectModal({ isOpen: false }))
+    dispatch(setProjectModal({ isOpen: false, mode: null }))
   }
 
   const onSubmitHandler = async e => {
@@ -155,7 +151,7 @@ export const ProjectModal: FC = () => {
     }
     setMessage('please wait...')
     await createProject(projectData)
-    dispatch(setProjectModal({ isOpen: false }))
+    dispatch(setProjectModal({ isOpen: false, mode: null }))
     await clearData()
   }
 
@@ -177,7 +173,7 @@ export const ProjectModal: FC = () => {
         title={text.actions.createProject}
         onSubmitHandler={onSubmitHandler}
         onCancelHandler={onCancelHandler}
-        {...projectModal}
+        isOpen={isOpen}
       >
         <Grid cols="auto" gap={5}>
           <>

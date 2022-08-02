@@ -21,7 +21,7 @@ export const useOnProjectClick = () => {
       title: 'New Project',
       icon: CommonIcons.plus(),
       shortcut: 'Ctrl+N',
-      action: () => canCreateProject && dispatch(setProjectModal({ isOpen: true })),
+      action: () => canCreateProject && dispatch(setProjectModal({ isOpen: true, mode: 'create' })),
       disabled: !canCreateProject,
     },
     {
@@ -41,7 +41,7 @@ export const useOnProjectClick = () => {
       icon: CommonIcons.trash(),
       variant: 'accent',
       shortcut: 'Ctrl+Del',
-      action: () => alert('setDeleteModalShow(true)'),
+      action: () => canCreateProject && dispatch(setProjectModal({ isOpen: true, mode: 'delete' })),
       disabled: !canCreateProject,
     },
   ]

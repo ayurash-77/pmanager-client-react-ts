@@ -16,7 +16,7 @@ export const useOnProjectsSpaceClick = () => {
       title: 'New Project',
       icon: CommonIcons.plus(),
       shortcut: 'Ctrl+N',
-      action: () => canCreateProject && dispatch(setProjectModal({ isOpen: true })),
+      action: () => canCreateProject && dispatch(setProjectModal({ isOpen: true, mode: 'create' })),
       disabled: !canCreateProject,
     },
   ]
