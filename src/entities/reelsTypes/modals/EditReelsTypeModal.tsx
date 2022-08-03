@@ -1,3 +1,4 @@
+import { skipToken } from '@reduxjs/toolkit/query'
 import React, { FC, useCallback, useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 import { useDispatch } from 'react-redux'
@@ -8,58 +9,62 @@ import { LoadingOrError } from '../../../components/loadingOrError/LoadingOrErro
 import { ModalWrapper } from '../../../components/modal/ModalWrapper'
 import { useAppSelector } from '../../../hooks/redux'
 import { setReelsTypeModal } from '../../../store/reducers/modals.reducer'
-import { useCreateReelsTypesMutation } from '../reelsTypes.api'
-import { IReelsTypeCreateDto, IReelsTypeInputData } from '../reelsTypes.interfaces'
+import { useGetReelsQuery } from '../../reels/reels.api'
+import { useUpdateReelsTypesMutation } from '../reelsTypes.api'
+import { IReelsType, IReelsTypeInputData } from '../reelsTypes.interfaces'
 
 ////////////////////////////////////////////////////////////////////////////////////////////
 // New ReelsType Modal
 ////////////////////////////////////////////////////////////////////////////////////////////
+interface IEditReelsTypeModal {
+  item: IReelsType
+}
 
-export const NewReelsTypeModal: FC = () => {
+export const EditReelsTypeModal: FC<IEditReelsTypeModal> = ({ item: reelsType }) => {
   const dispatch = useDispatch()
   const { id } = useParams()
   const { text } = useTranslate()
-  const user = useAppSelector(state => state.auth.authUser)
 
   const { reelsTypeModal } = useAppSelector(state => state.modals)
-  const isOpen = reelsTypeModal.mode === 'create' && reelsTypeModal.isOpen
+  const isOpen = reelsType && reelsTypeModal.mode === 'edit' && reelsTypeModal.isOpen
 
   const {
-    reset: resetFormData,
     register,
     handleSubmit,
+    setValue,
     formState: { errors, isValid },
   } = useForm<IReelsTypeInputData>({ mode: 'onChange' })
 
-  const dataInit: IReelsTypeCreateDto = {
-    projectId: +id,
-    name: '',
-    code: '',
-    createdBy: user,
-  }
+  const [createReelsType, { isError, error, isSuccess, isLoading, reset, data: updatedReelType }] =
+    useUpdateReelsTypesMutation()
 
-  const [createReelsType, { isError, error, isSuccess, isLoading, reset, data: newReelType }] =
-    useCreateReelsTypesMutation()
+  const { refetch: refetchReels } = useGetReelsQuery(+id ?? skipToken)
 
   const onCancelHandler = useCallback(() => {
     dispatch(setReelsTypeModal({ isOpen: false, mode: null }))
-    resetFormData()
+    // resetFormData()
     reset()
-  }, [dispatch, reset, resetFormData])
+  }, [dispatch, reset])
 
   const onSubmitHandler = async (formData: IReelsTypeInputData) => {
     if (!formData.code || !formData.name) return
-    const newData = { ...dataInit, ...formData, code: formData.code.toUpperCase() }
+    const newData = { ...reelsType, ...formData, code: formData.code.toUpperCase() }
     await createReelsType(newData)
   }
 
   useEffect(() => {
-    if (isSuccess && newReelType) {
-      dispatch(setActiveReelsTypeId(newReelType.id))
+    setValue('name', reelsType.name)
+    setValue('code', reelsType.code)
+  }, [reelsType, setValue])
+
+  useEffect(() => {
+    if (isSuccess && updatedReelType) {
+      dispatch(setActiveReelsTypeId(updatedReelType.id))
       dispatch(setActiveReelsIds([]))
+      // refetchReels()
       onCancelHandler()
     }
-  }, [dispatch, isSuccess, newReelType, onCancelHandler])
+  }, [dispatch, isSuccess, updatedReelType, onCancelHandler, refetchReels])
 
   ////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -98,5 +103,3 @@ export const NewReelsTypeModal: FC = () => {
     </>
   )
 }
-
-export default NewReelsTypeModal

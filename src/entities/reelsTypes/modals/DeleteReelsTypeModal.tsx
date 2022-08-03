@@ -11,7 +11,7 @@ import { useDeleteReelsTypeMutation } from '../reelsTypes.api'
 import { IReelsType } from '../reelsTypes.interfaces'
 
 interface IDeleteReelsTypeModal {
-  item: IReelsType | null
+  item: IReelsType
 }
 
 export const DeleteReelsTypeModal: FC<IDeleteReelsTypeModal> = ({ item }) => {

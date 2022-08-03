@@ -21,6 +21,7 @@ export const useOnReelsTypeClick = () => {
   const { isMenuShow: isItemMenuShow, showMenu, hideMenu, position } = useContextMenu()
 
   const { canCreateProject } = usePermissions()
+
   const itemMenuData: IContextMenuItem[] = [
     {
       title: 'New Reels Type',
@@ -39,7 +40,7 @@ export const useOnReelsTypeClick = () => {
       title: 'Edit Reels Type',
       icon: ToolbarIcons.gear(),
       shortcut: 'Ctrl+E',
-      action: () => alert('Edit Reels Type'),
+      action: () => dispatch(setReelsTypeModal({ isOpen: true, mode: 'edit' })),
     },
     {
       title: 'Delete Reels Type',

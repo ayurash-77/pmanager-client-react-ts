@@ -18,7 +18,10 @@ export const reelsTypesApi = baseApi.injectEndpoints({
     }),
     updateReelsTypes: build.mutation<IReelsType, Partial<IReelsType>>({
       query: body => ({ url: `reels-types/${body.id}`, method: 'PATCH', body: body }),
-      invalidatesTags: [{ type: 'ReelsTypes', id: 'LIST' }],
+      invalidatesTags: (result, error, arg) => [
+        { type: 'ReelsTypes', id: arg.id },
+        { type: 'Reels', id: 'LIST' },
+      ],
     }),
     deleteReelsType: build.mutation<IReelsType, number>({
       query: id => ({ url: `reels-types/${id}`, method: 'DELETE' }),
@@ -35,5 +38,6 @@ export const {
   useGetReelsTypesQuery,
   useGetReelsTypeQuery,
   useCreateReelsTypesMutation,
+  useUpdateReelsTypesMutation,
   useDeleteReelsTypeMutation,
 } = reelsTypesApi

@@ -7,6 +7,7 @@ import { useAppSelector } from '../../hooks/redux'
 import { useTranslate } from '../../hooks/useTranslate'
 import { setReelsTypeModal } from '../../store/reducers/modals.reducer'
 import { DeleteReelsTypeModal } from './modals/DeleteReelsTypeModal'
+import { EditReelsTypeModal } from './modals/EditReelsTypeModal'
 import NewReelsTypeModal from './modals/NewReelsTypeModal'
 import { ReelsTypeCard } from './reelsTypeCard/ReelsTypeCard'
 import { useOnReelsTypeClick } from './useOnReelsTypeClick'
@@ -27,7 +28,8 @@ export const RibbonReelsTypes: FC<{ entities: IReelsType[] }> = ({ entities }) =
   return (
     <>
       <NewReelsTypeModal />
-      <DeleteReelsTypeModal item={activeReelsType} />
+      {activeReelsType && <EditReelsTypeModal item={activeReelsType} />}
+      {activeReelsType && <DeleteReelsTypeModal item={activeReelsType} />}
 
       <ContextMenu show={isItemMenuShow} data={itemMenuData} position={position} />
       <ContextMenu show={!isItemMenuShow && isCommonMenuShow} data={commonMenuData} position={position} />

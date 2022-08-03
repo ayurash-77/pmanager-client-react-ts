@@ -1,7 +1,8 @@
+import { useDispatch } from 'react-redux'
 import { CommonIcons } from '../../assets/icons/common-icons'
 import { ToolbarIcons } from '../../assets/icons/toolbar-icons'
 import { IContextMenuItem } from '../../components/ui/ContextMenu/ContextMenuItem'
-import { useAppDispatch, useAppSelector } from '../../hooks/redux'
+import { useAppSelector } from '../../hooks/redux'
 import { useContextMenu } from '../../hooks/useContextMenu'
 import { usePermissions } from '../../hooks/usePermissions'
 import {
@@ -12,7 +13,7 @@ import {
 import { setReelModal } from '../../store/reducers/modals.reducer'
 
 export const useOnReelClick = () => {
-  const dispatch = useAppDispatch()
+  const dispatch = useDispatch()
   const { activeReelsIds } = useAppSelector(state => state.entities)
 
   const { isMenuShow: isItemMenuShow, showMenu, hideMenu, position } = useContextMenu()
@@ -36,7 +37,7 @@ export const useOnReelClick = () => {
       title: 'Edit Reel',
       icon: ToolbarIcons.gear(),
       shortcut: 'Ctrl+E',
-      action: () => alert('Edit Reel'),
+      action: () => dispatch(setReelModal({ isOpen: true, mode: 'edit' })),
     },
     {
       title: 'Delete Reel',
