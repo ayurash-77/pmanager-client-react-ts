@@ -1,5 +1,5 @@
 import { IReelsType } from 'entities/reelsTypes/reelsTypes.interfaces'
-import { FC } from 'react'
+import React, { FC } from 'react'
 import { useDispatch } from 'react-redux'
 import { RibbonWrapper } from '../../components/layout/ribbons/RibbonWrapper'
 import { ContextMenu } from '../../components/ui/ContextMenu/ContextMenu'
@@ -7,8 +7,7 @@ import { useAppSelector } from '../../hooks/redux'
 import { useTranslate } from '../../hooks/useTranslate'
 import { setReelsTypeModal } from '../../store/reducers/modals.reducer'
 import { DeleteReelsTypeModal } from './modals/DeleteReelsTypeModal'
-import { EditReelsTypeModal } from './modals/EditReelsTypeModal'
-import { NewReelsTypeModal } from './modals/NewReelsTypeModal'
+import { ReelsTypeModal } from './modals/ReelsTypeModal'
 import { ReelsTypeCard } from './reelsTypeCard/ReelsTypeCard'
 import { useOnReelsTypeClick } from './useOnReelsTypeClick'
 import { useOnRibbonReelsTypeClick } from './useOnRibbonReelsTypeClick'
@@ -27,8 +26,8 @@ export const RibbonReelsTypes: FC<{ entities: IReelsType[] }> = ({ entities }) =
 
   return (
     <>
-      <NewReelsTypeModal />
-      {activeReelsType && <EditReelsTypeModal item={activeReelsType} />}
+      <ReelsTypeModal mode={'create'} />
+      <ReelsTypeModal mode={'edit'} reelsType={activeReelsType} />
       {activeReelsType && <DeleteReelsTypeModal item={activeReelsType} />}
 
       <ContextMenu show={isItemMenuShow} data={itemMenuData} position={position} />

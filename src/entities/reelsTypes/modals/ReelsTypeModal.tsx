@@ -4,25 +4,28 @@ import { useDispatch } from 'react-redux'
 import { useParams } from 'react-router'
 import { LoadingOrError } from '../../../components/loadingOrError/LoadingOrError'
 import ModalWrapper from '../../../components/modal/ModalWrapper'
+import { IMode } from '../../../components/modal/modalWrapper.interfaces'
 import { useAppSelector } from '../../../hooks/redux'
 import { useTranslate } from '../../../hooks/useTranslate'
 import { setActiveReelsIds, setActiveReelsTypeId } from '../../../store/reducers/entities.reducer'
 import { setReelsTypeModal } from '../../../store/reducers/modals.reducer'
-import { useCreateReelsTypesMutation, useUpdateReelsTypesMutation } from '../../reelsTypes/reelsTypes.api'
-import { IReelsType, IReelsTypeCreateDto, IReelsTypeInputData } from '../../reelsTypes/reelsTypes.interfaces'
+import { useCreateReelsTypesMutation, useUpdateReelsTypesMutation } from '../reelsTypes.api'
+import { IReelsType, IReelsTypeCreateDto, IReelsTypeInputData } from '../reelsTypes.interfaces'
 
-interface IReelsTypeForm {
-  title: string
-  isOpen: boolean
+interface ReelsTypeModal {
+  mode: IMode
   reelsType?: IReelsType
 }
 
-export const ReelsTypeForm: FC<IReelsTypeForm> = props => {
-  const { title, isOpen, reelsType } = props
+export const ReelsTypeModal: FC<ReelsTypeModal> = ({ reelsType, mode }) => {
   const dispatch = useDispatch()
   const { id } = useParams()
   const { text } = useTranslate()
   const user = useAppSelector(state => state.auth.authUser)
+
+  const { reelsTypeModal } = useAppSelector(state => state.modals)
+  const title = mode === 'create' ? text.actions.addReelsType : text.actions.editReelsType
+  const isOpen = reelsTypeModal.mode === mode && reelsTypeModal.isOpen
 
   const {
     reset: resetFormData,
