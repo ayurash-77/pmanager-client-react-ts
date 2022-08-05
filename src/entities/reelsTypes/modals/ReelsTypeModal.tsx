@@ -76,8 +76,7 @@ export const ReelsTypeModal: FC<ReelsTypeModal> = ({ reelsType, mode }) => {
     dispatch(setReelsTypeModal({ isOpen: false, mode: null }))
     resetFormData()
     resetNewEntity()
-    setValuesHandler()
-  }, [dispatch, resetFormData, resetNewEntity, setValuesHandler])
+  }, [dispatch, resetFormData, resetNewEntity])
 
   const onNewEntitySubmitHandler = async (formData: IReelsTypeInputData) => {
     if (!formData.code || !formData.name) return

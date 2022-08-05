@@ -92,8 +92,7 @@ export const ReelModal: FC<ReelModal> = ({ mode, reel }) => {
     dispatch(setReelModal({ isOpen: false, mode: null }))
     resetFormData()
     resetNewEntity()
-    setValuesHandler()
-  }, [dispatch, resetFormData, resetNewEntity, setValuesHandler])
+  }, [dispatch, resetFormData, resetNewEntity])
 
   const onNewEntitySubmitHandler = async (formData: IReelInputData) => {
     const newData = {
@@ -130,7 +129,9 @@ export const ReelModal: FC<ReelModal> = ({ mode, reel }) => {
       onCancelHandler()
     }
 
-    isSuccessUpdate && updatedEntity && onCancelHandler()
+    if (isSuccessUpdate && updatedEntity) {
+      onCancelHandler()
+    }
   }, [
     dispatch,
     isSuccessNewEntity,
@@ -142,6 +143,7 @@ export const ReelModal: FC<ReelModal> = ({ mode, reel }) => {
     watchSelectReelsTypeId,
   ])
 
+  console.log(reel)
   // RENDER
   ///////////////////////////////////////////////////////////////////////////////////////////
 
