@@ -1,6 +1,6 @@
 import { skipToken } from '@reduxjs/toolkit/query'
 import React, { FC, useCallback, useEffect } from 'react'
-import { Controller, SubmitHandler, useForm } from 'react-hook-form'
+import { Controller, useForm } from 'react-hook-form'
 import { useDispatch } from 'react-redux'
 import { useParams } from 'react-router'
 import { setActiveReelsIds } from 'store/reducers/entities.reducer'
@@ -9,27 +9,68 @@ import { useAppSelector } from 'hooks/redux'
 import { useTranslate } from 'hooks/useTranslate'
 import { LoadingOrError } from '../../../components/loadingOrError/LoadingOrError'
 import { ModalWrapper } from '../../../components/modal/ModalWrapper'
+import { IMode } from '../../../components/modal/modalWrapper.interfaces'
 import { Switcher } from '../../../components/ui'
 import { IOption } from '../../../components/ui/ui.types'
 import { useGetReelsTypesQuery } from '../../reelsTypes/reelsTypes.api'
-import { useCreateReelMutation } from '../reels.api'
-import { IReelCreateDto, IReelInputData } from '../reels.interfaces'
+import { useCreateReelMutation, useUpdateReelMutation } from '../reels.api'
+import { IReel, IReelCreateDto, IReelInputData } from '../reels.interfaces'
 
 ////////////////////////////////////////////////////////////////////////////////////////////
 // Reel Modal
 ////////////////////////////////////////////////////////////////////////////////////////////
 
-export const NewReelModal: FC = () => {
+interface ReelModal {
+  mode: IMode
+  reel?: IReel
+}
+
+export const ReelModal: FC<ReelModal> = ({ mode, reel }) => {
   const dispatch = useDispatch()
   const { id } = useParams()
   const { text } = useTranslate()
   const user = useAppSelector(state => state.auth.authUser)
 
   const { reelModal } = useAppSelector(state => state.modals)
-  const isOpen = reelModal.mode === 'create' && reelModal.isOpen
+  const title = mode === 'create' ? text.actions.addReel : text.actions.editReel
+  const isOpen = reelModal.mode === mode && reelModal.isOpen
 
-  const [createReel, { isError, error, isSuccess, isLoading, reset, data: newReel }] = useCreateReelMutation()
+  const [
+    createReel,
+    {
+      isError: isErrorNewEntity,
+      error: errorNewEntity,
+      isSuccess: isSuccessNewEntity,
+      isLoading: isLoadingNewEntity,
+      reset: resetNewEntity,
+      data: newEntity,
+    },
+  ] = useCreateReelMutation()
+
+  const [
+    updateReel,
+    {
+      isError: isErrorUpdate,
+      error: errorUpdate,
+      isSuccess: isSuccessUpdate,
+      isLoading: isLoadingUpdate,
+      data: updatedEntity,
+    },
+  ] = useUpdateReelMutation()
+
   const { data: reelsTypes = [] } = useGetReelsTypesQuery(+id ?? skipToken)
+
+  const {
+    reset: resetFormData,
+    register,
+    handleSubmit,
+    watch,
+    control,
+    setValue,
+    formState: { errors, isValid },
+  } = useForm<IReelInputData>({
+    mode: 'onChange',
+  })
 
   const dataInit: IReelCreateDto = {
     projectId: +id,
@@ -38,46 +79,68 @@ export const NewReelModal: FC = () => {
     highPriority: false,
     createdBy: user,
   }
-  const {
-    reset: resetData,
-    register,
-    handleSubmit,
-    watch,
-    control,
-    formState: { errors, isValid },
-  } = useForm<IReelInputData>({
-    defaultValues: { reelsTypeId: 'select', duration: null, highPriority: false },
-    mode: 'onChange',
-  })
+
+  const setValuesHandler = useCallback(() => {
+    if (reel) {
+      setValue('highPriority', reel.highPriority)
+      setValue('duration', reel.duration)
+      setValue('reelsTypeId', reel.reelsTypeId)
+    }
+  }, [reel, setValue])
 
   const onCancelHandler = useCallback(() => {
     dispatch(setReelModal({ isOpen: false, mode: null }))
-    resetData()
-    reset()
-  }, [dispatch, reset, resetData])
+    resetFormData()
+    resetNewEntity()
+    setValuesHandler()
+  }, [dispatch, resetFormData, resetNewEntity, setValuesHandler])
 
-  const onSubmitHandler: SubmitHandler<IReelInputData> = async (formData: IReelInputData) => {
-    const newFormData = {
+  const onNewEntitySubmitHandler = async (formData: IReelInputData) => {
+    const newData = {
       ...dataInit,
       ...formData,
       reelsTypeId: +formData.reelsTypeId,
       duration: +formData.duration,
     }
-    await createReel(newFormData)
+    await createReel(newData)
+  }
+
+  const onUpdateSubmitHandler = async (formData: IReelInputData) => {
+    const reelType = reelsTypes.find(reelsType => reelsType.id === +formData.reelsTypeId)
+    const newData = {
+      ...reel,
+      ...formData,
+      reelsType: reelType,
+      reelsTypeId: +formData.reelsTypeId,
+      duration: +formData.duration,
+    }
+    await updateReel(newData)
   }
 
   const options: IOption[] = reelsTypes?.map(item => ({ label: `${item.code}`, value: item.id }))
   const watchSelectReelsTypeId = watch('reelsTypeId')
 
   useEffect(() => {
+    setValuesHandler()
     if (watchSelectReelsTypeId === 'addNew') {
       dispatch(setReelsTypeModal({ isOpen: true, mode: 'create', zIndex: 1100 }))
     }
-    if (isSuccess && newReel) {
-      dispatch(setActiveReelsIds([newReel.id]))
+    if (isSuccessNewEntity && newEntity) {
+      dispatch(setActiveReelsIds([newEntity.id]))
       onCancelHandler()
     }
-  }, [dispatch, isSuccess, newReel, onCancelHandler, watchSelectReelsTypeId])
+
+    isSuccessUpdate && updatedEntity && onCancelHandler()
+  }, [
+    dispatch,
+    isSuccessNewEntity,
+    isSuccessUpdate,
+    newEntity,
+    onCancelHandler,
+    setValuesHandler,
+    updatedEntity,
+    watchSelectReelsTypeId,
+  ])
 
   // RENDER
   ///////////////////////////////////////////////////////////////////////////////////////////
@@ -87,8 +150,8 @@ export const NewReelModal: FC = () => {
       warning={false}
       type={'type2'}
       size={'sm'}
-      title={text.actions.addReel}
-      onSubmitHandler={handleSubmit(onSubmitHandler)}
+      title={title}
+      onSubmitHandler={handleSubmit(reel ? onUpdateSubmitHandler : onNewEntitySubmitHandler)}
       onCancelHandler={onCancelHandler}
       isValid={isValid}
       isOpen={isOpen}
@@ -133,7 +196,8 @@ export const NewReelModal: FC = () => {
         />
       </div>
 
-      <LoadingOrError isLoading={isLoading} isError={isError} error={error} />
+      <LoadingOrError isLoading={isLoadingNewEntity} isError={isErrorNewEntity} error={errorNewEntity} />
+      <LoadingOrError isLoading={isLoadingUpdate} isError={isErrorUpdate} error={errorUpdate} />
     </ModalWrapper>
   )
 }

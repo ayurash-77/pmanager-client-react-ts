@@ -9,15 +9,14 @@ import { ContextMenu } from 'components/ui/ContextMenu/ContextMenu'
 import { RibbonWrapper } from '../../components/layout/ribbons/RibbonWrapper'
 import { setReelModal } from '../../store/reducers/modals.reducer'
 import { DeleteReelModal } from './modals/DeleteReelModal'
-import { EditReelModal } from './modals/EditReelModal'
-import { NewReelModal } from './modals/NewReelModal'
+import { ReelModal } from './modals/ReelModal'
 import { useOnRibbonReelClick } from './useOnRibbonReelClick'
 
 export const RibbonReels: FC<{ entities: IReel[] }> = ({ entities }) => {
   const dispatch = useDispatch()
   const { text } = useTranslate()
-
   const count: number = entities?.length || 0
+
   const { activeReelsIds } = useAppSelector(state => state.entities)
   const activeReel = entities?.find(entity => activeReelsIds.includes(entity.id)) || null
 
@@ -26,9 +25,9 @@ export const RibbonReels: FC<{ entities: IReel[] }> = ({ entities }) => {
 
   return (
     <>
-      <NewReelModal />
+      <ReelModal mode={'create'} />
+      <ReelModal mode={'edit'} reel={activeReel} />
       {activeReel && <DeleteReelModal item={activeReel} />}
-      {activeReel && <EditReelModal item={activeReel} />}
 
       <ContextMenu show={isItemMenuShow} data={itemMenuData} position={position} />
       <ContextMenu show={!isItemMenuShow && isCommonMenuShow} data={commonMenuData} position={position} />

@@ -18,7 +18,6 @@ export const RibbonReelsTypes: FC<{ entities: IReelsType[] }> = ({ entities }) =
   const count: number = entities?.length || 0
 
   const { activeReelsTypeId } = useAppSelector(state => state.entities)
-
   const activeReelsType = entities?.find(entity => entity.id === activeReelsTypeId) || null
 
   const { showCommonMenu, isCommonMenuShow, commonMenuData, position } = useOnRibbonReelsTypeClick()

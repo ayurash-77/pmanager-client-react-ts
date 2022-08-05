@@ -27,24 +27,15 @@ export const ReelsTypeModal: FC<ReelsTypeModal> = ({ reelsType, mode }) => {
   const title = mode === 'create' ? text.actions.addReelsType : text.actions.editReelsType
   const isOpen = reelsTypeModal.mode === mode && reelsTypeModal.isOpen
 
-  const {
-    reset: resetFormData,
-    register,
-    handleSubmit,
-    setValue,
-    watch,
-    formState: { errors, isValid },
-  } = useForm<IReelsTypeInputData>({ mode: 'onChange' })
-
   const [
     createReelsType,
     {
-      isError: isErrorNewItem,
-      error: errorNewItem,
-      isSuccess: isSuccessNewItem,
-      isLoading: isLoadingNewItem,
-      reset: resetNewItem,
-      data: newReelType,
+      isError: isErrorNewEntity,
+      error: errorNewEntity,
+      isSuccess: isSuccessNewEntity,
+      isLoading: isLoadingNewEntity,
+      reset: resetNewEntity,
+      data: newEntity,
     },
   ] = useCreateReelsTypesMutation()
 
@@ -55,9 +46,18 @@ export const ReelsTypeModal: FC<ReelsTypeModal> = ({ reelsType, mode }) => {
       error: errorUpdate,
       isSuccess: isSuccessUpdate,
       isLoading: isLoadingUpdate,
-      data: updatedReelType,
+      data: updatedEntity,
     },
   ] = useUpdateReelsTypesMutation()
+
+  const {
+    reset: resetFormData,
+    register,
+    handleSubmit,
+    setValue,
+    watch,
+    formState: { errors, isValid },
+  } = useForm<IReelsTypeInputData>({ mode: 'onChange' })
 
   const dataInit: IReelsTypeCreateDto = {
     projectId: +id,
@@ -66,7 +66,20 @@ export const ReelsTypeModal: FC<ReelsTypeModal> = ({ reelsType, mode }) => {
     createdBy: user,
   }
 
-  const onNewItemSubmitHandler = async (formData: IReelsTypeInputData) => {
+  const reelsTypeName = reelsType ? reelsType.name : watch('code')
+  const setValuesHandler = useCallback(() => {
+    reelsType && setValue('code', reelsType.code)
+    setValue('name', reelsTypeName)
+  }, [reelsType, reelsTypeName, setValue])
+
+  const onCancelHandler = useCallback(() => {
+    dispatch(setReelsTypeModal({ isOpen: false, mode: null }))
+    resetFormData()
+    resetNewEntity()
+    setValuesHandler()
+  }, [dispatch, resetFormData, resetNewEntity, setValuesHandler])
+
+  const onNewEntitySubmitHandler = async (formData: IReelsTypeInputData) => {
     if (!formData.code || !formData.name) return
     const newData = { ...dataInit, ...formData, code: formData.code.toUpperCase() }
     await createReelsType(newData)
@@ -78,31 +91,27 @@ export const ReelsTypeModal: FC<ReelsTypeModal> = ({ reelsType, mode }) => {
     await updateReelsType(newData)
   }
 
-  const onCancelHandler = useCallback(() => {
-    dispatch(setReelsTypeModal({ isOpen: false, mode: null }))
-    resetFormData()
-    resetNewItem()
-  }, [dispatch, resetFormData, resetNewItem])
-
-  const reelsTypeName = reelsType ? reelsType.name : watch('code')
-
   useEffect(() => {
-    reelsType && setValue('code', reelsType.code)
-    setValue('name', reelsTypeName)
-  }, [reelsType, reelsTypeName, setValue])
-
-  useEffect(() => {
-    if (isSuccessNewItem && newReelType) {
-      dispatch(setActiveReelsTypeId(newReelType.id))
+    setValuesHandler()
+    if (isSuccessNewEntity && newEntity) {
+      dispatch(setActiveReelsTypeId(newEntity.id))
       dispatch(setActiveReelsIds([]))
       onCancelHandler()
     }
-    if (isSuccessUpdate && updatedReelType) {
-      dispatch(setActiveReelsTypeId(updatedReelType.id))
+    if (isSuccessUpdate && updatedEntity) {
+      dispatch(setActiveReelsTypeId(updatedEntity.id))
       dispatch(setActiveReelsIds([]))
       onCancelHandler()
     }
-  }, [dispatch, isSuccessNewItem, isSuccessUpdate, newReelType, onCancelHandler, updatedReelType])
+  }, [
+    dispatch,
+    isSuccessNewEntity,
+    isSuccessUpdate,
+    newEntity,
+    onCancelHandler,
+    setValuesHandler,
+    updatedEntity,
+  ])
 
   return (
     <>
@@ -111,7 +120,7 @@ export const ReelsTypeModal: FC<ReelsTypeModal> = ({ reelsType, mode }) => {
         type={'type2'}
         size={'sm'}
         title={title}
-        onSubmitHandler={handleSubmit(reelsType ? onUpdateSubmitHandler : onNewItemSubmitHandler)}
+        onSubmitHandler={handleSubmit(reelsType ? onUpdateSubmitHandler : onNewEntitySubmitHandler)}
         onCancelHandler={onCancelHandler}
         isValid={isValid}
         isOpen={isOpen}
@@ -132,7 +141,7 @@ export const ReelsTypeModal: FC<ReelsTypeModal> = ({ reelsType, mode }) => {
           <input size={7} {...register('name', { required: text.error.isRequired })} />
           {errors?.name && <div className={'errorField'}>{text.error.fieldRequired}</div>}
         </div>
-        <LoadingOrError isLoading={isLoadingNewItem} isError={isErrorNewItem} error={errorNewItem} />
+        <LoadingOrError isLoading={isLoadingNewEntity} isError={isErrorNewEntity} error={errorNewEntity} />
         <LoadingOrError isLoading={isLoadingUpdate} isError={isErrorUpdate} error={errorUpdate} />
       </ModalWrapper>
     </>
